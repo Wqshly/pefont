@@ -79,20 +79,10 @@
             width="80">
           </el-table-column>
 
-          <el-table-column
-            prop="name"
-            label="发布者"
-            width="80">
-          </el-table-column>
-          <el-table-column
-            prop="date"
-            label="发布日期"
-            width="100">
-
-          </el-table-column>
         </el-table>
       </template>
       <el-pagination
+        style="position:fixed;bottom: 0;background-color: white;width: 100%;padding-left: 20%"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
@@ -106,7 +96,7 @@
 
     <el-card shadow="hover" class="notice_detail" v-show="detail">
       <el-page-header @back="goBack" style="width: 100%;">
-        <template slot="content"><h1 style="display:inline-block;">{{detail_item.title}}</h1>
+        <template slot="content"><h1 >{{detail_item.title}}</h1>
           <el-button v-if="activity_permission>0&&detail_item.status!=='待审核'" style="float: right;margin:0 5px;display: inline-block" type="primary" @click="handle_checkin()" round>组织签到</el-button>
           <el-button v-if="activity_permission>1" style="float: right;display: inline-block" type="warning" @click="handle_edit()" round>编辑活动</el-button>
         </template>

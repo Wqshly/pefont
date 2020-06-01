@@ -2,7 +2,7 @@
   <div>
   <div class="normal">
     <div class="normal_header">
-      <img src="../assets/img/normalHeader/logo3.png" style="margin:15px ;width: 227px;height: 50px" alt="PE">
+      <img src="../assets/logo2.png" style="margin:15px ;width: 227px;height: 50px" alt="PE">
       <i class="el-icon-s-fold" @click="drawer = true"  style="margin-right:15px;font-size:30px;vertical-align:middle;float: right;line-height: 80px"></i>
 
     </div>
@@ -39,10 +39,14 @@
         <span slot="title">个人中心</span>
       </el-menu-item>
       <el-menu-item index="5">
+        <i class="el-icon-s-management"></i>
+        <span slot="title">后台管理</span>
+      </el-menu-item>
+      <el-menu-item index="6">
         <i class="el-icon-setting"></i>
         <span slot="title">设置</span>
       </el-menu-item>
-      <el-menu-item index="6">
+      <el-menu-item index="7">
         <i class="el-icon-question"></i>
         <span slot="title">帮助</span>
       </el-menu-item>

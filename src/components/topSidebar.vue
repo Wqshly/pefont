@@ -1,10 +1,12 @@
 <template>
-  <div class="sidebar">
-    <el-menu mode="horizontal" active-text-color="#fff" unique-opened router  @select="handleSelect">
+  <div class="sidebar" v-if="this.screenWidth > 880">
+    <div class="d" >
+    <el-menu  mode="horizontal" active-text-color="#fff" unique-opened router
+             @select="handleSelect">
       <template v-for="item in items">
         <!--        有子目录的-->
         <template v-if="item.subs">
-          <el-submenu :index="item.index" :key="item.index" class="el-menu-item" >
+          <el-submenu :index="item.index" :key="item.index" class="el-menu-item">
             <template slot="title">
               <span slot="title">{{item.title}}</span>
             </template>
@@ -18,203 +20,201 @@
         </template>
         <!--        无子目录的-->
         <template v-else>
-          <el-menu-item :index="item.index" :key="item.index" >
+          <el-menu-item :index="item.index" :key="item.index">
             <span slot="title">{{item.title}}</span>
           </el-menu-item>
         </template>
         <!--        LOGO-->
-        <template v-if="item.index==='product'">
+        <template v-if="item.index==='function'">
           <li class="logo">
-            <img src="../assets/logo2.png" alt="">
+            <img src="../assets/logo3.png" alt="">
           </li>
         </template>
       </template>
     </el-menu>
+    </div>
 
 
+  </div>
+  <div v-else class="sidebar_phone">
+    <div style="height: 60px">
+      <img src="../assets/brand.png" style="height: 60px"/>
+      <i class="el-icon-s-fold" @click="drawer = !drawer"  style=""></i>
+    </div>
+    <el-collapse-transition>
+      <div v-show="drawer" style="">
+        <el-table
+          :row-class-name="tableRowClassName"
+          :show-header="false"
+          :data="items"
+          style="width: 100%;"
+          @cell-click="handleClick">
+          <el-table-column
+            prop="index">
+            <template slot-scope="scope">
+              <div style="padding-left: 60px">
+                {{scope.row.title}}
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-collapse-transition>
 
   </div>
 </template>
 
 <script>
-export default {
-  name: 'topSidebar',
-  data () {
-    return {
-      items: [
-        {
-          index: 'index',
-          title: '首页'
-        },
-        {
-          index: 'function',
-          title: '产品功能'
-        },
-        {
-          index: 'product',
-          title: '业务分类',/*有bug待修改
-          subs: [
-              {
-                  index: "index-1",
-                  title: "shenme1"
-              },
-              {
-                  index: "index-2",
-                  title: "shenme2"
-              },
-              {
-                  index: "index-3",
-                  title: "shenme3"
-              }
-          ]*/
+    export default {
+        name: 'topSidebar',
 
+        data() {
+            return {
+                drawer:false,
+                screenWidth: '',
+                items: [
+                    {
+                        index: 'index',
+                        title: '首页'
+                    },
+                    {
+                        index: 'function',
+                        title: '产品功能'
+                    },
+                    {
+                        index: 'app',
+                        title: 'APP下载'
+                    },
+                    {
+                        index: '/login',
+                        title: '登录入口'
+                    }
+                    ,
+                    {
+                        index: '/activity',
+                        title: '测试入口'
+                    }
+                ]
+            }
         },
-        {
-          index: 'develop',
-          title: '发展历程'
+        methods: {
+            tableRowClassName({row, rowIndex}) {
+                  return 'success-row';
+            },
+            handleSelect(key, keyPath) {
+
+            },
+            getScreenWidth() {
+                this.screenWidth = window.innerWidth
+            },
+            handleClick(val){
+                this.drawer=false;
+                this.$router.push(val.index);
+
+            }
         },
-        {
-            index: 'app',
-            title: 'APP下载'
+        mounted() {
+            // 监听窗口大小
+            window.onresize = () => {
+                return (() => {
+                    this.screenWidth = document.body.clientWidth;
+                })()
+            }
         },
-        {
-            index: '/login',
-            title: '登录入口'
+        created(){
+            window.addEventListener('resize', this.getScreenWidth);
+            this.getScreenWidth()
         }
-          ,
-          {
-              index: '/activity',
-              title: '测试入口'
-          }
-      ]
     }
-  },
-  methods:{
-      handleSelect(key, keyPath) {
-
-      },
-  },
-}
 </script>
 
-<style scoped>
+<style>
 
-  *{
-    background: transparent none !important;
-    border-bottom: none!important;
-  }
-  .el-menu {
-    background: transparent none !important;
-    border-bottom: none!important;
+  .sidebar * {
+    border-bottom: none !important;
   }
 
-  .el-menu--horizontal {
+  .sidebar .el-menu {
     background: transparent none !important;
-    border-bottom: none!important;
-  }
-  .el-submenu__title{
-    background: transparent none !important;
-    border-bottom: none!important;
-  }
-  .el-menu--horizontal .el-menu-item:not(.is-disabled) {
-    background: transparent none !important;
-    border-bottom: none!important;
+    border-bottom: none !important;
   }
 
-  .el-menu--horizontal .el-menu-item:not(.is-disabled):hover {
+  .sidebar .el-menu-item {
     background: transparent none !important;
-    border-bottom: none!important;
-  }
-  .el-menu-item.is-active {
-    background: transparent none !important;
-    border-bottom: none!important;
+    border-bottom: none !important;
   }
 
-  .el-menu--horizontal .el-menu-item:not(.is-disabled):focus {
-    color: white;
-    background: transparent none !important;
-    border-bottom: none!important;
-  }
-  .el-menu--popup{
-    background: transparent none !important;
-    border-bottom: none!important;
-  }
-  .el-menu-item{
-    background: transparent none !important;
-    border-bottom: none!important;
-  }
-  .el-menu-item:hover{
+  .sidebar .el-menu-item:hover {
     color: #409EFF !important;
   }
+
   .sidebar {
-    display: block;
+    transform: none;
+    display:inline;
+    width: 100%;
     position: absolute;
     left: 50%;
     -webkit-transform: translateX(-50%);
     z-index: 666;
   }
-  .sidebar ul {
+
+  .sidebar .d ul {
     display: flex;
     justify-content: space-around;
-    height: 124px!important;
+    height: 124px !important;
     margin-bottom: 10px;
   }
-  .sidebar ul, li {
+
+  .sidebar .d ul, li {
     list-style: none;
-    line-height: 124px!important;
-    color: white!important;
+    line-height: 124px !important;
+    color: white !important;
   }
-  .sidebar li img {
+
+  .sidebar .d li img {
     margin-top: 0;
     width: 200px;
     margin-bottom: 10px;
   }
-  /*除下拉菜单外菜单文字*/
-  .sidebar .el-menu-item * {
-    line-height: 124px!important;
-    color: white;
-    vertical-align: middle;
+
+  .sidebar_phone{
+    position: fixed;
+    z-index: 99999;
+    width: 100%;
+    top: 0;
+    background-color: black;
+    height: 60px;
   }
-  .sidebar .el-menu-item *:hover {
+  .sidebar_phone .el-table .success-row {
+    background: black;
+    color: white;
+    cursor: pointer;
+  }
+  .sidebar_phone .el-icon-s-fold:hover{
+    color:#409EFF;
+    margin-right:15px;
+    font-size:30px;
+    vertical-align:middle;
+    float: right;
+    line-height: 60px
+  }
+  .sidebar_phone .el-icon-s-fold{
+    color:white;
+    margin-right:15px;
+    font-size:30px;
+    vertical-align:middle;
+    float: right;
+    line-height: 60px
+  }
+  .sidebar_phone .el-table--enable-row-hover .el-table__body tr:hover>td {
+    background: black !important;
     color: #409EFF !important;
   }
-
-  /*下拉菜单*/
-  .el-menu--horizontal{
-    background: transparent none!important;
+  .sidebar_phone .el-table__row>td{
+    border: none;
   }
-
-  .el-menu--horizontal ul{
-    background: transparent none!important;
-    /*background-color: black;*/
+  .sidebar_phone .el-table::before {
+  height: 0;
   }
-  /*样式已在INDEX.CSS中修改 在此无效 请在INDEX.CSS中搜索田川*/
-  .el-menu--popup {
-    z-index: 100;
-    border: none!important;
-    top:100px;
-    padding: 5px 0;
-    border-radius: 2px;
-    -webkit-box-shadow: none!important;
-    background: transparent none!important;
-    box-shadow: none!important;
-  }
-  .el-menu .el-submenu, .el-menu--popup {
-    min-width: 100px!important;
-  }
-  /*相当重要 下拉菜单真正有用的样式*/
-  .el-menu--horizontal .el-menu .el-menu-item, .el-menu--horizontal .el-menu .el-submenu__title {
-    float: none;
-    height: 20px!important;
-    line-height: 20px!important;
-    padding: 0!important;
-    margin: 20px 20px!important;
-    background: transparent none!important;
-    color: #000;
-  }
-  .el-menu span{
-    line-height: 20px;
-  }
-
 
 </style>

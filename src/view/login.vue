@@ -1,7 +1,7 @@
 <template>
   <div class="fill-contain background-pic">
     <div class="logo">
-      <img src="../assets/logo.png" alt="">
+      <img src="../assets/brand.png" alt="">
     </div>
     <transition name="el-fade-in-linear">
       <div class="form-container transition-box" v-show="!VRCODE">
@@ -53,11 +53,11 @@
           </el-form>
           <div class="QRcode">
             <div class="QRcode_app">
-              <img src="../assets/img/login/app_icon.png" alt="">
+              <img style="width: 80px" src="../assets/img/login/app_icon.png" alt="">
               <p>扫码下载APP</p>
             </div>
             <div class="QRcode_weixin">
-              <img src="../assets/img/login/wenxin_icon.png" alt="">
+              <img style="width: 80px" src="../assets/img/login/wenxin_icon.png" alt="">
               <p>扫码关注微信</p>
             </div>
           </div>

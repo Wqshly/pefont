@@ -8,7 +8,7 @@
       <span style="float: right;">{{detail_item.status}}</span>
     </div>
     <div class="detail_activity1_content">
-      <el-form :model="detail_item" ref="detail_item" label-width="100px" class="demo-detail_item" style="width: 600px">
+      <el-form :model="detail_item" ref="detail_item" label-width="100px" class="demo-detail_item" style="width: 100%">
         <el-form-item label="活动名称:">
           {{detail_item.title}}
         </el-form-item>
@@ -135,6 +135,7 @@
 <style>
   .detail_activity1{
     margin-top: 20px;
+    width: 100%;
   }
   .detail_activity1 .detail_activity1_date{
     font-size: 15px;

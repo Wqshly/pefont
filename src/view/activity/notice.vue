@@ -41,6 +41,7 @@
         </el-table>
       </template>
       <el-pagination
+        style="position:fixed;bottom: 0;background-color: white;width: 100%;padding-left: 20%"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"

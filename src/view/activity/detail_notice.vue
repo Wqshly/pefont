@@ -40,6 +40,7 @@
 <style>
   .detail_notice{
     margin-top: 20px;
+    width: 100%;
   }
   .detail_notice .detail_notice_date{
     font-size: 15px;
@@ -49,6 +50,6 @@
   }
   .detail_notice .detail_notice_content{
     margin-top: 20px;
-
+    width:100%;
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="activity-promotional">
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" style="width: 600px">
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" >
       <el-form-item label="活动名称" prop="title">
         <el-input
           filterable placeholder="活动名称"
@@ -449,5 +449,14 @@ export default {
     width: 178px;
     height: 178px;
     display: block;
+  }
+  .activity-promotional .el-form{
+    width:100%;
+  }
+  @media screen and (min-width: 1140px){
+    .activity-promotional .el-form {
+      width: 660px;
+      margin: 0 auto 0 0;
+    }
   }
 </style>

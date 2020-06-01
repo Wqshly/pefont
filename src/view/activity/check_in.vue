@@ -23,7 +23,7 @@
 
       <div style="width: 150px;margin: 25px 0;display: block; ">
         <label style="line-height: 50px">
-          <input
+          <el-input
             type="text"
             v-model="search"
             prefix-icon="el-icon-search"
@@ -99,6 +99,7 @@
       </template>
 
       <el-pagination
+        style="position:fixed;bottom: 0;background-color: white;width: 100%;padding-left: 20%"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
@@ -118,6 +119,7 @@
         <el-table-column property="status" label="状态" width="120"></el-table-column>
       </el-table>
       <el-pagination
+
         @size-change="handleSizeChangeTemp"
         @current-change="handleCurrentChangeTemp"
         :current-page.sync="currentPage_temp"

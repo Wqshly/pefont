@@ -2,49 +2,44 @@
   <div class="activity-home">
     <div class="block" v-show="!detail">
       <template>
+        <template>
+          <el-input
+            type="text"
+            v-model="search"
+            prefix-icon="el-icon-search"
+            style="width: 150px;margin-left:10px;"
+            placeholder="输入关键字搜索"
+          />
+        </template>
         <el-table
+          :show-header="false"
           :data="handleData()"
           style="width: 100%"
-          @cell-click="handleClick"
-          >
+          @cell-click="handleClick">
           <el-table-column
-            prop="title"
-            label="通告">
-            <template slot="header" >
-              <label>
-                <input
-                  type="text"
-                  v-model="search"
-                  prefix-icon="el-icon-search"
-                  style="width: 150px;"
-                  placeholder="输入关键字搜索"
-                  />
-              </label>
-            </template>
-            <template slot-scope="scope">
-              <span style="color: #e95f13;">{{ scope.row.title }}<br/></span>
-              <span style="margin-left: 10px">{{ filter_description(scope.row.description)}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="status"
-            label="状态"
-            width="80">
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="发布者"
-            width="100">
-          </el-table-column>
-          <el-table-column
-            prop="date"
-            label="发布日期"
-            width="100">
+            prop="title">
 
+            <template slot-scope="scope">
+              <el-card shadow="hover">
+                <el-image
+                  style="width: 50%;"
+                  :src="url"
+                  :fit="'scale-down'"
+                  lazy></el-image>
+                <div style=" width: 47%;float: right">
+                  <span style="color: #e95f13;display: block">{{ scope.row.title }}<br/></span>
+                  <span style="color: #e95f13;float: right">{{ scope.row.status }}<br/></span>
+                  <span style="display: block;">{{ filter_description(scope.row.name)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{ filter_description(scope.row.date)}}</span>
+                  <span style="margin: 10px 0 0 10px;display: block">{{ filter_description(scope.row.description)}}</span>
+                </div>
+              </el-card>
+            </template>
           </el-table-column>
+
         </el-table>
       </template>
       <el-pagination
+        style="position:fixed;bottom: 0;background-color: white;width: 100%;padding-left: 20%"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
@@ -58,7 +53,7 @@
 
     <el-card shadow="hover" class="notice_detail" v-show="detail">
       <el-page-header @back="goBack" style="width: 100%;">
-        <template slot="content"><h1 style="display:inline-block;">{{detail_item.title}}</h1>
+        <template slot="content"><h1>{{detail_item.title}}</h1>
           <el-button :disabled="activity_status" style="float: right;display: inline-block" type="primary" @click="handleSign()" round>报名参加</el-button>
         </template>
 
@@ -77,6 +72,7 @@ export default {
   name: 'activity-home',
   data () {
     return {
+        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
         search: '',
         detail:false,
         currentPage: 1,
@@ -95,7 +91,7 @@ export default {
             date: '2016-05-02',
             name: '王小虎',
             status: '报名阶段',
-            description: '上海市普陀区金沙江路 1518 弄',
+            description: '上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄',
         }, {
             title:'活动2',
             date: '2016-05-04',
@@ -266,6 +262,17 @@ export default {
   }
   .activity-home .el-page-header__content {
     width: 100% !important;
+  }
+
+  .activity-home .el-table--enable-row-hover .el-table__body tr:hover>td {
+    background-color: white!important;
+  }
+  .activity-home .el-table td, .el-table th.is-leaf {
+     border-bottom: 0 solid #EBEEF5!important;
+  }
+  .activity-home .el-card, .el-message {
+    border-radius: 14px;
+    overflow: hidden;
   }
 
 </style>
