@@ -36,7 +36,7 @@
 
 
   </div>
-  <div v-else class="sidebar_phone">
+  <div v-else-if="this.screenWidth <= 880" class="sidebar_phone">
     <div style="height: 60px">
       <img src="../assets/brand.png" style="height: 60px"/>
       <i class="el-icon-s-fold" @click="drawer = !drawer"  style=""></i>
