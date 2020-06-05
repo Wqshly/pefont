@@ -99,7 +99,7 @@
       </template>
 
       <el-pagination
-        style="position:fixed;bottom: 0;background-color: white;width: 100%;padding-left: 20%"
+        style="position:fixed;bottom: 0;background-color: white;width: 100%;padding-left: 20%;z-index:9999999;"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
