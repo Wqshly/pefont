@@ -56,27 +56,31 @@
 </template>
 
 <script>
+    import particles from 'particles.js'
 export default {
-  name: 'normal_header',
-  data () {
-    return {
-        drawer: false,
-        direction: 'rtl',
-        user_name:'田川',
-        user_school:'山东科技大学'
-    }
-  },
-  methods:{
-      handleOpen() {
-          console.log(this.$route.path);
-      },
-      handleClose(done) {
-        done();
-      },
-      handleSelect(key, keyPath) {
-          console.log(key, keyPath);
+    name: 'normal_header',
+    data () {
+      return {
+          drawer: false,
+          direction: 'rtl',
+          user_name:'田川',
+          user_school:'山东科技大学'
       }
-  },
+    },
+    methods:{
+        handleOpen() {
+            console.log(this.$route.path);
+        },
+        handleClose(done) {
+          done();
+        },
+        handleSelect(key, keyPath) {
+            console.log(key, keyPath);
+        }
+    },
+    mounted(){
+        particlesJS.load('particles','/static/particles.json');
+    }
 }
 </script>
 
@@ -88,6 +92,7 @@ export default {
     top:0;
     z-index: 999;
     background-color: white;
+    border-bottom: 1px solid #dcdfe6;
 
   }
   .normal_header{
@@ -95,7 +100,6 @@ export default {
     line-height: 80px;
     top:0;
     margin: 0 auto;
-    border-bottom: 1px solid #dcdfe6;
     width: 100%;
     vertical-align:middle;
   }

@@ -99,7 +99,7 @@
       </template>
 
       <el-pagination
-        style="position:fixed;bottom: 0;background-color: white;width: 100%;padding-left: 20%;z-index:2014;"
+        class="_self"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
@@ -481,6 +481,20 @@
   .checkin_management1{
     margin-top: 20px;
   }
+  @media screen and (min-width: 1140px){
+    .checkin_management1  ._self{
+      width: 1127px!important;
+      margin: 0 auto;
+    }
+  }
+  .checkin_management1  ._self{
+    position:fixed;
+    width: 100%;
+    bottom: 0;
+    background-color: white;
+    z-index: 2014;
+  }
+
   .checkin_management1 .checkin_management1_date{
     font-size: 15px;
     font-weight: 300;

@@ -24,8 +24,9 @@
                 <el-image
                   style="width: 50%;"
                   :src="url"
-                  :fit="'scale-down'"
-                  lazy></el-image>
+                  :fit="'scale-down'">
+
+                </el-image>
                 <div style=" width: 47%;float: right">
                   <span style="color: #e95f13;display: block">{{ scope.row.title }}<br/></span>
                   <span style="color: #e95f13;float: right">{{ scope.row.status }}<br/></span>
@@ -39,7 +40,7 @@
         </el-table>
       </template>
       <el-pagination
-        style="position:fixed;bottom: 0;background-color: white;width: 100%;padding-left: 20%"
+        class="_self"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
@@ -242,6 +243,14 @@ export default {
   .activity-home{
     width: 100%;
   }
+  .activity-home .block{
+    background-color: white;
+    width:100%;
+    height: 100%;
+    border:3px solid #ebebeb;
+    padding-top: 20px;
+    border-radius: 14px;
+  }
   .activity-home .notice_detail{
     background-color: white;
     width:100%;
@@ -255,6 +264,16 @@ export default {
       width: 1090px;
       margin: 0 auto;
     }
+    .activity-home  ._self{
+      width: 1127px!important;
+      margin: 0 auto;
+    }
+  }
+  .activity-home  ._self{
+    position:fixed;
+    width: 100%;
+    bottom: 0;
+    background-color: white;
   }
 
   .activity-home h1{

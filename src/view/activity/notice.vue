@@ -41,7 +41,7 @@
         </el-table>
       </template>
       <el-pagination
-        style="position:fixed;bottom: 0;background-color: white;width: 100%;padding-left: 20%"
+        class="_self"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
@@ -222,7 +222,18 @@
       width: 1090px;
       margin: 0 auto;
     }
+    .activity-notice  ._self{
+      width: 1127px!important;
+      margin: 0 auto;
+    }
   }
+  .activity-notice  ._self{
+    position:fixed;
+    width: 100%;
+    bottom: 0;
+    background-color: white;
+  }
+
 
   .activity-notice h1{
     font-weight: 300;
