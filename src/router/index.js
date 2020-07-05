@@ -1,23 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-Vue.use(Router)
+Vue.use(Router);
 
-const homePage = () => Promise.resolve(require('@/components/homePage'))
-const normalPage = () => Promise.resolve(require('@/components/normalPage'))
+const homePage = () => Promise.resolve(require('@/components/homePage'));
+const normalPage = () => Promise.resolve(require('@/components/normalPage'));
+
+/*login page*/
+const login = () => Promise.resolve(require('@/view/login'));
 
 /*home page*/
-const home = () => Promise.resolve(require('@/view/home'))
-const test = () => Promise.resolve(require('@/view/test'))
-const function1 = () => Promise.resolve(require('@/view/function'))
-const product = () => Promise.resolve(require('@/view/product'))
-const develop = () => Promise.resolve(require('@/view/develop'))
-const app1 = () => Promise.resolve(require('@/view/app1'))
-const login = () => Promise.resolve(require('@/view/login'))
+const home = () => Promise.resolve(require('@/view/index/home'));
+const test = () => Promise.resolve(require('@/view/index/test'));
+const function1 = () => Promise.resolve(require('@/view/index/function'));
+const app1 = () => Promise.resolve(require('@/view/index/app1'));
 
 /*normal page*/
-const shop_page = () => Promise.resolve(require('@/view/shopPage'))
-const activity_page = () => Promise.resolve(require('@/view/activity/activityPage'))
+const activity_page = () => Promise.resolve(require('@/view/activity/activityPage'));
 
 export default new Router({
   routes: [
@@ -38,11 +37,6 @@ export default new Router({
           path: '/activity/home',
           name: 'activity_home',
           component: activity_page
-        },
-        {
-          path: '/activity/shop',
-          name: 'activity_shop',
-          component: shop_page
         },
         {
           path: '/home',
@@ -75,16 +69,6 @@ export default new Router({
           path: '/function',
           name: 'function',
           component: function1
-        },
-        {
-          path: '/product',
-          name: 'product',
-          component: product
-        },
-        {
-          path: '/develop',
-          name: 'develop',
-          component: develop
         },
         {
           path: '/app',

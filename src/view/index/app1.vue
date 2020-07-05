@@ -3,14 +3,14 @@
     <div v-if="this.screenWidth <= 880" class="unreal" style="height: 60px">
     </div>
     <div class="index-banner">
-      <div class="animated fadeInRight"><img src="../assets/img/app1/app.png" alt=""></div>
+      <div class="animated fadeInRight"><img src="../../assets/img/index/app1/app.png" alt=""></div>
     </div>
 
     <div class="app_section1">
       <div class="container_self">
         <div class="item_thu">
           <div align="center">
-            <img src="../assets/img/app1/act_1.png" alt="">
+            <img src="../../assets/img/index/app1/act_1.png" alt="">
             <p>二课活动</p>
             <p>全校二课活动等你来参加，学分交友实践</p>
           </div>
@@ -18,7 +18,7 @@
         </div>
         <div class="item_thu">
           <div align="center">
-            <img src="../assets/img/app1/act_2.png" alt="">
+            <img src="../../assets/img/index/app1/act_2.png" alt="">
             <p>高校头条</p>
             <p>给你最全面的校园资讯、学习、娱乐、成长、生活等特色栏目内容丰富多彩。</p>
           </div>
@@ -26,7 +26,7 @@
         </div>
         <div class="item_thu">
           <div align="center">
-            <img src="../assets/img/app1/act_3.png" alt="">
+            <img src="../../assets/img/index/app1/act_3.png" alt="">
             <p>话题广场</p>
             <p>最热门有趣的话题，互动交流大平台，记录生活，展现自我。</p>
           </div>
@@ -34,7 +34,7 @@
         </div>
         <div class="item_thu">
           <div align="center">
-            <img src="../assets/img/app1/act_4.png" alt="">
+            <img src="../../assets/img/index/app1/act_4.png" alt="">
             <p>福利中心</p>
             <p>陪伴大学生生活，同时给大学生带来很多福利。</p>
           </div>
@@ -49,7 +49,7 @@
           <p>学生成长平台</p>
         </div>
         <div class="item" align="center">
-        <img src="../assets/img/app1/app_code.png" alt="">
+        <img src="../../assets/img/index/app1/app_code.png" alt="">
         </div>
       </div>
 
@@ -114,7 +114,7 @@
 
   .app1 .index-banner {
     height: 34.5vw;
-    background: url(../assets/img/app1/app_banner.png) center no-repeat;
+    background: url(../../assets/img/index/app1/app_banner.png) center no-repeat;
     background-size: cover;
     text-align: center;
     color: #fff;
@@ -183,7 +183,7 @@
   /*区域2*/
   .app1 .app_section2{
     overflow: hidden;
-    background: url(../assets/img/app1/app_banner2.png) no-repeat;
+    background: url(../../assets/img/index/app1/app_banner2.png) no-repeat;
     background-size: 100% 100%;
     height: 255px;
     width: 100%;

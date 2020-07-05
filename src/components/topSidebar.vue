@@ -107,7 +107,7 @@
 
             },
             getScreenWidth() {
-                this.screenWidth = window.innerWidth
+                this.screenWidth = window.innerWidth;
             },
             handleClick(val){
                 this.drawer=false;
@@ -120,12 +120,12 @@
             window.onresize = () => {
                 return (() => {
                     this.screenWidth = document.body.clientWidth;
-                })()
+                });
             }
         },
         created(){
             window.addEventListener('resize', this.getScreenWidth);
-            this.getScreenWidth()
+            this.getScreenWidth();
         }
     }
 </script>

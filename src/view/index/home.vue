@@ -6,7 +6,7 @@
       <!-- 背景动图 -->
       <div class="video-box">
         <video loop autoplay muted>
-          <source src="../assets/home.mp4" type="video/mp4">
+          <source src="../../assets/home.mp4" type="video/mp4">
         </video>
         <div class="overlay"></div>
       </div>
@@ -41,7 +41,7 @@
           <div class="item_thu">
             <div class="hover-card">
               <div align="center">
-                <img src="../assets/img/section2/index_explore.png" alt="探索二课" >
+                <img src="../../assets/img/index/home/section2/index_explore.png" alt="探索二课" >
               </div>
               <div class="caption">
                 <h3 style="text-align: center">探索二课</h3>
@@ -54,7 +54,7 @@
           <div class="item_thu">
             <div class="hover-card">
               <div align="center">
-                <img src="../assets/img/section2/index_platform.png" alt="指定平台">
+                <img src="../../assets/img/index/home/section2/index_platform.png" alt="指定平台">
               </div>
               <div class="caption">
                 <h3 style="text-align: center">指定平台</h3>
@@ -67,7 +67,7 @@
           <div class="item_thu2">
             <div class="hover-card">
               <div align="center">
-                <img src="../assets/img/section2/index_technical.png" alt="技术解决方案">
+                <img src="../../assets/img/index/home/section2/index_technical.png" alt="技术解决方案">
               </div>
               <div class="caption">
                 <h3 style="text-align: center">技术解决方案</h3>
@@ -80,7 +80,7 @@
           <div class="item_thu2">
             <div class="hover-card">
               <div align="center">
-                <img src="../assets/img/section2/index_production.png" alt="产品服务">
+                <img src="../../assets/img/index/home/section2/index_production.png" alt="产品服务">
               </div>
               <div class="caption">
                 <h3 style="text-align: center">产品服务</h3>
@@ -93,7 +93,7 @@
           <div class="item_thu2">
             <div class="hover-card">
               <div align="center">
-                <img src="../assets/img/section2/index_school.png" alt="合作院校">
+                <img src="../../assets/img/index/home/section2/index_school.png" alt="合作院校">
               </div>
               <div class="caption">
                 <h3 style="text-align: center">合作院校</h3>
@@ -119,7 +119,7 @@
 
         <div class="item_thu">
           <div align="center">
-            <img src="../assets/img/section3/index_system.png" alt="专业系统">
+            <img src="../../assets/img/index/home/section3/index_system.png" alt="专业系统">
           </div>
           <div class="caption">
             <h3 style="text-align: center">专业系统</h3>
@@ -131,7 +131,7 @@
 
         <div class="item_thu">
           <div align="center">
-            <img src="../assets/img/section3/index_variable.png" alt="多端形态">
+            <img src="../../assets/img/index/home/section3/index_variable.png" alt="多端形态">
           </div>
           <div class="caption">
             <h3 style="text-align: center">多端形态</h3>
@@ -141,7 +141,7 @@
 
         <div class="item_thu">
           <div align="center">
-            <img src="../assets/img/section3/index_personalization.png" alt="个性定制">
+            <img src="../../assets/img/index/home/section3/index_personalization.png" alt="个性定制">
           </div>
           <div class="caption">
             <h3 style="text-align: center">个性定制</h3>
@@ -151,7 +151,7 @@
 
         <div class="item_thu">
           <div align="center">
-            <img src="../assets/img/section3/index_upgrade.png" alt="持续升级">
+            <img src="../../assets/img/index/home/section3/index_upgrade.png" alt="持续升级">
           </div>
           <div class="caption">
             <h3 style="text-align: center">持续升级</h3>
@@ -266,7 +266,7 @@
             trigger="hover"
             width="760"
             ref="popover2">
-            <div class="address"><img style="width: 760px ;height: 600px" src="../assets/img/section6/map.png" alt=""></div>
+            <div class="address"><img style="width: 760px ;height: 600px" src="../../assets/img/index/home/section6/map.png" alt=""></div>
           </el-popover>
           <div class="icon-item" v-popover:popover2>
             <i class="iconfont icon-dingwei"></i>
@@ -288,7 +288,7 @@
             trigger="hover"
             width="270"
             ref="popover4">
-            <div class="weibo"><img style="width: 270px ;height: 270px" src="../assets/img/section6/weibo.png" alt="">
+            <div class="weibo"><img style="width: 270px ;height: 270px" src="../../assets/img/index/home/section6/weibo.png" alt="">
             </div>
           </el-popover>
           <div class="icon-item" v-popover:popover4>
@@ -300,7 +300,7 @@
             trigger="hover"
             width="270"
             ref="popover5">
-            <div class="weibo"><img style="width: 270px ;height: 270px" src="../assets/img/section6/wechat.png" alt="">
+            <div class="weibo"><img style="width: 270px ;height: 270px" src="../../assets/img/index/home/section6/wechat.png" alt="">
             </div>
           </el-popover>
           <div class="icon-item" v-popover:popover5>
@@ -484,12 +484,6 @@
     margin-top: 20px;
   }
 
-  @media (min-width: 1200px){
-    .homepage .section-2 .item_thu {
-      width: 50%!important;
-      float: left;;
-    }
-  }
   .homepage .section-2 .hover-card{
     margin: 0 10px 20px 0;
     padding-bottom: 15px;
@@ -512,23 +506,46 @@
   }
 
   .homepage .section-2 .item_thu{
-    width: 100%;
+    width: 80%;
+    margin: 0 auto;
   }
-  /*第二行 每行三个*/
-  @media (min-width: 1200px){
+
+  .homepage .section-2 .item_thu2{
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  /*页面中等时每行两个*/
+  @media (min-width: 760px) and (max-width:1200px) {
+    .homepage .section-2 .item_thu {
+      width: 50%;
+      float: left;;
+    }
+
     .homepage .section-2 .item_thu2 {
-      width: 33%!important;
+      width: 50%;
       float: left;;
     }
   }
 
-  .homepage .section-2 .item_thu2{
-    width: 100%;
+  /*页面最宽时第一行每行两个 第二行 每行三个*/
+  @media (min-width: 1200px){
+    .homepage .section-2 .item_thu {
+      width: 50%;
+      float: left;;
+    }
+
+    .homepage .section-2 .item_thu2 {
+      width: 33%;
+      float: left;;
+    }
   }
+
+
 
   /*区域3*/
   .homepage .section-3 {
-    background-image: url(../assets/img/section3/index_banner_1.png);
+    background-image: url(../../assets/img/index/home/section3/index_banner_1.png);
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
@@ -539,22 +556,31 @@
   .homepage .section-3 .description{
     padding-top: 25px;
   }
-  .homepage .section-3 .item_thu{
-    width: 100%
-  }
-  .homepage .section-3 .item_thu img{
-    width: 250px;
-  }
+
   .homepage .section-3  p{
     color: rgba(255, 255, 255, 0.7);
   }
   .homepage .section-3  h3 {
     color: #fff;
   }
-  /*每行四个*/
+
+  .homepage .section-3 .item_thu{
+    width: 100%
+  }
+  .homepage .section-3 .item_thu img{
+    width: 60%;
+  }
+  /*页面中等时每行两个*/
+  @media (min-width: 760px) and (max-width:1200px) {
+    .homepage .section-3 .item_thu {
+      width: 50%;
+      float: left;;
+    }
+  }
+  /*页面最宽时每行四个*/
   @media (min-width: 1200px){
     .homepage .section-3 .item_thu {
-      width: 25%!important;
+      width: 25%;
       float: left;;
     }
     .homepage .section-3 .item_thu img{
@@ -623,26 +649,26 @@
   }
 
   .homepage .section-4 .container_self .card .transcript {
-    background: url(../assets/img/section4/index_transcript.png) no-repeat;
+    background: url(../../assets/img/index/home/section4/index_transcript.png) no-repeat;
     background-size: contain;
   }
   .homepage .section-4 .container_self .card .dataopen {
-    background: url(../assets/img/section4/index_dataopen.png) no-repeat;
+    background: url(../../assets/img/index/home/section4/index_dataopen.png) no-repeat;
     background-size: contain;
   }
   .homepage .section-4 .container_self .card .work {
-    background: url(../assets/img/section4/index_work.png) no-repeat;
+    background: url(../../assets/img/index/home/section4/index_work.png) no-repeat;
     background-size: contain;
   }
   .homepage .section-4 .container_self .card .stastic {
-    background: url(../assets/img/section4/index_statistic.png) no-repeat;
+    background: url(../../assets/img/index/home/section4/index_statistic.png) no-repeat;
     background-size: contain;
   }
 
   /*区域五*/
   .homepage .section-5 {
     text-align: center;
-    background: url(../assets/img/section5/index_choose.png) center no-repeat;
+    background: url(../../assets/img/index/home/section5/index_choose.png) center no-repeat;
     background-size: cover;
     color: #fff;
     overflow: hidden;

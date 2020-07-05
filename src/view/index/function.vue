@@ -3,14 +3,14 @@
     <div v-if="this.screenWidth <= 880" class="unreal" style="height: 60px">
     </div>
     <div class="index-banner">
-      <div class="animated fadeInRight"><img src="../assets/img/function1/function_1.png" alt=""></div>
+      <div class="animated fadeInRight"><img src="../../assets/img/index/function1/function_1.png" alt=""></div>
     </div>
 
     <div class="func_section1">
       <div class="container_self">
         <div class="item_thu">
           <div align="center">
-            <img src="../assets/img/function1/act_1.png" alt="">
+            <img src="../../assets/img/index/function1/act_1.png" alt="">
             <p>创建活动</p>
             <p>由管理人员在APP、WEB端创建活动，由老师审核后执行活动内容</p>
           </div>
@@ -18,7 +18,7 @@
         </div>
         <div class="item_thu">
           <div align="center">
-            <img src="../assets/img/function1/act_2.png" alt="">
+            <img src="../../assets/img/index/function1/act_2.png" alt="">
             <p>参加活动</p>
             <p>学生可以在APP、H5、WEB端报名参加活动，多端互动，想你所想</p>
           </div>
@@ -26,7 +26,7 @@
         </div>
         <div class="item_thu">
           <div align="center">
-            <img src="../assets/img/function1/act_3.png" alt="">
+            <img src="../../assets/img/index/function1/act_3.png" alt="">
             <p>签到签退</p>
             <p>线下参加活动可通过扫描二维码或者定位功能签到签退，方便快捷</p>
           </div>
@@ -34,7 +34,7 @@
         </div>
         <div class="item_thu">
           <div align="center">
-            <img src="../assets/img/function1/act_4.png" alt="">
+            <img src="../../assets/img/index/function1/act_4.png" alt="">
             <p>完结加分</p>
             <p>学生可以在APP、H5、WEB端报名参加活动，多端互动，想你所想</p>
           </div>
@@ -43,7 +43,7 @@
     </div>
 
     <div class="func_section2">
-      <img src="../assets/img/function1/function_2.png" alt="">
+      <img src="../../assets/img/index/function1/function_2.png" alt="">
     </div>
 
     <div class="func_section3">
@@ -55,12 +55,12 @@
         </div>
 
         <div class="item_thu" align="center">
-          <img src="../assets/img/function1/function_3.png" alt="">
+          <img src="../../assets/img/index/function1/function_3.png" alt="">
         </div>
 
 
         <div class="item_thu" align="center">
-          <img src="../assets/img/function1/function_4.png" alt="">
+          <img src="../../assets/img/index/function1/function_4.png" alt="">
         </div>
 
         <div class="item_thu" align="center">
@@ -137,7 +137,7 @@
 
   .function1 .index-banner {
     height: 34.5vw;
-    background: url(../assets/img/function1/banner_4.png) center no-repeat;
+    background: url(../../assets/img/index/function1/banner_4.png) center no-repeat;
     background-size: cover;
     text-align: center;
     color: #fff;
@@ -178,7 +178,7 @@
     width: 100%;
   }
   .function1 .func_section1 .item_thu img{
-    width: 80%;
+    width: 60%;
   }
   @media (min-width: 540px){
     .function1 .func_section1 .item_thu{
@@ -255,7 +255,7 @@
   .function1 .func_section4 {
     overflow: hidden;
     height: 28.4vw;
-    background: url(../assets/img/function1/function_5.png) no-repeat;
+    background: url(../../assets/img/index/function1/function_5.png) no-repeat;
     background-size: 100% 100%;
     position: relative;
   }
