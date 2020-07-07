@@ -5,20 +5,25 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-//import './assets/iconfont/iconfont.css'
 import axios from 'axios'
+//import './assets/iconfont/iconfont.css'
+import icon from "./assets/icon/iconfont.js"
 
-Vue.use(ElementUI)
+//import VideoPlayer from 'vue-video-player'
+//import 'vue-video-player/src/custom-theme.css'
+//import 'video.js/dist/video-js.css'
 
-// 全局注册
-Vue.prototype.$axios = axios
+//Vue.use(VideoPlayer)
 
-Vue.config.productionTip = false
+
+Vue.use(ElementUI);
+Vue.prototype.$axios = axios;
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {App,icon},
   template: '<App/>'
-})
+});

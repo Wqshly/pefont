@@ -1,7 +1,7 @@
 <template>
   <div>
   <div id="particles"> </div>
-    <div style="height: 100%;width: 100%" class="normal_page">
+    <div class="normal_page">
       <n-header1></n-header1>
       <div>
         <router-view></router-view>
@@ -11,15 +11,15 @@
 </template>
 
 <script>
-import nHeader1 from '@/components/normalHeader'
-import particles from 'particles.js'
+import nHeader1 from '@/components/activityHeader'
+//import particles from 'particles.js'
 export default {
 
   name: 'homePage',
   data () {
     return {
         mounted(){
-            particlesJS.load('particles','/static/particles.json');
+            //particlesJS.load('particles','/static/particles.json');
         }
     }
   },
@@ -33,13 +33,13 @@ export default {
   #particles{
     position: fixed;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 80px);
     background-color: #dcdfe6;
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
     background-position: 50% 50%;
-
+    margin-top:80px;
   }
   /*
 .normal_page{

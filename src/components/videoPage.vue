@@ -1,24 +1,30 @@
 <template>
-    <div>
-      <v-sidebar></v-sidebar>
+  <div>
+    <div style="height: 100%;width: 100%" class="video_page">
+      <v-header></v-header>
       <div>
         <router-view></router-view>
       </div>
       <v-footer></v-footer>
     </div>
+  </div>
 </template>
 
 <script>
-import vSidebar from '@/components/homeHeader'
+import vHeader from '@/components/activityHeader'
 import vFooter from '@/components/footer'
 export default {
-  name: 'homePage',
+  name: 'videoPage',
   data () {
-    return {}
+    return {
+        mounted(){
+
+        }
+    }
   },
   components: {
       vFooter,
-    vSidebar
+      vHeader
   }
 }
 </script>

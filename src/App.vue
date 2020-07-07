@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-view v-if="isRouterAlive"/>
+
   </div>
 </template>
 
@@ -32,4 +33,5 @@ export default {
 <style lang="less">
   @import "style/common";
   @import "assets/icon/iconfont.css";
+
 </style>

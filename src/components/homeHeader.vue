@@ -1,6 +1,6 @@
 <template>
   <div class="index_sidebar">
-    <div class="sidebar" v-if="this.screenWidth > 880">
+    <div class="sidebar" >
       <div class="d" >
       <el-menu  mode="horizontal" active-text-color="#fff" unique-opened router
                @select="handleSelect">
@@ -37,7 +37,7 @@
 
 
     </div>
-    <div v-else-if="this.screenWidth <= 880" class="sidebar_phone">
+    <div class="sidebar_phone">
       <div style="height: 60px">
         <img src="../assets/brand.png" style="height: 60px"/>
         <i class="el-icon-s-fold" @click="drawer = !drawer"  style=""></i>
@@ -45,7 +45,6 @@
       <el-collapse-transition>
         <div v-show="drawer" style="">
           <el-table
-            :row-class-name="tableRowClassName"
             :show-header="false"
             :data="items"
             style="width: 100%;"
@@ -100,56 +99,31 @@
             }
         },
         methods: {
-            tableRowClassName({row, rowIndex}) {
-                  return 'success-row';
-            },
             handleSelect(key, keyPath) {
 
             },
-            getScreenWidth() {
-                this.screenWidth = window.innerWidth;
-            },
+
             handleClick(val){
                 this.drawer=false;
-                this.$router.push(val.index);
-
+                if(('/'+val.index)!=this.$route.path){
+                    this.$router.push(val.index);
+                }
             }
         },
         mounted() {
-            // 监听窗口大小
-            window.onresize = () => {
-                return (() => {
-                    this.screenWidth = document.body.clientWidth;
-                });
-            }
+
         },
         created(){
-            window.addEventListener('resize', this.getScreenWidth);
-            this.getScreenWidth();
+            this.drawer=false;
         }
     }
 </script>
 
 <style>
 
-  .index_sidebar .sidebar * {
-    border-bottom: none !important;
+  .index_sidebar  {
+    margin-bottom: 60px;
   }
-
-  .index_sidebar .sidebar .el-menu {
-    background: transparent none !important;
-    border-bottom: none !important;
-  }
-
-  .index_sidebar .sidebar .el-menu-item {
-    background: transparent none !important;
-    border-bottom: none !important;
-  }
-
-  .index_sidebar .sidebar .el-menu-item:hover {
-    color: #409EFF !important;
-  }
-
   .index_sidebar .sidebar {
     transform: none;
     display:inline;
@@ -158,6 +132,16 @@
     left: 50%;
     -webkit-transform: translateX(-50%);
     z-index: 666;
+  }
+  .index_sidebar .sidebar * {
+    border-bottom: none !important;
+  }
+  .index_sidebar .sidebar .el-menu-item {
+    background: transparent none !important;
+    border-bottom: none !important;
+  }
+  .index_sidebar .sidebar .el-menu-item:hover {
+    color: #409EFF !important;
   }
 
   .index_sidebar .sidebar .d ul {
@@ -173,11 +157,13 @@
     color: white !important;
   }
 
+  /*中间的图标*/
   .index_sidebar .sidebar .d li img {
     margin-top: 0;
-    width: 200px;
+    width: 150px;
     margin-bottom: 10px;
   }
+
 
   .index_sidebar .sidebar_phone{
     position: fixed;
@@ -187,11 +173,8 @@
     background-color: black;
     height: 60px;
   }
-  .index_sidebar .sidebar_phone .el-table .success-row {
-    background: black;
-    color: white;
-    cursor: pointer;
-  }
+
+  /*左上角图标*/
   .index_sidebar .sidebar_phone .el-icon-s-fold:hover{
     color:#409EFF;
     margin-right:15px;
@@ -208,15 +191,37 @@
     float: right;
     line-height: 60px
   }
+  /*下拉*/
   .index_sidebar .sidebar_phone .el-table--enable-row-hover .el-table__body tr:hover>td {
-    background: black !important;
+    background: black;
     color: #409EFF !important;
   }
   .index_sidebar .sidebar_phone .el-table__row>td{
     border: none;
+    background: black;
+    color: white;
   }
   .index_sidebar .sidebar_phone .el-table::before {
   height: 0;
   }
 
+
+  /*自适应*/
+  .index_sidebar .sidebar_phone {
+    display: inherit;
+  }
+  .index_sidebar .sidebar{
+    display: none;
+  }
+  @media (min-width: 760px) {
+    .index_sidebar .sidebar_phone {
+      display: none;
+    }
+    .index_sidebar .sidebar{
+      display: inherit;
+    }
+    .index_sidebar  {
+      margin-bottom: 0;
+    }
+  }
 </style>

@@ -23,7 +23,6 @@ export default {
   name: 'normal_page',
   data () {
     return {
-
         activeName: '活动首页',
         tabPosition: 'top',
         check_title:'',
@@ -59,7 +58,7 @@ export default {
   .page-area{
     background-color: white;
     width: 100%;
-    margin:81px auto 0 auto;
+    margin:0 auto;
   }
 
   @media screen and (min-width: 1140px){

@@ -1,7 +1,5 @@
 <template>
   <div class="app1">
-    <div v-if="this.screenWidth <= 880" class="unreal" style="height: 60px">
-    </div>
     <div class="index-banner">
       <div class="animated fadeInRight"><img src="../../assets/img/index/app1/app.png" alt=""></div>
     </div>
@@ -44,55 +42,41 @@
 
     <div class="app_section2">
       <div>
-        <div class="item" v-if="this.screenWidth > 880">
-          <p>PE校园</p>
-          <p>学生成长平台</p>
+        <div class="item font">
+          <div class="context">
+            <p>PE校园</p>
+            <p>学生成长平台</p>
+          </div>
         </div>
-        <div class="item" align="center">
+        <div class="item pic">
+          <span >安卓平台下载：</span>
         <img src="../../assets/img/index/app1/app_code.png" alt="">
         </div>
       </div>
 
     </div>
 
-
-    <div class="func_footer">
-      <div class="container_self">
-        <p style="text-align: center">
-          山东科技信息技术有限公司 Chuan 版权所有 鲁ICP备12345678号-4 鲁B2-20200512
-        </p>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
+
     export default {
-        name: 'home',
+
+        name: 'app1',
         data () {
             return {
-                screenWidth: '',
+
             }
         },
         methods: {
-            handleSelect(key, keyPath) {
 
-            },
-            getScreenWidth() {
-                this.screenWidth = window.innerWidth
-            }
         },
         mounted() {
-            // 监听窗口大小
-            window.onresize = () => {
-                return (() => {
-                    this.screenWidth = document.body.clientWidth;
-                })()
-            }
+
         },
         created(){
-            window.addEventListener('resize', this.getScreenWidth);
-            this.getScreenWidth()
+
         }
     }
 </script>
@@ -155,13 +139,18 @@
     width: 100%;
     padding: 20px;
   }
+
   .app1 .app_section1 .item_thu img{
-    width: 60%;
+    width: 30%;
   }
-  @media (min-width: 910px){
+
+  @media (min-width: 760px){
     .app1 .app_section1 .item_thu{
       width: 40%;
       float: left;
+    }
+    .app1 .app_section1 .item_thu img{
+      width: 60%;
     }
   }
 
@@ -178,6 +167,7 @@
     color: #898888;
     width: 80%;
     padding: 10px 0;
+    min-height: 70px;
   }
 
   /*区域2*/
@@ -185,29 +175,59 @@
     overflow: hidden;
     background: url(../../assets/img/index/app1/app_banner2.png) no-repeat;
     background-size: 100% 100%;
-    height: 255px;
+    height: auto;
     width: 100%;
+    min-height: 171px;
   }
-  .app1 .app_section2 img{
-    height: 230px;
 
+  .app1 .app_section2 img{
+    width: 30%;
   }
   .app1 .app_section2 .item{
-    height: 100%;
-    width: 100%;
-    vertical-align: center;
-    padding: 20px;
+    margin: 30px 0;
+    width: 100%
+  }
+  .app1 .app_section2 .item span{
+    vertical-align: top;
+    color: white;
+    margin-right: 20px;
+    margin-left: 20%;
+    font-size: 14px;
   }
 
-  @media (min-width: 880px){
+  .app1 .app_section2 .pic{
+    display: inherit;
+  }
+  .app1 .app_section2 .font{
+    display: none;
+  }
+
+  @media (min-width: 760px){
+
     .app1 .app_section2 img{
-      float: right;
-      padding-left: 0;
-      line-height: 100%;
+      width: 30%;
     }
     .app1 .app_section2 .item{
-      width: 40%;
-      float: left;
+      margin: 30px 0;
+      width: 50%;
+      height: 100%;
+      float: left;;
+      display: inline;
+    }
+    .app1 .app_section2 .item span{
+      margin-right: 20px;
+      margin-left: 0;
+    }
+
+    .app1 .app_section2 .item .context{
+      top:40px;
+      margin-left: 60px;
+    }
+    .app1 .app_section2 .pic{
+      display: inherit;
+    }
+    .app1 .app_section2 .font{
+      display: inherit;
     }
   }
 
@@ -223,17 +243,6 @@
     color: white;
     width: 80%;
     padding: 10px 0;
-  }
-
-  /*脚*/
-  .app1 .func_footer {
-    background-color: white;
-    color: black;
-  }
-  .app1 .func_footer p {
-    margin: 10px 0;
-    font-size: 14px;
-    text-align: center;
   }
 
 </style>

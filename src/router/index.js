@@ -4,7 +4,8 @@ import Router from 'vue-router'
 Vue.use(Router);
 
 const homePage = () => Promise.resolve(require('@/components/homePage'));
-const normalPage = () => Promise.resolve(require('@/components/normalPage'));
+const activityPage = () => Promise.resolve(require('@/components/activityPage'));
+const videoPage = () => Promise.resolve(require('@/components/videoPage'));
 
 /*login page*/
 const login = () => Promise.resolve(require('@/view/login'));
@@ -15,9 +16,11 @@ const test = () => Promise.resolve(require('@/view/index/test'));
 const function1 = () => Promise.resolve(require('@/view/index/function'));
 const app1 = () => Promise.resolve(require('@/view/index/app1'));
 
-/*normal page*/
+/*page*/
 const activity_page = () => Promise.resolve(require('@/view/activity/activityPage'));
-
+const video_home = () => Promise.resolve(require('@/view/video/home'));
+const video_video= () => Promise.resolve(require('@/view/video/video'));
+const video_class= () => Promise.resolve(require('@/view/video/class'));
 export default new Router({
   routes: [
     {
@@ -27,21 +30,34 @@ export default new Router({
     {
       path: '/activity',
       name: 'activity',
-      component: normalPage,
+      component: activityPage,
       children: [
         {
           path: '/activity',
-          redirect: '/activity/home',
-        },
-        {
-          path: '/activity/home',
-          name: 'activity_home',
           component: activity_page
         },
+      ]
+    },
+    {
+      path: '/video',
+      name: 'video',
+      component: videoPage,
+      children: [
         {
-          path: '/home',
-          name: 'activity_commit',
-          component: activity_page
+          path: '/video',
+          component: video_home
+        },
+        {
+          path: '/video/home',
+          component: video_home
+        },
+        {
+          path: '/video/video',
+          component: video_video
+        },
+        {
+          path: '/video/class',
+          component: video_class
         },
       ]
     },

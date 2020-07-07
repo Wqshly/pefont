@@ -1,7 +1,5 @@
 <template>
   <div class="homepage">
-    <div v-if="this.screenWidth <= 880" class="unreal" style="height: 60px">
-    </div>
     <div class="index-banner">
       <!-- 背景动图 -->
       <div class="video-box">
@@ -10,7 +8,7 @@
         </video>
         <div class="overlay"></div>
       </div>
-      <div class="index-font-box" v-if="this.screenWidth > 880">
+      <div class="index-font-box" >
         <h1>校园体育,提升健康</h1>
         <p>选择PE校园，进入校园健康时代</p>
       </div>
@@ -244,82 +242,6 @@
       </div>
     </div>
 
-    <div class="section-6">
-      <div class="container_self">
-        <h2 style="text-align: center">联系PE校园</h2>
-        <p style="text-align: center">高校入驻，定制业务，商务合作</p>
-        <div class="icon-group">
-          <el-popover
-
-            placement="top"
-            trigger="hover"
-            width="200"
-            ref="popover1">
-            <div class="popover-content" ><div>商务：0512-88888888<br>客服：8888888888‬</div></div>
-          </el-popover>
-          <div class="icon-item" v-popover:popover1>
-            <i class="iconfont icon-dianhua"></i>
-          </div>
-
-          <el-popover
-            placement="top"
-            trigger="hover"
-            width="760"
-            ref="popover2">
-            <div class="address"><img style="width: 760px ;height: 600px" src="../../assets/img/index/home/section6/map.png" alt=""></div>
-          </el-popover>
-          <div class="icon-item" v-popover:popover2>
-            <i class="iconfont icon-dingwei"></i>
-          </div>
-
-          <el-popover
-            placement="top"
-            trigger="hover"
-            width="fit-content"
-            ref="popover3">
-            <div class="qq">QQ: 491528074</div>
-          </el-popover>
-          <div class="icon-item" v-popover:popover3>
-            <i class="iconfont icon-QQ1"></i>
-          </div>
-
-          <el-popover
-            placement="top"
-            trigger="hover"
-            width="270"
-            ref="popover4">
-            <div class="weibo"><img style="width: 270px ;height: 270px" src="../../assets/img/index/home/section6/weibo.png" alt="">
-            </div>
-          </el-popover>
-          <div class="icon-item" v-popover:popover4>
-            <i class="iconfont icon-weibo1"></i>
-          </div>
-
-          <el-popover
-            placement="top"
-            trigger="hover"
-            width="270"
-            ref="popover5">
-            <div class="weibo"><img style="width: 270px ;height: 270px" src="../../assets/img/index/home/section6/wechat.png" alt="">
-            </div>
-          </el-popover>
-          <div class="icon-item" v-popover:popover5>
-            <i class="iconfont icon-wechat"></i>
-          </div>
-
-        </div>
-      </div>
-
-
-    </div>
-
-    <div class="footer">
-      <div class="container_self">
-        <p style="text-align: center">
-          山东科技信息技术有限公司 Chuan 版权所有 鲁ICP备12345678号-4 鲁B2-20200512
-        </p>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -328,7 +250,6 @@
         name: 'home',
         data () {
             return {
-                screenWidth: '',
                 /*轮播图 走马灯*/
                 items1:[
                     "sg",
@@ -339,24 +260,10 @@
             }
         },
         methods: {
-            handleSelect(key, keyPath) {
-
-            },
-            getScreenWidth() {
-                this.screenWidth = window.innerWidth
-            }
         },
         mounted() {
-            // 监听窗口大小
-            window.onresize = () => {
-                return (() => {
-                    this.screenWidth = document.body.clientWidth;
-                })()
-            }
         },
         created(){
-            window.addEventListener('resize', this.getScreenWidth);
-            this.getScreenWidth()
         }
     }
 </script>
@@ -370,12 +277,10 @@
     width: 100%;
     height: 100%;
   }
-
   .homepage .index-banner {
     position: relative;
     width: 100%;
   }
-
   .homepage .index-banner .video-box .overlay {
     position: absolute;
     width: 100%;
@@ -387,12 +292,18 @@
     background: #1C1D21;
   }
   .homepage  .index-banner .index-font-box {
-    position: absolute;
-    top: 28%;
-    left: 10%;
-    font-weight: 200;
+    display: none;
   }
 
+  @media (min-width: 760px) {
+    .homepage  .index-banner .index-font-box {
+      position: absolute;
+      display: inherit;
+      top: 28%;
+      left: 10%;
+      font-weight: 200;
+    }
+  }
   .homepage .index-banner .index-font-box h1 {
     font-weight: 700;
     font-size: 40px;
@@ -567,8 +478,11 @@
   .homepage .section-3 .item_thu{
     width: 100%
   }
+  .homepage .section-3 .item_thu .caption{
+    min-height: 70px;
+  }
   .homepage .section-3 .item_thu img{
-    width: 60%;
+    width: 30%;
   }
   /*页面中等时每行两个*/
   @media (min-width: 760px) and (max-width:1200px) {
@@ -671,14 +585,17 @@
     background: url(../../assets/img/index/home/section5/index_choose.png) center no-repeat;
     background-size: cover;
     color: #fff;
+    display: none;
     overflow: hidden;
   }
+
   .homepage .section-5 .container_self {
     position: relative;
     top: 11%;
   }
   @media screen and (min-width: 1024px){
     .homepage .section-5 {
+      display: block;
       height: 600px;
     }
   }
@@ -689,44 +606,6 @@
     margin-top: 20px;
   }
 
-  /*区域6*/
-  .homepage .section-6 {
-    text-align: center;
-    background-color: #1B1C20;
-    color: #fff;
-    overflow: hidden;
-  }
-  .homepage .section-6 p {
-    color: #8B8B8B;
-  }
-  .homepage .section-6 .icon-group {
-    margin: 30px 0 50px;
-    display: flex;
-    justify-content: center;
-  }
-  .homepage .section-6 .icon-group .icon-item {
-    width: 40px;
-    height: 40px;
-    margin: 0 5px;
-    /*background-color: #D8C1A2;*/
-    border-radius: 4px;
-    position: relative;
-  }
-  .homepage .section-6 .el-popover{
-    padding: 10px!important;
-  }
-  .homepage .iconfont{
-    font-size: 25px;
-    line-height: 40px;
-  }
-  /*区域7*/
-  .homepage .footer {
-    background-color: white;
-    color: black;
-  }
-  .homepage .footer p {
-    margin: 10px 0;
-    text-align: center;
-  }
+
 </style>
 
