@@ -7,7 +7,7 @@
         </div>
 
         <div style="overflow: hidden;font-size: 12px;line-height: 36px">
-          <a style="float: left">{{show_video.class}}</a>
+          <a  href="#/video/class" style="float: left">{{show_video.class}}</a>
           <p style="float: left;margin-left: 20px">{{show_video.time}}</p>
         </div>
 
@@ -21,6 +21,7 @@
           style="width: 100%;"
           ref="videoPlayer"
           :options="playerOptions"
+          :playsinline="true"
           class="video-player vjs-custom-skin"
           @play="onPlayerPlay($event)"
           @pause="onPlayerPause($event)"
@@ -151,6 +152,277 @@
 
                     },
                 },
+                remote_data:[
+                    {
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:1,
+                        name:"视频1",
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+
+                    },
+                    {
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:2,
+                        name:"视频2",
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"推广"
+
+                    },{
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:3,
+                        name:"视频3",
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"健身"
+
+                    },{
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:4,
+                        name:"视频4",
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"裁判"
+
+                    },{
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:5,
+                        name:"视频5",
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+
+                    },{
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:6,
+                        name:"视频6",
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+
+                    },
+                    {
+                        name:"视频7",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:7,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"健身"
+                    },
+                    {
+                        name:"视频8",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:8,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"裁判"
+                    },
+                    {
+                        name:"视频9",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:9,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频10",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:10,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频11",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:11,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:12,
+                        name:"视频12",
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+
+                    },
+
+                    {
+                        name:"视频13",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:13,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频14",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:14,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频15",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:15,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频16",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:16,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频17",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:17,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:18,
+                        name:"视频18",
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+
+                    },
+
+                    {
+                        name:"视频19",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:19,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频20",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:20,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频21",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:21,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频22",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:22,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频23",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:23,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:24,
+                        name:"视频24",
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+
+                    },
+
+                    {
+                        name:"视频25",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:25,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频26",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:26,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频27",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:27,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频28",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:28,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                    {
+                        name:"视频29",
+                        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        id:29,
+                        count:21321,
+                        mu:50,
+                        time:"2020-07-04 11:51:46",
+                        class:"教学"
+                    },
+                ],
                 show_video:{
                     url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
                     id:1,
@@ -160,21 +432,25 @@
                     time:"2020-07-04 11:51:46",
                     class:"教学视频"
                 },
+                dev_shift:true,
             }
         },
         methods: {
             open(item){
-                console.log(this.$route.query);
-                this.$router.push(
-                    {
-                        path: '/video/video',
-                        query: {
-                            id: item.id
-                        }
-                    }
-                )
+                window.location.href="#/video/video?id="+item.id;
+                this.shift(item.id);
             },
+            shift(id){
+                this.show_video = this.remote_data[id-1];
+                if(this.dev_shift){
+                    this.playerOptions.sources[0].src="//vjs.zencdn.net/v/oceans.mp4";
+                }
+                else {
+                    this.playerOptions.sources[0].src="https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm";
+                }
+                this.dev_shift = !this.dev_shift;
 
+            },
             // 播放回调
             onPlayerPlay(player) {
                 console.log('player play!', player)
@@ -199,8 +475,9 @@
         mounted() {
         },
         created(){
+            this.show_video = this.remote_data[this.$route.query.id-1];
+        },
 
-        }
     }
 </script>
 
@@ -251,6 +528,7 @@
   .video-video a:hover{
     color: #409EFF;
   }
+
 
   .video-video .video-recommend{
     display: none;

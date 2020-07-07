@@ -74,6 +74,7 @@ export default {
         },
         handleClose(done) {
           done();
+
         },
         handleSelect(key, keyPath) {
             if(this.options[key]==this.$route.path){
@@ -81,6 +82,7 @@ export default {
             }
             else{
                 this.$router.push(this.options[key]);
+                this.drawer=false
             }
 
         }

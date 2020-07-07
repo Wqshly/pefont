@@ -7,7 +7,7 @@
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-video"></use>
             </svg>
-            <a>{{section}}</a>
+            <a href="#/video/class">{{section}}</a>
           </div>
           <div class="item_group">
             <div class="item" v-for="item in handleData(section)" @click="open(item)" >

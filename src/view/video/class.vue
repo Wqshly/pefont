@@ -11,7 +11,7 @@
       <br>
 
       <el-radio-group v-model="checkedSection" size="mini">
-        <el-radio-button v-for="section in sections" :label="section"></el-radio-button>
+        <el-radio-button v-for="section in sections" :key="section" :label="section"></el-radio-button>
       </el-radio-group>
 
       <div class="section" >
@@ -439,13 +439,10 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 36px;
-    transition: color 0.5s;
+    cursor: default;
   }
   .video-class .wrap .section a:hover{
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 36px;
-    color: #409EFF;
+
   }
 
   .video-class  ._self{
