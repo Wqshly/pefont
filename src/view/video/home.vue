@@ -320,7 +320,7 @@
             //处理表格数据
             handleData(section){
                 let temp_data = this.remote_data.filter(data=>this.filter(data,section));
-                return temp_data.slice(0,10);
+                return temp_data.slice(0,5);
             },
             //搜索筛选
             filter(val,section){
@@ -353,13 +353,21 @@
 
   @media (max-width: 1414px){
     .wrap {
-      width: 1140px;
+      margin: 0;
+      width: 100%;
+    }
+    .video-home .wrap .item img{
+      width: 180px;
     }
   }
 
   @media (min-width: 1414px) {
     .wrap {
-      width: 1414px;
+      width: 90%;
+      margin:0 auto;
+    }
+    .video-home .wrap .item img{
+      width: 240px;
     }
   }
   .video-home .section{
@@ -391,21 +399,26 @@
     line-height: 36px;
     margin-bottom:16px;
   }
-  .video-home .wrap .item img{
-    width: 200px;
-  }
+
   .video-home .wrap .section a{
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 36px;
-    transition: color 0.5s;
-  }
-  .video-home .wrap .section a:hover{
+        color: #000;
+       font-weight: 400;
+       font-size: 20px;
+       line-height: 36px;
+       transition: color 0.5s;
+   }
+  .video-home .wrap .section a:hover, .video-home .wrap .section a:visited:hover{
     font-weight: 400;
     font-size: 20px;
     line-height: 36px;
     color: #409EFF;
   }
-
+  .video-home .wrap .section a:visited{
+    color: #000;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 36px;
+    transition: color 0.5s;
+  }
 </style>
 

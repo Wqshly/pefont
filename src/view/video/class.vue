@@ -377,7 +377,6 @@
 
 <style scoped>
   .video-class .wrap {
-    margin: 0 auto;
     //background:#dcdfe6;
     color: #000;
     overflow: hidden;
@@ -394,13 +393,21 @@
 
   @media (max-width: 1414px){
     .wrap {
-      width: 1140px;
+      margin: 0;
+      width: 100%;
+    }
+    .video-class .wrap .item img{
+      width: 180px;
     }
   }
 
   @media (min-width: 1414px) {
     .wrap {
-      width: 1414px;
+      width: 90%;
+      margin:0 auto;
+    }
+    .video-class .wrap .item img{
+      width: 240px;
     }
   }
   .video-class .section{
@@ -432,9 +439,7 @@
     line-height: 36px;
     margin-bottom:16px;
   }
-  .video-class .wrap .item img{
-    width: 200px;
-  }
+
   .video-class .wrap .section a{
     font-weight: 400;
     font-size: 20px;

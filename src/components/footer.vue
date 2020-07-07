@@ -83,6 +83,9 @@ export default {
 </script>
 
 <style scoped>
+  .normal_footer{
+    width:100%;
+  }
   .normal_footer .footer {
     padding-top: 15px;
     text-align: center;
