@@ -357,7 +357,7 @@
       width: 100%;
     }
     .video-home .wrap .item img{
-      width: 180px;
+      width: 160px;
     }
   }
 

@@ -397,7 +397,7 @@
       width: 100%;
     }
     .video-class .wrap .item img{
-      width: 180px;
+      width: 160px;
     }
   }
 
