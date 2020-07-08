@@ -1,57 +1,28 @@
 <template>
-  <div style="height: 80px;">
-  <div class="normal">
-    <div class="activity_header">
-      <img src="../assets/logo2.png"  alt="PE">
-      <i class="el-icon-s-fold" @click="drawer = true" ></i>
+  <div class="all">
+    <div class="normal">
+      <div class="activity_header">
+        <img class="img_normal" src="../assets/logo2.png"  alt="PE">
+        <img class="img_phone" src="../assets/brand.png"  alt="PE">
+
+        <i class="el-icon-s-custom" ></i>
+        <i class="el-icon-s-fold" @click="drawer = !drawer" :class="{'active2': drawer === true }" ></i>
+        <div class="header_a" v-for="(item,i) in headers" @click="jump(item.link,i)" :class="{'active':isActive === item.link }"  >
+          <p>{{item.name}}</p>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="phone" v-if="drawer">
+
+      <div class="header_phone_a" v-for="(item,i) in headers" @click="jump(item.link,i)" :class="{'active':isActive === item.link }"  >
+          <p>{{item.name}}</p>
+      </div>
 
     </div>
 
-  </div>
-  <el-drawer
-    title=""
-    :visible.sync="drawer"
-    :direction="direction"
-    :size="'40%'"
-    :before-close="handleClose"
-    @open="handleOpen">
-    <span slot="title">{{user_name}}</span>
-    <h1 class="h1_drawer">{{user_school}}</h1>
-    <el-menu default-active="" class="el-menu-vertical-demo" @select="handleSelect">
-      <el-menu-item index="0">
-        <i class="el-icon-s-flag"></i>
-        <span slot="title">活动中心</span>
-      </el-menu-item>
-      <el-menu-item index="1">
-        <i class="el-icon-video-camera-solid"></i>
-        <span slot="title">视频中心</span>
-      </el-menu-item>
-      <el-menu-item index="2">
-        <i class="el-icon-basketball"></i>
-        <span slot="title">运动器材</span>
-      </el-menu-item>
-      <el-menu-item index="3" >
-        <i class="el-icon-notebook-1"></i>
-        <span slot="title">裁判园地</span>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <i class="el-icon-user-solid"></i>
-        <span slot="title">个人中心</span>
-      </el-menu-item>
-      <el-menu-item index="5">
-        <i class="el-icon-s-management"></i>
-        <span slot="title">后台管理</span>
-      </el-menu-item>
-      <el-menu-item index="6">
-        <i class="el-icon-setting"></i>
-        <span slot="title">设置</span>
-      </el-menu-item>
-      <el-menu-item index="7">
-        <i class="el-icon-question"></i>
-        <span slot="title">帮助</span>
-      </el-menu-item>
-    </el-menu>
-  </el-drawer>
   </div>
 </template>
 
@@ -61,6 +32,25 @@ export default {
     name: 'activity_header',
     data () {
       return {
+          isActive:'activity',
+          headers:[
+              {
+                  name:'商城',
+                  link:'shop'
+              },
+              {
+                  name:'理论',
+                  link:'shop'
+              },
+              {
+                  name:'视频',
+                  link:'video'
+              },
+              {
+                  name:'活动',
+                  link:'activity'
+              },
+          ],
           drawer: false,
           direction: 'rtl',
           user_name:'田川',
@@ -69,32 +59,28 @@ export default {
       }
     },
     methods:{
-        handleOpen() {
-            console.log(this.$route.path);
-        },
-        handleClose(done) {
-          done();
-
-        },
-        handleSelect(key, keyPath) {
-            if(this.options[key]==this.$route.path){
-              this.drawer=false;
+        jump(val,i){
+            if(('/'+val) !==this.$route.path){
+                this.isActive = i;
+                window.location.href="#/"+val;
             }
-            else{
-                this.$router.push(this.options[key]);
-                this.drawer=false
-            }
-
         }
     },
     mounted(){
 
+    },
+    created() {
+        this.isActive = (this.$route.path).split('/')[1];
     }
 }
 </script>
 
 <style scoped>
-  .normal{
+  .all{
+
+  }
+
+  .all .normal{
     width: 100%;
     height: 80px;
     position: fixed;
@@ -102,7 +88,6 @@ export default {
     z-index: 999;
     background-color: white;
     border-bottom: 1px solid #dcdfe6;
-
   }
   .activity_header{
     height: 80px;
@@ -112,18 +97,37 @@ export default {
     width: 100%;
     vertical-align:middle;
   }
-  .activity_header img{
+  .activity_header .img_normal{
     line-height:80px;
     height: 30px;
-    margin:25px 0 ;
+    margin:25px 0;
+    float: left;
   }
-  .activity_header i{
-    margin-right:15px;
+  .activity_header .img_phone{
+    line-height:80px;
+    height: 80px;
+    margin:0;
+    float: left;
+    display: none;
+  }
+  .activity_header .el-icon-s-fold{
+    margin:0 5px 0 50px;
     font-size:30px;
     vertical-align:middle;
     float: right;
     line-height: 80px;
+    cursor: pointer;
+    display: none;
   }
+  .activity_header .el-icon-s-custom{
+    margin:0 5px 0 50px;
+    font-size:30px;
+    vertical-align:middle;
+    float: right;
+    line-height: 80px;
+    cursor: pointer;
+  }
+
   @media screen and (min-width: 1140px){
     .normal .activity_header {
       width: 1140px;
@@ -134,16 +138,85 @@ export default {
     color:#409EFF;
     transition: 0.5s;
   }
-
-  .h1_drawer{
-    font-weight: 300;
-    font-size: 35px;
-    width: 100%;
-    display: block;
-    vertical-align: middle;
+  .normal .el-icon-s-custom:hover{
+    color:#409EFF;
+    transition: 0.5s;
+  }
+  .normal .activity_header .header_a{
+    line-height: 80px;
+    float: right;
+    width: 76px;
+    color: #60606d;
+    transition: 0.5s;
+    cursor: pointer;
     text-align: center;
-    line-height: 100px;
   }
 
+  .normal .activity_header .header_a:hover{
+    color:#409EFF;
+  }
 
+  .active{
+    border-bottom: 2px solid #409EFF;
+    color:#409EFF!important;
+  }
+
+  /*手机端*/
+  @media screen and (max-width: 760px){
+    .activity_header .img_normal{
+      display: none;
+    }
+    .activity_header .img_phone{
+      display: inherit;
+    }
+    .active{
+      border-bottom: none;
+      color:#409EFF!important;
+    }
+    .normal .activity_header .header_a{
+      display: none;
+    }
+
+    .all .phone{
+      height: auto!important;
+    }
+    .all .normal{
+      background-color: #1B1C20!important;
+    }
+    .activity_header .el-icon-s-fold{
+      display: inherit!important;
+      color: white;
+    }
+    .activity_header .el-icon-s-custom{
+      color: white;
+    }
+  }
+  .active2{
+    color:#409EFF!important;
+  }
+  .phone{
+    width: 100%;
+    z-index: 9999;
+    position: fixed;;
+    top:80px;
+    overflow: hidden;
+    color: #60606d;
+    line-height: 50px;
+    height: 0;
+    background-color: #1B1C20;
+  }
+  .header_phone_a{
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.5s,color 0.5s;
+  }
+
+  .header_phone_a:hover{
+    background-color: #60606d;
+    color:#409EFF!important;
+  }
+
+  .header_phone_a p{
+      margin-left: 82px;
+  }
 </style>

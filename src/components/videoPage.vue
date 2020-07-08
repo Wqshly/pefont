@@ -2,7 +2,7 @@
   <div>
     <div style="height: 100%;width: 100%" class="video_page">
       <v-header></v-header>
-      <div>
+      <div style="margin-top: 80px">
         <router-view></router-view>
       </div>
       <v-footer></v-footer>

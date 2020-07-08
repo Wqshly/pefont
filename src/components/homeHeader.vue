@@ -189,7 +189,8 @@
     font-size:30px;
     vertical-align:middle;
     float: right;
-    line-height: 60px
+    line-height: 60px;
+    cursor: pointer;
   }
   /*下拉*/
   .index_sidebar .sidebar_phone .el-table--enable-row-hover .el-table__body tr:hover>td {
@@ -223,5 +224,8 @@
     .index_sidebar  {
       margin-bottom: 0;
     }
+  }
+  .index_sidebar .el-table__row{
+    cursor: pointer;
   }
 </style>

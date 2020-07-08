@@ -3,7 +3,7 @@
   <div id="particles"> </div>
     <div class="normal_page">
       <n-header1></n-header1>
-      <div>
+      <div style="margin-top: 80px;">
         <router-view></router-view>
       </div>
     </div>
@@ -33,13 +33,12 @@ export default {
   #particles{
     position: fixed;
     width: 100%;
-    height: calc(100% - 80px);
+    height: 100%;
     background-color: #dcdfe6;
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
     background-position: 50% 50%;
-    margin-top:80px;
   }
   /*
 .normal_page{
