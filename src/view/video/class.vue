@@ -376,6 +376,9 @@
 </script>
 
 <style scoped>
+  .video-class{
+    min-height: 700px;
+  }
   .video-class .wrap {
     //background:#dcdfe6;
     color: #000;

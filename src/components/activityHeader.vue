@@ -3,13 +3,18 @@
     <div class="normal">
       <div class="activity_header">
         <img class="img_normal" src="../assets/logo2.png"  alt="PE">
-        <img class="img_phone" src="../assets/brand.png"  alt="PE">
 
-        <i class="el-icon-s-custom" ></i>
+        <i class="el-icon-s-custom" @click="account()"  :class="{'active3':isActive === 'account' }"  ></i>
+
         <i class="el-icon-s-fold" @click="drawer = !drawer" :class="{'active2': drawer === true }" ></i>
+
         <div class="header_a" v-for="(item,i) in headers" @click="jump(item.link,i)" :class="{'active':isActive === item.link }"  >
           <p>{{item.name}}</p>
         </div>
+
+        <el-badge class="bell-value bell" :value="message_count">
+        </el-badge>
+        <i class="el-icon-bell bell" @click="message()" ></i>
 
 
       </div>
@@ -32,6 +37,7 @@ export default {
     name: 'activity_header',
     data () {
       return {
+          message_count:12,
           isActive:'activity',
           headers:[
               {
@@ -60,11 +66,18 @@ export default {
     },
     methods:{
         jump(val,i){
+            this.drawer=false;
             if(('/'+val) !==this.$route.path){
                 this.isActive = i;
                 window.location.href="#/"+val;
             }
-        }
+        },
+        account(){
+            window.location.href="#/account";
+        },
+        message(){
+            window.location.href="#/account/message";
+        },
     },
     mounted(){
 
@@ -76,9 +89,6 @@ export default {
 </script>
 
 <style scoped>
-  .all{
-
-  }
 
   .all .normal{
     width: 100%;
@@ -103,21 +113,29 @@ export default {
     margin:25px 0;
     float: left;
   }
-  .activity_header .img_phone{
-    line-height:80px;
-    height: 80px;
-    margin:0;
-    float: left;
-    display: none;
-  }
+
   .activity_header .el-icon-s-fold{
-    margin:0 5px 0 50px;
+    margin:0 5px;
     font-size:30px;
     vertical-align:middle;
     float: right;
     line-height: 80px;
     cursor: pointer;
     display: none;
+  }
+  .activity_header .el-icon-bell{
+    font-size:25px;
+    vertical-align:middle;
+    float: right;
+    line-height: 80px;
+    cursor: pointer;
+  }
+  .activity_header .el-icon-bell:hover{
+    color:#409EFF;
+  }
+  .activity_header .bell-value{
+    margin:0;
+    float: right;
   }
   .activity_header .el-icon-s-custom{
     margin:0 5px 0 50px;
@@ -160,15 +178,23 @@ export default {
     border-bottom: 2px solid #409EFF;
     color:#409EFF!important;
   }
-
+  .active3{
+    border-bottom: none;
+    color:#409EFF!important;
+  }
   /*手机端*/
   @media screen and (max-width: 760px){
+    .all .normal{
+      border-bottom: none!important;
+    }
+
     .activity_header .img_normal{
       display: none;
     }
-    .activity_header .img_phone{
-      display: inherit;
+    .bell{
+      display: none;
     }
+
     .active{
       border-bottom: none;
       color:#409EFF!important;
@@ -186,6 +212,7 @@ export default {
     .activity_header .el-icon-s-fold{
       display: inherit!important;
       color: white;
+      float: left;;
     }
     .activity_header .el-icon-s-custom{
       color: white;
