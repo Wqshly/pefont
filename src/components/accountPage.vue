@@ -8,7 +8,6 @@
 
             <div class="left_option" v-for="option in left_options"  @click="jump(option)" :class="{'active':isActive === option.link }" >
 
-              <span class="iconfont" :class="option.class"></span>
                 {{option.name}}
               <el-badge :value="message_count" class="item" v-if="option.link==='message'">
               </el-badge>
@@ -42,22 +41,22 @@ export default {
             {
                 name:'资料',
                 link:'profile',
-                class:' icon-ziliao',
             },
             {
                 name:'消息',
                 link:'message',
-                class:' icon-xiaoxi',
+            },
+            {
+                name:'账户',
+                link:'account',
             },
             {
                 name:'安全',
                 link:'security',
-                class:' icon-anquan',
             },
             {
-                name:'后台管理',
+                name:'后台',
                 link:'management',
-                class:' icon-guanli',
             },
         ],
     }
@@ -118,7 +117,7 @@ export default {
     background-color: #409EFF!important;
     color: white;
   }
-  @media screen and (max-width: 760px) {
+  @media (max-width: 760px) {
     .account-area .left_options{
       width: 100% !important;
       margin: 0;

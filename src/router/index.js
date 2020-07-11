@@ -27,8 +27,13 @@ const video_class= () => Promise.resolve(require('@/view/video/class'));
 /*account page*/
 const account_profile = () => Promise.resolve(require('@/view/account/accountProfile'));
 const account_message = () => Promise.resolve(require('@/view/account/accountMessage'));
+const account_account = () => Promise.resolve(require('@/view/account/accountAccount'));
 const account_security= () => Promise.resolve(require('@/view/account/accountSecurity'));
 const account_management = () => Promise.resolve(require('@/view/account/accountManagement'));
+
+const account_privacy = () => Promise.resolve(require('@/view/account/accountPrivacy'));
+
+
 export default new Router({
   routes: [
     {
@@ -88,8 +93,16 @@ export default new Router({
           component: account_message
         },
         {
+          path: '/account/account',
+          component: account_account
+        },
+        {
           path: '/account/security',
           component: account_security
+        },
+        {
+          path: '/account/privacy',
+          component: account_privacy
         },
         {
           path: '/account/management',

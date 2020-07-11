@@ -95,7 +95,7 @@ export default {
     height: 80px;
     position: fixed;
     top:0;
-    z-index: 999;
+    z-index: 999999999;
     background-color: white;
     border-bottom: 1px solid #dcdfe6;
   }
