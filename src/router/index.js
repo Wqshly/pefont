@@ -7,6 +7,7 @@ const homePage = () => Promise.resolve(require('@/components/homePage'));
 const activityPage = () => Promise.resolve(require('@/components/activityPage'));
 const videoPage = () => Promise.resolve(require('@/components/videoPage'));
 const accountPage = () => Promise.resolve(require('@/components/accountPage'));
+const managementPage = () => Promise.resolve(require('@/components/managementPage'));
 /*login page*/
 const login = () => Promise.resolve(require('@/view/login'));
 
@@ -30,10 +31,10 @@ const account_message = () => Promise.resolve(require('@/view/account/accountMes
 const account_account = () => Promise.resolve(require('@/view/account/accountAccount'));
 const account_security= () => Promise.resolve(require('@/view/account/accountSecurity'));
 const account_management = () => Promise.resolve(require('@/view/account/accountManagement'));
-
 const account_privacy = () => Promise.resolve(require('@/view/account/accountPrivacy'));
 
-
+/*management page*/
+const mana_page = () => Promise.resolve(require('@/view/management/manaPage'));
 export default new Router({
   routes: [
     {
@@ -108,6 +109,21 @@ export default new Router({
           path: '/account/management',
           component: account_management
         },
+      ]
+    },
+    {
+      path: '/management',
+      component: managementPage,
+      children: [
+        {
+          path: '/',
+          redirect:'/management/home',
+        },
+        {
+          path: '/management/home',
+          component: mana_page
+        },
+
       ]
     },
     {

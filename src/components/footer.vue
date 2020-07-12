@@ -85,6 +85,7 @@ export default {
 <style scoped>
   .normal_footer{
     width:100%;
+    z-index: 99999;
   }
   .normal_footer .footer {
     padding-top: 15px;

@@ -146,7 +146,7 @@ export default {
     cursor: pointer;
   }
 
-  @media screen and (min-width: 1140px){
+  @media (min-width: 1140px){
     .normal .activity_header {
       width: 1140px;
     }

@@ -25,7 +25,6 @@
           </el-input>
         </el-form-item>
 
-
         <el-form-item label="网站" prop="url">
           <el-input v-model="form.url" ></el-input>
         </el-form-item>
