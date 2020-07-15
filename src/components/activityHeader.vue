@@ -8,7 +8,7 @@
 
         <i class="el-icon-s-fold" @click="drawer = !drawer" :class="{'active2': drawer === true }" ></i>
 
-        <div class="header_a" v-for="(item,i) in headers" @click="jump(item.link,i)" :class="{'active':isActive === item.link }"  >
+        <div class="header_a" v-for="(item,i) in headers" @click="jump(item.link)" :class="{'active':isActive === item.link }"  >
           <p>{{item.name}}</p>
         </div>
 
@@ -22,7 +22,7 @@
 
     <div class="phone" v-if="drawer">
 
-      <div class="header_phone_a" v-for="(item,i) in headers" @click="jump(item.link,i)" :class="{'active':isActive === item.link }"  >
+      <div class="header_phone_a" v-for="(item,i) in headers" @click="jump(item.link)" :class="{'active':isActive === item.link }"  >
           <p>{{item.name}}</p>
       </div>
 
@@ -46,7 +46,7 @@ export default {
               },
               {
                   name:'理论',
-                  link:'shop'
+                  link:'theory'
               },
               {
                   name:'视频',
@@ -65,10 +65,10 @@ export default {
       }
     },
     methods:{
-        jump(val,i){
+        jump(val){
             this.drawer=false;
             if(('/'+val) !==this.$route.path){
-                this.isActive = i;
+                this.isActive = val;
                 window.location.href="#/"+val;
             }
         },
@@ -95,7 +95,7 @@ export default {
     height: 80px;
     position: fixed;
     top:0;
-    z-index: 999999999;
+    z-index: 1999;
     background-color: white;
     border-bottom: 1px solid #dcdfe6;
   }

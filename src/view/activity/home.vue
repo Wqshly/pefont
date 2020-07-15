@@ -39,6 +39,7 @@
 
         </el-table>
       </template>
+
       <el-pagination
         class="_self"
         @size-change="handleSizeChange"

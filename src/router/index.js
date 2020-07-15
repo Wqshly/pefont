@@ -8,6 +8,8 @@ const activityPage = () => Promise.resolve(require('@/components/activityPage'))
 const videoPage = () => Promise.resolve(require('@/components/videoPage'));
 const accountPage = () => Promise.resolve(require('@/components/accountPage'));
 const managementPage = () => Promise.resolve(require('@/components/managementPage'));
+const theoryPage = () => Promise.resolve(require('@/components/theoryPage'));
+
 /*login page*/
 const login = () => Promise.resolve(require('@/view/login'));
 
@@ -35,6 +37,14 @@ const account_privacy = () => Promise.resolve(require('@/view/account/accountPri
 
 /*management page*/
 const mana_page = () => Promise.resolve(require('@/view/management/manaPage'));
+
+/*theory page*/
+const theory_page = () => Promise.resolve(require('@/view/theory/theoryPage'));
+const theory_theory = () => Promise.resolve(require('@/view/theory/theoryTheory'));
+const theory_exam = () => Promise.resolve(require('@/view/theory/theoryExam'));
+const theory_exams = () => Promise.resolve(require('@/view/theory/theoryExams'));
+const theory_statistic = () => Promise.resolve(require('@/view/theory/theoryStatistics'));
+
 export default new Router({
   routes: [
     {
@@ -108,6 +118,36 @@ export default new Router({
         {
           path: '/account/management',
           component: account_management
+        },
+      ]
+    },
+    {
+      path: '/theory',
+      component: theoryPage,
+      children: [
+        {
+          path: '/',
+          redirect:'/theory/home',
+        },
+        {
+          path: '/theory/home',
+          component: theory_page
+        },
+        {
+          path: '/theory/theory',
+          component: theory_theory
+        },
+        {
+          path: '/theory/exam',
+          component: theory_exam
+        },
+        {
+          path: '/theory/exams',
+          component: theory_exams
+        },
+        {
+          path: '/theory/statistics',
+          component: theory_statistic
         },
       ]
     },
