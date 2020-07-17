@@ -452,11 +452,8 @@ export default {
   }
   .activity-promotional .el-form{
     width:100%;
+    max-width: 660px;
+
   }
-  @media screen and (min-width: 1140px){
-    .activity-promotional .el-form {
-      width: 660px;
-      margin: 0 auto 0 0;
-    }
-  }
+
 </style>

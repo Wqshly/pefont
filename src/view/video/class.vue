@@ -5,12 +5,12 @@
         type="text"
         v-model="search"
         prefix-icon="el-icon-search"
-        style="width: 60%;margin:10px 0"
+        style="width: 200px;margin:10px 0"
         placeholder="输入视频名称搜索"
       />
       <br>
 
-      <el-radio-group v-model="checkedSection" size="mini">
+      <el-radio-group v-model="checkedSection" >
         <el-radio-button v-for="section in sections" :key="section" :label="section"></el-radio-button>
       </el-radio-group>
 
@@ -24,8 +24,10 @@
           </div>
           <div class="item_group">
             <div class="item" v-for="item in handleData()" @click="open(item)" >
-              <img :src="item.url"  alt=""/>
-              <p>{{item.name}}</p>
+              <div class="item_inner">
+                <img :src="item.url"  alt=""/>
+                <p>{{item.name}}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -46,7 +48,7 @@
 
 <script>
     export default {
-        name: 'home',
+        name: 'class',
         components: {
 
         },
@@ -356,6 +358,10 @@
             filter(val){
                 return (!this.search || val.name.toLowerCase().includes(this.search.toLowerCase())) && (this.checkedSection === val.class);
             },
+
+            //分类筛选
+
+
             //每页条数
             handleSizeChange(val) {
                 this.pageSize=val;
@@ -383,8 +389,9 @@
     //background:#dcdfe6;
     color: #000;
     overflow: hidden;
+    width: 100%;
+    margin:0;
   }
-
   .icon {
     width: 1em;
     height: 1em;
@@ -394,23 +401,24 @@
     overflow: hidden;
   }
 
-  @media (max-width: 1414px){
-    .wrap {
-      margin: 0;
-      width: 100%;
+  /*手机端每行两个无空隙*/
+  @media (max-width: 760px){
+    .video-class .wrap .item{
+      width: 50%;
     }
-    .video-class .wrap .item img{
-      width: 160px;
+    .video-class .item_group{
+      width: 100% !important;
     }
   }
 
-  @media (min-width: 1414px) {
-    .wrap {
-      width: 90%;
-      margin:0 auto;
+  @media (min-width: 760px) and (max-width: 1414px){
+    .video-class .wrap .item{
+      width: 25%;
     }
-    .video-class .wrap .item img{
-      width: 240px;
+  }
+  @media (min-width: 1414px) {
+    .video-class .wrap .item{
+      width: 20%;
     }
   }
   .video-class .section{
@@ -419,23 +427,54 @@
   }
   .video-class .item_group{
     overflow: hidden;
+    width: 95%;
+    margin: auto;
   }
-  .video-class a, a:hover, .item{
+
+  /*手机端不设置空隙*/
+  @media (max-width: 760px){
+    .video-class .item_inner{
+      margin: 0!important;
+    }
+  }
+  .video-class .wrap .item img{
+    width: 100%;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .item{
+    overflow: hidden;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 10px!important;
+  }
+
+  .video-class .item_inner{
+    margin: 10px;
+    transition: all 0.3s;
+    background-color: white;
+    border:3px solid #ebebeb;
+    box-sizing:border-box;
+    border-radius: 14px;
+  }
+
+  .video-class .item_inner:hover{
+    margin: 0;
+  }
+
+  .video-class a, a:hover{
     text-decoration: none;
     cursor: pointer;
   }
 
-  .video-class .wrap .item{
-    float: left;
-    margin: 20px;
-  }
-
   .video-class .wrap .item p{
-    transition: color 0.5s;
+    padding: 5px 0 10px 5px ;
+    transition: color 0.3s;
     color: #000;
   }
 
-  .video-class .wrap .item:hover> p{
+  .video-class .wrap .item:hover p{
     color: #409EFF;
   }
   .video-class .wrap .block_head{
@@ -454,11 +493,7 @@
   }
 
   .video-class  ._self{
-    position:fixed;
-    z-index: 999;
-    width: 100%;
-    bottom: 0;
-    background-color: white;
+    margin-bottom: 10px;
   }
 
 </style>

@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "15996282",
+      "name": "展开",
+      "font_class": "zhankai",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "15996281",
+      "name": "向上 (1)",
+      "font_class": "xiangshang1",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "15995311",
+      "name": "客服",
+      "font_class": "kefu",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "15995310",
+      "name": "安卓",
+      "font_class": "anzhuo",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "15995308",
+      "name": "向上",
+      "font_class": "xiangshang",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
       "icon_id": "15858124",
       "name": "管理员",
       "font_class": "guanliyuan",

@@ -355,7 +355,6 @@
   }
   .activity-management .notice_detail{
     background-color: white;
-    width:100%;
     height: 100%;
     border:3px solid #ebebeb;
     padding: 20px;

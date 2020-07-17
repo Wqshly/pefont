@@ -20,7 +20,8 @@ export default {
             mark:60,
             option:{
                 title: {
-                    text: '学分情况'
+                    text: '学分情况',
+                    show:false,
                 },
                 tooltip: {},
                 toolbox:{

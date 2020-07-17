@@ -8,7 +8,7 @@
 
         <i class="el-icon-s-fold" @click="drawer = !drawer" :class="{'active2': drawer === true }" ></i>
 
-        <div class="header_a" v-for="(item,i) in headers" @click="jump(item.link)" :class="{'active':isActive === item.link }"  >
+        <div class="header_a" v-for="item in reverse_headers" @click="jump(item.link)" :class="{'active':isActive === item.link }"  >
           <p>{{item.name}}</p>
         </div>
 
@@ -22,40 +22,50 @@
 
     <div class="phone" v-if="drawer">
 
-      <div class="header_phone_a" v-for="(item,i) in headers" @click="jump(item.link)" :class="{'active':isActive === item.link }"  >
+      <div class="header_phone_a" v-for="item in headers" @click="jump(item.link)" :class="{'active':isActive === item.link }"  >
           <p>{{item.name}}</p>
       </div>
 
     </div>
 
+    <back></back>
   </div>
 </template>
 
 <script>
-
+import {clone} from '@/api/clone.js'
+import back from '@/components/backTop'
 export default {
     name: 'activity_header',
+    components:{
+      back,
+    },
     data () {
       return {
           message_count:12,
           isActive:'activity',
+          reverse_headers:[],
           headers:[
-              {
-                  name:'商城',
-                  link:'shop'
-              },
-              {
-                  name:'理论',
-                  link:'theory'
-              },
-              {
-                  name:'视频',
-                  link:'video'
-              },
               {
                   name:'活动',
                   link:'activity'
               },
+
+              {
+                  name:'视频',
+                  link:'video'
+              },
+
+              {
+                  name:'理论',
+                  link:'theory'
+              },
+
+              {
+                  name:'商城',
+                  link:'shop'
+              },
+
           ],
           drawer: false,
           direction: 'rtl',
@@ -70,6 +80,7 @@ export default {
             if(('/'+val) !==this.$route.path){
                 this.isActive = val;
                 window.location.href="#/"+val;
+                window.scrollTo(0, 0);
             }
         },
         account(){
@@ -83,6 +94,7 @@ export default {
 
     },
     created() {
+        this.reverse_headers = clone.deepClone(this.headers).reverse();
         this.isActive = (this.$route.path).split('/')[1];
     }
 }

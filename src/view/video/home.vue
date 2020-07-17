@@ -11,8 +11,10 @@
           </div>
           <div class="item_group">
             <div class="item" v-for="item in handleData(section)" @click="open(item)" >
-              <img :src="item.url"  alt=""/>
-              <p>{{item.name}}</p>
+              <div class="item_inner">
+                <img :src="item.url"  alt=""/>
+                <p>{{item.name}}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -351,23 +353,30 @@
     overflow: hidden;
   }
 
-  @media (max-width: 1414px){
+  /*手机端*/
+  @media (max-width: 760px){
     .wrap {
       margin: 0;
       width: 100%;
     }
+    .video-home .wrap .item{
+      width: 50%;
+    }
     .video-home .wrap .item img{
-      width: 160px;
+      width: 100%;
     }
   }
 
-  @media (min-width: 1414px) {
+  @media (min-width: 760px) {
     .wrap {
-      width: 90%;
-      margin:0 auto;
+      width: 100%;
+      margin:0;
+    }
+    .video-home .wrap .item{
+      width: 20%;
     }
     .video-home .wrap .item img{
-      width: 240px;
+      width: 100%;
     }
   }
   .video-home .section{
@@ -376,23 +385,48 @@
   }
   .video-home .item_group{
     overflow: hidden;
+    width: 95%;
+    margin: auto;
   }
-  .video-home a, a:hover, .item{
+
+  .video-home .wrap .item img{
+    width: 100%;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .item{
+    overflow: hidden;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 10px!important;
+  }
+
+  .video-home .item_inner{
+    margin: 10px;
+    transition: all 0.3s;
+    background-color: white;
+    border:3px solid #ebebeb;
+    box-sizing:border-box;
+    border-radius: 14px;
+  }
+
+  .video-home .item_inner:hover{
+    margin: 0;
+  }
+
+  .video-home a, a:hover{
     text-decoration: none;
     cursor: pointer;
   }
 
-  .video-home .wrap .item{
-    float: left;
-    margin: 20px;
-  }
-
   .video-home .wrap .item p{
-    transition: color 0.5s;
+    padding: 5px 0 10px 5px ;
+    transition: color 0.3s;
     color: #000;
   }
 
-  .video-home .wrap .item:hover> p{
+  .video-home .wrap .item:hover p{
     color: #409EFF;
   }
   .video-home .wrap .block_head{

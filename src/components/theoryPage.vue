@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div style="width: 100%;padding-top: 5px" class="theory_page">
+    <div style="width: 100%;" class="theory_page">
       <v-header></v-header>
 
-      <div style="margin-top: 80px;">
+      <div style="margin-top: 80px;background-color: #f2f5f6; min-height: 700px;">
 
         <div class="theory-area">
           <el-menu

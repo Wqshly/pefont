@@ -11,33 +11,27 @@
             placeholder="输入关键字搜索"
           />
         </template>
-        <el-table
-          :show-header="false"
-          :data="handleData()"
-          style="width: 100%"
-          @cell-click="handleClick">
-          <el-table-column
-            prop="title">
 
-            <template slot-scope="scope">
-              <el-card shadow="hover">
-                <el-image
-                  style="width: 50%;"
-                  :src="url"
-                  :fit="'scale-down'">
 
-                </el-image>
-                <div style=" width: 47%;float: right">
-                  <span style="color: #e95f13;display: block">{{ scope.row.title }}<br/></span>
-                  <span style="color: #e95f13;float: right">{{ scope.row.status }}<br/></span>
-                  <span style="display: block;">{{ filter_description(scope.row.name)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{ filter_description(scope.row.date)}}</span>
-                  <span style="margin: 10px 0 0 10px;display: block">{{ filter_description(scope.row.description)}}</span>
-                </div>
-              </el-card>
-            </template>
-          </el-table-column>
+        <div v-for="scope in handleData()" @click="handleClick(scope)">
+          <el-card shadow="hover" class="item">
+            <el-image
+              class="item_img"
+              :src="url"
+              :fit="'scale-down'">
+            </el-image>
 
-        </el-table>
+            <div class="item_right">
+              <div class="inner">
+                <span style="color: #e95f13;display: block">{{ scope.title }}<br/></span>
+                <span style="color: #e95f13;float: right">{{ scope.status }}<br/></span>
+                <span style="display: block;">{{ filter_description(scope.name)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{ filter_description(scope.date)}}</span>
+                <span style="margin: 10px 0 0 10px;display: block">{{ filter_description(scope.description) }}</span>
+              </div>
+            </div>
+          </el-card>
+        </div>
+
       </template>
 
       <el-pagination
@@ -172,7 +166,6 @@
               sign_method:'报名制',
               delivery: false,
               imageUrl:'',
-
               now_people:'50'
           },
       }
@@ -185,6 +178,8 @@
                 this.activity_status=false;
             console.log('活动主页点击:',val);
             this.detail=true;
+            this.detail_item.status=val.status;
+            window.scrollTo(0, 0);
             //this.detail_item=val;
 
         },
@@ -199,9 +194,10 @@
             return (!this.search || val.title.toLowerCase().includes(this.search.toLowerCase()));
         },
 
-        //过长的内容转换为省略号
+        //过长的内容转换为省略号  宽度过低时才会采取的方案
         filter_description(val){
-            if(val.length>30){
+            if(val.length>30 && document.body.clientWidth<760){
+
                 return val.slice(0,30)+'...';
             }
             else{
@@ -245,16 +241,13 @@
     width: 100%;
   }
   .activity-home .block{
-    background-color: white;
     width:100%;
     height: 100%;
-    border:3px solid #ebebeb;
     padding-top: 20px;
     border-radius: 14px;
   }
   .activity-home .notice_detail{
     background-color: white;
-    width:100%;
     height: 100%;
     border:3px solid #ebebeb;
     padding: 20px;
@@ -270,6 +263,7 @@
       margin: 0 auto;
     }
   }
+
   .activity-home  ._self{
     position:fixed;
     width: 100%;
@@ -280,6 +274,7 @@
   .activity-home h1{
     font-weight: 300;
   }
+
   .activity-home .el-page-header__content {
     width: 100% !important;
   }
@@ -290,9 +285,64 @@
   .activity-home .el-table td, .el-table th.is-leaf {
      border-bottom: 0 solid #EBEEF5!important;
   }
-  .activity-home .el-card, .el-message {
+
+  .activity-home .item{
     border-radius: 14px;
     overflow: hidden;
+    padding: 0!important;
+    margin: 15px 0;
+  }
+
+  .activity-home .item .el-card__body{
+    padding: 0!important;
+  }
+
+  @media screen and (min-width: 760px){
+    .activity-home .item_img{
+      border-radius: 14px;
+      overflow: hidden;
+      width: 60%;
+      padding: 0;
+      display: inline-block;
+      max-height: 20%;
+    }
+    .activity-home .item_img img{
+      width: 100%;
+      border-radius: 14px;
+    }
+    .activity-home .item_right{
+      width: 40%;
+      height: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      padding: 0;
+      float: right;
+    }
+    .activity-home .item_right .inner{
+      padding: 10px;
+    }
+  }
+
+
+
+  @media screen and (max-width: 760px){
+    .activity-home .item {
+      width: 95%;
+      margin: 15px auto;
+    }
+    .activity-home .item_img {
+      width: 100%;
+      display: block;
+    }
+    .activity-home .item_img{
+      border-radius: 14px;
+    }
+    .activity-home .item_img img{
+      border-radius: 14px;
+    }
+    .activity-home .item_right .inner{
+      padding: 10px;
+    }
   }
 
 </style>

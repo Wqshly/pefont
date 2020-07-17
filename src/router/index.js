@@ -71,9 +71,11 @@ export default new Router({
       children: [
         {
           path: '/',
-          redirect: '/video/home',
+          //redirect: '/video/home',//暂定不使用
+          redirect: '/video/class'
         },
         {
+
           path: '/video/home',
           component: video_home
         },
