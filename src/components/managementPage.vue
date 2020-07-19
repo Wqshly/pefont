@@ -111,30 +111,26 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   .management_page{
     margin-top:80px;
   }
   .management_main{
     margin: 80px auto;
     width: 100%;
+    max-width: 1140px;
     padding-top: 5px;
     min-height: 500px;
   }
 
-  @media (min-width: 1140px){
-    .management_main {
-      width: 1140px;
-    }
+  .management_main  .el-menu-item:hover {
+    color: #409EFF !important;
+  }
+  .management_main .el-submenu:hover .el-submenu__title, .management_main .el-submenu:focus .el-submenu__title  {
+    color: #409EFF !important;
   }
 
-  .account-area .left_option:hover{
-    background-color: #409EFF!important;
-    color: white;
+  .management_main .el-menu--horizontal .el-menu .el-menu-item:hover,.management_main .el-menu--horizontal .el-menu .el-submenu__title:hover{
+    color: #409EFF !important;
   }
-  .account-area .active{
-    background-color: #409EFF!important;
-    color: white;
-  }
-
 </style>

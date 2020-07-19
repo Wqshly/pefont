@@ -35,7 +35,6 @@ export default {
     width: 100%;
     height: 100%;
     background-color: #f2f5f6;
-   // background-color: #dcdfe6;
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;

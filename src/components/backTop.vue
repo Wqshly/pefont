@@ -59,7 +59,7 @@ export default {
     margin: 15px 5px;
   }
   .top{
-    margin: 5px 5px;;
+    margin: 5px 5px;
   }
   .back-to-top .item{
     height: 180px;
@@ -77,20 +77,16 @@ export default {
     transition: color 0.5s;
   }
   .back-to-top span:hover{
-   // border: #409EFF 1px solid;
     color: #409EFF;
   }
 
   .back-to-top{
     overflow: hidden;
     opacity: 0.8;
-   // background-color: rgba(255,255,255,0.72);
     position: fixed;
     bottom: 120px;
     right: 20px;
     width: 60px;
-    //border-radius:15px;
-   // border: 1px solid #dcdfe6;
   }
 
   .iconfont{

@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router);
 
+const indexPage = () => Promise.resolve(require('@/components/indexPage'));
 const homePage = () => Promise.resolve(require('@/components/homePage'));
 const activityPage = () => Promise.resolve(require('@/components/activityPage'));
 const videoPage = () => Promise.resolve(require('@/components/videoPage'));
@@ -13,11 +14,14 @@ const theoryPage = () => Promise.resolve(require('@/components/theoryPage'));
 /*login page*/
 const login = () => Promise.resolve(require('@/view/login'));
 
-/*home page*/
+/*index page*/
 const home = () => Promise.resolve(require('@/view/index/home'));
 const test = () => Promise.resolve(require('@/view/index/test'));
 const function1 = () => Promise.resolve(require('@/view/index/function'));
 const app1 = () => Promise.resolve(require('@/view/index/app1'));
+
+/*home page*/
+const home_page = () => Promise.resolve(require('@/view/home/homePage'));
 
 /*activity page*/
 const activity_page = () => Promise.resolve(require('@/view/activity/activityPage'));
@@ -50,6 +54,16 @@ export default new Router({
     {
       path: '/',
       redirect: '/index'
+    },
+    {
+      path: '/home',
+      component: homePage,
+      children: [
+        {
+          path: '/',
+          component: home_page
+        },
+      ]
     },
     {
       path: '/activity',
@@ -176,7 +190,7 @@ export default new Router({
     {
       path: '/',
       name: '',
-      component: homePage,
+      component: indexPage,
       children: [
         {
           path: '/test',

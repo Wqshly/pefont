@@ -47,6 +47,10 @@ export default {
           reverse_headers:[],
           headers:[
               {
+                  name:'首页',
+                  link:'home'
+              },
+              {
                   name:'活动',
                   link:'activity'
               },
@@ -117,6 +121,7 @@ export default {
     top:0;
     margin: 0 auto;
     width: 100%;
+    max-width: 1140px;
     vertical-align:middle;
   }
   .activity_header .img_normal{
@@ -156,12 +161,6 @@ export default {
     float: right;
     line-height: 80px;
     cursor: pointer;
-  }
-
-  @media (min-width: 1140px){
-    .normal .activity_header {
-      width: 1140px;
-    }
   }
 
   .normal .el-icon-s-fold:hover{

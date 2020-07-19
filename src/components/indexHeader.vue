@@ -92,7 +92,7 @@
                     }
                     ,
                     {
-                        index: '/activity',
+                        index: '/home',
                         title: '测试入口'
                     }
                 ]

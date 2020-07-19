@@ -17,10 +17,12 @@
       <div class="section" >
         <div class="block1">
           <div class="block_head">
+            <!--
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-video"></use>
             </svg>
             <a>{{checkedSection}}</a>
+            -->
           </div>
           <div class="item_group">
             <div class="item" v-for="item in handleData()" @click="open(item)" >

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import vSidebar from '@/components/homeHeader'
+import vSidebar from '@/components/indexHeader'
 import vFooter from '@/components/footer'
 export default {
   name: 'homePage',
@@ -18,7 +18,7 @@ export default {
   },
   components: {
       vFooter,
-    vSidebar
+      vSidebar
   }
 }
 </script>
