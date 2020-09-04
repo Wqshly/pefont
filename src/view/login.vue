@@ -13,10 +13,10 @@
             <img src="../assets/img/login/QR_2.png" alt="">
           </div>
           <div class="title">
-            <p>学&nbsp;&nbsp;号&nbsp;&nbsp;登&nbsp;&nbsp;录</p>
+            <p>账&nbsp;&nbsp;号&nbsp;&nbsp;登&nbsp;&nbsp;录</p>
           </div>
           <el-form :model="loginForm" style="padding-top: 50px" :rules="rules" ref="loginForm">
-            <el-form-item prop="phone">
+            <el-form-item >
               <template>
                 <el-select style="width: 100%;" v-model="loginForm.school" placeholder="请选择学校">
                   <el-option-group
@@ -33,8 +33,8 @@
                 </el-select>
               </template>
             </el-form-item>
-            <el-form-item prop="phone">
-              <el-input v-model="loginForm.phone" placeholder="请输入学号"
+            <el-form-item prop="usernumber">
+              <el-input v-model="loginForm.usernumber" placeholder="请输入学号"
                         prefix-icon="el-icon-s-custom"
                         clearable>
               </el-input>
@@ -46,7 +46,7 @@
             </el-form-item>
             <el-form-item style="margin-bottom: 5px;">
               <el-link :underline="false" style="float: right;margin-right: 20px" href="https://element.eleme.io" target="_blank">忘记密码</el-link>
-              <el-checkbox style="float: left;margin-left: 20px" v-model="loginForm.remember">记住密码</el-checkbox>
+              <el-checkbox style="float: left;margin-left: 20px" v-model="loginForm.remember">记住我的登录状态</el-checkbox>
             </el-form-item>
             <el-form-item>
               <el-button style="float: left;width: 100px;" @click="login('loginForm')">登录</el-button>
@@ -98,7 +98,7 @@ export default {
         VRCODE:false,
         loginForm: {
           school: null,
-          phone: null,
+          usernumber: null,
           password: null,
           remember: false,
         },
@@ -129,9 +129,9 @@ export default {
         }],
         value: '',
         rules: {
-          phone: [
-            {required: true, message: '请输入员工编号或手机号', trigger: 'blur'},
-            {min: 2, max: 11, message: '请输入正确的手机号或员工编号', trigger: 'blur'}
+          usernumber: [
+            {required: true, message: '请输入学号或邮箱', trigger: 'blur'},
+            {min: 2, max: 20, message: '请输入正确的学号或邮箱', trigger: 'blur'}
           ],
           password: [
             {required: true, message: '请输入密码', trigger: 'blur'}
@@ -145,15 +145,13 @@ export default {
       },
       login (formName) {
           this.$refs[formName].validate((valid) => {
-          // console.log(this[formName].password)
+
             if (valid) {
-              const url = '/user/login';
+              const url = '/api/login/login';
               api.post(url, this.loginForm).then(res => {
-                  console.log(res.data);
+                  console.log(res);
                   let _this = this;
-                  if (res.data.code === 0) {/*
-                    sessionStorage.setItem('save_user_id', res.data.data.id)
-                    sessionStorage.setItem('save_username', res.data.data.name)*/
+                  if (res.code === 0) {
                     _this.$router.push('/home')
                   } else {
                     this.$message({
@@ -163,10 +161,11 @@ export default {
                   }
               })
             }
+
         });
       },
       register () {
-        api.get('/staff/staffCount').then(res => {
+        api.post('/user/addUser').then(res => {
             console.log(res.data)
             if (res.data.data === 0) {
               this.$router.push('/initRegister')
@@ -195,10 +194,6 @@ export default {
     background-size: cover;
     background-position: 50% 50%;
   }
-/*
-  .background-pic {
-    .background-img("../assets/img/login/login-bg.jpg");
-  }*/
 
   .form-container {
     .global-centre(450px, 580px);

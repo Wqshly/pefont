@@ -179,6 +179,10 @@ export default new Router({
           path: '/management/home',
           component: mana_page
         },
+        {
+          path: '/management/school',
+          component: mana_page
+        },
 
       ]
     },

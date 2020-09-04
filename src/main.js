@@ -12,6 +12,8 @@ import icon from "./assets/icon/iconfont.js"
 Vue.use(ElementUI);
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
+//axios.defaults.baseURL = '/api';
+
 
 /* eslint-disable no-new */
 new Vue({

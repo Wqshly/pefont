@@ -38,6 +38,7 @@
 
         </router-view>
       </div>
+
       <v-footer></v-footer>
     </div>
   </div>
@@ -61,39 +62,17 @@ export default {
         },
         items: [
             {
-                index: '1',
+                index: 'home',
                 title: '管理首页'
             },
             {
-                index: '2',
+                index: 'school',
                 title: '活动审批'
             },
+
             {
                 index: '3',
-                title: '院级管理',
-                subs:[
-                    {
-                        index: '4',
-                        title: '活动审批'
-                    },
-                    {
-                        index: '5',
-                        title: '活动审批'
-                    },
-                    {
-                        index: '6',
-                        title: '活动审批'
-                    },
-                ],
-            },
-            {
-                index: '/7',
-                title: '校级管理'
-            }
-            ,
-            {
-                index: '/8',
-                title: '超级管理'
+                title: '网站管理员',
             }
         ],
 
@@ -120,7 +99,7 @@ export default {
     width: 100%;
     max-width: 1140px;
     padding-top: 5px;
-    min-height: 500px;
+    min-height: 700px;
   }
 
   .management_main  .el-menu-item:hover {

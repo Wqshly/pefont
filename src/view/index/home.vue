@@ -3,7 +3,7 @@
     <div class="index-banner">
       <!-- 背景动图 -->
       <div class="video-box">
-        <video loop autoplay muted>
+        <video class="lazy" loop autoplay muted playsinline poster="../../assets/prepost.png">
           <source src="../../assets/home.mp4" type="video/mp4">
         </video>
         <div class="overlay"></div>
@@ -260,10 +260,40 @@
             }
         },
         methods: {
+            lazy(){
+                document.addEventListener("DOMContentLoaded", function() {
+                    var lazyVideos = [].slice.call(document.querySelectorAll("video.lazy"));
+
+                    if ("IntersectionObserver" in window) {
+                        var lazyVideoObserver = new IntersectionObserver(function(entries, observer) {
+                            entries.forEach(function(video) {
+                                if (video.isIntersecting) {
+                                    for (var source in video.target.children) {
+                                        var videoSource = video.target.children[source];
+                                        if (typeof videoSource.tagName === "string" && videoSource.tagName === "SOURCE") {
+                                            videoSource.src = videoSource.dataset.src;
+                                        }
+                                    }
+
+                                    video.target.loadData();
+                                    video.target.classList.remove("lazy");
+                                    lazyVideoObserver.unobserve(video.target);
+                                }
+                            });
+                        });
+
+                        lazyVideos.forEach(function(lazyVideo) {
+                            lazyVideoObserver.observe(lazyVideo);
+                        });
+                    }
+                });
+            }
+
         },
         mounted() {
         },
         created(){
+            this.lazy();
         }
     }
 </script>
