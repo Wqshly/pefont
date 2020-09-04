@@ -1,14 +1,14 @@
 <template>
   <div class="app1">
     <div class="index-banner">
-      <div class="animated fadeInRight"><img src="../../assets/img/index/app1/app.png" alt=""></div>
+      <div class="animated fadeInRight"><img v-lazy="require('../../assets/img/index/app1/app.png')" alt=""></div>
     </div>
 
     <div class="app_section1">
       <div class="container_self">
         <div class="item_thu">
           <div align="center">
-            <img src="../../assets/img/index/app1/act_1.png" alt="">
+            <img v-lazy="require('../../assets/img/index/app1/act_1.png')" alt="">
             <p>二课活动</p>
             <p>全校二课活动等你来参加，学分交友实践</p>
           </div>
@@ -16,7 +16,7 @@
         </div>
         <div class="item_thu">
           <div align="center">
-            <img src="../../assets/img/index/app1/act_2.png" alt="">
+            <img v-lazy="require('../../assets/img/index/app1/act_2.png')" alt="">
             <p>高校头条</p>
             <p>给你最全面的校园资讯、学习、娱乐、成长、生活等特色栏目内容丰富多彩。</p>
           </div>
@@ -24,7 +24,7 @@
         </div>
         <div class="item_thu">
           <div align="center">
-            <img src="../../assets/img/index/app1/act_3.png" alt="">
+            <img v-lazy="require('../../assets/img/index/app1/act_3.png')" alt="">
             <p>话题广场</p>
             <p>最热门有趣的话题，互动交流大平台，记录生活，展现自我。</p>
           </div>
@@ -32,7 +32,7 @@
         </div>
         <div class="item_thu">
           <div align="center">
-            <img src="../../assets/img/index/app1/act_4.png" alt="">
+            <img v-lazy="require('../../assets/img/index/app1/act_4.png')" alt="">
             <p>福利中心</p>
             <p>陪伴大学生生活，同时给大学生带来很多福利。</p>
           </div>
@@ -50,7 +50,7 @@
         </div>
         <div class="item pic">
           <span >安卓平台下载：</span>
-        <img src="../../assets/img/index/app1/app_code.png" alt="">
+        <img v-lazy="require('../../assets/img/index/app1/app_code.png')" alt="">
         </div>
       </div>
 

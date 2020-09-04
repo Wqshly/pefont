@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router);
 
 const indexPage = () => Promise.resolve(require('@/components/indexPage'));

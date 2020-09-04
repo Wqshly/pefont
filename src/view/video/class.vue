@@ -27,7 +27,8 @@
           <div class="item_group">
             <div class="item" v-for="item in handleData()" @click="open(item)" >
               <div class="item_inner">
-                <img :src="item.url"  alt=""/>
+                <el-image :src="item.url"  alt="" lazy>
+                </el-image>
                 <p>{{item.name}}</p>
               </div>
             </div>

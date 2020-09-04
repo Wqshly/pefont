@@ -21,7 +21,7 @@
             trigger="hover"
             width="90%"
             ref="popover2">
-            <div class="address"><img style="width: 100%" src="../assets/img/footer/map.png" alt=""></div>
+            <div class="address"><img style="width: 100%" v-lazy="require('../assets/img/footer/map.png')" alt=""></div>
           </el-popover>
           <div class="icon-item" v-popover:popover2>
             <i class="iconfont icon-dingwei"></i>
@@ -43,7 +43,7 @@
             trigger="hover"
             width="120"
             ref="popover4">
-            <div class="weibo"><img style="width: 100%;" src="../assets/img/footer/weibo.png" alt="">
+            <div class="weibo"><img style="width: 100%;" v-lazy="require('../assets/img/footer/weibo.png')" alt="">
             </div>
           </el-popover>
           <div class="icon-item" v-popover:popover4>
@@ -55,7 +55,7 @@
             trigger="hover"
             width="120"
             ref="popover5">
-            <div class="weibo"><img style="width: 100%;" src="../assets/img/footer/wechat.png" alt="">
+            <div class="weibo"><img style="width: 100%;" v-lazy="require('../assets/img/footer/wechat.png')" alt="">
             </div>
           </el-popover>
           <div class="icon-item" v-popover:popover5>

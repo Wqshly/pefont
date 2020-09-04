@@ -39,7 +39,7 @@
           <div class="item_thu">
             <div class="hover-card">
               <div align="center">
-                <img src="../../assets/img/index/home/section2/index_explore.png" alt="探索二课" >
+                <img v-lazy="require('../../assets/img/index/home/section2/index_explore.png')" alt="探索二课">
               </div>
               <div class="caption">
                 <h3 style="text-align: center">探索二课</h3>
@@ -52,7 +52,7 @@
           <div class="item_thu">
             <div class="hover-card">
               <div align="center">
-                <img src="../../assets/img/index/home/section2/index_platform.png" alt="指定平台">
+                <img v-lazy="require('../../assets/img/index/home/section2/index_platform.png')" alt="指定平台">
               </div>
               <div class="caption">
                 <h3 style="text-align: center">指定平台</h3>
@@ -65,7 +65,7 @@
           <div class="item_thu2">
             <div class="hover-card">
               <div align="center">
-                <img src="../../assets/img/index/home/section2/index_technical.png" alt="技术解决方案">
+                <img v-lazy="require('../../assets/img/index/home/section2/index_technical.png')" alt="技术解决方案">
               </div>
               <div class="caption">
                 <h3 style="text-align: center">技术解决方案</h3>
@@ -78,7 +78,7 @@
           <div class="item_thu2">
             <div class="hover-card">
               <div align="center">
-                <img src="../../assets/img/index/home/section2/index_production.png" alt="产品服务">
+                <img v-lazy="require('../../assets/img/index/home/section2/index_production.png')" alt="产品服务">
               </div>
               <div class="caption">
                 <h3 style="text-align: center">产品服务</h3>
@@ -91,7 +91,7 @@
           <div class="item_thu2">
             <div class="hover-card">
               <div align="center">
-                <img src="../../assets/img/index/home/section2/index_school.png" alt="合作院校">
+                <img v-lazy="require('../../assets/img/index/home/section2/index_school.png')" alt="合作院校">
               </div>
               <div class="caption">
                 <h3 style="text-align: center">合作院校</h3>
@@ -117,7 +117,7 @@
 
         <div class="item_thu">
           <div align="center">
-            <img src="../../assets/img/index/home/section3/index_system.png" alt="专业系统">
+            <img v-lazy="require('../../assets/img/index/home/section3/index_system.png')" alt="专业系统">
           </div>
           <div class="caption">
             <h3 style="text-align: center">专业系统</h3>
@@ -129,7 +129,7 @@
 
         <div class="item_thu">
           <div align="center">
-            <img src="../../assets/img/index/home/section3/index_variable.png" alt="多端形态">
+            <img v-lazy="require('../../assets/img/index/home/section3/index_variable.png')" alt="多端形态">
           </div>
           <div class="caption">
             <h3 style="text-align: center">多端形态</h3>
@@ -139,7 +139,7 @@
 
         <div class="item_thu">
           <div align="center">
-            <img src="../../assets/img/index/home/section3/index_personalization.png" alt="个性定制">
+            <img v-lazy="require('../../assets/img/index/home/section3/index_personalization.png')" alt="个性定制">
           </div>
           <div class="caption">
             <h3 style="text-align: center">个性定制</h3>
@@ -149,7 +149,7 @@
 
         <div class="item_thu">
           <div align="center">
-            <img src="../../assets/img/index/home/section3/index_upgrade.png" alt="持续升级">
+            <img v-lazy="require('../../assets/img/index/home/section3/index_upgrade.png')" alt="持续升级">
           </div>
           <div class="caption">
             <h3 style="text-align: center">持续升级</h3>
@@ -250,6 +250,7 @@
         name: 'home',
         data () {
             return {
+
                 /*轮播图 走马灯*/
                 items1:[
                     "sg",

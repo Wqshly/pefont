@@ -18,7 +18,8 @@
             <el-image
               class="item_img"
               :src="url"
-              :fit="'scale-down'">
+              :fit="'scale-down'"
+              lazy>
             </el-image>
 
             <div class="item_right">
