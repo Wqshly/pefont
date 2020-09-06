@@ -2,11 +2,11 @@ import axios from 'axios'
 import fi from "element-ui/src/locale/lang/fi";
 
 const qs = require('qs');
-
+const root = process.env.API_ROOT;
 const api = {
   async get(url) {
     try {
-      let res = await axios.get(url);
+      let res = await axios.get(root+url);
       res = res.data;
       return new Promise((resolve) => {
         resolve(res)
@@ -18,7 +18,7 @@ const api = {
   },
   async post(url, data) {
     try {
-      let res = await axios.post(url, qs.stringify(data));
+      let res = await axios.post(root+url, qs.stringify(data));
       res = res.data;
       return new Promise((resolve, reject) => {
         resolve(res)
@@ -35,7 +35,7 @@ const api = {
     form.append("time", (new Date()).getTime());
 
     try {
-      let res = await axios.post(url, form,{
+      let res = await axios.post(root+url, form,{
         'Content-Type': 'multipart/form-data',
       });
       res = res.data;
