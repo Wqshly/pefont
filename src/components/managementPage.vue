@@ -90,7 +90,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .management_page{
     margin-top:80px;
   }

@@ -6,8 +6,7 @@
         v-model="search"
         prefix-icon="el-icon-search"
         style="width: 200px;margin:10px 0"
-        placeholder="输入视频名称搜索"
-      />
+        placeholder="输入视频名称搜索"></el-input>
       <br>
 
       <el-radio-group v-model="checkedSection" >
@@ -27,8 +26,8 @@
           <div class="item_group">
             <div class="item" v-for="item in handleData()" @click="open(item)" >
               <div class="item_inner">
-                <el-image :src="item.url"  alt="" lazy>
-                </el-image>
+                <img v-lazy="item.url"  alt="" />
+
                 <p>{{item.name}}</p>
               </div>
             </div>

@@ -119,7 +119,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 
   .index_sidebar  {
     margin-bottom: 60px;

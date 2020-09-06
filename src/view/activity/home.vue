@@ -8,8 +8,7 @@
             v-model="search"
             prefix-icon="el-icon-search"
             style="width: 150px;margin-left:10px;"
-            placeholder="输入关键字搜索"
-          />
+            placeholder="输入关键字搜索"></el-input>
         </template>
 
 
