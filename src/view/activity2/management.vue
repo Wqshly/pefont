@@ -21,6 +21,7 @@
       </div>
 
       <template>
+
         <el-table
           :data="handleData()"
           style="width: 100%"
@@ -29,17 +30,16 @@
           <el-table-column
             prop="description"
             label="通告">
-            <template #header>
-              <label>
-                <input
+            <template #header >
+                <el-input
                   type="text"
                   v-model="search"
                   prefix-icon="el-icon-search"
                   style="width: 150px;"
-                  placeholder="输入关键字搜索"
+                  placeholder="输入关键字搜索">
 
-                />
-              </label>
+              </el-input>
+
             </template>
             <template slot-scope="scope">
               <span style="color: #e95f13;">{{ scope.row.title }}<br/></span>
@@ -317,17 +317,19 @@
             },
             //审核
             handle_checkout() {
-                this.$emit('transferCheckOutTitle',this.detail_item.title);
+                this.$store.commit('setActivityId',this.detail_item.title);
+                this.$router.push('./check');
             },
             //组织签到按钮
             handle_checkin() {
-                this.$emit('transferCheckTitle',this.detail_item.title);
+                this.$store.commit('setActivityId',this.detail_item.title);
+                this.$router.push('./check');
             },
 
             //编辑活动按钮
             handle_edit() {
-                this.$emit('transferEditTitle',this.detail_item.title);
-                /*console.log(`每页 ${val} 条`);*/
+                this.$store.commit('setActivityId',this.detail_item.title);
+                this.$router.push('./check');
             },
 
             //每页条数

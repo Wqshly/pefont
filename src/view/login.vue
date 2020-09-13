@@ -18,18 +18,13 @@
           <el-form :model="loginForm" style="padding-top: 50px" :rules="rules" ref="loginForm">
             <el-form-item >
               <template>
-                <el-select style="width: 100%;" v-model="loginForm.school" placeholder="请选择学校">
-                  <el-option-group
-                    v-for="group in options"
-                    :key="group.label"
-                    :label="group.label">
-                    <el-option
-                      v-for="item in group.options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-option-group>
+                <el-select style="width: 100%;" v-model="loginForm.school" filterable  placeholder="请选择学校">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
                 </el-select>
               </template>
             </el-form-item>
@@ -92,6 +87,7 @@
 <script>
     import {api}  from '@/api/ajax'
     import particles from 'particles.js'
+    import {clone} from "../api/clone";
 export default {
     data() {
       return {
@@ -102,18 +98,8 @@ export default {
           password: null,
           remember: false,
         },
-        options: [{
-            label: '热门城市',
-            options: [{
-                value: 'Shanghai',
-                label: '上海'
-            }, {
-                value: 'Beijing',
-                label: '北京'
-            }]
-        }, {
-            label: '城市名',
-            options: [{
+        options: [
+            {
                 value: 'Chengdu',
                 label: '成都'
             }, {
@@ -125,8 +111,8 @@ export default {
             }, {
                 value: 'Dalian',
                 label: '大连'
-            }]
-        }],
+            }
+        ],
         value: '',
         rules: {
           usernumber: [
@@ -143,6 +129,31 @@ export default {
       show(){
         this.VRCODE=!this.VRCODE;
       },
+
+      requestSchoolList(){
+          const url = '/api/school/querySchoolList';
+          api.get(url).then(res => {
+              let _this = this;
+              if (res.code === 0) {
+                  _this.options=[];
+                  if(res.data != null){
+                      let data = {};
+                      if(res.data.length === undefined){
+                          data.label = res.data.schoolName;
+                          data.value = res.data.id;
+                          _this.options.push(res.data);
+                      }else{
+                          for(let i = 0;i < res.data.length; ++i){
+                              data.label = res.data[i].schoolName;
+                              data.value = res.data[i].id;
+                              _this.options.push(clone.deepClone(data));
+                          }
+                      }
+
+                  }
+              }
+          })
+      },
       login (formName) {
           this.$refs[formName].validate((valid) => {
 
@@ -152,10 +163,12 @@ export default {
                   console.log(res);
                   let _this = this;
                   if (res.code === 0) {
-                    _this.$router.push('/home')
+                    _this.$router.push('/home');
+                    _this.$store.commit('setUserId',2);
+                    console.log(_this.$store.state.userId);
                   } else {
                     this.$message({
-                      message: '账号或密码错误！请重试！',
+                      message: res.msg,
                       type: 'error'
                     });
                   }
@@ -177,6 +190,9 @@ export default {
     },
     mounted(){
         particlesJS.load('particles','/static/particles.json');
+    },
+    created() {
+        this.requestSchoolList();
     }
 
 }

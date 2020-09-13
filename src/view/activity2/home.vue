@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  import detail_activity from '@/view/activity2/detail_activity.vue'
+  import detail_activity from '@/view/activity/detail_activity.vue'
   export default {
     components:{
         detail_activity,

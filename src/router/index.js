@@ -5,6 +5,7 @@ Vue.use(Router);
 const indexPage = () => Promise.resolve(require('@/components/indexPage'));
 const homePage = () => Promise.resolve(require('@/components/homePage'));
 const activityPage = () => Promise.resolve(require('@/components/activityPage'));
+const activityPage2 = () => Promise.resolve(require('@/components/activityPage2'));
 const videoPage = () => Promise.resolve(require('@/components/videoPage'));
 const accountPage = () => Promise.resolve(require('@/components/accountPage'));
 const managementPage = () => Promise.resolve(require('@/components/managementPage'));
@@ -24,6 +25,12 @@ const home_page = () => Promise.resolve(require('@/view/home/homePage'));
 
 /*activity page*/
 const activity_page = () => Promise.resolve(require('@/view/activity/activityPage'));
+
+const activity2_home = () => Promise.resolve(require('@/view/activity2/home'));
+const activity2_notice = () => Promise.resolve(require('@/view/activity2/notice'));
+const activity2_promotional = () => Promise.resolve(require('@/view/activity2/promotional'));
+const activity2_management = () => Promise.resolve(require('@/view/activity2/management'));
+const activity2_check = () => Promise.resolve(require('@/view/activity2/check_in'));
 
 /*video page*/
 const video_home = () => Promise.resolve(require('@/view/video/home'));
@@ -75,6 +82,36 @@ export default new Router({
         {
           path: '/activity/activity',
           component: activity_page
+        },
+      ]
+    },
+    {
+      path: '/activity2',
+      component: activityPage2,
+      children: [
+        {
+          path: '/',
+          redirect: '/activity2/home',
+        },
+        {
+          path: '/activity2/home',
+          component: activity2_home
+        },
+        {
+          path: '/activity2/notice',
+          component: activity2_notice
+        },
+        {
+          path: '/activity2/promotion',
+          component: activity2_promotional
+        },
+        {
+          path: '/activity2/management',
+          component: activity2_management
+        },
+        {
+          path: '/activity2/check',
+          component: activity2_check
         },
       ]
     },

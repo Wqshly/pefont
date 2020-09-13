@@ -2,10 +2,10 @@
   <div class="back-to-top">
     <div class="item" id="test">
       <span title="收起" class="top iconfont icon-zhankai" @click="down()"   :class="{'visible':isActive,'hidden':!isActive }"  ></span>
-      <span class="middle iconfont icon-kefu" @click="up()"   :class="{'visible':isActive,'hidden':!isActive }"  ></span>
-      <span class="middle iconfont icon-anzhuo" @click="up()"  :class="{'visible':isActive,'hidden':!isActive }"  ></span>
-      <span  title="回到顶部" class="top iconfont icon-xiangshang" @click="handle()"   :class="{'visible':isActive,'hidden':!isActive }"  ></span>
-      <span  title="展开" class="top iconfont icon-xiangshang1" @click="up()"   :class="{'visible':!isActive,'hidden':isActive }"  ></span>
+      <span title="客服" class="middle iconfont icon-kefu" @click="up()"   :class="{'visible':isActive,'hidden':!isActive }"  ></span>
+      <span title="安卓端" class="middle iconfont icon-anzhuo" @click="up()"  :class="{'visible':isActive,'hidden':!isActive }"  ></span>
+      <span title="回到顶部" class="top iconfont icon-xiangshang" @click="handle()"   :class="{'visible':isActive,'hidden':!isActive }"  ></span>
+      <span title="展开" class="top iconfont icon-xiangshang1" @click="up()"   :class="{'visible':!isActive,'hidden':isActive }"  ></span>
     </div>
   </div>
 </template>
