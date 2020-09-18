@@ -203,7 +203,6 @@
         <div style="height:fit-content;width:fit-content">
           <el-upload
             class="avatar-uploader"
-            action="/api/file/imageUpload"
             ref="upload"
             :show-file-list="false"
             :auto-upload="false"
@@ -224,6 +223,7 @@
 </template>
 
 <script>
+    import {api}  from '@/api/ajax'
 export default {
   name: 'activity-promotional',
 
@@ -238,6 +238,7 @@ export default {
               region:'',
               name:''
             },
+
             position:'',
             class:'',
             fee:'免费',
@@ -375,7 +376,7 @@ export default {
         //表单提条按钮,填写合法逻辑=>上传图片逻辑
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
-                if (valid) {
+                if (1) {
                     this.submitUpload();
                 } else {
                     this.notify('error submit!!');
@@ -386,10 +387,30 @@ export default {
 
         //上传图片逻辑=>beforeAvatarUpload=>handleAvatarSuccess
         submitUpload() {
-            this.notify('上传图片中');
+            this.notify('上传中');
             this.$refs.upload.submit();
         },
-
+        remote_api(file){
+            let url = '/api/activity/addActivity';
+            let data = new FormData();
+            data.append('imageFile',file);
+            data.append('activityName',this.ruleForm.title);
+            data.append('publisherId',this.$store.state.userId);
+            data.append('publishData',new Date());
+            data.append('schoolId',1);
+            data.append('collegeId',1);
+            data.append('activityContent',this.ruleForm.description);
+            console.log(new Date());
+            api.upload(url,data).then(res => {
+                let _this = this;
+                if (res.code === 0) {
+                    _this.$message.success('成功!');
+                }
+                else{
+                    _this.$message.error(res.msg);
+                }
+            })
+        },
         //上传前对图片类型和大小进行判断
         beforeAvatarUpload(file) {
             // const isJPG = file.type === 'image/jpeg';
@@ -397,23 +418,22 @@ export default {
             if (!isLt2M) {
                 this.notify('上传头像图片大小不能超过 2MB!');
             }
+            else{
+                this.remote_api(file);
+            }
             this.ruleForm.imageUrl = URL.createObjectURL(file);
-            this.notify(isLt2M);
-            return isLt2M;
+            return false;
         },
 
+        handleAvatarSuccess(res, file) {
+            this.notify('永远不会到达的代码 因为before返回的false');
+            //图片上传完毕，开始传输表单
+            this.notify('上传成功');
+        },
         //选择了新的图片
         onchange(file) {
             this.ruleForm.imageUrl = URL.createObjectURL(file.raw);
         },
-
-        handleAvatarSuccess(res, file) {
-            this.notify('上传表单中');
-            //图片上传完毕，开始传输表单
-            this.notify('上传成功');
-        },
-
-
 
 
     }

@@ -219,7 +219,7 @@
             /*console.log(`当前页: ${val}`);*/
         },
 
-        //报名按钮
+        //报名按钮 /activity/signUp/3
         handleSign(){
             this.$message.success('恭喜你，报名成功');
         },
@@ -234,7 +234,10 @@
 
         this.tableData=this.tableData_copy;
         this.total=this.tableData.length;
-    }
+    },
+    created() {
+       // /activity/queryActivityListAll
+    },
   }
 </script>
 

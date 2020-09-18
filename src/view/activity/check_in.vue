@@ -407,7 +407,7 @@
               console.log(index,row);
               this.SignOutByDate(row.date);
             },
-            //批量
+            //批量  /activity/signUpList/4
             groupSignIn(){
                 for(var j=0;j < this.multipleSelection.length;j++){
                     this.SignInByDate(this.multipleSelection[j].date);

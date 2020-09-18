@@ -18,7 +18,7 @@
           <el-form :model="loginForm" style="padding-top: 50px" :rules="rules" ref="loginForm">
             <el-form-item >
               <template>
-                <el-select style="width: 100%;" v-model="loginForm.school" filterable  placeholder="请选择学校">
+                <el-select style="width: 100%;" v-model="loginForm.schoolId" filterable  placeholder="请选择学校">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -45,7 +45,7 @@
             </el-form-item>
             <el-form-item>
               <el-button style="float: left;width: 100px;" @click="login('loginForm')">登录</el-button>
-              <el-button style="float: right;width: 100px;" @click="register">注册</el-button>
+              <el-button style="float: right;width: 100px;" @click="register('loginForm')">注册</el-button>
             </el-form-item>
           </el-form>
           <div class="QRcode">
@@ -93,10 +93,24 @@ export default {
       return {
         VRCODE:false,
         loginForm: {
-          school: null,
-          usernumber: null,
-          password: null,
-          remember: false,
+            schoolId: null,
+            usernumber: null,
+            password: null,
+            "username" : "未设置",
+            remember: false,
+            identity:'学生',
+        },
+        registerForm: {
+            userNumber : "未设置",
+            username : "未设置",
+            password : "123456",
+            age : 0,
+            sex : "未设置",
+            unit : "未设置",
+            identity : "学生",
+            phone : "未设置",
+            email : "未设置",
+            schoolId : null
         },
         options: [
             {
@@ -131,7 +145,7 @@ export default {
       },
 
       requestSchoolList(){
-          const url = '/api/school/querySchoolList';
+          let url = '/api/school/querySchoolList';
           api.get(url).then(res => {
               let _this = this;
               if (res.code === 0) {
@@ -156,37 +170,40 @@ export default {
       },
       login (formName) {
           this.$refs[formName].validate((valid) => {
-
             if (valid) {
-              const url = '/api/login/login';
+              let url = '/api/login/login';
               api.post(url, this.loginForm).then(res => {
                   console.log(res);
                   let _this = this;
                   if (res.code === 0) {
                     _this.$router.push('/home');
-                    _this.$store.commit('setUserId',2);
+                    _this.$store.commit('setUserId',res.total);
                     console.log(_this.$store.state.userId);
                   } else {
-                    this.$message({
-                      message: res.msg,
-                      type: 'error'
-                    });
+                    this.$message.error(res.msg);
                   }
               })
             }
 
         });
       },
-      register () {
-        api.post('/user/addUser').then(res => {
-            console.log(res.data)
-            if (res.data.data === 0) {
-              this.$router.push('/initRegister')
-            } else {
-              this.$router.push('/register')
-            }
+      register(formName) {
+          this.$refs[formName].validate((valid) => {
+              if (valid) {
+                  this.registerForm.password = this.loginForm.password;
+                  this.registerForm.schoolId = this.loginForm.schoolId;
+                  this.registerForm.userNumber = this.loginForm.usernumber;
+                  let url = '/api/user/addUser';
+                  api.post_JSON(url, this.registerForm).then(res => {
+                      if (res.code === 0) {
+                          this.$message.success('成功!');
+                      } else {
+                          this.$message.error(res.msg);
+                      }
+                  });
+              }
           });
-      }
+      },
     },
     mounted(){
         particlesJS.load('particles','/static/particles.json');

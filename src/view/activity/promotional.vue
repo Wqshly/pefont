@@ -238,6 +238,36 @@ export default {
               region:'',
               name:''
             },
+            ///activity/addActivity
+            remote_data:{
+              id: 3,//wuyong
+              activityName: "ddd",
+              activityContent: "ssss",//简介
+              imagePath: "C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\static\\upload\\123_20200416100430.PNG",
+              publisherId: 3,//发布人ID
+              publishData: "2012-12-11T16:00:00.000+0000",//发布时间
+              schoolId: 2,
+              collegeId: 2,
+              startTime: "2020-09-16T10:10:11.000+0000",//活动开始
+              endTime: "2020-09-18T10:10:26.000+0000",//
+              status: 1,//0未审核 1审核 2报名 3待完结 4完结
+              college: null,//所属学院
+              registrationClosingTime: null,//报名开始
+              registrationStartTime: null,
+              reviewerId: null,//审核人
+              contact: null,//联系人
+              contactPhone: null,
+              wayRegistration: null,//报名方式
+              activityArea: null,//活动区域
+              eventLocation: null,//活动地点
+              activityClassification: null,//活动分类
+              participationFee: null,//费用
+              collegeList: null,
+              classList: null,
+              peopleNum: null,//人数
+              signout: null,//签退
+              fieldClock: null
+            },
             position:'',
             class:'',
             fee:'免费',

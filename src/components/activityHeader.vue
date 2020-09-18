@@ -100,6 +100,9 @@ export default {
     created() {
         this.reverse_headers = clone.deepClone(this.headers).reverse();
         this.isActive = (this.$route.path).split('/')[1];
+       /* if(this.$store.state.userId === 0){
+            this.$router.push('/login');
+        }*/
     }
 }
 </script>
