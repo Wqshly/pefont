@@ -391,9 +391,9 @@ export default {
             this.$refs.upload.submit();
         },
         remote_api(file){
-            let url = '/api/activity/addActivity';
+            let url = '/api/activity/addActivity/'+this.$store.state.userId;
             let data = new FormData();
-            data.append('imageFile',file);
+            data.append('pictureFile',file);
             data.append('activityName',this.ruleForm.title);
             data.append('publisherId',this.$store.state.userId);
             data.append('publishData',new Date());

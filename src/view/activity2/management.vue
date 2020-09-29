@@ -109,6 +109,7 @@
 </template>
 
 <script>
+    import {api}  from '@/api/ajax'
     import detail_management from '@/view/activity/detail_management.vue'
     export default {
         components:{
@@ -346,14 +347,58 @@
             //返回按钮
             goBack() {
                 this.detail=false;
-            }
+            },
+            requestList(url){
+                api.get(url).then(res => {
+                    let _this = this;
+                    if (res.code === 0) {
+                        if(res.data != null){
+                            //因为是一个数据所以不是list，没有长度
+                            if(res.data.length === undefined){
+                                this.tableData.push(this.mappingObject(res.data));
+                            }else{
+                                for(let i = 0;i < res.data.length; ++i){
+                                    this.tableData.push(this.mappingObject(res.data[i]));
+                                }
+                            }
+                        }
+                        this.total=this.tableData.length;
+                    }
+                })
+            },
+            requestData(){
+                this.tableData = [];
+                this.requestList('/api/activity/getActivityBySignin');
+                this.requestList('/api/activity/getActivityByOrganizers');
+                this.requestList('/api/activity/getActivityByPartner');
+                console.log(this.tableData);
+                this.total=this.tableData.length;
+            },
+            mappingObject(obj){
+                /*
+                {
+                    title:'',
+                    date: '',
+                    name: '',
+                    status: '',
+                    label:'',
+                    description: '',
+                  },
+                */
+                let data = {};
+                data.id = obj.id;
+                data.title = obj.activityId;
+                data.label = obj.characters;
+                data.name = obj.id;
+                data.description = obj.id;
+                return data;
+            },
         },
         mounted() {
-            this.tableData=this.tableData_copy;
-            this.total=this.tableData.length;
+
         },
         created() {
-            console.log("1");
+            this.requestData();
         }
     }
 </script>
