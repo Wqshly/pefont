@@ -366,7 +366,15 @@
                     }
                 })
             },
+            request(){
+                api.get('/api/login/LoginOrNot').then(res => {
+                    if (res.code === 0) {
+                        console.log(res);
+                    }
+                })
+            },
             requestData(){
+                console.log(this.$store.state.user);
                 this.tableData = [];
                 this.requestList('/api/activity/getActivityBySignin');
                 this.requestList('/api/activity/getActivityByOrganizers');
@@ -398,6 +406,7 @@
 
         },
         created() {
+            this.request();
             this.requestData();
         }
     }

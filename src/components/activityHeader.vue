@@ -52,7 +52,7 @@ export default {
               },
               {
                   name:'活动',
-                  link:'activity'
+                  link:'activity2'
               },
 
               {

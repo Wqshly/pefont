@@ -15,8 +15,9 @@
         <div v-for="scope in handleData()" @click="handleClick(scope)">
           <el-card shadow="hover" class="item">
             <el-image
+              style=""
               class="item_img"
-              :src="url"
+              :src="scope.url"
               :fit="'scale-down'"
               >
             </el-image>
@@ -25,7 +26,7 @@
               <div class="inner">
                 <span style="color: #e95f13;display: block">{{ scope.title }}<br/></span>
                 <span style="color: #e95f13;float: right">{{ scope.status }}<br/></span>
-                <span style="display: block;">{{ filter_description(scope.name)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{ filter_description(scope.date)}}</span>
+                <span style="display: block;">{{ filter_description(scope.name)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{ filter_time(scope.date)}}</span>
                 <span style="margin: 10px 0 0 10px;display: block">{{ filter_description(scope.description) }}</span>
               </div>
             </div>
@@ -53,7 +54,7 @@
     <el-card shadow="hover" class="notice_detail" v-show="detail">
       <el-page-header @back="goBack" style="width: 100%;">
         <template slot="content"><h1>{{detail_item.title}}</h1>
-          <el-button :disabled="activity_status" style="float: right;display: inline-block" type="primary" @click="handleSign()" round>报名参加</el-button>
+          <el-button :disabled="detail_item.status !='报名阶段'" style="float: right;display: inline-block" type="primary" @click="handleSign()" round>报名参加</el-button>
         </template>
 
       </el-page-header>
@@ -86,6 +87,7 @@
               status: '',
               description: '',
           }, ],
+          status: ['未审核','审核','报名阶段','待完结','已完结'],
           remote_single_data:{
               id: 3,//wuyong
               activityName: "ddd",
@@ -115,61 +117,7 @@
               signout: null,//签退
               fieldClock: null
           },
-          tableData_copy: [{
-              title:'活动1',
-              date: '2016-05-02',
-              name: '王小虎',
-              status: '报名阶段',
-              description: '上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄',
-          }, {
-              title:'活动2',
-              date: '2016-05-04',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }, {
-              title:'活动3',
-              date: '2016-05-01',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄',
-          }, {
-              title:'活动4',
-              date: '2016-05-03',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }, {
-              title:'活动5',
-              date: '2016-05-03',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }, {
-              title:'活动6',
-              date: '2016-05-03',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }, {
-              title:'活动7',
-              date: '2016-05-03',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }, {
-              title:'活动8',
-              date: '2016-05-03',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }, {
-              title:'活动9',
-              date: '2016-05-03',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }],
+
           detail_item:{
               id:0,
               title:'跆拳道体验活动',
@@ -209,9 +157,6 @@
 
         //列表点击事件
         handleClick(val) {
-            if(val.status==='报名阶段')
-                this.activity_status=false;
-            console.log('活动主页点击:',val);
             this.detail=true;
             this.detail_item.id = val.id;
             this.detail_item.title = val.title;
@@ -244,6 +189,9 @@
             }
         },
 
+        filter_time(val){
+            return val.slice(0,10);
+        },
         //每页条数
         handleSizeChange(val) {
             this.pageSize=val;
@@ -280,6 +228,9 @@
             data.date = obj.publishData;
             data.name = obj.publisherId;
             data.description = obj.activityContent;
+            let str = obj.imagePath.split('\\');
+            data.url = 'http://www.xiaoyuanpe.com/'+str[str.length-1];
+            data.status = this.status[obj.status];
           return data;
         },
         //请求活动列表

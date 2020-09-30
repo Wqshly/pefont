@@ -173,12 +173,11 @@ export default {
             if (valid) {
               let url = '/api/login/login';
               api.post(url, this.loginForm).then(res => {
-                  console.log(res);
                   let _this = this;
                   if (res.code === 0) {
                     _this.$router.push('/home');
-                    _this.$store.commit('setUserId',res.total);
-                    console.log(_this.$store.state.userId);
+                    _this.$store.commit('setUser',res.data);
+                    console.log(_this.$store.state.user);
                   } else {
                     this.$message.error(res.msg);
                   }

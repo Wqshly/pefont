@@ -387,24 +387,23 @@ export default {
 
         //上传图片逻辑=>beforeAvatarUpload=>handleAvatarSuccess
         submitUpload() {
-            this.notify('上传中');
             this.$refs.upload.submit();
         },
         remote_api(file){
-            let url = '/api/activity/addActivity/'+this.$store.state.userId;
+            let url = '/api/activity/addActivity/'+this.$store.state.user.id;
             let data = new FormData();
             data.append('pictureFile',file);
             data.append('activityName',this.ruleForm.title);
-            data.append('publisherId',this.$store.state.userId);
+            data.append('publisherId',this.$store.state.user.id);
             data.append('publishData',new Date());
             data.append('schoolId',1);
             data.append('collegeId',1);
             data.append('activityContent',this.ruleForm.description);
-            console.log(new Date());
             api.upload(url,data).then(res => {
                 let _this = this;
                 if (res.code === 0) {
                     _this.$message.success('成功!');
+                    _this.$router.push('/activity2');
                 }
                 else{
                     _this.$message.error(res.msg);
@@ -414,14 +413,40 @@ export default {
         //上传前对图片类型和大小进行判断
         beforeAvatarUpload(file) {
             // const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
+            let isLt2M = file.size / 1024 / 1024 < 2;
+            let _URL = window.URL || window.webkitURL;
+
             if (!isLt2M) {
-                this.notify('上传头像图片大小不能超过 2MB!');
+                this.$notify.error({
+                    title: '请更换图片',
+                    message: '上传图片大小不能超过 2MB!',
+                    duration: 0
+                });
             }
-            else{
-                this.remote_api(file);
-            }
-            this.ruleForm.imageUrl = URL.createObjectURL(file);
+            new Promise((resolve, reject) => {
+                let img = new Image();
+                img.src = _URL.createObjectURL(file)
+                img.onload = function() {
+
+                    if(this.width > this.height){
+                        resolve(true);
+                    }else {
+                        resolve(false);
+                    }
+                };
+
+            }).then((res) => {
+                if(!res){
+                    this.$notify.error({
+                        title: '请更换图片',
+                        message: '上传图片的宽度必须大于高度!',
+                        duration: 0
+                    });
+                }
+                else{
+                    this.remote_api(file);
+                }
+            });
             return false;
         },
 
@@ -432,6 +457,7 @@ export default {
         },
         //选择了新的图片
         onchange(file) {
+
             this.ruleForm.imageUrl = URL.createObjectURL(file.raw);
         },
 
