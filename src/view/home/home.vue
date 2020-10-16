@@ -2,7 +2,6 @@
   <div  class="main-nav">
     <div class="header" style="height: 60px">
 
-
     </div>
   </div>
 </template>

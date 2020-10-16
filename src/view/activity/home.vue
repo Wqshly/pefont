@@ -15,8 +15,9 @@
         <div v-for="scope in handleData()" @click="handleClick(scope)">
           <el-card shadow="hover" class="item">
             <el-image
+              style=""
               class="item_img"
-              :src="url"
+              :src="scope.url"
               :fit="'scale-down'"
               >
             </el-image>
@@ -25,7 +26,7 @@
               <div class="inner">
                 <span style="color: #e95f13;display: block">{{ scope.title }}<br/></span>
                 <span style="color: #e95f13;float: right">{{ scope.status }}<br/></span>
-                <span style="display: block;">{{ filter_description(scope.name)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{ filter_description(scope.date)}}</span>
+                <span style="display: block;">{{ filter_description(scope.name)}}&nbsp;&nbsp;|&nbsp;&nbsp;{{ filter_time(scope.date)}}</span>
                 <span style="margin: 10px 0 0 10px;display: block">{{ filter_description(scope.description) }}</span>
               </div>
             </div>
@@ -53,7 +54,7 @@
     <el-card shadow="hover" class="notice_detail" v-show="detail">
       <el-page-header @back="goBack" style="width: 100%;">
         <template slot="content"><h1>{{detail_item.title}}</h1>
-          <el-button :disabled="activity_status" style="float: right;display: inline-block" type="primary" @click="handleSign()" round>报名参加</el-button>
+          <el-button :disabled="detail_item.status !='报名阶段'" style="float: right;display: inline-block" type="primary" @click="handleSign()" round>报名参加</el-button>
         </template>
 
       </el-page-header>
@@ -63,7 +64,8 @@
 </template>
 
 <script>
-  import detail_activity from '@/view/activity2/detail_activity.vue'
+  import detail_activity from '@/view/activity/detail_activity.vue'
+  import {api}  from '@/api/ajax'
   export default {
     components:{
         detail_activity,
@@ -77,7 +79,7 @@
           currentPage: 1,
           pageSize: 10,
           total:0,
-          activity_status:false,
+          activity_status:true,
           tableData: [{
               title:'',
               date: '',
@@ -85,62 +87,39 @@
               status: '',
               description: '',
           }, ],
-          tableData_copy: [{
-              title:'活动1',
-              date: '2016-05-02',
-              name: '王小虎',
-              status: '报名阶段',
-              description: '上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1518 弄',
-          }, {
-              title:'活动2',
-              date: '2016-05-04',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }, {
-              title:'活动3',
-              date: '2016-05-01',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄',
-          }, {
-              title:'活动4',
-              date: '2016-05-03',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }, {
-              title:'活动5',
-              date: '2016-05-03',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }, {
-              title:'活动6',
-              date: '2016-05-03',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }, {
-              title:'活动7',
-              date: '2016-05-03',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }, {
-              title:'活动8',
-              date: '2016-05-03',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }, {
-              title:'活动9',
-              date: '2016-05-03',
-              name: '王小虎',
-              status: '已完结',
-              description: '上海市普陀区金沙江路 1518 弄'
-          }],
+          status: ['未审核','已审核','报名阶段','待完结','已完结'],
+          remote_single_data:{
+              id: 3,//wuyong
+              activityName: "ddd",
+              activityContent: "ssss",//简介
+              imagePath: "C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\static\\upload\\123_20200416100430.PNG",
+              publisherId: 3,//发布人ID
+              publishData: "2012-12-11T16:00:00.000+0000",//发布时间
+              schoolId: 2,
+              collegeId: 2,
+              startTime: "2020-09-16T10:10:11.000+0000",//活动开始
+              endTime: "2020-09-18T10:10:26.000+0000",//
+              status: 1,//0未审核 1审核 2报名 3待完结 4完结
+              college: null,//所属学院
+              registrationClosingTime: null,//报名开始
+              registrationStartTime: null,
+              reviewerId: null,//审核人
+              contact: null,//联系人
+              contactPhone: null,
+              wayRegistration: null,//报名方式
+              activityArea: null,//活动区域
+              eventLocation: null,//活动地点
+              activityClassification: null,//活动分类
+              participationFee: null,//费用
+              collegeList: null,
+              classList: null,
+              peopleNum: null,//人数
+              signout: null,//签退
+              fieldClock: null
+          },
+
           detail_item:{
+              id:0,
               title:'跆拳道体验活动',
               date: '2019-10-17 08:30',
               name: '体育学院',
@@ -175,23 +154,25 @@
     },
 
     methods: {
+
         //列表点击事件
         handleClick(val) {
-            if(val.status==='报名阶段')
-                this.activity_status=false;
-            console.log('活动主页点击:',val);
             this.detail=true;
-            this.detail_item.status=val.status;
+            this.detail_item.id = val.id;
+            this.detail_item.title = val.title;
+            this.detail_item.status = val.status;
+            this.detail_item.description = val.description;
             window.scrollTo(0, 0);
-            //this.detail_item=val;
 
         },
+
         //处理表格数据
         handleData(){
             let temp_data = this.tableData.filter(data=>this.filter(data));
             this.total=temp_data.length;
             return temp_data.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize);
         },
+
         //搜索筛选
         filter(val){
             return (!this.search || val.title.toLowerCase().includes(this.search.toLowerCase()));
@@ -200,7 +181,6 @@
         //过长的内容转换为省略号  宽度过低时才会采取的方案
         filter_description(val){
             if(val.length>30 && document.body.clientWidth<760){
-
                 return val.slice(0,30)+'...';
             }
             else{
@@ -208,20 +188,29 @@
             }
         },
 
+        filter_time(val){
+            return val.slice(0,10);
+        },
         //每页条数
         handleSizeChange(val) {
             this.pageSize=val;
-            /*console.log(`每页 ${val} 条`);*/
         },
 
         //当前页数
         handleCurrentChange(val) {
-            /*console.log(`当前页: ${val}`);*/
         },
 
-        //报名按钮 /activity/signUp/3
+        //报名按钮
         handleSign(){
-            this.$message.success('恭喜你，报名成功');
+            const url = '/api/activity/signUp/'+this.detail_item.id;
+            api.get(url).then(res => {
+                if (res.code === 0) {
+                    this.$message.success('恭喜你，报名成功');
+                }
+                else{
+                    this.$message.error(res.msg);
+                }
+            })
         },
 
         //返回按钮
@@ -229,15 +218,44 @@
             this.detail=false;
             this.activity_status=true;
         },
+        mappingObject(obj){
+            let data = {};
+            data.id = obj.id;
+            data.title = obj.activityName;
+            data.date = obj.publishData;
+            data.name = obj.publisherId;
+            data.description = obj.activityContent;
+            let str = obj.imagePath.split('\\');
+            data.url = 'http://www.xiaoyuanpe.com/'+str[str.length-1];
+            data.status = this.status[obj.status];
+          return data;
+        },
+        //请求活动列表
+        requestActivityList(){
+            const url = '/api/activity/queryActivityListAll';
+            api.get(url).then(res => {
+                let _this = this;
+                if (res.code === 0) {
+                    this.tableData=[];
+                    if(res.data != null){
+                        //因为是一个数据所以不是list，没有长度
+                        if(res.data.length === undefined){
+                            this.tableData.push(this.mappingObject(res.data));
+                        }else{
+                            for(let i = 0;i < res.data.length; ++i){
+                                this.tableData.push(this.mappingObject(res.data[i]));
+                            }
+                        }
+                    }
+                    this.total=this.tableData.length;
+                }
+            })
+        }
     },
-    mounted() {
 
-        this.tableData=this.tableData_copy;
-        this.total=this.tableData.length;
-    },
     created() {
-       // /activity/queryActivityListAll
-    },
+        this.requestActivityList();
+    }
   }
 </script>
 

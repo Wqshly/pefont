@@ -10,7 +10,7 @@
           <el-table-column
             prop="description"
             label="通告">
-            <template #header>
+            <template #header >
               <label>
                 <input
                   type="text"

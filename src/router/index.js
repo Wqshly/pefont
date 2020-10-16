@@ -2,14 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router);
 
-const indexPage = () => Promise.resolve(require('@/components/indexPage'));
-const homePage = () => Promise.resolve(require('@/components/homePage'));
-const activityPage = () => Promise.resolve(require('@/components/activityPage'));
-const activityPage2 = () => Promise.resolve(require('@/components/activityPage2'));
-const videoPage = () => Promise.resolve(require('@/components/videoPage'));
-const accountPage = () => Promise.resolve(require('@/components/accountPage'));
-const managementPage = () => Promise.resolve(require('@/components/managementPage'));
-const theoryPage = () => Promise.resolve(require('@/components/theoryPage'));
+/*骨架页面导入*/
+const indexPage = () => Promise.resolve(require('@/view/index/indexPage'));
+const homePage = () => Promise.resolve(require('@/view/home/homePage'));
+const activityPage = () => Promise.resolve(require('@/view/activity/activityPage'));
+const videoPage = () => Promise.resolve(require('@/view/video/videoPage'));
+const accountPage = () => Promise.resolve(require('@/view/account/accountPage'));
+const managementPage = () => Promise.resolve(require('@/view/management/managementPage'));
+const theoryPage = () => Promise.resolve(require('@/view/theory/theoryPage'));
 
 /*login page*/
 const login = () => Promise.resolve(require('@/view/login'));
@@ -21,16 +21,14 @@ const function1 = () => Promise.resolve(require('@/view/index/function'));
 const app1 = () => Promise.resolve(require('@/view/index/app1'));
 
 /*home page*/
-const home_page = () => Promise.resolve(require('@/view/home/homePage'));
+const home_page = () => Promise.resolve(require('@/view/home/home'));
 
 /*activity page*/
-const activity_page = () => Promise.resolve(require('@/view/activity/activityPage'));
-
-const activity2_home = () => Promise.resolve(require('@/view/activity2/home'));
-const activity2_notice = () => Promise.resolve(require('@/view/activity2/notice'));
-const activity2_promotional = () => Promise.resolve(require('@/view/activity2/promotional'));
-const activity2_management = () => Promise.resolve(require('@/view/activity2/management'));
-const activity2_check = () => Promise.resolve(require('@/view/activity2/check_in'));
+const activity_home = () => Promise.resolve(require('@/view/activity/home'));
+const activity_notice = () => Promise.resolve(require('@/view/activity/notice'));
+const activity_promotional = () => Promise.resolve(require('@/view/activity/promotional'));
+const activity_management = () => Promise.resolve(require('@/view/activity/management'));
+const activity_check = () => Promise.resolve(require('@/view/activity/check_in'));
 
 /*video page*/
 const video_home = () => Promise.resolve(require('@/view/video/home'));
@@ -46,10 +44,10 @@ const account_management = () => Promise.resolve(require('@/view/account/account
 const account_privacy = () => Promise.resolve(require('@/view/account/accountPrivacy'));
 
 /*management page*/
-const mana_page = () => Promise.resolve(require('@/view/management/manaPage'));
+const mana_page = () => Promise.resolve(require('@/view/management/home'));
 
 /*theory page*/
-const theory_page = () => Promise.resolve(require('@/view/theory/theoryPage'));
+const theory_page = () => Promise.resolve(require('@/view/theory/home'));
 const theory_theory = () => Promise.resolve(require('@/view/theory/theoryTheory'));
 const theory_exam = () => Promise.resolve(require('@/view/theory/theoryExam'));
 const theory_exams = () => Promise.resolve(require('@/view/theory/theoryExams'));
@@ -71,47 +69,34 @@ export default new Router({
         },
       ]
     },
+
     {
       path: '/activity',
       component: activityPage,
       children: [
         {
           path: '/',
-          redirect: '/activity/activity',
+          redirect: '/activity/home',
         },
         {
-          path: '/activity/activity',
-          component: activity_page
-        },
-      ]
-    },
-    {
-      path: '/activity2',
-      component: activityPage2,
-      children: [
-        {
-          path: '/',
-          redirect: '/activity2/home',
+          path: '/activity/home',
+          component: activity_home
         },
         {
-          path: '/activity2/home',
-          component: activity2_home
+          path: '/activity/notice',
+          component: activity_notice
         },
         {
-          path: '/activity2/notice',
-          component: activity2_notice
+          path: '/activity/promotion',
+          component: activity_promotional
         },
         {
-          path: '/activity2/promotion',
-          component: activity2_promotional
+          path: '/activity/management',
+          component: activity_management
         },
         {
-          path: '/activity2/management',
-          component: activity2_management
-        },
-        {
-          path: '/activity2/check',
-          component: activity2_check
+          path: '/activity/check',
+          component: activity_check
         },
       ]
     },

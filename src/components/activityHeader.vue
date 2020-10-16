@@ -35,6 +35,8 @@
 <script>
 import {clone} from '@/api/clone.js'
 import back from '@/components/backTop'
+import {api}  from '@/api/ajax'
+
 export default {
     name: 'activity_header',
     components:{
@@ -52,7 +54,7 @@ export default {
               },
               {
                   name:'活动',
-                  link:'activity2'
+                  link:'activity'
               },
 
               {
@@ -72,13 +74,11 @@ export default {
 
           ],
           drawer: false,
-          direction: 'rtl',
-          user_name:'田川',
-          user_school:'山东科技大学',
-          options:['/activity',"/video"]
+
       }
     },
     methods:{
+
         jump(val){
             this.drawer=false;
             if(('/'+val) !==this.$route.path){
@@ -93,6 +93,16 @@ export default {
         message(){
             window.location.href="#/account/message";
         },
+        request(){
+            api.get('/api/login/LoginOrNot').then(res => {
+                if (res.code === 0) {
+                    _this.$store.commit('setUser',res.data);
+                }
+                else{
+                    this.$router.push('#/login');
+                }
+            })
+        },
     },
     mounted(){
 
@@ -100,9 +110,7 @@ export default {
     created() {
         this.reverse_headers = clone.deepClone(this.headers).reverse();
         this.isActive = (this.$route.path).split('/')[1];
-       /* if(this.$store.state.userId === 0){
-            this.$router.push('/login');
-        }*/
+        this.request();
     }
 }
 </script>

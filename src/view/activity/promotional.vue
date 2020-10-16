@@ -203,7 +203,6 @@
         <div style="height:fit-content;width:fit-content">
           <el-upload
             class="avatar-uploader"
-            action="/api/file/imageUpload"
             ref="upload"
             :show-file-list="false"
             :auto-upload="false"
@@ -224,6 +223,7 @@
 </template>
 
 <script>
+    import {api}  from '@/api/ajax'
 export default {
   name: 'activity-promotional',
 
@@ -238,36 +238,7 @@ export default {
               region:'',
               name:''
             },
-            ///activity/addActivity
-            remote_data:{
-              id: 3,//wuyong
-              activityName: "ddd",
-              activityContent: "ssss",//简介
-              imagePath: "C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\static\\upload\\123_20200416100430.PNG",
-              publisherId: 3,//发布人ID
-              publishData: "2012-12-11T16:00:00.000+0000",//发布时间
-              schoolId: 2,
-              collegeId: 2,
-              startTime: "2020-09-16T10:10:11.000+0000",//活动开始
-              endTime: "2020-09-18T10:10:26.000+0000",//
-              status: 1,//0未审核 1审核 2报名 3待完结 4完结
-              college: null,//所属学院
-              registrationClosingTime: null,//报名开始
-              registrationStartTime: null,
-              reviewerId: null,//审核人
-              contact: null,//联系人
-              contactPhone: null,
-              wayRegistration: null,//报名方式
-              activityArea: null,//活动区域
-              eventLocation: null,//活动地点
-              activityClassification: null,//活动分类
-              participationFee: null,//费用
-              collegeList: null,
-              classList: null,
-              peopleNum: null,//人数
-              signout: null,//签退
-              fieldClock: null
-            },
+
             position:'',
             class:'',
             fee:'免费',
@@ -405,7 +376,7 @@ export default {
         //表单提条按钮,填写合法逻辑=>上传图片逻辑
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
-                if (valid) {
+                if (1) {
                     this.submitUpload();
                 } else {
                     this.notify('error submit!!');
@@ -416,34 +387,79 @@ export default {
 
         //上传图片逻辑=>beforeAvatarUpload=>handleAvatarSuccess
         submitUpload() {
-            this.notify('上传图片中');
             this.$refs.upload.submit();
         },
-
+        remote_api(file){
+            let url = '/api/activity/addActivity/'+this.$store.state.user.id;
+            let data = new FormData();
+            data.append('pictureFile',file);
+            data.append('activityName',this.ruleForm.title);
+            data.append('publisherId',this.$store.state.user.id);
+            data.append('publishData',new Date());
+            data.append('schoolId',1);
+            data.append('collegeId',1);
+            data.append('activityContent',this.ruleForm.description);
+            api.upload(url,data).then(res => {
+                let _this = this;
+                if (res.code === 0) {
+                    _this.$message.success('成功!');
+                    _this.$router.push('/activity2');
+                }
+                else{
+                    _this.$message.error(res.msg);
+                }
+            })
+        },
         //上传前对图片类型和大小进行判断
         beforeAvatarUpload(file) {
             // const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-            if (!isLt2M) {
-                this.notify('上传头像图片大小不能超过 2MB!');
-            }
-            this.ruleForm.imageUrl = URL.createObjectURL(file);
-            this.notify(isLt2M);
-            return isLt2M;
-        },
+            let isLt2M = file.size / 1024 / 1024 < 2;
+            let _URL = window.URL || window.webkitURL;
 
-        //选择了新的图片
-        onchange(file) {
-            this.ruleForm.imageUrl = URL.createObjectURL(file.raw);
+            if (!isLt2M) {
+                this.$notify.error({
+                    title: '请更换图片',
+                    message: '上传图片大小不能超过 2MB!',
+                    duration: 0
+                });
+            }
+            new Promise((resolve, reject) => {
+                let img = new Image();
+                img.src = _URL.createObjectURL(file)
+                img.onload = function() {
+
+                    if(this.width > this.height){
+                        resolve(true);
+                    }else {
+                        resolve(false);
+                    }
+                };
+
+            }).then((res) => {
+                if(!res){
+                    this.$notify.error({
+                        title: '请更换图片',
+                        message: '上传图片的宽度必须大于高度!',
+                        duration: 0
+                    });
+                }
+                else{
+                    this.remote_api(file);
+                }
+            });
+            return false;
         },
 
         handleAvatarSuccess(res, file) {
-            this.notify('上传表单中');
+            this.notify('永远不会到达的代码 因为before返回的false');
             //图片上传完毕，开始传输表单
             this.notify('上传成功');
         },
+        //选择了新的图片
+        onchange(file) {
 
-
+            this.ruleForm.imageUrl = URL.createObjectURL(file.raw);
+        },
 
 
     }
