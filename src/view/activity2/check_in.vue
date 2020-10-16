@@ -53,21 +53,9 @@
           </el-table-column>
 
           <el-table-column
-            prop="date"
-            label="UID"
+            prop="userNumber"
+            label="学号"
             width="150">
-          </el-table-column>
-
-          <el-table-column
-            prop="address"
-            label="学校"
-            width="300">
-          </el-table-column>
-
-          <el-table-column
-            prop="zip"
-            label="电话"
-            width="120">
           </el-table-column>
 
           <el-table-column
@@ -108,87 +96,49 @@
 
     </div>
 
-    <el-dialog title="数据预览" width="fit-content" :visible.sync="dialogTableVisible">
-      <el-table :data="arr_temp.slice((currentPage_temp-1)*pageSize,currentPage_temp*pageSize_temp)" >
-        <el-table-column property="name" label="姓名" width="80"></el-table-column>
-        <el-table-column property="date" label="UID" width="150"></el-table-column>
-        <el-table-column property="address" label="学校" width="200"></el-table-column>
-        <el-table-column property="zip" label="电话" width="120"></el-table-column>
-        <el-table-column property="status" label="状态" width="120"></el-table-column>
-      </el-table>
-      <el-pagination
-
-        @size-change="handleSizeChangeTemp"
-        @current-change="handleCurrentChangeTemp"
-        :current-page.sync="currentPage_temp"
-        :page-size="pageSize_temp"
-        layout="total, prev, pager, next, jumper, sizes"
-        :total="total_temp">
-      </el-pagination>
-      <el-button @click="dialogTableVisible = false">取 消</el-button>
-      <el-button type="primary" @click="confirm_import()">确 定</el-button>
-    </el-dialog>
   </div>
 </template>
 
 <script>
+    import {api}  from '@/api/ajax'
     export default {
         name: 'activity-promotional',
         inject:["reload"],
         data () {
             return {
+                signIdList:[],
                 valid:true,
                 dialogTableVisible:false,
                 notifyPromise:Promise.resolve(),
                 multipleSelection: [],
                 search:'',
                 filter_status:'全部',
+                signOp:['未签到','已签到','已签退'],
                 check_title:'请先在活动管理中选择一个活动进行组织签到',
-                currentPage_temp:1,
-                pageSize_temp:10,
-                total_temp: 0,
                 currentPage: 1,
                 pageSize: 10,
                 total:0,
-                arr_temp_filename:'',
-                arr_temp: [{
-                    date: '',
-                    name: '',
-                    status:'',
-                    address: '',
-                    zip: '',
-                }, ],
                 tableData: [{
-                    date: '',
+                    userNumber: '',
                     name: '',
                     status:'',
-                    address: '',
-                    zip: '',
                 }, ],
                 tableData_copy: [{
-                    date: '20160502',
+                    userNumber: '20160502',
                     name: '王小虎',
                     status:'未签到',
-                    address: '上海市普陀区金沙江路 1518 弄',
-                    zip: '200333'
                 }, {
-                    date: '20160504',
+                    userNumber: '20160504',
                     name: '王小虎',
                     status:'已签到',
-                    address: '上海市普陀区金沙江路 1517 弄',
-                    zip: '200333'
                 }, {
-                    date: '20160501',
+                    userNumber: '20160501',
                     name: '王小虎',
                     status:'已签退',
-                    address: '上海市普陀区金沙江路 1519 弄',
-                    zip: '200333'
                 }, {
-                    date: '20160503',
+                    userNumber: '20160503',
                     name: '王小虎',
                     status:'已签到',
-                    address: '上海市普陀区金沙江路 1516 弄',
-                    zip: '200333'
                 }],
           };
         },
@@ -206,100 +156,6 @@
                 return (val.name)&&(!this.search || val.name.toLowerCase().includes(this.search.toLowerCase())) &&( val.status === this.filter_status ||this.filter_status==='全部');
             },
 
-            //导入表格确认
-            confirm_import(){
-                this.$confirm('将追加到当前签到表并上传至服务器 ，是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-
-                    for(let key in this.arr_temp){
-                        this.tableData.push(this.arr_temp[key]);
-                        ///此处将修改数据库
-                    }
-                    this.dialogTableVisible=false;
-                    this.$message({
-                        type: 'success',
-                        message: '成功!'
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消'
-                    });
-                });
-            },
-
-            //导入表格 显示到展示区
-            insert(obj){
-                var a = document.getElementById('file');
-                this.arr_temp_filename = a.value;
-                this.importf(obj);
-                this.dialogTableVisible=true;
-                a.value='';
-            },
-
-            //excel导出API
-            importf(obj) {
-                let _this = this;
-                let inputDOM = this.$refs.inputer;   // 通过DOM取文件数据
-                this.file = event.currentTarget.files[0];
-                var rABS = false; //是否将文件读取为二进制字符串
-                var f = this.file;
-                var reader = new FileReader();
-                //if (!FileReader.prototype.readAsBinaryString) {
-                FileReader.prototype.readAsBinaryString = function(f) {
-                    var binary = "";
-                    var rABS = false; //是否将文件读取为二进制字符串
-                    var pt = this;
-                    var wb; //读取完成的数据
-                    var outdata;
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        var bytes = new Uint8Array(reader.result);
-                        var length = bytes.byteLength;
-                        for(var i = 0; i < length; i++) {
-                            binary += String.fromCharCode(bytes[i]);
-                        }
-                        var XLSX = require('xlsx');
-                        if(rABS) {
-                            wb = XLSX.read(btoa(fixdata(binary)), { //手动转化
-                                type: 'base64'
-                            });
-                        } else {
-                            wb = XLSX.read(binary, {
-                                type: 'binary'
-                            });
-                        }
-                        // outdata就是你想要的东西 excel导入的数据
-                        outdata = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-                        // excel 数据再处理
-                        _this.arr_temp = [];
-                        outdata.map(v => {
-                            let obj = {};
-                            obj.name = v.姓名;
-                            obj.date = v.UID;
-                            obj.address = v.学校;
-                            obj.zip = v.电话;
-                            obj.status = '未签到';
-                            _this.arr_temp.push(obj);
-
-                        });
-                        _this.total_temp = _this.arr_temp.length;
-
-
-                    };
-                    reader.readAsArrayBuffer(f);
-                };
-                if(rABS) {
-                    reader.readAsArrayBuffer(f);
-                } else {
-                    reader.readAsBinaryString(f);
-                }
-
-
-            },
             //导出表格
             export1(){
                 let filename = '';
@@ -307,7 +163,7 @@
                     filename='数据为空，将下载模板表格';
                 }
                 else {
-                    filename = '将下载文件 '+this.title+'签到信息.xlsx';
+                    filename = '将下载文件 '+this.check_title+'签到信息.xlsx';
                 }
                 this.$confirm(filename+', 是否继续?', '提示', {
                     confirmButtonText: '确定',
@@ -332,11 +188,11 @@
             export2Excel() {
                 require.ensure([], () => {
                     const { export_json_to_excel } = require('../../vendor/Export2Excel');
-                    const tHeader = ['姓名', 'UID', '学校', '电话', '状态']; //对应表格输出的title
-                    const filterVal = ['name', 'date', 'address', 'zip', 'status']; // 对应表格输出的数据
+                    const tHeader = ['姓名', '学号', '状态']; //对应表格输出的title
+                    const filterVal = ['name', 'userNumber', 'status']; // 对应表格输出的数据
                     const list = this.tableData;
                     const data = this.formatJson(filterVal, list);
-                    export_json_to_excel(tHeader, data, this.title+'签到信息'); //对应下载文件的名字
+                    export_json_to_excel(tHeader, data, this.check_title+'签到信息'); //对应下载文件的名字
                 })
             },
             formatJson(filterVal, jsonData) {
@@ -364,29 +220,6 @@
 
             },
 
-            SignInByDate(date){
-                for(var i = 0; i < this.tableData.length; i++){
-                    if(date===this.tableData[i].date){
-                        if(this.tableData[i].status==='未签到'){
-                            this.tableData[i].status='已签到';
-                            this.notify(date+'签到成功');
-                        }
-                        break;
-                    }
-                }
-            },
-            SignOutByDate(date){
-                for(var i = 0; i < this.tableData.length; i++){
-                    if(date===this.tableData[i].date){
-                        if(this.tableData[i].status==='已签到'){
-                            this.tableData[i].status='已签退';
-                            this.notify(date+'签退成功');
-                        }
-                        break;
-                    }
-                }
-            },
-
             notify(msg) {
                 this.notifyPromise = this.notifyPromise.then(this.$nextTick).then(()=>{
                     this.$notify({
@@ -395,34 +228,63 @@
                 })
             },
 
+            requestSignOut(data){
+                let url = '/api/SignIn/updateSignOutList';
+                api.post_JSON(url,data).then(res => {
+                    if (res.code === 0){
+                        for(var i = 0; i < this.tableData.length; i++){
+                            if(-1!==data.indexOf(this.tableData[i].signId)){
+                                if(this.tableData[i].status==='已签到'){
+                                    this.tableData[i].status='已签退';
+                                    this.notify(this.tableData[i].userNumber+'签退成功');
+                                }
+                            }
+                        }
+                    }
+                })
+            },
+            requestSignIn(data){
+                let url = '/api/SignIn/updateSignInList';
+                api.post_JSON(url,data).then(res => {
+                    if (res.code === 0){
+                        for(var i = 0; i < this.tableData.length; i++){
+                            if(-1!==data.indexOf(this.tableData[i].signId)){
+                                if(this.tableData[i].status==='未签到'){
+                                    this.tableData[i].status='已签到';
+                                    this.notify(this.tableData[i].userNumber+'签到成功');
+                                }
+                            }
+                        }
+                    }
+                })
+            },
+
             //签到
             handleSignIn(index,row){
-
-                this.SignInByDate(row.date);
+                let data = [];
+                data.push(row.signId);
+                this.requestSignIn(data);
             },
             //签退
             handleSignOut(index,row){
-
-              this.SignOutByDate(row.date);
+                let data = [];
+                data.push(row.signId);
+                this.requestSignOut(data);
             },
             //批量
             groupSignIn(){
+                let data = [];
                 for(var j=0;j < this.multipleSelection.length;j++){
-                    this.SignInByDate(this.multipleSelection[j].date);
+                    data.push(this.multipleSelection[j].signId);
                 }
+                this.requestSignIn(data);
             },
             groupSignOut(){
+                let data = [];
                 for(var j=0;j < this.multipleSelection.length;j++){
-                    this.SignOutByDate(this.multipleSelection[j].date);
+                    data.push(this.multipleSelection[j].signId);
                 }
-            },
-            //每页条数
-            handleSizeChangeTemp(val) {
-                this.pageSize_temp=val;
-            },
-
-            //当前页数
-            handleCurrentChangeTemp(val) {
+                this.requestSignOut(data);
             },
             //每页条数
             handleSizeChange(val) {
@@ -445,19 +307,45 @@
             handleSelectionChange(val) {
                 this.multipleSelection = val;
             },
-
-
+            requestPartner(){
+                let url = '/api/activity/getPartner/'+this.$store.state.activityId;
+                api.get(url).then(res => {
+                    if (res.code === 0){
+                        if(res.data != null){
+                            this.tableData = [];
+                            //因为是一个数据所以不是list，没有长度
+                            if(res.data.length === undefined){
+                                this.check_title = res.data.activityId;
+                                this.tableData.push(this.mappingObject(res.data));
+                            }else{
+                                this.check_title = res.data[0].activityId;
+                                for(let i = 0;i < res.data.length; ++i){
+                                    this.tableData.push(this.mappingObject(res.data[i]));
+                                }
+                            }
+                        }
+                        console.log(this.tableData);
+                        this.total=this.tableData.length;
+                    }
+                })
+            },
+            mappingObject(obj){
+                let data = {};
+                data.name = obj.studentId;
+                data.userNumber = obj.studentNumber;
+                data.status = this.signOp[obj.signStatus];
+                data.signId = obj.signId;
+                return data;
+            },
         },
         mounted() {
 
         },
         created() {
+            console.log(this.$store.state.activityId);
             if(this.$store.state.activityId!==0){
-                this.check_title = this.$store.state.activityId;
                 this.valid=false;
-                //copy为后台请求数据
-                this.tableData=this.deepClone(this.tableData_copy);
-                this.total=this.tableData.length;
+                this.requestPartner();
             }
         }
     }
@@ -478,10 +366,10 @@
     width: 100%;
     bottom: 0;
     background-color: white;
-    z-index: 2014;
+    z-index: 2000;
   }
 
-  .checkin_management1 .checkin_management1_date{
+  .checkin_management1 .checkin_management1_userNumber{
     font-size: 15px;
     font-weight: 300;
     padding-bottom: 20px;

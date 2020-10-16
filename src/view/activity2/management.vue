@@ -36,14 +36,14 @@
                   v-model="search"
                   prefix-icon="el-icon-search"
                   style="width: 150px;"
-                  placeholder="输入关键字搜索">
+                  placeholder="输入活动名搜索">
 
               </el-input>
 
             </template>
             <template slot-scope="scope">
               <span style="color: #e95f13;">{{ scope.row.title }}<br/></span>
-              <span style="margin-left: 10px">{{ filter_description(scope.row.description)}}</span>
+              <span style="margin-left: 10px">发起人：{{ filter_description(scope.row.description)}}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -130,6 +130,7 @@
                 currentPage: 1,
                 pageSize: 10,
                 total:0,
+                statusOp:['待审核','已审核','报名阶段','待完结','已完结'],
                 tableData: [
                     {
                     title:'',
@@ -303,12 +304,9 @@
                 if(val.label==='发起人')
                     this.activity_permission=2;
 
-                console.log('管理页点击:',val);
-
-
                 this.detail=true;
 
-                //以下传送详细活动信息
+                this.detail_item.id = val.id;
                 this.detail_item.title=val.title;
                 this.detail_item.date=val.date;
                 this.detail_item.name=val.name;
@@ -323,7 +321,7 @@
             },
             //组织签到按钮
             handle_checkin() {
-                this.$store.commit('setActivityId',this.detail_item.title);
+                this.$store.commit('setActivityId',this.detail_item.id);
                 this.$router.push('./check');
             },
 
@@ -369,17 +367,15 @@
             request(){
                 api.get('/api/login/LoginOrNot').then(res => {
                     if (res.code === 0) {
-                        console.log(res);
+
                     }
                 })
             },
             requestData(){
-                console.log(this.$store.state.user);
                 this.tableData = [];
                 this.requestList('/api/activity/getActivityBySignin');
                 this.requestList('/api/activity/getActivityByOrganizers');
                 this.requestList('/api/activity/getActivityByPartner');
-                console.log(this.tableData);
                 this.total=this.tableData.length;
             },
             mappingObject(obj){
@@ -398,7 +394,8 @@
                 data.title = obj.activityId;
                 data.label = obj.characters;
                 data.name = obj.id;
-                data.description = obj.id;
+                data.description = obj.studentId;
+                data.status = this.statusOp[obj.sportState];
                 return data;
             },
         },

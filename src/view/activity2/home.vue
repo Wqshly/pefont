@@ -87,7 +87,7 @@
               status: '',
               description: '',
           }, ],
-          status: ['未审核','审核','报名阶段','待完结','已完结'],
+          status: ['未审核','已审核','报名阶段','待完结','已完结'],
           remote_single_data:{
               id: 3,//wuyong
               activityName: "ddd",
