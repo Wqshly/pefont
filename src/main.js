@@ -7,6 +7,7 @@ import VueLazyload from 'vue-lazyload'
 import icon from "./assets/icon/iconfont.js"
 import {api}  from '@/api/ajax'
 
+Vue.use(router);
 Vue.use(VueLazyload);
 Vue.config.productionTip = false;
 

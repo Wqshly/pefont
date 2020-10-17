@@ -1,6 +1,4 @@
-import Vue from 'vue'
 import Router from 'vue-router'
-Vue.use(Router);
 
 /*骨架页面导入*/
 const indexPage = () => Promise.resolve(require('@/view/index/indexPage'));
