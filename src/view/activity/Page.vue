@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import nHeader1 from '@/components/activityHeader'
+import nHeader1 from '@/components/homeHeader'
 
 export default {
 

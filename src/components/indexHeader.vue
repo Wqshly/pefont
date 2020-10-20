@@ -27,8 +27,8 @@
           </template>
           <!--        LOGO-->
           <template v-if="item.index==='function'">
-            <li class="logo">
-              <img v-lazy="require('../assets/logo3.png')" alt="">
+            <li >
+              <img v-lazy="require('../assets/logo.png')" alt="">
             </li>
           </template>
         </template>
@@ -87,14 +87,10 @@
                         title: 'APP下载'
                     },
                     {
-                        index: '/login',
-                        title: '登录入口'
-                    }
-                    ,
-                    {
                         index: '/home',
-                        title: '测试入口'
-                    }
+                        title: '登录入口'
+                    },
+
                 ]
             }
         },
@@ -159,8 +155,8 @@
 
   /*中间的图标*/
   .index_sidebar .sidebar .d li img {
-    margin-top: 0;
-    width: 150px;
+    margin-top: 35px;
+    width: 100px;
     margin-bottom: 10px;
   }
 

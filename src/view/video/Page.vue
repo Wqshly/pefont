@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import vHeader from '@/components/activityHeader'
+import vHeader from '@/components/homeHeader'
 import vFooter from '@/components/footer'
 export default {
   name: 'videoPage',

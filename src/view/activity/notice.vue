@@ -175,7 +175,7 @@
 
             //表格点击事件
             handleClick(val) {
-                console.log('通知页点击:',val);
+                window.scrollTo(0,0);
                 this.detail=true;
                 this.detail_item=val;
             },

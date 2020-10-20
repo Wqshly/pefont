@@ -22,6 +22,7 @@ export default  new Vuex.Store({
     }
   },
   mutations: {
+
     setUserId(state, userId){
       state.userId = userId;
     },

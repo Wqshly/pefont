@@ -2,19 +2,21 @@
   <div class="all">
     <div class="normal">
       <div class="activity_header">
-        <img class="img_normal" src="../assets/logo2.png"  alt="PE">
+        <img class="img_normal"  @click="jump('')" src="../assets/logo2.png"  alt="PE">
 
         <i class="el-icon-s-custom" @click="account()"  :class="{'active3':isActive === 'account' }"  ></i>
 
         <i class="el-icon-s-fold" @click="drawer = !drawer" :class="{'active2': drawer === true }" ></i>
 
-        <div class="header_a" v-for="item in reverse_headers" @click="jump(item.link)" :class="{'active':isActive === item.link }"  >
-          <p>{{item.name}}</p>
+        <div class="header_a" v-for="item in headers" @click="jump(item.link)" :class="{'active':isActive === item.link }"  >
+          <p v-if="!item.subs">{{item.name}}</p>
+          <el-dropdown v-if="item.subs" show-timeout="0" hide-timeout="250">
+            <p>{{item.name}}</p>
+            <el-dropdown-menu slot="dropdown" >
+              <el-dropdown-item  v-for="sub in item.subs" :key="sub.link" @click.native="jump2(sub.link)" >{{sub.name}}</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
-
-        <el-badge class="bell-value bell" :value="message_count">
-        </el-badge>
-        <i class="el-icon-bell bell" @click="message()" ></i>
 
 
       </div>
@@ -49,26 +51,85 @@ export default {
           reverse_headers:[],
           headers:[
               {
-                  name:'首页',
+                  name:'早操',
                   link:'home'
               },
               {
-                  name:'活动',
-                  link:'activity'
+                  name:'课外活动',
+                  link:'home2'
+              },
+              {
+                  name:'本地比赛',
+                  link:'home3',
+                  subs:[
+                      {
+                          name:'足球',
+                          link:'/home3'
+                      },
+                      {
+                          name:'排球',
+                          link:'/home3'
+                      },
+                      {
+                          name:'网球',
+                          link:'/home3'
+                      },
+                      {
+                          name:'羽毛球',
+                          link:'/home3'
+                      },
+                      {
+                          name:'乒乓球',
+                          link:'/home3'
+                      },
+                      {
+                          name:'篮球',
+                          link:'/home3'
+                      },
+                  ]
+              },
+              {
+                  name:'发起比赛',
+                  link:'home4'
+              },
+              {
+                  name:'校内校外活动',
+                  link:'activity',
+                  subs:[
+                      {
+                          name:'活动首页',
+                          link:'/activity/home'
+                      },
+                      {
+                          name:'校内通知',
+                          link:'/activity/notice'
+                      },
+                      {
+                          name:'发起活动',
+                          link:'/activity/promotion'
+                      },
+                      {
+                          name:'活动管理',
+                          link:'/activity/management'
+                      },
+                      {
+                          name:'组织签到',
+                          link:'/activity/check'
+                      },
+                  ]
               },
 
               {
-                  name:'视频',
+                  name:'云比赛',
                   link:'video'
               },
 
               {
-                  name:'理论',
+                  name:'裁判园地',
                   link:'theory'
               },
-
               {
-                  name:'商城',
+                  name:'运动装备',
                   link:'shop'
               },
 
@@ -78,29 +139,35 @@ export default {
       }
     },
     methods:{
-
+        //一级目录跳转函数   便于渲染active样式
         jump(val){
             this.drawer=false;
             if(('/'+val) !==this.$route.path){
                 this.isActive = val;
-                window.location.href="#/"+val;
+                this.$router.push('/'+val);
+                window.scrollTo(0, 0);
+            }
+        },
+
+        jump2(val){
+            if(val !==this.$route.path){
+                this.$router.push(val);
                 window.scrollTo(0, 0);
             }
         },
         account(){
             window.location.href="#/account";
         },
-        message(){
-            window.location.href="#/account/message";
-        },
+
         request(){
             api.get('/api/login/LoginOrNot').then(res => {
                 console.log(res);
                 if (res.code === 0) {
                     this.$store.commit('setUser',res.data);
+                    console.log(this.$store.state.user.id)
                 }
                 else{
-                    this.$router.push('#/login');
+                    this.$router.push('/login');
                 }
             })
         },
@@ -111,7 +178,10 @@ export default {
     created() {
         this.reverse_headers = clone.deepClone(this.headers).reverse();
         this.isActive = (this.$route.path).split('/')[1];
-        this.request();
+        if(this.$store.state.user.id === -1){
+            this.request();
+        }
+
     }
 }
 </script>
@@ -137,9 +207,10 @@ export default {
     vertical-align:middle;
   }
   .activity_header .img_normal{
+    cursor: pointer;
     line-height:80px;
     height: 30px;
-    margin:25px 0;
+    margin:25px 10px 25px 0;
     float: left;
   }
 
@@ -152,22 +223,9 @@ export default {
     cursor: pointer;
     display: none;
   }
-  .activity_header .el-icon-bell{
-    font-size:25px;
-    vertical-align:middle;
-    float: right;
-    line-height: 80px;
-    cursor: pointer;
-  }
-  .activity_header .el-icon-bell:hover{
-    color:#409EFF;
-  }
-  .activity_header .bell-value{
-    margin:0;
-    float: right;
-  }
+
   .activity_header .el-icon-s-custom{
-    margin:0 5px 0 50px;
+    margin:0 5px 0 0;
     font-size:30px;
     vertical-align:middle;
     float: right;
@@ -183,18 +241,18 @@ export default {
     color:#409EFF;
     transition: 0.5s;
   }
-  .normal .activity_header .header_a{
+  .normal .activity_header .header_a {
     line-height: 80px;
-    float: right;
-    width: 76px;
+    float: left;
+    margin:  0 0 0 15px;
     color: #60606d;
-    transition: 0.5s;
     cursor: pointer;
     text-align: center;
+    font-size: 14px;
   }
 
-  .normal .activity_header .header_a:hover{
-    color:#409EFF;
+  .normal .activity_header .header_a:hover, .el-dropdown-selfdefine:hover{
+    color:#409EFF!important;
   }
 
   .active{
@@ -212,9 +270,6 @@ export default {
     }
 
     .activity_header .img_normal{
-      display: none;
-    }
-    .bell{
       display: none;
     }
 

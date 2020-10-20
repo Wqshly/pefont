@@ -1,13 +1,16 @@
 import Router from 'vue-router'
 
 /*骨架页面导入*/
-const indexPage = () => Promise.resolve(require('@/view/index/indexPage'));
-const homePage = () => Promise.resolve(require('@/view/home/homePage'));
-const activityPage = () => Promise.resolve(require('@/view/activity/activityPage'));
-const videoPage = () => Promise.resolve(require('@/view/video/videoPage'));
-const accountPage = () => Promise.resolve(require('@/view/account/accountPage'));
-const managementPage = () => Promise.resolve(require('@/view/management/managementPage'));
-const theoryPage = () => Promise.resolve(require('@/view/theory/theoryPage'));
+const indexPage = () => Promise.resolve(require('@/view/index/Page'));
+const homePage = () => Promise.resolve(require('@/view/home/Page'));
+const home2Page = () => Promise.resolve(require('@/view/home2/Page'));
+const home3Page = () => Promise.resolve(require('@/view/home3/Page'));
+const home4Page = () => Promise.resolve(require('@/view/home4/Page'));
+const activityPage = () => Promise.resolve(require('@/view/activity/Page'));
+const videoPage = () => Promise.resolve(require('@/view/video/Page'));
+const accountPage = () => Promise.resolve(require('@/view/account/Page'));
+const managementPage = () => Promise.resolve(require('@/view/management/Page'));
+const theoryPage = () => Promise.resolve(require('@/view/theory/Page'));
 
 /*login page*/
 const login = () => Promise.resolve(require('@/view/login'));
@@ -40,6 +43,7 @@ const account_account = () => Promise.resolve(require('@/view/account/accountAcc
 const account_security= () => Promise.resolve(require('@/view/account/accountSecurity'));
 const account_management = () => Promise.resolve(require('@/view/account/accountManagement'));
 const account_privacy = () => Promise.resolve(require('@/view/account/accountPrivacy'));
+const account_logout = () => Promise.resolve(require('@/view/account/logout'));
 
 /*management page*/
 const mana_page = () => Promise.resolve(require('@/view/management/home'));
@@ -67,7 +71,36 @@ export default new Router({
         },
       ]
     },
-
+    {
+      path: '/home2',
+      component: home2Page,
+      children: [
+        {
+          path: '/',
+          component: home_page
+        },
+      ]
+    },
+    {
+      path: '/home3',
+      component: home3Page,
+      children: [
+        {
+          path: '/',
+          component: home_page
+        },
+      ]
+    },
+    {
+      path: '/home4',
+      component: home4Page,
+      children: [
+        {
+          path: '/',
+          component: home_page
+        },
+      ]
+    },
     {
       path: '/activity',
       component: activityPage,
@@ -153,6 +186,10 @@ export default new Router({
         {
           path: '/account/management',
           component: account_management
+        },
+        {
+          path: '/account/logout',
+          component: account_logout
         },
       ]
     },

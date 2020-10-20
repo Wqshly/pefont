@@ -7,9 +7,9 @@
       <svg class="icon" aria-hidden="true" >
         <use xlink:href="#icon-ziliao"></use>
       </svg>
-      用户名
+      用户ID
       <span class="span2">{{form.username}}</span>
-      <span class="span1">更改你的用户名可能会出现一些异常</span>
+      <span class="span1">更改你的用户ID可能会出现一些异常</span>
       <el-button type="warning" @click="onSubmit">更改</el-button>
     </div>
 
@@ -130,7 +130,9 @@
 
         },
         created() {
+
           this.form = clone.deepClone(this.remote_data);
+          this.form.username = this.$store.state.user.id;
         },
 
     }

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="home_page">
+    <div class="management_page">
       <v-header></v-header>
-      <div class="home_main">
+      <div class="management_main">
         <el-menu
                  mode="horizontal"
                  active-text-color="#409EFF;"
@@ -38,13 +38,14 @@
 
         </router-view>
       </div>
+
       <v-footer></v-footer>
     </div>
   </div>
 </template>
 
 <script>
-import vHeader from '@/components/activityHeader'
+import vHeader from '@/components/homeHeader'
 import vFooter from '@/components/footer'
 export default {
   name: 'accountPage',
@@ -61,18 +62,18 @@ export default {
         },
         items: [
             {
-                index: '1',
-                title: '早操'
+                index: 'home',
+                title: '管理首页'
             },
             {
-                index: '2',
-                title: '课外活动'
+                index: 'school',
+                title: '活动审批'
             },
+
             {
                 index: '3',
-                title: '阳光体育运动',
-
-            },
+                title: '网站管理员',
+            }
         ],
 
     }
@@ -90,30 +91,25 @@ export default {
 </script>
 
 <style scoped>
-  .home_page{
+  .management_page{
     margin-top:80px;
   }
-  .home_main{
+  .management_main{
     margin: 80px auto;
-    max-width: 1140px;
     width: 100%;
+    max-width: 1140px;
     padding-top: 5px;
-    min-height: 500px;
+    min-height: 700px;
   }
 
-  .home_main  .el-menu-item:hover {
+  .management_main  .el-menu-item:hover {
+    color: #409EFF !important;
+  }
+  .management_main .el-submenu:hover .el-submenu__title, .management_main .el-submenu:focus .el-submenu__title  {
     color: #409EFF !important;
   }
 
-  .home_main  .el-menu-item:hover {
+  .management_main .el-menu--horizontal .el-menu .el-menu-item:hover,.management_main .el-menu--horizontal .el-menu .el-submenu__title:hover{
     color: #409EFF !important;
   }
-  .home_main .el-submenu:hover .el-submenu__title, .home_main .el-submenu:focus .el-submenu__title  {
-    color: #409EFF !important;
-  }
-
-  .home_main .el-menu--horizontal .el-menu .el-menu-item:hover,.home_main .el-menu--horizontal .el-menu .el-submenu__title:hover{
-    color: #409EFF !important;
-  }
-
 </style>
