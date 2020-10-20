@@ -8,7 +8,7 @@
 
         <i class="el-icon-s-fold" @click="drawer = !drawer" :class="{'active2': drawer === true }" ></i>
 
-        <div class="header_a" v-for="item in headers" @click="jump(item.link)" :class="{'active':isActive === item.link }"  >
+        <div class="header_a" v-for="(item,index) in headers" @click="jump(item.link)" :class="[{'active':isActive === item.link},{'float_right' : index >= 5}]"  >
           <p v-if="!item.subs">{{item.name}}</p>
           <el-dropdown v-if="item.subs" show-timeout="0" hide-timeout="250">
             <p>{{item.name}}</p>
@@ -90,7 +90,7 @@ export default {
               },
               {
                   name:'发起比赛',
-                  link:'home4'
+                  link:'promotion'
               },
               {
                   name:'校内校外活动',
@@ -120,8 +120,8 @@ export default {
               },
 
               {
-                  name:'云比赛',
-                  link:'video'
+                  name:'运动装备',
+                  link:'shop'
               },
 
               {
@@ -129,8 +129,8 @@ export default {
                   link:'theory'
               },
               {
-                  name:'运动装备',
-                  link:'shop'
+                  name:'云比赛',
+                  link:'video'
               },
 
           ],
@@ -206,6 +206,9 @@ export default {
     max-width: 1140px;
     vertical-align:middle;
   }
+    .activity_header2{
+    max-width: 1140px;
+  }
   .activity_header .img_normal{
     cursor: pointer;
     line-height:80px;
@@ -225,7 +228,7 @@ export default {
   }
 
   .activity_header .el-icon-s-custom{
-    margin:0 5px 0 0;
+    margin:0 5px 0 10px;
     font-size:30px;
     vertical-align:middle;
     float: right;
@@ -243,9 +246,9 @@ export default {
   }
   .normal .activity_header .header_a {
     line-height: 80px;
-    float: left;
     margin:  0 0 0 15px;
     color: #60606d;
+    float: left;
     cursor: pointer;
     text-align: center;
     font-size: 14px;
@@ -254,7 +257,9 @@ export default {
   .normal .activity_header .header_a:hover, .el-dropdown-selfdefine:hover{
     color:#409EFF!important;
   }
-
+  .float_right{
+    float: right!important;
+  }
   .active{
     border-bottom: 2px solid #409EFF;
     color:#409EFF!important;

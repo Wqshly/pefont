@@ -55,10 +55,7 @@ export default {
   data () {
     return {
         items: [
-            {
-                index: '/1',
-                title: '发起比赛'
-            },
+
         ],
 
     }

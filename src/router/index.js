@@ -5,7 +5,7 @@ const indexPage = () => Promise.resolve(require('@/view/index/Page'));
 const homePage = () => Promise.resolve(require('@/view/home/Page'));
 const home2Page = () => Promise.resolve(require('@/view/home2/Page'));
 const home3Page = () => Promise.resolve(require('@/view/home3/Page'));
-const home4Page = () => Promise.resolve(require('@/view/home4/Page'));
+const promotionPage = () => Promise.resolve(require('@/view/promotion/Page'));
 const activityPage = () => Promise.resolve(require('@/view/activity/Page'));
 const videoPage = () => Promise.resolve(require('@/view/video/Page'));
 const accountPage = () => Promise.resolve(require('@/view/account/Page'));
@@ -23,6 +23,9 @@ const app1 = () => Promise.resolve(require('@/view/index/app1'));
 
 /*home page*/
 const home_page = () => Promise.resolve(require('@/view/home/home'));
+
+/*promotion page*/
+const promotion_page = () => Promise.resolve(require('@/view/promotion/home'));
 
 /*activity page*/
 const activity_home = () => Promise.resolve(require('@/view/activity/home'));
@@ -92,12 +95,16 @@ export default new Router({
       ]
     },
     {
-      path: '/home4',
-      component: home4Page,
+      path: '/promotion',
+      component: promotionPage,
       children: [
         {
           path: '/',
-          component: home_page
+          redirect: '/promotion/home',
+        },
+        {
+          path: '/promotion/home',
+          component: promotion_page
         },
       ]
     },
@@ -137,7 +144,6 @@ export default new Router({
       children: [
         {
           path: '/',
-          //redirect: '/video/home',//暂定不使用
           redirect: '/video/class'
         },
         {
