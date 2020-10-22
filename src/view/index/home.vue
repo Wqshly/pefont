@@ -14,12 +14,12 @@
       </div>
     </div>
 
-    <div class="section-1">
+    <div class="section-1" >
       <div class="container_self">
         <template>
-          <el-carousel indicator-position="outside"  style="width: 100%!important;">
+          <el-carousel indicator-position="outside" type="card" >
             <el-carousel-item v-for="item in items1" :key="item">
-              <h3 class ="carousel_">{{ item }}</h3>
+              <div class="width_contro"><el-image :src="item.url" fil="'scale-down'"></el-image></div>
             </el-carousel-item>
           </el-carousel>
         </template>
@@ -36,6 +36,7 @@
           </div>
         </div>
         <div style="height: fit-content">
+          <!--
           <div class="item_thu">
             <div class="hover-card">
               <div align="center">
@@ -61,11 +62,23 @@
               </div>
             </div>
           </div>
-
+        -->
           <div class="item_thu2">
             <div class="hover-card">
               <div align="center">
-                <img v-lazy="require('../../assets/img/index/home/section2/index_technical.png')" alt="技术解决方案">
+                <img v-lazy="require('../../assets/img/index/home/section2/explore.png')" alt="探索二课">
+              </div>
+              <div class="caption">
+                <h3 style="text-align: center">探索二课</h3>
+                <p style="text-align: center">PE校园是全国最早</p>
+                <p style="text-align: center">探索建设第二课堂的平台</p>
+              </div>
+            </div>
+          </div>
+          <div class="item_thu2">
+            <div class="hover-card">
+              <div align="center">
+                <img v-lazy="require('../../assets/img/index/home/section2/technical.png')" alt="技术解决方案">
               </div>
               <div class="caption">
                 <h3 style="text-align: center">技术解决方案</h3>
@@ -78,25 +91,12 @@
           <div class="item_thu2">
             <div class="hover-card">
               <div align="center">
-                <img v-lazy="require('../../assets/img/index/home/section2/index_production.png')" alt="产品服务">
+                <img v-lazy="require('../../assets/img/index/home/section2/undraw_collecting_fjjl.png')" alt="产品服务">
               </div>
               <div class="caption">
                 <h3 style="text-align: center">产品服务</h3>
                 <p style="text-align: center">提供满足大众需求的第二课堂</p>
                 <p style="text-align: center">SAAS平台和特殊定制化需求</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="item_thu2">
-            <div class="hover-card">
-              <div align="center">
-                <img v-lazy="require('../../assets/img/index/home/section2/index_school.png')" alt="合作院校">
-              </div>
-              <div class="caption">
-                <h3 style="text-align: center">合作院校</h3>
-                <p style="text-align: center">覆盖60个城市，690+合作院校，</p>
-                <p style="text-align: center">1000w学生用户</p>
               </div>
             </div>
           </div>
@@ -117,7 +117,7 @@
 
         <div class="item_thu">
           <div align="center">
-            <img v-lazy="require('../../assets/img/index/home/section3/index_system.png')" alt="专业系统">
+            <img v-lazy="require('../../assets/img/index/home/section3/专业系统.png')" alt="专业系统">
           </div>
           <div class="caption">
             <h3 style="text-align: center">专业系统</h3>
@@ -129,7 +129,7 @@
 
         <div class="item_thu">
           <div align="center">
-            <img v-lazy="require('../../assets/img/index/home/section3/index_variable.png')" alt="多端形态">
+            <img v-lazy="require('../../assets/img/index/home/section3/多端.png')" alt="多端形态">
           </div>
           <div class="caption">
             <h3 style="text-align: center">多端形态</h3>
@@ -139,7 +139,7 @@
 
         <div class="item_thu">
           <div align="center">
-            <img v-lazy="require('../../assets/img/index/home/section3/index_personalization.png')" alt="个性定制">
+            <img v-lazy="require('../../assets/img/index/home/section3/个性定制.png')" alt="个性定制">
           </div>
           <div class="caption">
             <h3 style="text-align: center">个性定制</h3>
@@ -149,7 +149,7 @@
 
         <div class="item_thu">
           <div align="center">
-            <img v-lazy="require('../../assets/img/index/home/section3/index_upgrade.png')" alt="持续升级">
+            <img v-lazy="require('../../assets/img/index/home/section3/升级.png')" alt="持续升级">
           </div>
           <div class="caption">
             <h3 style="text-align: center">持续升级</h3>
@@ -253,10 +253,18 @@
 
                 /*轮播图 走马灯*/
                 items1:[
-                    "sg",
-                    "ad",
-                    "op",
-                    "mn"
+                    {
+                        name:  "1",
+                        url:"http://www.xiaoyuanpe.com/1.png"
+                    },
+                    {
+                        name:  "2",
+                        url:"http://www.xiaoyuanpe.com/2.png"
+                    },
+                    {
+                        name:  "3",
+                        url:"http://www.xiaoyuanpe.com/3.png"
+                    },
                 ]
             }
         },
@@ -389,7 +397,18 @@
   .homepage .section-1{
     width: 100%;
     margin: 35px 0 15px 0;
+    display: none;
+    background:transparent;
   }
+  /*控制走马灯图片不变形的核心*/
+  .homepage .section-1 .width_contro{
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .homepage .el-carousel__item {
+    background:transparent!important;
+  }
+  /*核心结束*/
 
   /* 走马灯文字*/
   .homepage .el-carousel__item h3 {
@@ -403,14 +422,26 @@
     line-height: 100%;
   }
 
+  .homepage .el-carousel{
+    overflow: hidden!important;
+  }
   .homepage .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
+    background-color: white;
   }
 
   .homepage .el-carousel__item:nth-child(2n+1) {
-    background-color: #d3dce6;
+    background-color: white;
   }
 
+  @media (min-width: 760px) {
+    .homepage .section-1 {
+      display: inherit;
+    }
+  }
+
+  .index_sidebar .el-table__row{
+    cursor: pointer;
+  }
   /*区域2*/
   .homepage .section-2 {
     position: relative;
@@ -439,17 +470,21 @@
     -o-transition: background-color .2s ease-in-out;
     transition: background-color .2s ease-in-out;
   }
-  .homepage .section-2 .hover-card:hover{
+  .homepage .section-2 .hover-card2:hover{
     background-color: #666666;
     opacity: 0.8;
   }
-  .homepage .section-2 .hover-card:hover .caption h3,.homepage .section-2 .hover-card:hover .caption p{
+  .homepage .section-2 .hover-card2:hover .caption h3,.homepage .section-2 .hover-card2:hover .caption p{
     color: white;
   }
 
   .homepage .section-2 .item_thu{
     width: 80%;
     margin: 0 auto;
+  }
+
+  .homepage .section-2 img{
+    width: 230px;
   }
 
   .homepage .section-2 .item_thu2{
@@ -487,7 +522,7 @@
 
   /*区域3*/
   .homepage .section-3 {
-    background-image: url(../../assets/img/index/home/section3/index_banner_1.png);
+    background-image: url(../../assets/img/index/home/section3/index_banner.png);
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
@@ -507,13 +542,14 @@
   }
 
   .homepage .section-3 .item_thu{
-    width: 100%
+    width: 100%;
+    margin: 20px 0;
   }
   .homepage .section-3 .item_thu .caption{
     min-height: 70px;
   }
   .homepage .section-3 .item_thu img{
-    width: 30%;
+    width: 20%;
   }
   /*页面中等时每行两个*/
   @media (min-width: 760px) and (max-width:1200px) {
@@ -529,7 +565,7 @@
       float: left;;
     }
     .homepage .section-3 .item_thu img{
-      width: 80%;
+      width: 40%;
     }
   }
 
@@ -594,19 +630,19 @@
   }
 
   .homepage .section-4 .container_self .card .transcript {
-    background: url(../../assets/img/index/home/section4/index_transcript.png) no-repeat;
+    background: url(../../assets/img/index/home/section4/transcript.png) no-repeat;
     background-size: contain;
   }
   .homepage .section-4 .container_self .card .dataopen {
-    background: url(../../assets/img/index/home/section4/index_dataopen.png) no-repeat;
+    background: url(../../assets/img/index/home/section4/dataopen.png) no-repeat;
     background-size: contain;
   }
   .homepage .section-4 .container_self .card .work {
-    background: url(../../assets/img/index/home/section4/index_work.png) no-repeat;
+    background: url(../../assets/img/index/home/section4/work.png) no-repeat;
     background-size: contain;
   }
   .homepage .section-4 .container_self .card .stastic {
-    background: url(../../assets/img/index/home/section4/index_statistic.png) no-repeat;
+    background: url(../../assets/img/index/home/section4/statistic.png) no-repeat;
     background-size: contain;
   }
 

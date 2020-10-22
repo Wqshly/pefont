@@ -78,6 +78,7 @@
               <template slot-scope="scope">
                 <el-button  :disabled="!(scope.row.label==='签到员'||scope.row.label==='发起人')" @click="handleSignIn(scope.$index,scope.row)"  size="small">组织签到</el-button>
                 <el-button  :disabled="!(scope.row.label==='发起人')" @click="handleEdit(scope.$index, scope.row)" size="small">编辑活动</el-button>
+                <el-button  :disabled="!(scope.row.label==='发起人')" @click="handleEdit(scope.$index, scope.row)" size="small">设置签到员</el-button>
               </template>
             </el-table-column>
         </el-table>
@@ -110,7 +111,7 @@
                 currentPage: 1,
                 pageSize: 10,
                 total:0,
-                roleOp:['参与者','签到员','发起者'],
+                roleOp:['参与者','签到员','发起人'],
                 statusOp:['待审核','已审核','报名阶段','待完结','已完结'],
                 tableData: [
                     {
@@ -175,12 +176,17 @@
                 this.$router.push('./check');
             },
             //编辑活动
-            handleEdit() {
+            handleEdit(index,row) {
                 window.scroll(0,0);
                 this.$store.commit('setActivityId',row.id);
                 this.$router.push('./check');
             },
-
+            //设置签到员
+            setSigner(index,row) {
+                window.scroll(0,0);
+                this.$store.commit('setActivityId',row.id);
+                this.$router.push('./check');
+            },
             //每页条数
             handleSizeChange(val) {
                 this.pageSize=val;

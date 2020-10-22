@@ -161,10 +161,8 @@ export default {
 
         request(){
             api.get('/api/login/LoginOrNot').then(res => {
-                console.log(res);
                 if (res.code === 0) {
                     this.$store.commit('setUser',res.data);
-                    console.log(this.$store.state.user.id)
                 }
                 else{
                     this.$router.push('/login');

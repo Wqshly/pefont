@@ -2,8 +2,8 @@
   <div>
   <div id="particles"></div>
   <div> <!--class="fill-contain background-pic"-->
-    <div class="logo ">
-      <img src="../assets/brand.png" alt="">
+    <div class="logo">
+      <img src="../assets/brand.png" alt="" @click="jump('')" >
     </div>
     <transition name="el-fade-in-linear">
       <div class="form-container transition-box" v-show="!VRCODE">
@@ -143,7 +143,10 @@ export default {
       show(){
         this.VRCODE=!this.VRCODE;
       },
-
+      jump(val){
+          this.$router.push('/');
+          window.scrollTo(0, 0);
+      },
       requestSchoolList(){
           let url = '/api/school/querySchoolList';
           api.get(url).then(res => {
@@ -256,6 +259,7 @@ export default {
     z-index: 999;
   }
   .logo img{
+    cursor: pointer;
     border-radius: 12px;
     box-shadow:  12px 12px 23px #489dcf,
       -12px -12px 23px #dcdcdc;
