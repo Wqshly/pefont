@@ -56,7 +56,7 @@ const theory_page = () => Promise.resolve(require('@/view/theory/home'));
 const theory_theory = () => Promise.resolve(require('@/view/theory/theoryTheory'));
 const theory_exam = () => Promise.resolve(require('@/view/theory/theoryExam'));
 const theory_exams = () => Promise.resolve(require('@/view/theory/theoryExams'));
-const theory_statistic = () => Promise.resolve(require('@/view/theory/theoryStatistics'));
+
 
 export default new Router({
   routes: [
@@ -223,10 +223,7 @@ export default new Router({
           path: '/theory/exams',
           component: theory_exams
         },
-        {
-          path: '/theory/statistics',
-          component: theory_statistic
-        },
+
       ]
     },
     {

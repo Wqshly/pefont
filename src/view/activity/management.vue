@@ -59,7 +59,7 @@
                   disable-transitions>签到员</el-tag>有组织签到权限<br><br>
                 <el-tag
                   :type="bound('发起人')"
-                  disable-transitions>发起人</el-tag>有编辑和组织签到权限
+                  disable-transitions>发起人</el-tag>所有权限
                 <div slot="reference" class="name-wrapper">
                   权限
                 </div>
@@ -78,7 +78,7 @@
               <template slot-scope="scope">
                 <el-button  :disabled="!(scope.row.label==='签到员'||scope.row.label==='发起人')" @click="handleSignIn(scope.$index,scope.row)"  size="small">组织签到</el-button>
                 <el-button  :disabled="!(scope.row.label==='发起人')" @click="handleEdit(scope.$index, scope.row)" size="small">编辑活动</el-button>
-                <el-button  :disabled="!(scope.row.label==='发起人')" @click="handleEdit(scope.$index, scope.row)" size="small">设置签到员</el-button>
+                <el-button  :disabled="!(scope.row.label==='发起人')" @click="setSigner(scope.$index, scope.row)" size="small">设置签到员</el-button>
               </template>
             </el-table-column>
         </el-table>
@@ -183,9 +183,24 @@
             },
             //设置签到员
             setSigner(index,row) {
-                window.scroll(0,0);
-                this.$store.commit('setActivityId',row.id);
-                this.$router.push('./check');
+                this.$prompt('请输入签到员学号', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                }).then(({ value }) => {
+                    this.setS(row.id,value);
+                }).catch(() => {
+                });
+            },
+            setS(activityId,number){
+                let url = '/api/activity/assignation/'+activityId+'/'+number;
+                api.get(url).then(res => {
+                    if (res.code === 0) {
+                        this.$message.success('成功!');
+                    }
+                    else{
+                        this.$message.error(res.msg);
+                    }
+                })
             },
             //每页条数
             handleSizeChange(val) {

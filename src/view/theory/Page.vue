@@ -1,102 +1,62 @@
 <template>
   <div>
-    <div style="width: 100%;" class="theory_page">
-      <v-header></v-header>
-
-      <div style="margin-top: 80px;background-color: #f2f5f6; min-height: 700px;">
-
-        <div class="theory-area">
-          <el-menu
-            mode="horizontal"
-            active-text-color="#409EFF;"
-            unique-opened router>
-            <template v-for="item in items">
-              <!--        有子目录的-->
-              <template v-if="item.subs">
-                <el-submenu :index="item.index" :key="item.index" class="el-menu-item">
-                  <template slot="title">
-                    <span slot="title">{{item.title}}</span>
-                  </template>
-                  <!--            子目录下拉内容-->
-                  <template v-for="subItem in item.subs">
-                    <el-menu-item :index="subItem.index" :key="subItem.index">
-                      <span>{{subItem.title}}</span>
-                    </el-menu-item>
-                  </template>
-                </el-submenu>
-              </template>
-
-              <!--        无子目录的-->
-              <template v-else>
-                <el-menu-item :index="item.index" :key="item.index">
-                  <span slot="title">{{item.title}}</span>
-                </el-menu-item>
-              </template>
-
-            </template>
-          </el-menu>
-          <router-view class="main">
-
-          </router-view>
-
-        </div>
+    <div class="home_page">
+      <n-header></n-header>
+      <div class="home_main">
+        <v-header :headers="items"></v-header>
+        <router-view></router-view>
       </div>
-
       <v-footer></v-footer>
     </div>
   </div>
 </template>
 
 <script>
-    import vHeader from '@/components/homeHeader'
+    import nHeader from '@/components/homeHeader'
     import vFooter from '@/components/footer'
+    import vHeader from '@/components/routerByMenu'
     export default {
-        name: 'accountPage',
         components: {
             vFooter,
-            vHeader
+            vHeader,
+            nHeader
         },
         data () {
             return {
                 items: [
                     {
-                        index: 'home',
-                        title: '理论学习'
+                        link: '/theory/home',
+                        name: '理论学习',
+                        secondLink:'/theory/theory'
                     },
                     {
-                        index: 'exams',
-                        title: '理论考试'
-                    },
-                    {
-                        index: 'statistics',
-                        title: '学分情况'
-                    },
-                ],
+                        link: '/theory/exam',
+                        name: '理论考试',
 
+                    },
+
+                ],
             }
         },
         methods:{
+
         },
         created() {
 
         },
-
     }
 </script>
 
 <style scoped>
-  .theory-area{
-    overflow: hidden;
-    width: 100%;
-    margin-left: 10px;
-    min-width: 300px;;
-  }
+  .home_page{
 
-  @media (min-width: 1140px){
-    .theory-area{
-      width: 1140px;
-      margin: 0 auto;
-    }
+  }
+  .home_main{
+    margin: 0 auto;
+    max-width: 1140px;
+    width: 100%;
+    padding-top: 5px;
+    min-height: 500px;
   }
 
 </style>

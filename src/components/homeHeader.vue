@@ -40,13 +40,13 @@ import back from '@/components/backTop'
 import {api}  from '@/api/ajax'
 
 export default {
+    //本组件的当前路由蓝色渲染适用于一级路由  也就是路由路径中的第一个'/'的部分
     name: 'activity_header',
     components:{
       back,
     },
     data () {
       return {
-          message_count:12,
           isActive:'activity',
           reverse_headers:[],
           headers:[
@@ -171,7 +171,6 @@ export default {
         },
     },
     mounted(){
-
     },
     created() {
         this.reverse_headers = clone.deepClone(this.headers).reverse();
@@ -179,13 +178,14 @@ export default {
         if(this.$store.state.user.id === -1){
             this.request();
         }
-
     }
 }
 </script>
 
 <style scoped>
-
+  .all{
+    height: 80px;
+  }
   .all .normal{
     width: 100%;
     height: 80px;

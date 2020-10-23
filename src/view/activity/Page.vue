@@ -1,73 +1,49 @@
 <template>
   <div>
-    <n-header1></n-header1>
-    <div  class="normal_page" style="margin-top: 80px;">
+    <n-header></n-header>
+    <div  class="normal_page">
       <div class="page-area">
-        <el-menu
-          mode="horizontal"
-          active-text-color="#409EFF;"
-          unique-opened router
-          @select="handleSelect">
-          <template v-for="item in items">
-            <!--        有子目录的-->
-            <template v-if="item.subs">
-              <el-submenu :index="item.index" :key="item.index" class="el-menu-item">
-                <template slot="title">
-                  <span slot="title">{{item.title}}</span>
-                </template>
-                <!--            子目录下拉内容-->
-                <template v-for="subItem in item.subs">
-                  <el-menu-item :index="subItem.index" :key="subItem.index">
-                    <span>{{subItem.title}}</span>
-                  </el-menu-item>
-                </template>
-              </el-submenu>
-            </template>
-
-            <!--        无子目录的-->
-            <template v-else>
-              <el-menu-item :index="item.index" :key="item.index">
-                <span slot="title">{{item.title}}</span>
-              </el-menu-item>
-            </template>
-
-          </template>
-        </el-menu>
+        <v-header :headers="items"></v-header>
         <router-view></router-view>
       </div>
+
     </div>
   </div>
 
 </template>
 
 <script>
-import nHeader1 from '@/components/homeHeader'
+import nHeader from '@/components/homeHeader'
+import vHeader from '@/components/routerByMenu'
 
 export default {
+  components: {
 
-  name: 'homePage',
+      nHeader,
+      vHeader
+  },
   data () {
     return {
         items: [
             {
-                index: 'home',
-                title: '活动首页'
+                link: '/activity/home',
+                name: '活动首页'
             },
             {
-                index: 'notice',
-                title: '校内通知'
+                link: '/activity/notice',
+                name: '校内通知'
             },
             {
-                index: 'promotion',
-                title: '发起活动',
+                link: '/activity/promotion',
+                name: '发起活动',
             },
             {
-                index: 'management',
-                title: '活动管理',
+                link: '/activity/management',
+                name: '活动管理',
             },
             {
-                index: 'check',
-                title: '组织签到',
+                link: '/activity/check',
+                name: '组织签到',
             }
         ],
         mounted(){
@@ -81,9 +57,7 @@ export default {
         },
     }
   },
-  components: {
-      nHeader1
-  }
+
 }
 </script>
 

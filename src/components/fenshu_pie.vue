@@ -6,8 +6,7 @@
     import echarts from 'echarts'
     import {api} from "@/api/ajax"
     export default {
-        //活动中心的父级组件
-        name: 'home_page',
+        name: 'pie',
         data() {
             return {
                 mark:60,
@@ -91,8 +90,5 @@
 </script>
 
 <style scoped>
-  textarea{
-    resize:none!important;
-    height: 300px!important;
-  }
+
 </style>
