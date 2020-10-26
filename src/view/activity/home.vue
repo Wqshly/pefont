@@ -54,7 +54,8 @@
     <el-card shadow="hover" class="notice_detail" v-show="detail">
       <el-page-header @back="goBack" style="width: 100%;">
         <template slot="content"><h1>{{detail_item.title}}</h1>
-          <el-button :disabled="detail_item.status !='报名阶段'" style="float: right;display: inline-block" type="primary" @click="handleSign()" round>报名参加</el-button>
+          <!--:disabled="detail_item.status !='报名阶段'"-->
+          <el-button style="float: right;display: inline-block" type="primary" @click="handleSign()" round>报名参加</el-button>
         </template>
 
       </el-page-header>
@@ -70,7 +71,6 @@
     components:{
         detail_activity,
     },
-    name: 'activity-home',
     data () {
       return {
           url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',

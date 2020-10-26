@@ -63,27 +63,27 @@ export default {
                   subs:[
                       {
                           name:'足球',
-                          link:'/home3'
+                          link:'/home3/1'
                       },
                       {
                           name:'排球',
-                          link:'/home3'
+                          link:'/home3/2'
                       },
                       {
                           name:'网球',
-                          link:'/home3'
+                          link:'/home3/3'
                       },
                       {
                           name:'羽毛球',
-                          link:'/home3'
+                          link:'/home3/4'
                       },
                       {
                           name:'乒乓球',
-                          link:'/home3'
+                          link:'/home3/5'
                       },
                       {
                           name:'篮球',
-                          link:'/home3'
+                          link:'/home3/6'
                       },
                   ]
               },
@@ -119,19 +119,15 @@ export default {
               },
               {
                   name:'健康管理',
-                  link:'home',
+                  link:'health',
                   subs:[
                       {
-                          name:'视力',
-                          link:'/home3'
-                      },
-                      {
-                          name:'体重',
-                          link:'/home3'
+                          name:'个人信息',
+                          link:'/health/home'
                       },
                       {
                           name:'祛痘',
-                          link:'/home3'
+                          link:'/health/anti'
                       },
                   ]
               },

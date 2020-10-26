@@ -12,9 +12,8 @@
     import vPie from '@/components/fenshu_pie'
     import vRank from '@/components/rank'
 
-    import {api} from "@/api/ajax"
 export default {
-  name: 'home_page',
+
     components: {
         vRank,
         vPie,

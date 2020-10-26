@@ -11,6 +11,7 @@ const videoPage = () => Promise.resolve(require('@/view/video/Page'));
 const accountPage = () => Promise.resolve(require('@/view/account/Page'));
 const managementPage = () => Promise.resolve(require('@/view/management/Page'));
 const theoryPage = () => Promise.resolve(require('@/view/theory/Page'));
+const healthPage = () => Promise.resolve(require('@/view/health/Page'));
 
 /*login page*/
 const login = () => Promise.resolve(require('@/view/login'));
@@ -24,6 +25,12 @@ const app1 = () => Promise.resolve(require('@/view/index/app1'));
 /*home page*/
 const home_page = () => Promise.resolve(require('@/view/home/home'));
 
+/*home3 page*/
+const home3_page = () => Promise.resolve(require('@/view/home3/home'));
+
+/*health page*/
+const health_home = () => Promise.resolve(require('@/view/health/home'));
+const health_anti = () => Promise.resolve(require('@/view/health/Anti-Acne'));
 /*promotion page*/
 const promotion_page = () => Promise.resolve(require('@/view/promotion/home'));
 
@@ -90,7 +97,27 @@ export default new Router({
       children: [
         {
           path: '/',
-          component: home_page
+          component: home3_page
+        },
+        {
+          path: '/home3/1',
+          component: home3_page
+        },
+        {
+          path: '/home3/2',
+          component: home3_page
+        },
+        {
+          path: '/home3/3',
+          component: home3_page
+        },
+        {
+          path: '/home3/4',
+          component: home3_page
+        },
+        {
+          path: '/home3/5',
+          component: home3_page
         },
       ]
     },
@@ -105,6 +132,25 @@ export default new Router({
         {
           path: '/promotion/home',
           component: promotion_page
+        },
+      ]
+    },
+    {
+      path: '/health',
+      component: healthPage,
+      children: [
+        {
+          path: '/',
+          redirect: '/health/home'
+        },
+        {
+
+          path: '/health/home',
+          component: health_home
+        },
+        {
+          path: '/health/anti',
+          component: health_anti
         },
       ]
     },

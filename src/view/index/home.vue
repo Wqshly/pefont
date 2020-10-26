@@ -29,10 +29,10 @@
     <div class="section-2">
       <div class="container_self">
         <div class="container_self description">
-          <h2>PE校园-无边界校园</h2>
+          <h2>PE校园-健康生活每一天</h2>
           <div class="detail">
             <p>
-              PE校园是由苏州天宫信息技术有限公司自主开发，最早探索建设第二课堂的平台，是国内领先的大学生成长服务体系提供商。</p>
+              PE校园由青岛指尖跃动科技有限公司与青岛新体创体育产业集团有限公司联合开发，最早探索建设体育运动云平台，是国内先进的大学生运动健康综合性平台。</p>
           </div>
         </div>
         <div style="height: fit-content">
@@ -69,9 +69,9 @@
                 <img v-lazy="require('../../assets/img/index/home/section2/explore.png')" alt="探索二课">
               </div>
               <div class="caption">
-                <h3 style="text-align: center">探索二课</h3>
-                <p style="text-align: center">PE校园是全国最早</p>
-                <p style="text-align: center">探索建设第二课堂的平台</p>
+                <h3 style="text-align: center">记录运动</h3>
+                <p style="text-align: center">PE校园</p>
+                <p style="text-align: center">大型综合性体育运动健康管理云平台</p>
               </div>
             </div>
           </div>
@@ -95,7 +95,7 @@
               </div>
               <div class="caption">
                 <h3 style="text-align: center">产品服务</h3>
-                <p style="text-align: center">提供满足大众需求的第二课堂</p>
+                <p style="text-align: center">提供满足大众需求的体育运动</p>
                 <p style="text-align: center">SAAS平台和特殊定制化需求</p>
               </div>
             </div>

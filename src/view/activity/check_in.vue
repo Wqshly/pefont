@@ -102,7 +102,6 @@
 <script>
     import {api}  from '@/api/ajax'
     export default {
-        name: 'activity-promotional',
         inject:["reload"],
         data () {
             return {

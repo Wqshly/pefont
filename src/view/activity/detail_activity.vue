@@ -110,7 +110,6 @@
 
 <script>
     export default {
-        name: 'activity-promotional',
         props: ["detail_item"],
         data () {
             return {

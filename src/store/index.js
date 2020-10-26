@@ -7,6 +7,7 @@ export default  new Vuex.Store({
   state: {
       userId:0,
       activityId:0,
+      activityClass:'',
       user: {
         id: -1,
         userNumber: "234",
@@ -31,6 +32,9 @@ export default  new Vuex.Store({
     },
     setActivityId(state, activityId){
       state.activityId = activityId;
+    },
+    setActivityClass(state, activityClass){
+      state.activityClass = activityClass;
     }
   }
 });
