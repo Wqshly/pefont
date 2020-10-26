@@ -1,8 +1,8 @@
 <template>
   <div  class="main-nav">
-    <v-pie></v-pie>
+    <v-pie style="float:left;"></v-pie>
     <br>
-    <v-rank></v-rank>
+    <v-rank style="float:right;"></v-rank>
     <br>
 
   </div>
@@ -51,6 +51,7 @@ export default {
     margin: 0;
     height: 100%;
     overflow: hidden;
+    min-height: 800px;
   }
 
 </style>

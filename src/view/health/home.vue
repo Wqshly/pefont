@@ -1,7 +1,7 @@
 <template>
   <div  class="main-nav">
     <el-collapse v-model="activeNames" @change="handleChange">
-      <el-collapse-item v-for="(item,index) in items" :title="item.title" :name="item.title">
+      <el-collapse-item v-for="(item,index) in items" :title="item.title" :name="item.title" :key="item.title">
         <div> {{item.value}}</div>
       </el-collapse-item>
 

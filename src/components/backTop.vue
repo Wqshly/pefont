@@ -1,12 +1,6 @@
 <template>
-  <div class="back-to-top">
-    <div class="item" id="test">
-      <span title="收起" class="top iconfont icon-zhankai" @click="down()"   :class="{'visible':isActive,'hidden':!isActive }"  ></span>
-      <span title="客服" class="middle iconfont icon-kefu" @click="up()"   :class="{'visible':isActive,'hidden':!isActive }"  ></span>
-      <span title="安卓端" class="middle iconfont icon-anzhuo" @click="up()"  :class="{'visible':isActive,'hidden':!isActive }"  ></span>
-      <span title="回到顶部" class="top iconfont icon-xiangshang" @click="handle()"   :class="{'visible':isActive,'hidden':!isActive }"  ></span>
-      <span title="展开" class="top iconfont icon-xiangshang1" @click="up()"   :class="{'visible':!isActive,'hidden':isActive }"  ></span>
-    </div>
+  <div>
+    <div class="el-backtop" @click="backToTop" style="right: 100px; bottom: 150px;"><i class="el-icon-caret-top"></i></div>
   </div>
 </template>
 
@@ -14,93 +8,38 @@
 
 export default {
   data () {
-    return {
-        isActive:true
-    }
+    return{
+
+    };
   },
   methods:{
-      none(){
-          this.isActive=false;
-      },
-      OK(){
-          this.isActive=true;
-      },
-      up(){
-          document.getElementById("test").style.height="180px";
-          this.OK();
-      },
-      down(){
-          document.getElementById("test").style.height="40px";
-          this.none();
-      },
-      handle(val){
+      backToTop(){
           window.scroll(0,0);
-
       },
-
   },
-  created() {
 
-  },
 
 }
 </script>
 
 <style scoped>
-  .visible {
-    display: inherit;
-  }
-
-  .hidden {
-    display: none;
-  }
-  .middle{
-    margin: 15px 5px;
-  }
-  .top{
-    margin: 5px 5px;
-  }
-  .back-to-top .item{
-    height: 180px;
-    overflow: hidden;
-    width: 40px;
-    margin: 10px auto;
-    border: #666666 1px solid;
-    color: #666666;
-    border-radius:20px;
-    cursor: pointer;
-    transition: height 0.5s;
-  }
-
-  .back-to-top span{
-    transition: color 0.5s;
-  }
-  .back-to-top span:hover{
-    color: #409EFF;
-  }
-
-  .back-to-top{
-    overflow: hidden;
-    opacity: 0.8;
+  .el-backtop {
     position: fixed;
-    bottom: 120px;
-    right: 20px;
-    width: 60px;
-  }
-
-  .iconfont{
-    height: 30px;
-    width: 30px;
-    font-size: 30px;
-    line-height: 40px;
-  }
-  @media (max-width: 760px) {
-    .back-to-top{
-      display: none;
-    }
+    background-color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #409eff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 0 6px rgba(0,0,0,.12);
+    cursor: pointer;
+    z-index: 5;
 
   }
-  #test5{
-    display: none;
+  .el-backtop:hover{
+    background: rgb(233, 233, 235);
   }
 </style>

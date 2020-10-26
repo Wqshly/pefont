@@ -69,20 +69,8 @@ export default {
   .page-area{
     background-color: #f2f5f6;
     width: 100%;
+    max-width: 1140px;
     margin:0 auto;
   }
 
-  @media screen and (min-width: 1140px){
-    .page-area {
-      width: 1140px;
-    }
-  }
-  .normal_page  .el-menu-item{
-    color: black;
-  }
-
-  .normal_page .is-active{
-    border-bottom: none!important;
-    color: inherit!important;
-  }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="width: 100%;padding-top: 5px" class="account_page">
+    <div class="account_page">
       <v-header></v-header>
       <div class="account-area">
         <v-route :message_count="message_count" :options="options"></v-route>
@@ -64,15 +64,20 @@ export default {
 </script>
 
 <style scoped>
+  .account_page{
+    min-height: 1050px;
+    color: black;
+  }
   .account-area{
     overflow: hidden;
     width: 100%;
+    margin: 0 auto;
+    max-width: 1140px;
   }
 
   .account-area .account_main{
     float: left;
     padding-top: 10px;
-    //background-color: grey;
     width: calc(100% - 160px);
     min-height: 700px;
   }
