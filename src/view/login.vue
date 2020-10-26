@@ -150,20 +150,19 @@ export default {
       requestSchoolList(){
           let url = '/api/school/querySchoolList';
           api.get(url).then(res => {
-              let _this = this;
               if (res.code === 0) {
-                  _this.options=[];
+                  this.options=[];
                   if(res.data != null){
                       let data = {};
                       if(res.data.length === undefined){
                           data.label = res.data.schoolName;
                           data.value = res.data.id;
-                          _this.options.push(res.data);
+                          this.options.push(res.data);
                       }else{
                           for(let i = 0;i < res.data.length; ++i){
                               data.label = res.data[i].schoolName;
                               data.value = res.data[i].id;
-                              _this.options.push(clone.deepClone(data));
+                              this.options.push(clone.deepClone(data));
                           }
                       }
 

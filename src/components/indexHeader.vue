@@ -67,8 +67,6 @@
 
 <script>
     export default {
-        name: 'topSidebar',
-
         data() {
             return {
                 drawer:false,

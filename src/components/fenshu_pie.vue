@@ -6,7 +6,6 @@
     import echarts from 'echarts'
     import {api} from "@/api/ajax"
     export default {
-        name: 'pie',
         data() {
             return {
                 mark:60,

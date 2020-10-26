@@ -1,7 +1,7 @@
 <template>
   <el-tabs type="border-card" style="width: 300px">
     <el-tab-pane label="校内排行 ">
-      <div class="student_rank" style="width:300px;">
+      <div class="student_score" style="width:300px;">
         <el-table
           :data="handleData1()"
           max-height="300"
@@ -16,12 +16,12 @@
             width="75">
           </el-table-column>
           <el-table-column
-            prop="collage"
+            prop="collegeId"
             label="学院"
             width="75">
           </el-table-column>
           <el-table-column
-            prop="rank"
+            prop="score"
             label="分数"
             width="75">
           </el-table-column>
@@ -30,7 +30,7 @@
       </div>
     </el-tab-pane>
     <el-tab-pane label="学校排名">
-      <div class="school_rank" style="width:300px;">
+      <div class="school_score" style="width:300px;">
         <el-table
           :data="handleData2()"
           max-height="300"
@@ -45,7 +45,7 @@
             width="75">
           </el-table-column>
           <el-table-column
-            prop="rank"
+            prop="score"
             label="分数"
             width="75">
           </el-table-column>
@@ -60,112 +60,121 @@
 <script>
     import {api} from "@/api/ajax"
     export default {
-        //活动中心的父级组件
-        name: 'home_page',
         data() {
             return {
-                ranks:[
+                scores:[
                     {
                         name:'张一',
-                        collage:'学院1',
-                        rank:10,
+                        collegeId:'学院1',
+                        score:10,
                     },
                     {
                         name:'张二',
-                        collage:'学院2',
-                        rank:8,
+                        collegeId:'学院2',
+                        score:8,
                     },
                     {
                         name:'张三',
-                        collage:'学院3',
-                        rank:7,
+                        collegeId:'学院3',
+                        score:7,
                     },
                     {
                         name:'张四',
-                        collage:'学院45',
-                        rank:6,
+                        collegeId:'学院45',
+                        score:6,
                     },
                     {
                         name:'张五',
-                        collage:'学院54',
-                        rank:5,
+                        collegeId:'学院54',
+                        score:5,
                     },
                     {
                         name:'张一',
-                        collage:'学院14',
-                        rank:4,
+                        collegeId:'学院14',
+                        score:4,
                     },
                     {
                         name:'张二',
-                        collage:'学院22',
-                        rank:3,
+                        collegeId:'学院22',
+                        score:3,
                     },
                     {
                         name:'张三',
-                        collage:'学院34',
-                        rank:2,
+                        collegeId:'学院34',
+                        score:2,
                     },
                     {
                         name:'张四',
-                        collage:'学院42',
-                        rank:1,
+                        collegeId:'学院42',
+                        score:1,
                     },
                     {
                         name:'张五',
-                        collage:'学院54',
-                        rank:0,
+                        collegeId:'学院54',
+                        score:0,
                     },
                 ],
-                ranks2:[
+                scores2:[
                     {
                         name:'张一',
-                        rank:10,
+                        score:10,
                     },
                     {
                         name:'张二',
-                        rank:8,
+                        score:8,
                     },
                     {
                         name:'张三',
-                        rank:7,
+                        score:7,
                     },
                     {
                         name:'张四',
-                        rank:6,
+                        score:6,
                     },
                     {
                         name:'张五',
-                        rank:5,
+                        score:5,
                     },
                     {
                         name:'张一',
-                        rank:4,
+                        score:4,
                     },
                     {
                         name:'张二',
-                        rank:3,
+                        score:3,
                     },
                     {
                         name:'张三',
-                        rank:2,
+                        score:2,
                     },
                     {
                         name:'张四',
-                        rank:1,
+                        score:1,
                     },
                     {
                         name:'张五',
-                        rank:0,
+                        score:0,
                     },
                 ],
             }
         },
         methods: {
+            requestScoreBySchoolId(){
+                let url = '/api/semester/score/'+'1';
+                api.get(url).then(res => {
+                    if (res.code === 0) {
+                        this.scores = res.data;
+                    }
+                    else{
+                        this.$message.error(res.msg);
+                    }
+                })
+            },
             handleData1(){
-                return this.ranks;
+                return this.scores;
             },
             handleData2(){
-                return this.ranks2;
+                return this.scores2;
             },
         },
         mounted() {

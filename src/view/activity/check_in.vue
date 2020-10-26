@@ -311,7 +311,7 @@
                 let url = '/api/activity/getPartner/'+this.$store.state.activityId;
                 api.get(url).then(res => {
                     if (res.code === 0){
-                        if(res.data != null){
+                        if(res.data != []){
                             this.tableData = [];
                             //因为是一个数据所以不是list，没有长度
                             if(res.data.length === undefined){
@@ -324,7 +324,9 @@
                                 }
                             }
                         }
-
+                        else{
+                            this.check_title = '该活动暂无参与人员';
+                        }
                         this.total=this.tableData.length;
                     }
                 })

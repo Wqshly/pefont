@@ -17,7 +17,6 @@ import vHeader from '@/components/homeHeader'
 import vFooter from '@/components/footer'
 import vRoute from '@/components/routerByAdaptiveMenu'
 export default {
-  name: 'accountPage',
   components: {
       vFooter,
       vHeader,

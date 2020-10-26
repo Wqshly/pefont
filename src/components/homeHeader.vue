@@ -41,7 +41,6 @@ import {api}  from '@/api/ajax'
 
 export default {
     //本组件的当前路由蓝色渲染适用于一级路由  也就是路由路径中的第一个'/'的部分
-    name: 'activity_header',
     components:{
       back,
     },
@@ -118,7 +117,24 @@ export default {
                       },
                   ]
               },
-
+              {
+                  name:'健康管理',
+                  link:'home',
+                  subs:[
+                      {
+                          name:'视力',
+                          link:'/home3'
+                      },
+                      {
+                          name:'体重',
+                          link:'/home3'
+                      },
+                      {
+                          name:'祛痘',
+                          link:'/home3'
+                      },
+                  ]
+              },
               {
                   name:'运动装备',
                   link:'shop'

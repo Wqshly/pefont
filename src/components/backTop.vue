@@ -13,7 +13,6 @@
 <script >
 
 export default {
-  name: 'backTop',
   data () {
     return {
         isActive:true

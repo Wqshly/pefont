@@ -74,7 +74,6 @@
 <script>
 
 export default {
-  name: 'foot',
   data () {
     return {}
   },

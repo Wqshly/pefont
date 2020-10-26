@@ -18,7 +18,6 @@ import vHeader from '@/components/routerByMenu'
 
 export default {
   components: {
-
       nHeader,
       vHeader
   },
