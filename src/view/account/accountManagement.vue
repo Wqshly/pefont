@@ -25,7 +25,13 @@ export default {
   },
   methods: {
     open(){
-        this.$router.push('/management');
+        if(this.$store.state.user.identity == '管理员'){
+            this.$router.push('/management');
+        }
+        else{
+            this.$message.error('你不是管理员');
+        }
+
     }
   }
 }

@@ -3,6 +3,7 @@
     <div class="home_page">
       <v-header></v-header>
       <div class="home_main">
+        <v-route :headers="options"></v-route>
         <router-view></router-view>
       </div>
       <v-footer></v-footer>
@@ -13,14 +14,23 @@
 <script>
     import vHeader from '@/components/homeHeader'
     import vFooter from '@/components/footer'
+    import vRoute from '@/components/routerByMenu'
     export default {
         components: {
             vFooter,
-            vHeader
+            vHeader,
+            vRoute
         },
         data () {
             return {
+                options:[
+                    {
+                        name:'管理首页',
+                        link:'/management/home',
+                    },
 
+
+                ],
             }
         },
         methods:{

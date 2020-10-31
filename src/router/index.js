@@ -57,6 +57,7 @@ const account_logout = () => Promise.resolve(require('@/view/account/logout'));
 
 /*management page*/
 const mana_page = () => Promise.resolve(require('@/view/management/home'));
+const mana_class = () => Promise.resolve(require('@/view/management/manaClass'));
 
 /*theory page*/
 const theory_page = () => Promise.resolve(require('@/view/theory/home'));
@@ -285,8 +286,8 @@ export default new Router({
           component: mana_page
         },
         {
-          path: '/management/school',
-          component: mana_page
+          path: '/management/class',
+          component: mana_class
         },
 
       ]
