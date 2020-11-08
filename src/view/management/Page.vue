@@ -3,7 +3,7 @@
     <div class="home_page">
       <v-header></v-header>
       <div class="home_main">
-        <v-route :headers="options"></v-route>
+        <router-menu :headers="options"></router-menu>
         <router-view></router-view>
       </div>
       <v-footer></v-footer>
@@ -12,15 +12,7 @@
 </template>
 
 <script>
-    import vHeader from '@/components/homeHeader'
-    import vFooter from '@/components/footer'
-    import vRoute from '@/components/routerByMenu'
     export default {
-        components: {
-            vFooter,
-            vHeader,
-            vRoute
-        },
         data () {
             return {
                 options:[

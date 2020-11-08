@@ -5,7 +5,6 @@ Vue.use(Vuex);
 
 export default  new Vuex.Store({
   state: {
-      userId:0,
       activityId:0,
       activityClass:'',
       user: {
@@ -23,10 +22,6 @@ export default  new Vuex.Store({
     }
   },
   mutations: {
-
-    setUserId(state, userId){
-      state.userId = userId;
-    },
     setUser(state, user){
       state.user = user;
     },

@@ -1,26 +1,16 @@
 <template>
-  <div>
-    <n-header></n-header>
-    <div  class="normal_page">
-      <div class="page-area">
-        <v-header :headers="items"></v-header>
-        <router-view></router-view>
-      </div>
-
+  <div class="container">
+    <v-header></v-header>
+    <div class="page-area">
+      <router-menu :headers="items"></router-menu>
+      <router-view></router-view>
     </div>
   </div>
-
 </template>
 
 <script>
-import nHeader from '@/components/homeHeader'
-import vHeader from '@/components/routerByMenu'
 
 export default {
-  components: {
-      nHeader,
-      vHeader
-  },
   data () {
     return {
         items: [
@@ -45,15 +35,6 @@ export default {
                 name: '组织签到',
             }
         ],
-        mounted(){
-
-        },
-        methods:{
-            handleSelect(key, keyPath) {
-
-            },
-
-        },
     }
   },
 
@@ -61,13 +42,11 @@ export default {
 </script>
 
 <style scoped>
-  .normal_page{
+  .container{
+    width: 100%;
     background-color: #f2f5f6;
-    min-height: 1050px;
-    color: black;
   }
   .page-area{
-    background-color: #f2f5f6;
     width: 100%;
     max-width: 1140px;
     margin:0 auto;

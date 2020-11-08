@@ -1,57 +1,89 @@
 <template>
-  <div  class="main-nav">
-    <v-pie style="float:left;"></v-pie>
-    <br>
-    <v-rank style="float:right;"></v-rank>
-    <br>
+  <div>
+    <p> 当前班级:{{cl}}</p>
+    <el-table
+    @selection-change="handleSelectionChange"
+    @cell-click="handleClick"
+    :data="handleData()"
+    style="width: 100%">
+    <el-table-column
+      type="selection"
+      fixed="left"
+      width="55">
+    </el-table-column>
+    <el-table-column
+      :prop=tableProp
+      label="名字">
+      <template slot="header">
+        <label>
+          <input
+            type="text"
+            v-model="search"
+            prefix-icon="el-icon-search"
+            style="width: 150px;"
+            placeholder="输入关键字搜索"
+          />
+        </label>
+      </template>
+    </el-table-column>
+    <el-table-column label="操作">
+      <template slot-scope="scope">
+        <el-button
+          size="mini"
+          @click.stop="handleEdit(scope.$index, scope.row)">编辑
+        </el-button>
 
+        <el-button
+          size="mini"
+          type="danger"
+          @click.stop="handleDelete(scope.$index, scope.row)">删除
+        </el-button>
+      </template>
+    </el-table-column>
+  </el-table>
   </div>
 </template>
 
 <script>
-    import vPie from '@/components/fenshu_pie'
-    import vRank from '@/components/rank'
 
-export default {
 
-    components: {
-        vRank,
-        vPie,
-    },
-    data() {
-        return {
-            headers:[
-                {
-                    name:'早操',
-                    link:'/home'
-                },
-                {
-                    name:'课外活动',
-                    link:'/home2'
-                },
-            ]
-        }
-    },
-    methods: {
+    export default {
+        data() {
+            return {
+                cl: '',
+                headers: [
+                    {
+                        name: '签到表',
+                        link: '/home/signIn'
+                    },
+                    {
+                        name: '签退表',
+                        link: '/home/signOut'
+                    },
+                ]
+            }
+        },
+        methods: {
+            //多选
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            handleData() {
 
-    },
-    mounted() {
+            },
+        },
+        mounted() {
+            this.cl = this.$store.state.user.unit;
+        },
+        created() {
 
-    },
-    created() {
-
-    },
-}
+        },
+    }
 </script>
 
 <style scoped>
-
-  .main-nav {
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    overflow: hidden;
-    min-height: 800px;
+  p {
+    padding: 8px 0;
+    font-size: 15px;
   }
-
 </style>

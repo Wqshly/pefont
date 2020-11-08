@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     open(){
-        if(this.$store.state.user.identity == '管理员'){
+        if(this.$root.identity == '学校管理员'){
             this.$router.push('/management');
         }
         else{

@@ -24,7 +24,7 @@
 
     <div class="phone" v-if="drawer">
 
-      <div class="header_phone_a" v-for="item in headers" @click="jump(item.link)" :class="{'active':isActive === item.link }"  >
+      <div class="header_phone_a" v-for="item in headers" @click.stop="jump(item.link)" :class="{'active':isActive === item.link }"  >
           <p>{{item.name}}</p>
       </div>
 
@@ -35,161 +35,139 @@
 </template>
 
 <script>
-import {clone} from '@/api/clone.js'
 import back from '@/components/backTop'
-import {api}  from '@/api/ajax'
 
 export default {
     //本组件的当前路由蓝色渲染适用于一级路由  也就是路由路径中的第一个'/'的部分
-    components:{
+    components: {
         back
     },
-    data () {
-      return {
-          isActive:'activity',
-          reverse_headers:[],
-          headers:[
-              {
-                  name:'早操',
-                  link:'home'
-              },
-              {
-                  name:'课外活动',
-                  link:'home2'
-              },
-              {
-                  name:'本地比赛',
-                  link:'home3',
-                  subs:[
-                      {
-                          name:'足球',
-                          link:'/home3/1'
-                      },
-                      {
-                          name:'排球',
-                          link:'/home3/2'
-                      },
-                      {
-                          name:'网球',
-                          link:'/home3/3'
-                      },
-                      {
-                          name:'羽毛球',
-                          link:'/home3/4'
-                      },
-                      {
-                          name:'乒乓球',
-                          link:'/home3/5'
-                      },
-                      {
-                          name:'篮球',
-                          link:'/home3/6'
-                      },
-                  ]
-              },
-              {
-                  name:'发起比赛',
-                  link:'promotion'
-              },
-              {
-                  name:'校内校外活动',
-                  link:'activity',
-                  subs:[
-                      {
-                          name:'活动首页',
-                          link:'/activity/home'
-                      },
-                      {
-                          name:'校内通知',
-                          link:'/activity/notice'
-                      },
-                      {
-                          name:'发起活动',
-                          link:'/activity/promotion'
-                      },
-                      {
-                          name:'活动管理',
-                          link:'/activity/management'
-                      },
-                      {
-                          name:'组织签到',
-                          link:'/activity/check'
-                      },
-                  ]
-              },
-              {
-                  name:'健康管理',
-                  link:'health',
-                  subs:[
-                      {
-                          name:'个人信息',
-                          link:'/health/home'
-                      },
-                      {
-                          name:'祛痘',
-                          link:'/health/anti'
-                      },
-                  ]
-              },
-              {
-                  name:'运动装备',
-                  link:'shop'
-              },
+    data() {
+        return {
+            isActive: 'activity',
+            reverse_headers: [],
+            headers: [
+                {
+                    name: '早操',
+                    link: 'home'
+                },
+                {
+                    name: '课外活动',
+                    link: 'home2'
+                },
+                {
+                    name: '本地比赛',
+                    link: 'home3',
+                    subs: [
+                        {
+                            name: '足球',
+                            link: '/home3/1'
+                        },
+                        {
+                            name: '排球',
+                            link: '/home3/2'
+                        },
+                        {
+                            name: '网球',
+                            link: '/home3/3'
+                        },
+                        {
+                            name: '羽毛球',
+                            link: '/home3/4'
+                        },
+                        {
+                            name: '乒乓球',
+                            link: '/home3/5'
+                        },
+                        {
+                            name: '篮球',
+                            link: '/home3/6'
+                        },
+                    ]
+                },
+                {
+                    name: '发起比赛',
+                    link: 'promotion'
+                },
+                {
+                    name: '校内校外活动',
+                    link: 'activity',
+                    subs: [
+                        {
+                            name: '活动首页',
+                            link: '/activity/home'
+                        },
+                        {
+                            name: '校内通知',
+                            link: '/activity/notice'
+                        },
+                        {
+                            name: '发起活动',
+                            link: '/activity/promotion'
+                        },
+                        {
+                            name: '活动管理',
+                            link: '/activity/management'
+                        },
+                        {
+                            name: '组织签到',
+                            link: '/activity/check'
+                        },
+                    ]
+                },
+                {
+                    name: '健康管理',
+                    link: 'health',
+                    subs: [
+                        {
+                            name: '个人信息',
+                            link: '/health/home'
+                        },
+                        {
+                            name: '祛痘',
+                            link: '/health/anti'
+                        },
+                    ]
+                },
+                {
+                    name: '运动装备',
+                    link: 'shop'
+                },
 
-              {
-                  name:'裁判园地',
-                  link:'theory'
-              },
-              {
-                  name:'云比赛',
-                  link:'video'
-              },
+                {
+                    name: '裁判园地',
+                    link: 'theory'
+                },
+                {
+                    name: '云比赛',
+                    link: 'video'
+                },
 
-          ],
-          drawer: false,
+            ],
+            drawer: false,
 
-      }
+        }
     },
-    methods:{
+    methods: {
         //一级目录跳转函数   便于渲染active样式
-        jump(val){
-            this.drawer=false;
-            if(('/'+val) !==this.$route.path){
-                this.isActive = val;
-                this.$router.push('/'+val);
-                window.scrollTo(0, 0);
-            }
+        jump(val) {
+            this.drawer = false;
+            this.isActive = val;
+            this.$router.push('/' + val);
         },
-
-        jump2(val){
-            if(val !==this.$route.path){
-                this.$router.push(val);
-                window.scrollTo(0, 0);
-            }
+        //二级目录跳转函数
+        jump2(val) {
+            this.$router.push(val);
         },
-        account(){
-            window.location.href="#/account";
-        },
-
-        request(){
-            api.get('/api/login/LoginOrNot').then(res => {
-                if (res.code === 0) {
-                    this.$store.commit('setUser',res.data);
-                }
-                else{
-                    this.$router.push('/login');
-                }
-            })
+        account() {
+            this.$router.push("/account");
         },
     },
-    mounted(){
+    mounted() {
     },
     created() {
-        this.reverse_headers = clone.deepClone(this.headers).reverse();
+        this.reverse_headers = this.$clone.deepClone(this.headers).reverse();
         this.isActive = (this.$route.path).split('/')[1];
-        if(this.$store.state.user.id === -1){
-            this.request();
-        }
     }
 }
 </script>

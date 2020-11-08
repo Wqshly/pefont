@@ -1,26 +1,20 @@
 <template>
   <div>
-    <div class="account_page">
-      <v-header></v-header>
-      <div class="account-area">
-        <v-route :message_count="message_count" :options="options"></v-route>
-        <router-view class="account_main">
-        </router-view>
-      </div>
-      <v-footer></v-footer>
+    <v-header></v-header>
+    <div class="account-container">
+      <n-route :message_count="message_count" :options="options"></n-route>
+      <router-view class="account_main">
+      </router-view>
     </div>
+    <v-footer></v-footer>
   </div>
 </template>
 
 <script>
-import vHeader from '@/components/homeHeader'
-import vFooter from '@/components/footer'
-import vRoute from '@/components/routerByAdaptiveMenu'
+import nRoute from '@/components/routerByAdaptiveMenu'
 export default {
   components: {
-      vFooter,
-      vHeader,
-      vRoute
+      nRoute
   },
   data () {
     return {
@@ -64,18 +58,14 @@ export default {
 </script>
 
 <style scoped>
-  .account_page{
-    min-height: 1050px;
-    color: black;
-  }
-  .account-area{
+  .account-container{
     overflow: hidden;
     width: 100%;
     margin: 0 auto;
     max-width: 1140px;
   }
 
-  .account-area .account_main{
+  .account-container .account_main{
     float: left;
     padding-top: 10px;
     width: calc(100% - 160px);

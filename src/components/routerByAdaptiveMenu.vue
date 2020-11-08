@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <div class="left_options">
-      <div class="left_option" v-for="option in options"  @click="jump(option)" :class="{'active':isActive === option.link || isActive === option.secondLink}" >
+  <div class="options">
+    <div class="option" v-for="option in options"  @click="jump(option)" :class="{'active':isActive === option.link || isActive === option.secondLink}" >
 
-          {{option.name}}
-        <el-badge :value="message_count" class="item" v-if="option.link==='/account/message'">
-        </el-badge>
-      </div>
+        {{option.name}}
+      <el-badge :value="message_count" class="item" v-if="option.link==='/account/message'">
+      </el-badge>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  //该组件只适用于最下级路由
+  //该组件只适用于最末级路由
   props:{
       message_count:null,
       options:null,
@@ -25,10 +23,7 @@ export default {
   },
   methods:{
       jump(val){
-          if(val.link!==this.$route.path){
-              this.$router.push(val.link);
-              window.scrollTo(0, 0);
-          }
+          this.$router.push(val.link);
       },
 
   },
@@ -51,7 +46,7 @@ export default {
     font-size: 30px;
     vertical-align: middle;
   }
-  .left_options{
+  .options{
     background-color: white;
     overflow: hidden;
     width: 140px;
@@ -59,7 +54,7 @@ export default {
     font-weight: 400;
     float: left;
   }
-  .left_option{
+  .option{
     padding-left: 10px;
     line-height: 37px;
     margin: 4px 0;
@@ -69,7 +64,7 @@ export default {
     background-color: white!important;
     cursor: pointer;
   }
-  .left_option:hover{
+  .option:hover{
     background-color: #409EFF!important;
     color: white;
   }
@@ -78,12 +73,12 @@ export default {
     color: white;
   }
   @media (max-width: 760px) {
-    .left_options{
+    .options{
       width: 100% !important;
       margin: 0;
     }
 
-    .left_option{
+    .option{
       float: left;
       margin: 0 2px;
       padding-right: 15px;

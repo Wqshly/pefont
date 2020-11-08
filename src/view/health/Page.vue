@@ -11,13 +11,7 @@
 </template>
 
 <script>
-    import vHeader from '@/components/homeHeader'
-    import vFooter from '@/components/footer'
     export default {
-        components: {
-            vFooter,
-            vHeader
-        },
         data () {
             return {
 

@@ -1,8 +1,6 @@
 <template>
-  <div style="">
-
+  <div>
     <el-button type="danger" @click="logout">退出登录</el-button>
-
   </div>
 </template>
 
@@ -17,10 +15,8 @@
         methods:{
           logout(){
               api.get('/api/login/logout').then(res => {
-                  console.log(res);
                   if (res.code === 0) {
-                      this.$store.commit('setUserId',-1);
-                      console.log(this.$store.state.user.id);
+                      this.$store.commit('setUserId', -1);
                       this.$router.push('/login');
                       location.reload();
                   }

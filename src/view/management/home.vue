@@ -29,6 +29,7 @@
       <template>
         <el-table
           @selection-change="handleSelectionChange"
+          @cell-click="handleClick"
           :data="handleData()"
           style="width: 100%">
           <el-table-column
@@ -55,16 +56,12 @@
             <template slot-scope="scope">
               <el-button
                 size="mini"
-                type="success"
-                @click="handleClick(scope.$index, scope.row)">选择</el-button>
-              <el-button
-                size="mini"
-                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                @click.stop="handleEdit(scope.$index, scope.row)">编辑</el-button>
 
               <el-button
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                @click.stop="handleDelete(scope.$index, scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -491,9 +488,8 @@
                     });
                 }
             },
-
             /*表格的操作*/
-            handleClick(index, row) {
+            handleClick(row) {
                 if(this.crumb_flag === 1){
                     this.requestCollegeList(row.id);
                     this.current_choose[0]= row.id;

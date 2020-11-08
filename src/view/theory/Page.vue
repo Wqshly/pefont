@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="home_page">
-      <n-header></n-header>
+      <v-header></v-header>
       <div class="home_main">
-        <v-header :headers="items"></v-header>
+        <n-header :headers="items"></n-header>
         <router-view></router-view>
       </div>
       <v-footer></v-footer>
@@ -12,13 +12,9 @@
 </template>
 
 <script>
-    import nHeader from '@/components/homeHeader'
-    import vFooter from '@/components/footer'
-    import vHeader from '@/components/routerByMenu'
+    import nHeader from '@/components/routerByMenu'
     export default {
         components: {
-            vFooter,
-            vHeader,
             nHeader
         },
         data () {

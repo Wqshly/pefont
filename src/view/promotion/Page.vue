@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="home_page">
+<!--      <component :is="'v-header'"></component>-->
       <v-header></v-header>
       <div class="home_main">
         <router-view></router-view>
@@ -11,13 +12,7 @@
 </template>
 
 <script>
-    import vHeader from '@/components/homeHeader'
-    import vFooter from '@/components/footer'
     export default {
-        components: {
-            vFooter,
-            vHeader
-        },
         data () {
             return {
 

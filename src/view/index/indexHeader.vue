@@ -28,7 +28,7 @@
           <!--        LOGO-->
           <template v-if="item.index==='function'">
             <li >
-              <img v-lazy="require('../assets/logo.png')" alt="">
+              <img v-lazy="require('../../assets/logo.png')" alt="">
             </li>
           </template>
         </template>
@@ -39,7 +39,7 @@
     </div>
     <div class="sidebar_phone">
       <div style="height: 60px">
-        <img v-lazy="require('../assets/brand.png')"  style="height: 60px"  alt="">
+        <img v-lazy="require('../../assets/brand.png')"  style="height: 60px"  alt="">
         <i class="el-icon-s-fold" @click="drawer = !drawer"  style=""></i>
       </div>
       <el-collapse-transition>
@@ -73,7 +73,7 @@
                 screenWidth: '',
                 items: [
                     {
-                        index: 'index',
+                        index: 'home',
                         title: '首页'
                     },
                     {

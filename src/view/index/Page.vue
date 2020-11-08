@@ -9,15 +9,12 @@
 </template>
 
 <script>
-import vSidebar from '@/components/indexHeader'
-import vFooter from '@/components/footer'
+import vSidebar from './indexHeader'
 export default {
-  name: 'homePage',
   data () {
     return {}
   },
   components: {
-      vFooter,
       vSidebar
   }
 }

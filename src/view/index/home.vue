@@ -588,6 +588,7 @@
 
   .homepage .section-4 .col-xs-12 {
     float: left;
+    width: 100%;
   }
   .homepage .section-4 .bottom-row {
     padding-top: 100px;

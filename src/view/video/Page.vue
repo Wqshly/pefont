@@ -11,21 +11,12 @@
 </template>
 
 <script>
-import vHeader from '@/components/homeHeader'
-import vFooter from '@/components/footer'
 export default {
-  name: 'videoPage',
   data () {
     return {
-        mounted(){
-
-        }
     }
   },
-  components: {
-      vFooter,
-      vHeader
-  }
+
 }
 </script>
 

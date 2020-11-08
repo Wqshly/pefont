@@ -126,7 +126,7 @@
             this.timer = window.setTimeout(()=>{
                 this.message.imageUrl='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg';
                 this.message.loading = false},5000)
-            this.form.name = this.$store.state.user.username;
+            this.form.name = this.$root.username;
         },
 
     }

@@ -1,76 +1,78 @@
 import Router from 'vue-router'
 
-/*骨架页面导入*/
-const indexPage = () => Promise.resolve(require('@/view/index/Page'));
-const homePage = () => Promise.resolve(require('@/view/home/Page'));
-const home2Page = () => Promise.resolve(require('@/view/home2/Page'));
-const home3Page = () => Promise.resolve(require('@/view/home3/Page'));
-const promotionPage = () => Promise.resolve(require('@/view/promotion/Page'));
-const activityPage = () => Promise.resolve(require('@/view/activity/Page'));
-const videoPage = () => Promise.resolve(require('@/view/video/Page'));
-const accountPage = () => Promise.resolve(require('@/view/account/Page'));
-const managementPage = () => Promise.resolve(require('@/view/management/Page'));
-const theoryPage = () => Promise.resolve(require('@/view/theory/Page'));
-const healthPage = () => Promise.resolve(require('@/view/health/Page'));
+/*骨架页面无下划线*/
+
+/*门户*/
+const indexPage = () => import(/* webpackChunkName: '0' */ '../view/index/Page');
+const index_home = () => import(/* webpackChunkName: '0' */ '../view/index/home');
+const index_function = () => import(/* webpackChunkName: '0' */ '../view/index/function');
+const index_app = () => import(/* webpackChunkName: '0' */ '../view/index/app1');
 
 /*login page*/
-const login = () => Promise.resolve(require('@/view/login'));
+const login = () => import(/* webpackChunkName: '0' */ '../view/login');
 
-/*index page*/
-const home = () => Promise.resolve(require('@/view/index/home'));
-const test = () => Promise.resolve(require('@/view/index/test'));
-const function1 = () => Promise.resolve(require('@/view/index/function'));
-const app1 = () => Promise.resolve(require('@/view/index/app1'));
+/*早操*/
+const homePage = () => import(/* webpackChunkName: '1' */ '../view/home/Page');
+const home_page = () => import(/* webpackChunkName: '1' */ '../view/home/home');
 
-/*home page*/
-const home_page = () => Promise.resolve(require('@/view/home/home'));
+/*home2 page*/
+const home2Page = () => import(/* webpackChunkName: '2' */ '../view/home2/Page');
+const home2_page = () => import(/* webpackChunkName: '2' */ '../view/home2/home');
 
 /*home3 page*/
-const home3_page = () => Promise.resolve(require('@/view/home3/home'));
+const home3Page = () => import(/* webpackChunkName: '3' */ '../view/home3/Page');
+const home3_home = () => import(/* webpackChunkName: '3' */ '../view/home3/home');
 
-/*health page*/
-const health_home = () => Promise.resolve(require('@/view/health/home'));
-const health_anti = () => Promise.resolve(require('@/view/health/Anti-Acne'));
 /*promotion page*/
-const promotion_page = () => Promise.resolve(require('@/view/promotion/home'));
+const promotionPage = () => import(/* webpackChunkName: '4' */ '../view/promotion/Page');
+const promotion_home = () => import(/* webpackChunkName: '4' */ '../view/promotion/home');
 
 /*activity page*/
-const activity_home = () => Promise.resolve(require('@/view/activity/home'));
-const activity_notice = () => Promise.resolve(require('@/view/activity/notice'));
-const activity_promotional = () => Promise.resolve(require('@/view/activity/promotional'));
-const activity_management = () => Promise.resolve(require('@/view/activity/management'));
-const activity_check = () => Promise.resolve(require('@/view/activity/check_in'));
+const activityPage = () => import(/* webpackChunkName: '5' */ '../view/activity/Page');
+const activity_home = () => import(/* webpackChunkName: '5' */ '../view/activity/home');
+const activity_notice = () => import(/* webpackChunkName: '5' */ '../view/activity/notice');
+const activity_promotional = () => import(/* webpackChunkName: '5' */ '../view/activity/promotional');
+const activity_management = () => import(/* webpackChunkName: '5 */ '../view/activity/management');
+const activity_check = () => import(/* webpackChunkName: '5' */ '../view/activity/check_in');
 
 /*video page*/
-const video_home = () => Promise.resolve(require('@/view/video/home'));
-const video_video= () => Promise.resolve(require('@/view/video/video'));
-const video_class= () => Promise.resolve(require('@/view/video/class'));
+const videoPage = () => import(/* webpackChunkName: '6' */ '../view/video/Page');
+const video_home = () => import(/* webpackChunkName: '6' */ '../view/video/home');
+const video_video= () => import(/* webpackChunkName: '6' */ '../view/video/video');
+const video_class= () => import(/* webpackChunkName: '6' */ '../view/video/class');
 
 /*account page*/
-const account_profile = () => Promise.resolve(require('@/view/account/accountProfile'));
-const account_message = () => Promise.resolve(require('@/view/account/accountMessage'));
-const account_account = () => Promise.resolve(require('@/view/account/accountAccount'));
-const account_security= () => Promise.resolve(require('@/view/account/accountSecurity'));
-const account_management = () => Promise.resolve(require('@/view/account/accountManagement'));
-const account_privacy = () => Promise.resolve(require('@/view/account/accountPrivacy'));
-const account_logout = () => Promise.resolve(require('@/view/account/logout'));
+const accountPage = () => import(/* webpackChunkName: '7' */ '../view/account/Page');
+const account_profile = () => import(/* webpackChunkName: '7' */ '../view/account/accountProfile');
+const account_message = () => import(/* webpackChunkName: '7' */ '../view/account/accountMessage');
+const account_account = () => import(/* webpackChunkName: '7' */ '../view/account/accountAccount');
+const account_security= () => import(/* webpackChunkName: '7' */ '../view/account/accountSecurity');
+const account_management = () => import(/* webpackChunkName: '7' */ '../view/account/accountManagement');
+const account_privacy = () => import(/* webpackChunkName: '7' */ '../view/account/accountPrivacy');
+const account_logout = () => import(/* webpackChunkName: '7' */ '../view/account/logout');
 
 /*management page*/
-const mana_page = () => Promise.resolve(require('@/view/management/home'));
-const mana_class = () => Promise.resolve(require('@/view/management/manaClass'));
+const managementPage = () => import(/* webpackChunkName: '8' */ '../view/management/Page');
+const mana_page = () => import(/* webpackChunkName: '8' */ '../view/management/home');
+const mana_class = () => import(/* webpackChunkName: '8' */ '../view/management/manaClass');
+
+/*health page*/
+const healthPage = () => import(/* webpackChunkName: '8' */ '../view/health/Page');
+const health_home = () => import(/* webpackChunkName: '8' */ '../view/health/home');
+const health_anti = () => import(/* webpackChunkName: '8' */ '../view/health/Anti-Acne');
 
 /*theory page*/
-const theory_page = () => Promise.resolve(require('@/view/theory/home'));
-const theory_theory = () => Promise.resolve(require('@/view/theory/theoryTheory'));
-const theory_exam = () => Promise.resolve(require('@/view/theory/theoryExam'));
-const theory_exams = () => Promise.resolve(require('@/view/theory/theoryExams'));
+const theoryPage = () => import(/* webpackChunkName: '8' */ '../view/theory/Page');
+const theory_page = () => import(/* webpackChunkName: '8' */ '../view/theory/home');
+const theory_theory = () => import(/* webpackChunkName: '8' */ '../view/theory/theoryTheory');
+const theory_exam = () => import(/* webpackChunkName: '8' */ '../view/theory/theoryExam');
+const theory_exams = () => import(/* webpackChunkName: '8' */ '../view/theory/theoryExams');
 
-
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/index'
+      redirect: '/index/home'
     },
     {
       path: '/home',
@@ -78,6 +80,14 @@ export default new Router({
       children: [
         {
           path: '/',
+          redirect:'/home/signIn',
+        },
+        {
+          path: '/home/signIn',
+          component: home_page
+        },
+        {
+          path: '/home/signOut',
           component: home_page
         },
       ]
@@ -88,7 +98,11 @@ export default new Router({
       children: [
         {
           path: '/',
-          component: home_page
+          redirect: '/home2/home',
+        },
+        {
+          path: '/home2/home',
+          component: home2_page
         },
       ]
     },
@@ -98,27 +112,27 @@ export default new Router({
       children: [
         {
           path: '/',
-          component: home3_page
+          component: home3_home
         },
         {
           path: '/home3/1',
-          component: home3_page
+          component: home3_home
         },
         {
           path: '/home3/2',
-          component: home3_page
+          component: home3_home
         },
         {
           path: '/home3/3',
-          component: home3_page
+          component: home3_home
         },
         {
           path: '/home3/4',
-          component: home3_page
+          component: home3_home
         },
         {
           path: '/home3/5',
-          component: home3_page
+          component: home3_home
         },
       ]
     },
@@ -132,7 +146,7 @@ export default new Router({
         },
         {
           path: '/promotion/home',
-          component: promotion_page
+          component: promotion_home
         },
       ]
     },
@@ -298,31 +312,24 @@ export default new Router({
       component: login
     },
     {
-      path: '/',
-      name: '',
+      path: '/index',
       component: indexPage,
       children: [
         {
-          path: '/test',
-          name: 'test',
-          component: test
+          path: '/index/home',
+          component: index_home
         },
         {
-          path: '/index',
-          name: 'home',
-          component: home
+          path: '/index/function',
+          component: index_function
         },
         {
-          path: '/function',
-          name: 'function',
-          component: function1
-        },
-        {
-          path: '/app',
-          name: 'app',
-          component: app1
+          path: '/index/app',
+          component: index_app
         }
       ]
     }
   ]
-})
+});
+
+export default router;

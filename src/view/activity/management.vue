@@ -216,7 +216,6 @@
                     let _this = this;
                     if (res.code === 0) {
                         if(res.data != null){
-                            //因为是一个数据所以不是list，没有长度
                             if(res.data.length === undefined){
                                 this.tableData.push(this.mappingObject(res.data));
                             }else{
