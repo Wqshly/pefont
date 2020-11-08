@@ -62,7 +62,7 @@
             prop="status"
             label="状态"
             width="120">
-            <template slot="header">
+            <template #header>
               <el-popover trigger="hover" placement="top">
                 状态变化：未签到---><span style="background-color: oldlace!important;"> 已签到 </span>---><span style="background-color: #f0f9eb!important;"> 已签退 </span>
                 <div slot="reference" class="name-wrapper">

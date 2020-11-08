@@ -40,7 +40,7 @@
           <el-table-column
             :prop=tableProp
             label="名字">
-            <template slot="header" >
+            <template #header >
               <label>
                 <input
                   type="text"

@@ -15,12 +15,7 @@ Vue.component('v-header',header);
 Vue.component('v-footer',footer);
 Vue.component('router-menu',menu);
 
-import {clone} from './api/clone.js'
-import {api}  from './api/ajax'
-import {eventBus}  from './api/bus'
-Vue.prototype.$clone = clone;
-Vue.prototype.$api = api;
-Vue.prototype.$eventBus = eventBus;
+
 Vue.config.productionTip = false;
 
 
@@ -43,6 +38,7 @@ router.beforeEach((to, from, next) => {
     && to.path !== from.path){
     api.get('/api/login/LoginOrNot').then(res => {
       if (res.code === 0) {
+        console.log(res.data)
         store.state.user = res.data;
         window.scrollTo(0, 0);
         next();
@@ -60,3 +56,10 @@ router.beforeEach((to, from, next) => {
   }
 
 });
+
+import {clone} from './api/clone.js'
+import {api}  from './api/ajax'
+import {eventBus}  from './api/bus'
+Vue.prototype.$clone = clone;
+Vue.prototype.$api = api;
+Vue.prototype.$eventBus = eventBus;

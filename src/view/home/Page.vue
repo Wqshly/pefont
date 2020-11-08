@@ -17,10 +17,6 @@
                         name: '签到表',
                         link: '/home/signIn'
                     },
-                    {
-                        name: '签退表',
-                        link: '/home/signOut'
-                    },
                 ]
             }
         },

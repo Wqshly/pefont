@@ -12,7 +12,7 @@ const api = {
         resolve(res)
       })
     } catch (err) {
-      alert('无法连接至服务器');
+      //alert('无法连接至服务器');
       console.log('无法连接至服务器');
     }
   },
@@ -24,7 +24,7 @@ const api = {
         resolve(res)
       })
     } catch (err) {
-      alert('无法连接至服务器');
+      //alert('无法连接至服务器');
       console.log('无法连接至服务器');
     }
   },
@@ -39,7 +39,7 @@ const api = {
         resolve(res)
       })
     } catch (err) {
-      alert('无法连接至服务器');
+      //alert('无法连接至服务器');
       console.log('无法连接至服务器');
     }
   },

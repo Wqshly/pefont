@@ -37,7 +37,7 @@
           <el-table-column
             prop='studentName'
             label="名字">
-            <template slot="header" >
+            <template #header >
               <label>
                 <input
                   type="text"

@@ -15,15 +15,9 @@
         methods:{
           logout(){
               api.get('/api/login/logout').then(res => {
-                  if (res.code === 0) {
-                      this.$store.commit('setUserId', -1);
-                      this.$router.push('/login');
-                      location.reload();
-                  }
-                  else{
-                      this.$message.error(res.msg);
-                  }
-              })
+              });
+              this.$store.commit('setUserId', -1);
+              this.$router.push('/login');
           }
         },
         mounted() {
