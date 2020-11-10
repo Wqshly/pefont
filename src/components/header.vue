@@ -1,46 +1,43 @@
 <template>
   <div class="all">
-    <div class="normal">
-      <div class="activity_header">
-        <img class="img_normal"  @click="jump('')" src="../assets/logo2.png"  alt="PE">
-
-        <i class="el-icon-s-custom" @click="account()"  :class="{'active3':isActive === 'account' }"  ></i>
-
-        <i class="el-icon-s-fold" @click="drawer = !drawer" :class="{'active2': drawer === true }" ></i>
-
-        <div class="header_a" v-for="(item,index) in headers" @click="jump(item.link)" :class="[{'active':isActive === item.link},{'float_right' : index >= 5}]"  >
-          <p v-if="!item.subs">{{item.name}}</p>
+    <div id="normal">
+      <div id="header_item_container">
+        <div id="img_container" @click="jump('')">
+          <img src="../assets/logo2.png"  alt="PE">
+        </div>
+        <div class="header_item"
+             v-for="(item,index) in headers"
+             @click="jump(item.link)"
+             :class="[{'active':isActive === item.link},{'float_right' : item.float ==='right'}]">
+          <div>
+            <i v-if="!item.subs && item.iconName" :class="item.iconName"></i>
+            <p v-if="!item.subs && !item.iconName">{{item.name}}</p>
+          </div>
           <el-dropdown v-if="item.subs" show-timeout="0" hide-timeout="250">
-            <p>{{item.name}}</p>
+            <div>
+              <i v-if="item.iconName" :class="item.iconName"></i>
+              <p v-if="!item.iconName">{{item.name}}</p>
+            </div>
             <el-dropdown-menu slot="dropdown" >
               <el-dropdown-item  v-for="sub in item.subs" :key="sub.link" @click.native="jump2(sub.link)" >{{sub.name}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
-
-
       </div>
     </div>
-
-    <div class="phone" v-if="drawer">
-
-      <div class="header_phone_a" v-for="item in headers" @click.stop="jump(item.link)" :class="{'active':isActive === item.link }"  >
-          <p>{{item.name}}</p>
-      </div>
-
-    </div>
-
+    <phone-header class="small" :headers="headers"></phone-header>
     <back></back>
   </div>
 </template>
 
 <script>
 import back from '@/components/backTop'
-
+import phoneHeader from '@/components/phoneHeader'
 export default {
     //本组件的当前路由蓝色渲染适用于一级路由  也就是路由路径中的第一个'/'的部分
     components: {
-        back
+        back,
+        phoneHeader,
     },
     data() {
         return {
@@ -116,6 +113,18 @@ export default {
                     ]
                 },
                 {
+                    name: '账户',
+                    link: 'account',
+                    subs: [
+                        {
+                            name: '注销',
+                            link: '/account/logout'
+                        },
+                    ],
+                    float:'right',
+                    iconName:'el-icon-s-custom',
+                },
+                {
                     name: '健康管理',
                     link: 'health',
                     subs: [
@@ -127,20 +136,24 @@ export default {
                             name: '祛痘',
                             link: '/health/anti'
                         },
-                    ]
+                    ],
+                    float:'right',
                 },
                 {
                     name: '运动装备',
-                    link: 'shop'
+                    link: 'shop',
+                    float:'right',
                 },
 
                 {
                     name: '裁判园地',
-                    link: 'theory'
+                    link: 'theory',
+                    float:'right',
                 },
                 {
                     name: '云比赛',
-                    link: 'video'
+                    link: 'video',
+                    float:'right',
                 },
 
             ],
@@ -162,6 +175,12 @@ export default {
         account() {
             this.$router.push("/account");
         },
+        logout(){
+            api.get('/api/login/logout').then(res => {
+            });
+            this.$store.commit('setUserId', -1);
+            this.$router.push('/login');
+        }
     },
     mounted() {
     },
@@ -175,8 +194,9 @@ export default {
 <style scoped>
   .all{
     height: 80px;
+    width: 100%;
   }
-  .all .normal{
+  .all #normal{
     width: 100%;
     height: 80px;
     position: fixed;
@@ -185,7 +205,8 @@ export default {
     background-color: white;
     border-bottom: 1px solid #dcdfe6;
   }
-  .activity_header{
+
+  #header_item_container{
     height: 80px;
     line-height: 80px;
     top:0;
@@ -194,55 +215,44 @@ export default {
     max-width: 1140px;
     vertical-align:middle;
   }
-    .activity_header2{
-    max-width: 1140px;
-  }
-  .activity_header .img_normal{
+
+  #img_container{
+    display: flex;
     cursor: pointer;
-    line-height:80px;
-    height: 30px;
-    margin:25px 10px 25px 0;
+    height: 80px;
     float: left;
+    align-items: center;
   }
 
-  .activity_header .el-icon-s-fold{
-    margin:0 5px;
-    font-size:30px;
-    vertical-align:middle;
-    float: right;
-    line-height: 80px;
-    cursor: pointer;
-    display: none;
+  #header_item_container img{
+    height: 30px;
   }
 
-  .activity_header .el-icon-s-custom{
-    margin:0 5px 0 10px;
-    font-size:30px;
-    vertical-align:middle;
-    float: right;
+  #normal #header_item_container .header_item {
     line-height: 80px;
-    cursor: pointer;
-  }
-
-  .normal .el-icon-s-fold:hover{
-    color:#409EFF;
-    transition: 0.5s;
-  }
-  .normal .el-icon-s-custom:hover{
-    color:#409EFF;
-    transition: 0.5s;
-  }
-  .normal .activity_header .header_a {
-    line-height: 80px;
+    height: 80px;
     margin:  0 0 0 15px;
-    color: #60606d;
     float: left;
     cursor: pointer;
     text-align: center;
     font-size: 14px;
   }
 
-  .normal .activity_header .header_a:hover, .el-dropdown-selfdefine:hover{
+  #normal i{
+    font-size:30px;
+    vertical-align:middle;
+    line-height: 80px;
+    cursor: pointer;
+    color: #60606d;
+  }
+
+
+  #normal p{
+    color: #60606d;
+    font-size: 14px;
+  }
+
+  #normal p:hover, i:hover{
     color:#409EFF!important;
   }
   .float_right{
@@ -256,65 +266,24 @@ export default {
     border-bottom: none;
     color:#409EFF!important;
   }
+  #normal {
+    display: block;
+  }
+  .small{
+    display: none!important;
+  }
   /*手机端*/
-  @media screen and (max-width: 760px){
-    .all .normal{
-      border-bottom: none!important;
+  @media screen and (max-width: 840px) {
+    .all{
+      height: 60px;
+      width: 100%;
     }
 
-    .activity_header .img_normal{
+    #normal {
       display: none;
     }
-
-    .active{
-      border-bottom: none;
-      color:#409EFF!important;
+    .small{
+      display: flex!important;
     }
-    .normal .activity_header .header_a{
-      display: none;
-    }
-
-    .all .phone{
-      height: auto!important;
-    }
-    .all .normal{
-      background-color: #1B1C20!important;
-    }
-    .activity_header .el-icon-s-fold{
-      display: inherit!important;
-      color: white;
-      float: left;;
-    }
-    .activity_header .el-icon-s-custom{
-      color: white;
-    }
-  }
-  .active2{
-    color:#409EFF!important;
-  }
-  .phone{
-    width: 100%;
-    z-index: 9999;
-    position: fixed;;
-    top:80px;
-    overflow: hidden;
-    color: #60606d;
-    line-height: 50px;
-    height: 0;
-    background-color: #1B1C20;
-  }
-  .header_phone_a{
-    width: 100%;
-    cursor: pointer;
-    transition: background-color 0.5s,color 0.5s;
-  }
-
-  .header_phone_a:hover{
-    background-color: #60606d;
-    color:#409EFF!important;
-  }
-
-  .header_phone_a p{
-      margin-left: 82px;
   }
 </style>

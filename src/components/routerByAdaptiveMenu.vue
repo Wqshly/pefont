@@ -75,19 +75,14 @@ export default {
   @media (max-width: 760px) {
     .options{
       width: 100% !important;
+      display: flex;
       margin: 0;
+      flex-wrap: wrap;
     }
 
     .option{
-      float: left;
       margin: 0 2px;
       padding-right: 15px;
-    }
-    .account_main{
-      width: 100% !important;
-    }
-    .iconfont{
-      display: none;
     }
   }
 

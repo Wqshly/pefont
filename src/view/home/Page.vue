@@ -14,7 +14,7 @@
             return {
                 headers: [
                     {
-                        name: '签到表',
+                        name: '首页',
                         link: '/home/signIn'
                     },
                 ]

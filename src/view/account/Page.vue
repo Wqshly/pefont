@@ -68,7 +68,16 @@ export default {
   .account-container .account_main{
     float: left;
     padding-top: 10px;
-    width: calc(100% - 160px);
+    width: 100%;
     min-height: 700px;
+  }
+
+  @media (min-width: 760px) {
+    .account-container .account_main{
+      padding-top: 10px;
+      width: calc(100% - 160px)!important;
+      min-height: 700px;
+    }
+
   }
 </style>

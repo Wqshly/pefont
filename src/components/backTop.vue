@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <div class="el-backtop" @click="backToTop" style="right: 100px; bottom: 150px;"><i class="el-icon-caret-top"></i></div>
-  </div>
+  <div class="el-backtop" @click="backToTop" style="right: 100px; bottom: 150px;"><i class="el-icon-caret-top"></i></div>
 </template>
 
 <script >

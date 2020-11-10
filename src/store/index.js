@@ -9,16 +9,16 @@ export default  new Vuex.Store({
       activityClass:'',
       user: {
         id: -1,
-        userNumber: "234",
-        username: "李四",
-        password: "123456",
+        userNumber: "",
+        username: "",
+        password: "",
         age: 22,
-        sex: "男",
-        unit: "软件2班",
+        sex: "",
+        unit: "",
         identity: "学生",
-        phone: "09876543211",
-        email: "1223qq.com",
-        schoolId: "山东科技大学"
+        phone: "",
+        email: "",
+        schoolId: ""
     }
   },
   mutations: {

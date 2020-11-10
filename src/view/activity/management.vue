@@ -46,19 +46,19 @@
             width="100">
             <template slot-scope="scope">
               <el-tag
-                :type="bound(scope.row.label)"
+                :type="renderColor(scope.row.label)"
                 disable-transitions>{{scope.row.label}}</el-tag>
             </template>
             <template #header>
               <el-popover trigger="hover" placement="top">
                 <el-tag
-                  :type="bound('参与者')"
+                  :type="renderColor('参与者')"
                   disable-transitions>参与者</el-tag>普通成员<br><br>
                 <el-tag
-                  :type="bound('签到员')"
+                  :type="renderColor('签到员')"
                   disable-transitions>签到员</el-tag>有组织签到权限<br><br>
                 <el-tag
-                  :type="bound('发起人')"
+                  :type="renderColor('发起人')"
                   disable-transitions>发起人</el-tag>所有权限
                 <div slot="reference" class="name-wrapper">
                   权限
@@ -128,7 +128,7 @@
 
         methods: {
             //渲染TAG
-            bound(label){
+            renderColor(label){
                 if(label==='参与者')
                     return 'info';
                 if(label==='签到员')

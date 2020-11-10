@@ -61,7 +61,10 @@
   </el-tabs>
     <div id="my-score"  >
       <el-tabs type="border-card" style="width: 300px">
-        <el-tab-pane :label="'你的分数'+myName+':'+myScore+'分'">
+        <el-tab-pane label="你的分数">
+          <p>{{myName+':'+myScore+'分'}}</p>
+          <br>
+          <p>一周内的运动记录:</p>
           <div class="student_score" style="width:300px;">
             <el-table
               :data="handleData3()"
