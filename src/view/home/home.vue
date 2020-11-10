@@ -114,9 +114,9 @@
                     case 0:
                       return '未运动';
                     case 1:
-                      return '正在运动:'+this.calcTime(row,signTime);
+                      return '正在运动:'+this.calcTime(row.signTime);
                     case 2:
-                      return '运动完成:'+this.calcTime(row,signTime,row,signOutTime);
+                      return '运动完成:'+this.calcTime(row.signTime,row.signOutTime);
                 }
             },
             renderColor(flag){
