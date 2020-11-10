@@ -131,7 +131,7 @@
             },
             calcTime(signTime,signOutTime) {
                 //let signTime = "2020-11-9T14:22:00.000+000";
-                let new_date = signOutTime ? signOutTime : new Date(); //新建一个日期对象，默认现在的时间
+                let new_date = signOutTime ? new Date(signOutTime.replace('T', ' ').split('.')[0]) : new Date(); //新建一个日期对象，默认现在的时间
                 let old_date = new Date(signTime.replace('T', ' ').split('.')[0]); //设置过去的一个时间点，"yyyy-MM-dd HH:mm:ss"格式化日期
                 let difftime = (new_date - old_date) / 1000; //计算时间差,并把毫秒转换成秒
                 let days = parseInt(difftime / 86400); // 天  24*60*60*1000
@@ -148,6 +148,7 @@
                 if (minutes !== 0) {
                     n += minutes + "分钟";
                 }
+                return n;
             },
             handleData() {
                 let temp_data = this.tableData.filter(data=>this.filter(data));
