@@ -116,7 +116,7 @@
                     case 1:
                       return '正在运动:'+this.calcTime(row,signTime);
                     case 2:
-                      return '运动完成:'+this.calcTime(row,signTime,row,signoutTime);
+                      return '运动完成:'+this.calcTime(row,signTime,row,signOutTime);
                 }
             },
             renderColor(flag){
@@ -129,9 +129,9 @@
                         return 'success';
                 }
             },
-            calcTime(signTime,signoutTime) {
+            calcTime(signTime,signOutTime) {
                 //let signTime = "2020-11-9T14:22:00.000+000";
-                let new_date = signoutTime ? signoutTime : new Date(); //新建一个日期对象，默认现在的时间
+                let new_date = signOutTime ? signOutTime : new Date(); //新建一个日期对象，默认现在的时间
                 let old_date = new Date(signTime.replace('T', ' ').split('.')[0]); //设置过去的一个时间点，"yyyy-MM-dd HH:mm:ss"格式化日期
                 let difftime = (new_date - old_date) / 1000; //计算时间差,并把毫秒转换成秒
                 let days = parseInt(difftime / 86400); // 天  24*60*60*1000
