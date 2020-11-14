@@ -10,7 +10,7 @@
         width="fit-content"
         ref="popover1">
         <div class="popover-content">
-          <div>商务：0512-88888888<br>客服：8888888888‬</div>
+          <div>联系电话： 15315510691‬</div>
         </div>
       </el-popover>
       <div class="icon-item" v-popover:popover1>
@@ -28,45 +28,11 @@
         <i class="iconfont icon-dingwei"></i>
       </div>
 
-      <el-popover
-        placement="top"
-        trigger="hover"
-        width="fit-content"
-        ref="popover3">
-        <div class="qq">QQ: 491528074</div>
-      </el-popover>
-      <div class="icon-item" v-popover:popover3>
-        <i class="iconfont icon-QQ1"></i>
-      </div>
-
-      <el-popover
-        placement="top"
-        trigger="hover"
-        width="120"
-        ref="popover4">
-        <div class="weibo"><img style="width: 100%;" v-lazy="require('../assets/img/footer/weibo.png')" alt="">
-        </div>
-      </el-popover>
-      <div class="icon-item" v-popover:popover4>
-        <i class="iconfont icon-weibo1"></i>
-      </div>
-
-      <el-popover
-        placement="top"
-        trigger="hover"
-        width="120"
-        ref="popover5">
-        <div class="weibo"><img style="width: 100%;" v-lazy="require('../assets/img/footer/wechat.png')" alt="">
-        </div>
-      </el-popover>
-      <div class="icon-item" v-popover:popover5>
-        <i class="iconfont icon-wechat"></i>
-      </div>
     </div>
 
 
-    <p style="text-align: center">
-      山东科技信息技术有限公司 Chuan 版权所有 鲁ICP备12345678号-4 鲁B2-20200512
+    <p>
+      青岛新体创体育产业集团有限公司 版权所有 鲁ICP备20031781号-1
     </p>
     </div>
   </div>
@@ -112,7 +78,7 @@ export default {
   }
 
   .icon-group {
-    margin: 30px 0 50px;
+    margin: 20px 0;
     flex-wrap: wrap;
   }
   .icon-group .icon-item {

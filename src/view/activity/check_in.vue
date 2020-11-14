@@ -352,12 +352,7 @@
   .checkin_management1{
     margin-top: 20px;
   }
-  @media screen and (min-width: 1140px){
-    .checkin_management1  ._self{
-      width: 1127px!important;
-      margin: 0 auto;
-    }
-  }
+
   .checkin_management1  ._self{
     position:fixed;
     width: 100%;

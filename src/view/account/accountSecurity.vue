@@ -105,7 +105,6 @@ export default {
 <style scoped>
 .demo-ruleForm{
   width: 90%;
-  max-width: 500px;
 }
 
 

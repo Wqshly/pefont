@@ -32,75 +32,24 @@
           <h2>PE校园-健康生活每一天</h2>
           <div class="detail">
             <p>
-              PE校园由青岛指尖跃动科技有限公司与青岛新体创体育产业集团有限公司联合开发，最早探索建设体育运动云平台，是国内先进的大学生运动健康综合性平台。</p>
+              校园PE，由青岛新体创体育产业集团有限公司研发，青岛指尖跃动科技有限公司提供技术支持。
+            </p>
+            <p>
+              校园PE旨在促进学生每天锻炼一小时，用运动时长获取PE体育学分，从而保证学生运动时长，乐享健康生活。
+            </p>
           </div>
         </div>
-        <div style="height: fit-content">
-          <!--
-          <div class="item_thu">
-            <div class="hover-card">
-              <div align="center">
-                <img v-lazy="require('../../assets/img/index/home/section2/index_explore.png')" alt="探索二课">
-              </div>
-              <div class="caption">
-                <h3 style="text-align: center">探索二课</h3>
-                <p style="text-align: center">PE校园是全国最早</p>
-                <p style="text-align: center">探索建设第二课堂的平台</p>
-              </div>
-            </div>
-          </div>
 
-          <div class="item_thu">
-            <div class="hover-card">
-              <div align="center">
-                <img v-lazy="require('../../assets/img/index/home/section2/index_platform.png')" alt="指定平台">
-              </div>
-              <div class="caption">
-                <h3 style="text-align: center">指定平台</h3>
-                <p style="text-align: center">《中长期青年发展规划》</p>
-                <p style="text-align: center">指定服务平台</p>
-              </div>
-            </div>
+        <div id="section2-container">
+          <div class="section2-item" v-for="e in section2">
+              <img v-lazy="require('../../assets/img/index/home/section2/'+e.url)" alt="">
+              <p>{{e.text}}</p>
           </div>
-        -->
-          <div class="item_thu2">
-            <div class="hover-card">
-              <div align="center">
-                <img v-lazy="require('../../assets/img/index/home/section2/explore.png')" alt="探索二课">
-              </div>
-              <div class="caption">
-                <h3 style="text-align: center">记录运动</h3>
-                <p style="text-align: center">PE校园</p>
-                <p style="text-align: center">大型综合性体育运动健康管理云平台</p>
-              </div>
-            </div>
+        </div>
+        <div id="section2-phone-container">
+          <div class="section2-phone-item">
+            <img v-lazy="require('../../assets/img/index/home/section2/fanchuan.jpg')" alt="">
           </div>
-          <div class="item_thu2">
-            <div class="hover-card">
-              <div align="center">
-                <img v-lazy="require('../../assets/img/index/home/section2/technical.png')" alt="技术解决方案">
-              </div>
-              <div class="caption">
-                <h3 style="text-align: center">技术解决方案</h3>
-                <p style="text-align: center">技术大咖分分钟解决你的技术难题，</p>
-                <p style="text-align: center">并持续优化解决方案</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="item_thu2">
-            <div class="hover-card">
-              <div align="center">
-                <img v-lazy="require('../../assets/img/index/home/section2/undraw_collecting_fjjl.png')" alt="产品服务">
-              </div>
-              <div class="caption">
-                <h3 style="text-align: center">产品服务</h3>
-                <p style="text-align: center">提供满足大众需求的体育运动</p>
-                <p style="text-align: center">SAAS平台和特殊定制化需求</p>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
@@ -114,49 +63,14 @@
             </p>
           </div>
         </div>
+      </div>
 
-        <div class="item_thu">
-          <div align="center">
-            <img v-lazy="require('../../assets/img/index/home/section3/专业系统.png')" alt="专业系统">
-          </div>
-          <div class="caption">
-            <h3 style="text-align: center">专业系统</h3>
-            <p style="text-align: center">
-              集成课程体系，学校培养评估，学生素质评价为一体的综合素质管理平台
-            </p>
-          </div>
+      <div id="section3-container">
+        <div class="section3-item" v-for="e in section3">
+            <img v-lazy="require('../../assets/img/index/home/section3/'+e.url)" alt="">
+            <h3 align="center">{{e.h3}}</h3>
+            <p align="center">{{e.p}}</p>
         </div>
-
-        <div class="item_thu">
-          <div align="center">
-            <img v-lazy="require('../../assets/img/index/home/section3/多端.png')" alt="多端形态">
-          </div>
-          <div class="caption">
-            <h3 style="text-align: center">多端形态</h3>
-            <p style="text-align: center">APP、H5、小程序、PC、Web多端形态，满足不同的使用场景需求 </p>
-          </div>
-        </div>
-
-        <div class="item_thu">
-          <div align="center">
-            <img v-lazy="require('../../assets/img/index/home/section3/个性定制.png')" alt="个性定制">
-          </div>
-          <div class="caption">
-            <h3 style="text-align: center">个性定制</h3>
-            <p style="text-align: center">针对不同高校和学生群体需求,定制符合其自身发展需求的功能</p>
-          </div>
-        </div>
-
-        <div class="item_thu">
-          <div align="center">
-            <img v-lazy="require('../../assets/img/index/home/section3/升级.png')" alt="持续升级">
-          </div>
-          <div class="caption">
-            <h3 style="text-align: center">持续升级</h3>
-            <p style="text-align: center">不断优化迭代，持续升级，为第二课堂的前行铺平道路</p>
-          </div>
-        </div>
-
       </div>
     </div>
 
@@ -250,7 +164,6 @@
         name: 'home',
         data () {
             return {
-
                 /*轮播图 走马灯*/
                 items1:[
                     {
@@ -265,7 +178,67 @@
                         name:  "3",
                         url:"http://www.xiaoyuanpe.com/3.png"
                     },
-                ]
+                ],
+                section2:[
+                    {
+                      text: '乒乓球',
+                      url: 'pingpang.jpg',
+                    },
+                    {
+                        text: '羽毛球',
+                        url: 'yumao.jpg',
+                    },
+                    {
+                        text: '篮球',
+                        url: 'lanqiu.jpg',
+                    },
+                    {
+                        text: '足球',
+                        url: 'zuqiu.jpg',
+                    },
+                    {
+                        text: '铅球',
+                        url: 'qianqiu.jpg',
+                    },
+                    {
+                        text: '帆船',
+                        url: 'fanchuan.jpg',
+                    },
+                    {
+                        text: '跳高',
+                        url: 'tiaogao.jpg',
+                    },
+                    {
+                        text: '50米跑',
+                        url: 'paobu.jpg',
+                    },
+                    {
+                        text: '跨栏',
+                        url: 'kualan.jpg',
+                    },
+                ],
+                section3:[
+                    {
+                        url:'专业系统.png',
+                        h3:'专业系统',
+                        p:'集成课程体系，学校培养评估，学生素质评价为一体的综合素质管理平台',
+                    },
+                    {
+                        url:'多端.png',
+                        h3:'多端形态',
+                        p:'APP、H5、小程序、PC、Web多端形态，满足不同的使用场景需求',
+                    },
+                    {
+                        url:'个性定制.png',
+                        h3:'个性定制',
+                        p:'针对不同高校和学生群体需求,定制符合其自身发展需求的功能',
+                    },
+                    {
+                        url:'升级.png',
+                        h3:'持续升级',
+                        p:'不断优化迭代，持续升级，为第二课堂的前行铺平道路',
+                    },
+                ],
             }
         },
         methods: {
@@ -446,6 +419,7 @@
   .homepage .section-2 {
     position: relative;
     overflow:hidden;
+    padding-bottom: 40px;
   }
 
   .homepage .section-2 .description {
@@ -457,64 +431,54 @@
     margin-top: 20px;
   }
 
-  .homepage .section-2 .hover-card{
-    margin: 0 10px 20px 0;
-    padding-bottom: 15px;
-    background: rgba(0, 0, 0, 0);
-    position: relative;
-    display: block;
-    line-height: 1.42857143;
+  #section2-container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  #section2-phone-container{
+    width: 100%;
+    flex-wrap: wrap;
+    display: none;
+    justify-content: center;
+  }
+  .section2-item{
+    display: flex;
+    width: 33%;
     border: 1px solid #ddd;
     border-radius: 4px;
-    -webkit-transition: background-color .2s ease-in-out;
-    -o-transition: background-color .2s ease-in-out;
-    transition: background-color .2s ease-in-out;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
-  .homepage .section-2 .hover-card2:hover{
-    background-color: #666666;
-    opacity: 0.8;
+  .section2-phone-item{
+    display: flex;
+    width: 90%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
-  .homepage .section-2 .hover-card2:hover .caption h3,.homepage .section-2 .hover-card2:hover .caption p{
-    color: white;
+  .section2-phone-item img{
+    width: 100%;
   }
-
-  .homepage .section-2 .item_thu{
-    width: 80%;
-    margin: 0 auto;
+  .section2-item p{
+    font-size: 12px;
+    padding-top: 5px;
   }
-
-  .homepage .section-2 img{
-    width: 230px;
-  }
-
-  .homepage .section-2 .item_thu2{
-    width: 80%;
-    margin: 0 auto;
+  .section2-item img{
+    width: 100%;
   }
 
-  /*页面中等时每行两个*/
-  @media (min-width: 760px) and (max-width:1200px) {
-    .homepage .section-2 .item_thu {
-      width: 50%;
-      float: left;;
+  /*页面最窄*/
+  @media (max-width: 759px){
+    #section2-container {
+      display: none;
     }
-
-    .homepage .section-2 .item_thu2 {
-      width: 50%;
-      float: left;;
-    }
-  }
-
-  /*页面最宽时第一行每行两个 第二行 每行三个*/
-  @media (min-width: 1200px){
-    .homepage .section-2 .item_thu {
-      width: 50%;
-      float: left;;
-    }
-
-    .homepage .section-2 .item_thu2 {
-      width: 33%;
-      float: left;;
+    #section2-phone-container{
+      display: flex;
     }
   }
 
@@ -541,31 +505,49 @@
     color: #fff;
   }
 
-  .homepage .section-3 .item_thu{
+  #section3-container{
+    display: flex;
     width: 100%;
-    margin: 20px 0;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
   }
-  .homepage .section-3 .item_thu .caption{
-    min-height: 70px;
+  #section3-container .section3-item{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px 0;
   }
-  .homepage .section-3 .item_thu img{
-    width: 20%;
+  .section3-item p,.section3-item h3{
+    width: 70%;
+  }
+  .section3-item img{
+    width: 10%;
   }
   /*页面中等时每行两个*/
   @media (min-width: 760px) and (max-width:1200px) {
-    .homepage .section-3 .item_thu {
+    #section3-container .section3-item {
       width: 50%;
-      float: left;;
+    }
+    .section3-item img{
+      width: 15%;
     }
   }
   /*页面最宽时每行四个*/
   @media (min-width: 1200px){
-    .homepage .section-3 .item_thu {
-      width: 25%;
-      float: left;;
+    #section3-container{
+      width: 70%;
+      margin: 0 auto;
     }
-    .homepage .section-3 .item_thu img{
-      width: 40%;
+
+    #section3-container .section3-item {
+      width: 25%;
+    }
+    .section3-item img{
+      width: 15%;
     }
   }
 

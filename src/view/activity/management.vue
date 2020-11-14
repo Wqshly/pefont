@@ -83,16 +83,17 @@
             </el-table-column>
         </el-table>
       </template>
-      <el-pagination
-        class="_self"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage"
-        :page-size="pageSize"
-        layout="total, prev, pager, next, jumper, sizes"
-        :total="total">
-      </el-pagination>
+
     </div>
+    <el-pagination
+      class="_self"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page.sync="currentPage"
+      :page-size="pageSize"
+      layout="total, prev, pager, next, jumper, sizes"
+      :total="total">
+    </el-pagination>
   </div>
 </template>
 
@@ -261,20 +262,13 @@
     width: 100%;
   }
 
-  @media screen and (min-width: 1140px){
-
-    .activity-management  ._self{
-      width: 1127px!important;
-      margin: 0 auto;
-    }
-  }
-  .activity-management  ._self{
+  ._self{
     position:fixed;
-    width: 100%;
+    width: 100% !important;
     bottom: 0;
     background-color: white;
+    z-index: 2000;
   }
-
 
   .activity-management h1{
     font-weight: 300;

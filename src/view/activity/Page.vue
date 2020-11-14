@@ -50,6 +50,8 @@ export default {
     width: 100%;
     max-width: 1140px;
     margin:0 auto;
+    min-height: 800px;
+    padding-bottom: 40px;
   }
 
 </style>

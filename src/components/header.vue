@@ -7,19 +7,32 @@
         </div>
         <div class="header_item"
              v-for="(item,index) in headers"
-             @click="jump(item.link)"
-             :class="[{'active':isActive === item.link},{'float_right' : item.float ==='right'}]">
+             @click="jump(item)"
+             :class="[{'active':isActive === item.link && item.link !== '404'},{'float_right' : item.float ==='right'}]">
+          <!--一级菜单-->
           <div>
             <i v-if="!item.subs && item.iconName" :class="item.iconName"></i>
             <p v-if="!item.subs && !item.iconName">{{item.name}}</p>
           </div>
-          <el-dropdown v-if="item.subs" show-timeout="0" hide-timeout="250">
+          <!--二级菜单-->
+          <el-dropdown v-if="item.subs" show-timeout="0" hide-timeout="250" :trigger="item.trigger">
             <div>
               <i v-if="item.iconName" :class="item.iconName"></i>
               <p v-if="!item.iconName">{{item.name}}</p>
             </div>
-            <el-dropdown-menu slot="dropdown" >
-              <el-dropdown-item  v-for="sub in item.subs" :key="sub.link" @click.native="jump2(sub.link)" >{{sub.name}}</el-dropdown-item>
+            <el-dropdown-menu slot="dropdown">
+              <div v-for="(sub,index) in item.subs" :key="index">
+                <el-dropdown-item v-if="!sub.subs" @click.native="jump2(sub)">{{sub.name}}</el-dropdown-item>
+                <!--三级菜单-->
+                <el-dropdown style="width: 100%" v-else>
+                  <el-dropdown-item >{{sub.name}}</el-dropdown-item>
+                  <el-dropdown-menu style="margin: -20px -157px 0 0;" slot="dropdown">
+                    <el-dropdown-item v-for="(s,index) in sub.subs" :key="index" @click.native="jump3(s)">
+                      {{s.name}}
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </div>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -46,7 +59,7 @@ export default {
             headers: [
                 {
                     name: '早操',
-                    link: 'home'
+                    link: 'exercises'
                 },
                 {
                     name: '课外活动',
@@ -54,37 +67,120 @@ export default {
                 },
                 {
                     name: '本地比赛',
-                    link: 'home3',
+                    link: 'competition',
+                    noJump: true,
+                    trigger: 'click',
                     subs: [
                         {
-                            name: '足球',
-                            link: '/home3/1'
+                            name: '比赛综合类',
+                            subs: [
+                                {
+                                    name: '田径运动会',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '综合性运动会',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '其他',
+                                    link: '/competition/home',
+                                },
+                            ],
                         },
                         {
-                            name: '排球',
-                            link: '/home3/2'
+                            name: '田径类',
+                            subs: [
+                                {
+                                    name: '田赛',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '竞赛',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '全能',
+                                    link: '/competition/home',
+                                },
+                            ],
                         },
                         {
-                            name: '网球',
-                            link: '/home3/3'
+                            name: '球类运动',
+                            subs: [
+                                {
+                                    name: '足球',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '排球',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '篮球',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '网球',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '乒乓球',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '其他',
+                                    link: '/competition/home',
+                                },
+                            ],
                         },
                         {
-                            name: '羽毛球',
-                            link: '/home3/4'
+                            name: '水上运动',
+                            subs: [
+                                {
+                                    name: '游泳比赛',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '帆船比赛',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '其他',
+                                    link: '/competition/home',
+                                },
+                            ]
                         },
                         {
-                            name: '乒乓球',
-                            link: '/home3/5'
-                        },
-                        {
-                            name: '篮球',
-                            link: '/home3/6'
+                            name: '其他',
+                            subs: [
+                                {
+                                    name: '自行车赛',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '跆拳道赛',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '柔道赛',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '拳击赛',
+                                    link: '/competition/home',
+                                },
+                                {
+                                    name: '其他',
+                                    link: '/competition/home',
+                                },
+                            ]
                         },
                     ]
                 },
                 {
-                    name: '发起比赛',
-                    link: 'promotion'
+                    name: '区域联赛',
+                    link: '404'
                 },
                 {
                     name: '校内校外活动',
@@ -152,7 +248,7 @@ export default {
                 },
                 {
                     name: '云比赛',
-                    link: 'video',
+                    link: '404',
                     float:'right',
                 },
 
@@ -164,16 +260,24 @@ export default {
     methods: {
         //一级目录跳转函数   便于渲染active样式
         jump(val) {
-            this.drawer = false;
-            this.isActive = val;
-            this.$router.push('/' + val);
+            if(!val.noJump) {
+                this.drawer = false;
+                this.$router.push('/' + val.link);
+            }
         },
         //二级目录跳转函数
         jump2(val) {
-            this.$router.push(val);
+            if(!val.noJump) {
+                this.drawer = false;
+                this.$router.push(val.link);
+            }
         },
-        account() {
-            this.$router.push("/account");
+        jump3(val) {
+            if(!val.noJump) {
+                this.drawer = false;
+                this.$store.commit('setCompetitionClass', val.name);
+                this.$router.push(val.link);
+            }
         },
         logout(){
             api.get('/api/login/logout').then(res => {
@@ -191,7 +295,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   .all{
     height: 80px;
     width: 100%;
@@ -286,4 +390,5 @@ export default {
       display: flex!important;
     }
   }
+
 </style>

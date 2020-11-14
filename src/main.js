@@ -31,14 +31,21 @@ new Vue({
 });
 
 router.beforeEach((to, from, next) => {
-  if(store.state.user.id === -1
+  if(from.path === '/competition/home') {
+    Vue.prototype.$confirm('确认离开页面？')
+      .then(_ => {
+        next();
+      })
+      .catch(_ => {});
+  }
+  //if中是需要执行（判断是不是已登录）的条件
+  else if(store.state.user.id === -1
     && to.path !== '/login'
     && from.path !== '/login'
     && to.path.split('/')[1] !== 'index'
     && to.path !== from.path){
     api.get('/api/login/LoginOrNot').then(res => {
       if (res.code === 0) {
-        console.log(res.data)
         store.state.user = res.data;
         window.scrollTo(0, 0);
         next();
@@ -52,7 +59,9 @@ router.beforeEach((to, from, next) => {
     });
   } else {
     window.scrollTo(0, 0);
-    next()
+    if(to.path !== from.path){
+      next()
+    }
   }
 
 });

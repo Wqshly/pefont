@@ -7,21 +7,22 @@ const indexPage = () => import(/* webpackChunkName: '0' */ '../view/index/Page')
 const index_home = () => import(/* webpackChunkName: '0' */ '../view/index/home');
 const index_function = () => import(/* webpackChunkName: '0' */ '../view/index/function');
 const index_app = () => import(/* webpackChunkName: '0' */ '../view/index/app1');
+const notFoundPage = () => import(/* webpackChunkName: '0' */ '../view/404');
 
 /*login page*/
 const login = () => import(/* webpackChunkName: '0' */ '../view/login');
 
 /*早操*/
-const homePage = () => import(/* webpackChunkName: '1' */ '../view/home/Page');
-const home_page = () => import(/* webpackChunkName: '1' */ '../view/home/home');
+const exercisesPage = () => import(/* webpackChunkName: '1' */ '../view/exercises/Page');
+const exercises_page = () => import(/* webpackChunkName: '1' */ '../view/exercises/home');
 
 /*home2 page*/
 const home2Page = () => import(/* webpackChunkName: '2' */ '../view/home2/Page');
 const home2_page = () => import(/* webpackChunkName: '2' */ '../view/home2/home');
 
-/*home3 page*/
-const home3Page = () => import(/* webpackChunkName: '3' */ '../view/home3/Page');
-const home3_home = () => import(/* webpackChunkName: '3' */ '../view/home3/home');
+/*本地比赛*/
+const competitionPage = () => import(/* webpackChunkName: '3' */ '../view/competition/Page');
+const competition_home = () => import(/* webpackChunkName: '3' */ '../view/competition/home');
 
 /*promotion page*/
 const promotionPage = () => import(/* webpackChunkName: '4' */ '../view/promotion/Page');
@@ -68,6 +69,7 @@ const theory_theory = () => import(/* webpackChunkName: '8' */ '../view/theory/t
 const theory_exam = () => import(/* webpackChunkName: '8' */ '../view/theory/theoryExam');
 const theory_exams = () => import(/* webpackChunkName: '8' */ '../view/theory/theoryExams');
 
+
 const router = new Router({
   routes: [
     {
@@ -75,20 +77,24 @@ const router = new Router({
       redirect: '/index/home'
     },
     {
+      path: '/404',
+      component: notFoundPage,
+    },
+    {
       path: '/home',
-      component: homePage,
+      redirect: '/exercises'
+    },
+    {
+      path: '/exercises',
+      component: exercisesPage,
       children: [
         {
           path: '/',
-          redirect:'/home/signIn',
+          redirect:'/exercises/signIn',
         },
         {
-          path: '/home/signIn',
-          component: home_page
-        },
-        {
-          path: '/home/signOut',
-          component: home_page
+          path: '/exercises/signIn',
+          component: exercises_page
         },
       ]
     },
@@ -107,33 +113,17 @@ const router = new Router({
       ]
     },
     {
-      path: '/home3',
-      component: home3Page,
+      path: '/competition',
+      component: competitionPage,
       children: [
         {
           path: '/',
-          component: home3_home
+          redirect: '/competition/1'
         },
         {
-          path: '/home3/1',
-          component: home3_home
-        },
-        {
-          path: '/home3/2',
-          component: home3_home
-        },
-        {
-          path: '/home3/3',
-          component: home3_home
-        },
-        {
-          path: '/home3/4',
-          component: home3_home
-        },
-        {
-          path: '/home3/5',
-          component: home3_home
-        },
+          path: '/competition/home',
+          component: competition_home
+        }
       ]
     },
     {

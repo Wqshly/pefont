@@ -32,4 +32,5 @@ export default {
 <style lang="less">
   @import "style/common";
   @import "assets/icon/iconfont.css";
+
 </style>
