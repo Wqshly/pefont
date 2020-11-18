@@ -50,65 +50,66 @@
 </template>
 
 <script>
-    import particles from 'particles.js'
-export default {
+  import particles from 'particles.js'
+
+  export default {
     data() {
-        return {
-            VRCODE: false,
-            loginForm: {
-                schoolId: null,
-                usernumber: null,
-                password: null,
-            },
-            registerForm: {
-                userNumber: "未设置",
-                username: "未设置",
-                password: "123456",
-                age: 0,
-                sex: "未设置",
-                unit: "未设置",
-                identity: "学生",
-                phone: "未设置",
-                email: "未设置",
-                schoolId: null
-            },
-            options: [
-                {
-                  id:1,
-                  schoolName:'山东科技大学',
-                },
-            ],
-            loginDisable: false,
-        }
+      return {
+        VRCODE: false,
+        loginForm: {
+          schoolId: null,
+          usernumber: null,
+          password: null,
+        },
+        registerForm: {
+          userNumber: "未设置",
+          username: "未设置",
+          password: "123456",
+          age: 0,
+          sex: "未设置",
+          unit: "未设置",
+          identity: "学生",
+          phone: "未设置",
+          email: "未设置",
+          schoolId: null
+        },
+        options: [
+          {
+            id: 1,
+            schoolName: '山东科技大学',
+          },
+        ],
+        loginDisable: false,
+      }
     },
     methods: {
-      show(){
-        this.VRCODE=!this.VRCODE;
+      show() {
+        this.VRCODE = !this.VRCODE;
       },
-      requestSchoolList(){
-          let url = '/api/school/querySchoolList';
-          this.$api.get(url).then(res => {
-              if (res.code === 0) {
-                  this.options = this.$clone.transObjectToList(res.data);
-              } else {
-                  this.$message.error(res.msg);
-              }
-          })
-      },
-      login () {
-          if(!this.loginDisable){
-              this.loginDisable = true;
-              let url = '/api/login/login';
-              this.$api.post(url, this.loginForm).then(res => {
-                  this.loginDisable = false;
-                  if (res.code === 0) {
-                      this.$router.push('/home');
-                      this.$store.commit('setUser', res.data);
-                  } else {
-                      this.$message.error(res.msg);
-                  }
-              })
+      requestSchoolList() {
+        let url = '/api/school/querySchoolList';
+        this.$api.get(url).then(res => {
+          if (res.code === 0) {
+            this.options = this.$clone.transObjectToList(res.data);
+          } else {
+            this.$message.error(res.msg);
           }
+        })
+      },
+      login() {
+        if (!this.loginDisable) {
+          this.loginDisable = true;
+          let url = '/api/login/login';
+          this.$api.post(url, this.loginForm).then(res => {
+            this.loginDisable = false;
+            if (res.code === 0) {
+              this.$router.push('/home');
+              this.$store.commit('setUser', res.data);
+            } else {
+              this.$message.error(res.msg);
+            }
+          })
+        }
 
       },
       register(formName) {
@@ -117,32 +118,32 @@ export default {
         this.registerForm.userNumber = this.loginForm.usernumber;
         let url = '/api/user/addUser';
         this.$api.post_JSON(url, this.registerForm).then(res => {
-            if (res.code === 0) {
-                this.$message.success('注册成功!');
-            } else {
-                this.$message.error(res.msg);
-            }
+          if (res.code === 0) {
+            this.$message.success('注册成功!');
+          } else {
+            this.$message.error(res.msg);
+          }
         });
       },
-      keyDown(e){
-          if(e.keyCode === 13){
-              this.login();
-          }
+      keyDown(e) {
+        if (e.keyCode === 13) {
+          this.login();
+        }
       }
     },
-    mounted(){
-        particlesJS.load('particles','/static/particles.json');
-        window.addEventListener('keydown',this.keyDown);
+    mounted() {
+      particlesJS.load('particles', '/static/particles.json');
+      window.addEventListener('keydown', this.keyDown);
     },
     created() {
-        this.requestSchoolList();
+      this.requestSchoolList();
     }
 
-}
+  }
 </script>
 
 <style scoped>
-  #particles{
+  #particles {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -163,7 +164,7 @@ export default {
     justify-content: center;
   }
 
-  .form-container{
+  .form-container {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
@@ -171,43 +172,45 @@ export default {
     width: 500px;
   }
 
-  .form-row{
-    padding: 10px 0 ;
+  .form-row {
+    padding: 10px 0;
     display: flex;
     display: -webkit-flex;
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
   }
-  .title{
+
+  .title {
     font-size: 24px;
     font-weight: 400;
     padding-bottom: 10px;
   }
 
-  .el-form-row__content{
-    display: flex!important;
+  .el-form-row__content {
+    display: flex !important;
     width: 100% !important;
-    justify-content: space-around!important;
+    justify-content: space-around !important;
   }
 
-  .login-for-code{
+  .login-for-code {
     cursor: pointer;
     font-size: 15px;
     color: #409eff;
   }
 
-  img{
+  img {
     width: 350px;
     height: 350px
   }
 
-  @media screen and (max-width: 351px){
-    img{
+  @media screen and (max-width: 351px) {
+    img {
       width: 100%;
       height: 100%;
     }
-    .form-container{
+
+    .form-container {
       width: 100%;
     }
   }

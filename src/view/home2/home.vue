@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import vRank from "@/components/rank"
+    import vRank from "../../components/exerciseCalendar"
 export default {
     components:{
         vRank,

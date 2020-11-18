@@ -12,12 +12,6 @@
   export default {
     data() {
       return {
-        headers: [
-          {
-            name: '早操',
-            link: '/exercises/signIn'
-          },
-        ]
       }
     },
     methods: {},
@@ -32,9 +26,9 @@
 <style scoped>
   .home_main {
     margin: 0 auto;
+    max-width: 1140px;
     width: 100%;
     padding-top: 5px;
     overflow: hidden;
   }
-
 </style>

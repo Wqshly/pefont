@@ -5,19 +5,19 @@ import router from './router'
 
 import VueLazyload from 'vue-lazyload'
 import icon from "./assets/icon/iconfont.js"
+
 Vue.use(router);
 Vue.use(VueLazyload);
 
 import header from './components/header.vue'
 import footer from './components/footer.vue'
 import menu from './components/routerByMenu.vue'
-Vue.component('v-header',header);
-Vue.component('v-footer',footer);
-Vue.component('router-menu',menu);
 
+Vue.component('v-header', header);
+Vue.component('v-footer', footer);
+Vue.component('router-menu', menu);
 
 Vue.config.productionTip = false;
-
 
 
 new Vue({
@@ -31,35 +31,35 @@ new Vue({
 });
 
 router.beforeEach((to, from, next) => {
-  if(from.path === '/competition/home') {
+  if (from.path === '/competition/home') {
     Vue.prototype.$confirm('确认离开页面？')
       .then(_ => {
         next();
       })
-      .catch(_ => {});
+      .catch(_ => {
+      });
   }
   //if中是需要执行（判断是不是已登录）的条件
-  else if(store.state.user.id === -1
+  else if (store.state.user.id === -1
     && to.path !== '/login'
     && from.path !== '/login'
     && to.path.split('/')[1] !== 'index'
-    && to.path !== from.path){
+    && to.path !== from.path) {
     api.get('/api/login/LoginOrNot').then(res => {
       if (res.code === 0) {
         store.state.user = res.data;
         window.scrollTo(0, 0);
         next();
-      }
-      else{
+      } else {
         next({
           path: '/login',
-          query: { redirect: to.fullPath }
+          query: {redirect: to.fullPath}
         });
       }
     });
   } else {
     window.scrollTo(0, 0);
-    if(to.path !== from.path){
+    if (to.path !== from.path) {
       next()
     }
   }
@@ -67,8 +67,9 @@ router.beforeEach((to, from, next) => {
 });
 
 import {clone} from './api/clone.js'
-import {api}  from './api/ajax'
-import {eventBus}  from './api/bus'
+import {api} from './api/ajax'
+import {eventBus} from './api/bus'
+
 Vue.prototype.$clone = clone;
 Vue.prototype.$api = api;
 Vue.prototype.$eventBus = eventBus;

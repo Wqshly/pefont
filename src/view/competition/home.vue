@@ -12,7 +12,6 @@ export default {
     },
     data() {
         return {
-          options:['足球','排球','网球','羽毛球','乒乓球','篮球']
         }
     },
     mounted() {

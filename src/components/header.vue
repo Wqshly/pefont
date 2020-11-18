@@ -3,7 +3,7 @@
     <div id="normal">
       <div id="header_item_container">
         <div id="img_container" @click="jump('')">
-          <img src="../assets/logo2.png"  alt="PE">
+          <img src="../assets/logo2.png" alt="PE">
         </div>
         <div class="header_item"
              v-for="(item,index) in headers"
@@ -25,7 +25,7 @@
                 <el-dropdown-item v-if="!sub.subs" @click.native="jump2(sub)">{{sub.name}}</el-dropdown-item>
                 <!--三级菜单-->
                 <el-dropdown style="width: 100%" v-else>
-                  <el-dropdown-item >{{sub.name}}</el-dropdown-item>
+                  <el-dropdown-item>{{sub.name}}</el-dropdown-item>
                   <el-dropdown-menu style="margin: -20px -157px 0 0;" slot="dropdown">
                     <el-dropdown-item v-for="(s,index) in sub.subs" :key="index" @click.native="jump3(s)">
                       {{s.name}}
@@ -44,283 +44,293 @@
 </template>
 
 <script>
-import back from '@/components/backTop'
-import phoneHeader from '@/components/phoneHeader'
-export default {
+  import back from '@/components/backTop'
+  import phoneHeader from '@/components/phoneHeader'
+
+  export default {
     //本组件的当前路由蓝色渲染适用于一级路由  也就是路由路径中的第一个'/'的部分
     components: {
-        back,
-        phoneHeader,
+      back,
+      phoneHeader,
     },
     data() {
-        return {
-            isActive: 'activity',
-            reverse_headers: [],
-            headers: [
-                {
-                    name: '早操',
-                    link: 'exercises'
-                },
-                {
-                    name: '课外活动',
-                    link: 'home2'
-                },
-                {
-                    name: '本地比赛',
-                    link: 'competition',
-                    noJump: true,
-                    trigger: 'click',
-                    subs: [
-                        {
-                            name: '比赛综合类',
-                            subs: [
-                                {
-                                    name: '田径运动会',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '综合性运动会',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '其他',
-                                    link: '/competition/home',
-                                },
-                            ],
-                        },
-                        {
-                            name: '田径类',
-                            subs: [
-                                {
-                                    name: '田赛',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '竞赛',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '全能',
-                                    link: '/competition/home',
-                                },
-                            ],
-                        },
-                        {
-                            name: '球类运动',
-                            subs: [
-                                {
-                                    name: '足球',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '排球',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '篮球',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '网球',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '乒乓球',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '其他',
-                                    link: '/competition/home',
-                                },
-                            ],
-                        },
-                        {
-                            name: '水上运动',
-                            subs: [
-                                {
-                                    name: '游泳比赛',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '帆船比赛',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '其他',
-                                    link: '/competition/home',
-                                },
-                            ]
-                        },
-                        {
-                            name: '其他',
-                            subs: [
-                                {
-                                    name: '自行车赛',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '跆拳道赛',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '柔道赛',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '拳击赛',
-                                    link: '/competition/home',
-                                },
-                                {
-                                    name: '其他',
-                                    link: '/competition/home',
-                                },
-                            ]
-                        },
-                    ]
-                },
-                {
-                    name: '区域联赛',
-                    link: '404'
-                },
-                {
-                    name: '校内校外活动',
-                    link: 'activity',
-                    subs: [
-                        {
-                            name: '活动首页',
-                            link: '/activity/home'
-                        },
-                        {
-                            name: '校内通知',
-                            link: '/activity/notice'
-                        },
-                        {
-                            name: '发起活动',
-                            link: '/activity/promotion'
-                        },
-                        {
-                            name: '活动管理',
-                            link: '/activity/management'
-                        },
-                        {
-                            name: '组织签到',
-                            link: '/activity/check'
-                        },
-                    ]
-                },
-                {
-                    name: '账户',
-                    link: 'account',
-                    subs: [
-                        {
-                            name: '注销',
-                            link: '/account/logout'
-                        },
-                    ],
-                    float:'right',
-                    iconName:'el-icon-s-custom',
-                },
-                {
-                    name: '健康管理',
-                    link: 'health',
-                    subs: [
-                        {
-                            name: '个人信息',
-                            link: '/health/home'
-                        },
-                        {
-                            name: '祛痘',
-                            link: '/health/anti'
-                        },
-                    ],
-                    float:'right',
-                },
-                {
-                    name: '运动装备',
-                    link: 'shop',
-                    float:'right',
-                },
-
-                {
-                    name: '裁判园地',
-                    link: 'theory',
-                    float:'right',
-                },
-                {
-                    name: '云比赛',
-                    link: '404',
-                    float:'right',
-                },
-
+      return {
+        isActive: 'activity',
+        reverse_headers: [],
+        headers: [
+          {
+            name: '首页',
+            link: 'home'
+          },
+          {
+            name: '早操',
+            link: 'exercises'
+          },
+          {
+            name: '课外活动',
+            link: 'home2'
+          },
+          {
+            name: '本地比赛',
+            noJump: true,
+            trigger: 'click',
+            subs: [
+              {
+                name: '比赛综合类',
+                subs: [
+                  {
+                    name: '田径运动会',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '综合性运动会',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '其他',
+                    link: '/competition/home',
+                  },
+                ],
+              },
+              {
+                name: '田径类',
+                subs: [
+                  {
+                    name: '田赛',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '竞赛',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '全能',
+                    link: '/competition/home',
+                  },
+                ],
+              },
+              {
+                name: '球类运动',
+                subs: [
+                  {
+                    name: '足球',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '排球',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '篮球',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '网球',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '乒乓球',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '其他',
+                    link: '/competition/home',
+                  },
+                ],
+              },
+              {
+                name: '水上运动',
+                subs: [
+                  {
+                    name: '游泳比赛',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '帆船比赛',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '其他',
+                    link: '/competition/home',
+                  },
+                ]
+              },
+              {
+                name: '其他',
+                subs: [
+                  {
+                    name: '自行车赛',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '跆拳道赛',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '柔道赛',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '拳击赛',
+                    link: '/competition/home',
+                  },
+                  {
+                    name: '其他',
+                    link: '/competition/home',
+                  },
+                ]
+              },
+              {
+                name: '已发起项',
+                link: '/404',
+              },
+            ]
+          },
+          {
+            name: '区域联赛',
+            link: '404'
+          },
+          {
+            name: '校内校外活动',
+            link: 'activity',
+            subs: [
+              {
+                name: '活动首页',
+                link: '/activity/home'
+              },
+              {
+                name: '校内通知',
+                link: '/activity/notice'
+              },
+              {
+                name: '发起活动',
+                link: '/activity/promotion'
+              },
+              {
+                name: '活动管理',
+                link: '/activity/management'
+              },
+              {
+                name: '组织签到',
+                link: '/activity/check'
+              },
+            ]
+          },
+          {
+            name: '账户',
+            link: 'account',
+            subs: [
+              {
+                name: '注销',
+                link: '/account/logout'
+              },
             ],
-            drawer: false,
+            float: 'right',
+            iconName: 'el-icon-s-custom',
+          },
+          {
+            name: '健康管理',
+            link: 'health',
+            subs: [
+              {
+                name: '个人信息',
+                link: '/health/home'
+              },
+              {
+                name: '祛痘',
+                link: '/health/anti'
+              },
+            ],
+            float: 'right',
+          },
+          {
+            name: '运动装备',
+            link: 'shop',
+            float: 'right',
+          },
 
-        }
+          {
+            name: '裁判园地',
+            link: 'theory',
+            float: 'right',
+          },
+          {
+            name: '云比赛',
+            link: '404',
+            float: 'right',
+          },
+
+        ],
+        drawer: false,
+
+      }
     },
     methods: {
-        //一级目录跳转函数   便于渲染active样式
-        jump(val) {
-            if(!val.noJump) {
-                this.drawer = false;
-                this.$router.push('/' + val.link);
-            }
-        },
-        //二级目录跳转函数
-        jump2(val) {
-            if(!val.noJump) {
-                this.drawer = false;
-                this.$router.push(val.link);
-            }
-        },
-        jump3(val) {
-            if(!val.noJump) {
-                this.drawer = false;
-                this.$store.commit('setCompetitionClass', val.name);
-                this.$router.push(val.link);
-            }
-        },
-        logout(){
-            api.get('/api/login/logout').then(res => {
-            });
-            this.$store.commit('setUserId', -1);
-            this.$router.push('/login');
+      //一级目录跳转函数   便于渲染active样式
+      jump(val) {
+        if (!val.noJump) {
+          this.drawer = false;
+          this.$router.push('/' + val.link);
         }
+      },
+      //二级目录跳转函数
+      jump2(val) {
+        if (!val.noJump) {
+          this.drawer = false;
+          this.$router.push(val.link);
+        }
+      },
+      jump3(val) {
+        if (!val.noJump) {
+          this.drawer = false;
+          this.$store.commit('setCompetitionClass', val.name);
+          this.$router.push(val.link);
+        }
+      },
+      logout() {
+        api.get('/api/login/logout').then(res => {
+        });
+        this.$store.commit('setUserId', -1);
+        this.$router.push('/login');
+      }
     },
     mounted() {
+
     },
     created() {
-        this.reverse_headers = this.$clone.deepClone(this.headers).reverse();
-        this.isActive = (this.$route.path).split('/')[1];
+      this.reverse_headers = this.$clone.deepClone(this.headers).reverse();
+      this.isActive = (this.$route.path).split('/')[1];
     }
-}
+  }
 </script>
 
 <style>
-  .all{
+  .all {
     height: 80px;
     width: 100%;
   }
-  .all #normal{
+
+  .all #normal {
     width: 100%;
     height: 80px;
     position: fixed;
-    top:0;
+    top: 0;
     z-index: 1999;
     background-color: white;
     border-bottom: 1px solid #dcdfe6;
   }
 
-  #header_item_container{
+  #header_item_container {
     height: 80px;
     line-height: 80px;
-    top:0;
+    top: 0;
     margin: 0 auto;
     width: 100%;
     max-width: 1140px;
-    vertical-align:middle;
+    vertical-align: middle;
   }
 
-  #img_container{
+  #img_container {
     display: flex;
     cursor: pointer;
     height: 80px;
@@ -328,57 +338,63 @@ export default {
     align-items: center;
   }
 
-  #header_item_container img{
+  #header_item_container img {
     height: 30px;
   }
 
   #normal #header_item_container .header_item {
     line-height: 80px;
     height: 80px;
-    margin:  0 0 0 15px;
+    margin: 0 0 0 15px;
     float: left;
     cursor: pointer;
     text-align: center;
     font-size: 14px;
   }
 
-  #normal i{
-    font-size:30px;
-    vertical-align:middle;
+  #normal i {
+    font-size: 30px;
+    vertical-align: middle;
     line-height: 80px;
     cursor: pointer;
     color: #60606d;
   }
 
 
-  #normal p{
+  #normal p {
     color: #60606d;
     font-size: 14px;
   }
 
-  #normal p:hover, i:hover{
-    color:#409EFF!important;
+  #normal p:hover, i:hover {
+    color: #409EFF !important;
   }
-  .float_right{
-    float: right!important;
+
+  .float_right {
+    float: right !important;
   }
-  .active{
+
+  .active {
     border-bottom: 2px solid #409EFF;
-    color:#409EFF!important;
+    color: #409EFF !important;
   }
-  .active3{
+
+  .active3 {
     border-bottom: none;
-    color:#409EFF!important;
+    color: #409EFF !important;
   }
+
   #normal {
     display: block;
   }
-  .small{
-    display: none!important;
+
+  .small {
+    display: none !important;
   }
+
   /*手机端*/
   @media screen and (max-width: 840px) {
-    .all{
+    .all {
       height: 60px;
       width: 100%;
     }
@@ -386,8 +402,9 @@ export default {
     #normal {
       display: none;
     }
-    .small{
-      display: flex!important;
+
+    .small {
+      display: flex !important;
     }
   }
 

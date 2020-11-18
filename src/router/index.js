@@ -12,6 +12,10 @@ const notFoundPage = () => import(/* webpackChunkName: '0' */ '../view/404');
 /*login page*/
 const login = () => import(/* webpackChunkName: '0' */ '../view/login');
 
+/*首页*/
+const homePage = () => import(/* webpackChunkName: '0' */ '../view/home/Page');
+const home_page = () => import(/* webpackChunkName: '0' */ '../view/home/home');
+
 /*早操*/
 const exercisesPage = () => import(/* webpackChunkName: '1' */ '../view/exercises/Page');
 const exercises_page = () => import(/* webpackChunkName: '1' */ '../view/exercises/home');
@@ -53,21 +57,21 @@ const account_privacy = () => import(/* webpackChunkName: '7' */ '../view/accoun
 const account_logout = () => import(/* webpackChunkName: '7' */ '../view/account/logout');
 
 /*management page*/
-const managementPage = () => import(/* webpackChunkName: '8' */ '../view/management/Page');
-const mana_page = () => import(/* webpackChunkName: '8' */ '../view/management/home');
-const mana_class = () => import(/* webpackChunkName: '8' */ '../view/management/manaClass');
+const managementPage = () => import(/* webpackChunkName: '9' */ '../view/management/Page');
+const mana_page = () => import(/* webpackChunkName: '9' */ '../view/management/home');
+const mana_class = () => import(/* webpackChunkName: '9' */ '../view/management/manaClass');
 
 /*health page*/
-const healthPage = () => import(/* webpackChunkName: '8' */ '../view/health/Page');
-const health_home = () => import(/* webpackChunkName: '8' */ '../view/health/home');
-const health_anti = () => import(/* webpackChunkName: '8' */ '../view/health/Anti-Acne');
+const healthPage = () => import(/* webpackChunkName: '10' */ '../view/health/Page');
+const health_home = () => import(/* webpackChunkName: '10' */ '../view/health/home');
+const health_anti = () => import(/* webpackChunkName: '10' */ '../view/health/Anti-Acne');
 
 /*theory page*/
-const theoryPage = () => import(/* webpackChunkName: '8' */ '../view/theory/Page');
-const theory_page = () => import(/* webpackChunkName: '8' */ '../view/theory/home');
-const theory_theory = () => import(/* webpackChunkName: '8' */ '../view/theory/theoryTheory');
-const theory_exam = () => import(/* webpackChunkName: '8' */ '../view/theory/theoryExam');
-const theory_exams = () => import(/* webpackChunkName: '8' */ '../view/theory/theoryExams');
+const theoryPage = () => import(/* webpackChunkName: '11' */ '../view/theory/Page');
+const theory_page = () => import(/* webpackChunkName: '11' */ '../view/theory/home');
+const theory_theory = () => import(/* webpackChunkName: '11' */ '../view/theory/theoryTheory');
+const theory_exam = () => import(/* webpackChunkName: '11' */ '../view/theory/theoryExam');
+const theory_exams = () => import(/* webpackChunkName: '11' */ '../view/theory/theoryExams');
 
 
 const router = new Router({
@@ -82,7 +86,17 @@ const router = new Router({
     },
     {
       path: '/home',
-      redirect: '/exercises'
+      component: homePage,
+      children: [
+        {
+          path: '/',
+          redirect:'/home/home',
+        },
+        {
+          path: '/home/home',
+          component: home_page
+        },
+      ]
     },
     {
       path: '/exercises',
@@ -104,7 +118,7 @@ const router = new Router({
       children: [
         {
           path: '/',
-          redirect: '/home2/home',
+          redirect: '/404',
         },
         {
           path: '/home2/home',
