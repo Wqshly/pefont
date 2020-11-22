@@ -39,11 +39,11 @@ module.exports = {
   },
   output: {
     path: config.build.assetsRoot,
-    filename: 'js/[name].js',
+    filename: 'js/[hash].js',
     publicPath: process.env.NODE_ENV === 'production'
       ? './' +config.build.assetsPublicPath
       : './' + config.dev.assetsPublicPath,
-    chunkFilename:'js/chunk.[name].js'
+    chunkFilename:'js/[chunkhash]c[name].js'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],

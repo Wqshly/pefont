@@ -11,6 +11,9 @@ axios.interceptors.response.use(function (response) {
     return response;
   }
 }, function (error) {
+  if(error.status === 400) {
+    alert('错误请求');
+  }
   return Promise.reject(error);
 });
 

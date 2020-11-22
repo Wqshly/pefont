@@ -41,7 +41,7 @@ export default  new Vuex.Store({
             refereeConditions: '',
           },
         },
-    ],
+      ],
       user: {
         id: -1,
         userNumber: "",

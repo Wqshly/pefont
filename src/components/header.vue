@@ -2,7 +2,7 @@
   <div class="all">
     <div id="normal">
       <div id="header_item_container">
-        <div id="img_container" @click="jump('')">
+        <div id="img_container" @click="jump({link:''})">
           <img src="../assets/logo2.png" alt="PE">
         </div>
         <div class="header_item"
@@ -74,6 +74,7 @@
             name: '本地比赛',
             noJump: true,
             trigger: 'click',
+            link: 'competition',
             subs: [
               {
                 name: '比赛综合类',

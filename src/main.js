@@ -30,6 +30,23 @@ new Vue({
   template: '<App></App>'
 });
 
+
+import {clone} from './api/clone.js'
+import {api} from './api/ajax'
+import {eventBus} from './api/bus'
+
+Vue.prototype.$clone = clone;
+Vue.prototype.$api = api;
+Vue.prototype.$eventBus = eventBus;
+
+if(store.state.user.id === -1) {
+  api.get('/api/login/LoginOrNot').then(res => {
+    if (res.code === 0) {
+      store.state.user = res.data;
+    }
+  });
+}
+
 router.beforeEach((to, from, next) => {
   if (from.path === '/competition/home') {
     Vue.prototype.$confirm('确认离开页面？')
@@ -40,11 +57,12 @@ router.beforeEach((to, from, next) => {
       });
   }
   //if中是需要执行（判断是不是已登录）的条件
-  else if (store.state.user.id === -1
+  else if (
+    store.state.user.id === -1
     && to.path !== '/login'
     && from.path !== '/login'
     && to.path.split('/')[1] !== 'index'
-    && to.path !== from.path) {
+  ) {
     api.get('/api/login/LoginOrNot').then(res => {
       if (res.code === 0) {
         store.state.user = res.data;
@@ -65,11 +83,3 @@ router.beforeEach((to, from, next) => {
   }
 
 });
-
-import {clone} from './api/clone.js'
-import {api} from './api/ajax'
-import {eventBus} from './api/bus'
-
-Vue.prototype.$clone = clone;
-Vue.prototype.$api = api;
-Vue.prototype.$eventBus = eventBus;

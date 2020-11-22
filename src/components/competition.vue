@@ -1,6 +1,6 @@
 <template>
   <div class="competition-promotional">
-    <div class="competition-header"><h1>{{this.$store.state.competitionClass}}</h1></div>
+    <div class="competition-header"><h1>{{this.competitionClass}}</h1></div>
 
     <el-form :model="ruleForm" label-width="120px" class="demo-form">
       <el-form-item label="比赛名称" prop="title">
@@ -88,14 +88,14 @@
       <el-form-item label="宣传海报">
         <div style="height:fit-content;width:fit-content">
           <el-upload
-            class="avatar-uploader"
+            :class="[{'avatar-uploader': !ruleForm.imageUrl}]"
             ref="upload"
             :show-file-list="false"
             :auto-upload="false"
             :on-success="handleAvatarSuccess"
             :on-change="onchange"
             :before-upload="beforeAvatarUpload">
-            <img width="100%" v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" class="avatar" alt="">
+            <img id="upload1" v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" alt="">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
@@ -222,8 +222,8 @@
     </div>
 
     <div class="competition-footer">
-      <el-button type="success" disabled @click="submitForm('ruleForm')">确认发起</el-button>
-      <el-button type="primary" disabled @click="submitForm('ruleForm')">暂时保存</el-button>
+      <el-button type="success" :disabled="this.isQuerying" @click="submitForm('ruleForm')">确认发起</el-button>
+      <el-button type="primary" :disabled="this.isQuerying" @click="submitForm('ruleForm')">暂时保存</el-button>
     </div>
   </div>
 </template>
@@ -235,9 +235,9 @@
 
     data() {
       return {
-        competitionClass: '田赛',
-        havaPic: false,
         notifyPromise: Promise.resolve(),
+        isQuerying: true,
+        competitionClass: '田赛',
         ruleForm: {
           title: '',
           signUp_time_start: '',
@@ -339,6 +339,7 @@
         });
         this.editableTabsValue = this.tabIndex;
       },
+
       removeTab(targetName) {
         let tabs = this.editableTabs;
         let activeName = this.editableTabsValue;
@@ -355,28 +356,42 @@
         this.editableTabsValue = activeName;
         this.editableTabs = tabs.filter(tab => tab.name !== targetName);
       },
+
       beforeLeave(currentName, oldName) {
         if (currentName == "add") {
           this.addTab();
           return false
         }
       },
+      checkForm() {
+        let errorMsg;
+        if(!this.ruleForm.imageUrl) {
+          errorMsg = "没有选择海报"
+        }
+
+        if(errorMsg) {
+          this.$notify.error({
+            message: errorMsg,
+            duration: 10000
+          });
+          return false
+        }
+        return true;
+      },
       //表单提条按钮,填写合法逻辑=>上传图片逻辑
       submitForm(formName) {
-        if (this.havaPic == false) {
-          this.$notify.error({
-            title: '请上传一张海报',
-            duration: 0
+        this.$confirm('确认提交？')
+          .then(_ => {
+
+            if (this.checkForm()) {
+              this.isQuerying = true;
+              this.notify('正在提交，请稍后');
+              this.submitUpload();
+            }
+
+          })
+          .catch(_ => {
           });
-        } else {
-          if (1) {
-            this.notify('正在提交，请稍后');
-            this.submitUpload();
-          } else {
-            this.notify('error submit!!');
-            return false;
-          }
-        }
       },
 
       //上传图片逻辑=>beforeAvatarUpload=>handleAvatarSuccess
@@ -385,11 +400,11 @@
       },
 
       remote_api(file) {
-        let url = '/api/activity/addActivity/' + this.$store.state.user.id;
+        let url = '/api/activity/addActivity';
         let data = new FormData();
+        data.append('activityClassification', this.competitionClass);
         data.append('pictureFile', file);
         data.append('activityName', this.ruleForm.title);
-        data.append('activityContent', this.ruleForm.description);
         data.append('publisherId', this.$store.state.user.id);
         data.append('publishData', new Date());
         data.append('contact', this.ruleForm.contact_name);
@@ -398,57 +413,69 @@
         data.append('registrationStartTime', this.ruleForm.signUp_time_start);
         data.append('startTime', this.ruleForm.activity_time_start);
         data.append('endTime', this.ruleForm.activity_time_end);
-        data.append('activityClassification', this.ruleForm.class);
-        data.append('eventLocation', this.ruleForm.position);
-        data.append('participationFee', this.ruleForm.fee);
 
-        api.upload(url, data).then(res => {
+        this.$api.upload(url, data).then(res => {
           if (res.code === 0) {
             this.$message.success('成功!');
-            this.$router.push('/activity');
           } else {
             this.$message.error(res.msg);
           }
+          this.isQuerying = false;
         })
       },
 
       //上传前对图片类型和大小进行判断
       beforeAvatarUpload(file) {
-        // const isJPG = file.type === 'image/jpeg';
-        let isLt2M = file.size / 1024 / 1024 < 2;
-        let _URL = window.URL || window.webkitURL;
-
-        if (!isLt2M) {
-          this.$notify.error({
-            title: '请更换图片',
-            message: '上传图片大小不能超过 2MB!',
-            duration: 0
-          });
+        let isJPG = false;
+        if(
+          file.type === 'image/jpeg'
+          || file.type === 'image/png'
+          || file.type === 'image/jpg'
+          || file.type === 'image/bmp') {
+          isJPG = true;
         }
 
-        new Promise((resolve, reject) => {
+        if (!isJPG) {
+          errorMsg = '不支持的图片格式';
+        }
+
+        let isLt10M = file.size / 1024 / 1024 < 10;
+        let _URL = window.URL || window.webkitURL;
+        let errorMsg;
+
+        if (!isLt10M) {
+          errorMsg = '上传图片大小不能超过 10MB!';
+        }
+
+        let isSize = new Promise((resolve, reject) => {
           let img = new Image();
           img.src = _URL.createObjectURL(file)
           img.onload = function () {
 
-            if (this.width > this.height) {
+            if (true/*this.width > this.height*/) {
               resolve(true);
             } else {
               resolve(false);
             }
           };
         }).then((res) => {
-          if (!res) {
-            this.$notify.error({
-              title: '请更换图片',
-              message: '上传图片的宽度必须大于高度!',
-              duration: 0
-            });
-            this.havaPic = false;
-          } else {
-            this.remote_api(file);
-          }
+          return file;
         });
+
+        if(!isSize) {
+          errorMsg = '图片宽高不符合要求';
+        }
+
+        if(errorMsg) {
+          this.$notify.error({
+            title: '请更换图片',
+            message: errorMsg,
+            duration: 10000
+          });
+        }
+        if(isJPG &&isLt10M && isSize) {
+          this.remote_api(file);
+        }
         return false;
       },
 
@@ -456,9 +483,8 @@
         this.notify('永远不会到达的代码 因为before返回的false');
         this.notify('上传成功');
       },
-      //选择了新的图片
+
       onchange(file) {
-        this.havaPic = true;
         this.ruleForm.imageUrl = URL.createObjectURL(file.raw);
       },
 
@@ -508,7 +534,7 @@
     width: 130px !important;
   }
 
-  .competition-promotional .avatar-uploader .el-upload {
+  .competition-promotional .avatar-uploader {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
@@ -516,23 +542,17 @@
     overflow: hidden;
   }
 
-  .competition-promotional .avatar-uploader .el-upload:hover {
+  .competition-promotional .avatar-uploader:hover {
     border-color: #409EFF;
   }
 
   .competition-promotional .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
+    text-align: center;
     width: 316px;
     height: 178px;
     line-height: 178px;
-    text-align: center;
-  }
-
-  .competition-promotional .avatar {
-    width: 316px;
-    height: 178px;
-    display: block;
   }
 
   .competition-promotional .demo-form {
