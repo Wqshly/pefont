@@ -10,6 +10,17 @@
         </el-input>
       </el-form-item>
 
+      <el-form-item label="比赛类别">
+        <el-select v-model="ruleForm.subclass" placeholder="请选择">
+          <el-option
+            v-for="item in subClass[competitionClass]"
+            :key="item"
+            :label="item"
+            :value="item">
+          </el-option>
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="参赛院系">
         <el-switch active-text="全选" v-model="ruleForm.college_checkAll"></el-switch>
         <transition name="el-zoom-in-top">
@@ -35,39 +46,23 @@
         </transition>
       </el-form-item>
 
-      <el-form-item label="报名起止时间" prop="signUp_time_start">
+      <el-form-item label="报名起止时间" prop="signUp_time">
         <el-date-picker
-          v-model="ruleForm.signUp_time_start"
-          type="datetime"
-          placeholder="报名开始时间"
-          align="right"
-          :picker-options="pickerOptions">
-        </el-date-picker>
-        --
-        <el-date-picker
-          v-model="ruleForm.signUp_time_end"
-          type="datetime"
-          placeholder="报名结束时间"
-          align="right"
-          :picker-options="pickerOptions">
+          v-model="ruleForm.signUp_time"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="报名开始时间"
+          end-placeholder="报名结束时间">
         </el-date-picker>
       </el-form-item>
 
-      <el-form-item label="参赛起止时间" prop="activity_time_start">
+      <el-form-item label="参赛起止时间" prop="activity_time">
         <el-date-picker
-          v-model="ruleForm.activity_time_start"
-          type="datetime"
-          placeholder="比赛开始时间"
-          align="right"
-          :picker-options="pickerOptions">
-        </el-date-picker>
-        --
-        <el-date-picker
-          v-model="ruleForm.activity_time_end"
-          type="datetime"
-          placeholder="比赛结束时间"
-          align="right"
-          :picker-options="pickerOptions">
+          v-model="ruleForm.activity_time"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="比赛开始时间"
+          end-placeholder="比赛结束时间">
         </el-date-picker>
       </el-form-item>
 
@@ -237,17 +232,23 @@
       return {
         notifyPromise: Promise.resolve(),
         isQuerying: true,
-        competitionClass: '田赛',
+        competitionClass: '综合类比赛',
+        subClass: {
+          "综合类比赛": ['田径运动会','综合性运动会','其他'],
+          "田径比赛": ['田赛','竞赛','全能'],
+          "球类比赛": ['足球','排球','篮球','网球','乒乓球','其他'],
+          "水上运动": ['游泳比赛','帆船比赛','其他'],
+          "其他比赛": ['自行车赛','跆拳道赛','柔道赛','拳击赛','其他'],
+        },
         ruleForm: {
           title: '',
-          signUp_time_start: '',
-          signUp_time_end: '',
-          activity_time_start: '',
-          activity_time_end: '',
+          subclass: '',
           college_checkAll: true,
           college: ['学院1', '学院2', '学院3', '学院4', '学院5', '学院6', '学院7', '学院8', '学院9', '学院10'],
           activity_grade_checkAll: true,
           activity_grade: ['2015', '2016', '2017', '2018', '2019', '2020', '2021'],
+          activity_time: [],
+          signUp_time: [],
           contact_name: '',
           contact_method: '',
           imageUrl: '',
@@ -358,7 +359,7 @@
       },
 
       beforeLeave(currentName, oldName) {
-        if (currentName == "add") {
+        if (currentName === "add") {
           this.addTab();
           return false
         }
@@ -402,17 +403,17 @@
       remote_api(file) {
         let url = '/api/activity/addActivity';
         let data = new FormData();
-        data.append('activityClassification', this.competitionClass);
+        data.append('activityClassification', this.ruleForm.subclass);
         data.append('pictureFile', file);
         data.append('activityName', this.ruleForm.title);
         data.append('publisherId', this.$store.state.user.id);
         data.append('publishData', new Date());
         data.append('contact', this.ruleForm.contact_name);
         data.append('contactPhone', this.ruleForm.contact_method);
-        data.append('registrationClosingTime', this.ruleForm.signUp_time_end);
-        data.append('registrationStartTime', this.ruleForm.signUp_time_start);
-        data.append('startTime', this.ruleForm.activity_time_start);
-        data.append('endTime', this.ruleForm.activity_time_end);
+        data.append('registrationClosingTime', this.ruleForm.signUp_time[1]);
+        data.append('registrationStartTime', this.ruleForm.signUp_time[0]);
+        data.append('startTime', this.ruleForm.activity_time[0]);
+        data.append('endTime', this.ruleForm.activity_time[1]);
 
         this.$api.upload(url, data).then(res => {
           if (res.code === 0) {
@@ -488,12 +489,17 @@
         this.ruleForm.imageUrl = URL.createObjectURL(file.raw);
       },
 
+      changeClass(val){
+        this.competitionClass = val;
+      }
+
 
     },
     mounted() {
-      this.competitionClass = this.$store.state.competitionClass;
+      this.competitionClass = this.$store.state.competitionClass || '综合类比赛';
       this.ruleForm = this.$store.state.ruleForm;
       this.editableTabs = this.$store.state.editableTabs;
+      this.$eventBus.on("setCompetitionClass", this.changeClass);
     },
     beforeDestroy() {
       this.$store.commit('setRuleForm', this.ruleForm);

@@ -48,7 +48,7 @@ if(store.state.user.id === -1) {
 }
 
 router.beforeEach((to, from, next) => {
-  if (from.path === '/competition/home') {
+  if (from.path === '/competition/create') {
     Vue.prototype.$confirm('确认离开页面？')
       .then(_ => {
         next();

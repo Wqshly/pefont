@@ -44,8 +44,8 @@
 </template>
 
 <script>
-  import back from '@/components/backTop'
-  import phoneHeader from '@/components/phoneHeader'
+  import back from './backTop'
+  import phoneHeader from './phoneHeader'
 
   export default {
     //本组件的当前路由蓝色渲染适用于一级路由  也就是路由路径中的第一个'/'的部分
@@ -72,118 +72,40 @@
           },
           {
             name: '本地比赛',
-            noJump: true,
-            trigger: 'click',
             link: 'competition',
             subs: [
               {
-                name: '比赛综合类',
-                subs: [
-                  {
-                    name: '田径运动会',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '综合性运动会',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '其他',
-                    link: '/competition/home',
-                  },
-                ],
-              },
-              {
-                name: '田径类',
-                subs: [
-                  {
-                    name: '田赛',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '竞赛',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '全能',
-                    link: '/competition/home',
-                  },
-                ],
-              },
-              {
-                name: '球类运动',
-                subs: [
-                  {
-                    name: '足球',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '排球',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '篮球',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '网球',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '乒乓球',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '其他',
-                    link: '/competition/home',
-                  },
-                ],
-              },
-              {
-                name: '水上运动',
-                subs: [
-                  {
-                    name: '游泳比赛',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '帆船比赛',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '其他',
-                    link: '/competition/home',
-                  },
-                ]
-              },
-              {
-                name: '其他',
-                subs: [
-                  {
-                    name: '自行车赛',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '跆拳道赛',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '柔道赛',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '拳击赛',
-                    link: '/competition/home',
-                  },
-                  {
-                    name: '其他',
-                    link: '/competition/home',
-                  },
-                ]
-              },
-              {
-                name: '已发起项',
+                name: '本地比赛',
                 link: '/404',
+              },
+              {
+                name: '发起比赛',
+                subs: [
+                  {
+                    name: '综合类比赛',
+                    link: '/competition/create',
+                  },
+                  {
+                    name: '田径比赛',
+                    link: '/competition/create',
+                  },
+                  {
+                    name: '球类比赛',
+                    link: '/competition/create',
+                  },
+                  {
+                    name: '水上运动',
+                    link: '/competition/create',
+                  },
+                  {
+                    name: '其他比赛',
+                    link: '/competition/create',
+                  },
+                ],
+              },
+              {
+                name: '管理比赛',
+                link: '/competition/management',
               },
             ]
           },
@@ -260,7 +182,16 @@
             link: '404',
             float: 'right',
           },
-
+          {
+            name: '器材租赁',
+            link: '404',
+            float: 'right',
+          },
+          {
+            name: '场地预约',
+            link: '404',
+            float: 'right',
+          },
         ],
         drawer: false,
 
@@ -286,6 +217,7 @@
           this.drawer = false;
           this.$store.commit('setCompetitionClass', val.name);
           this.$router.push(val.link);
+          this.$eventBus.emit("setCompetitionClass", val.name);
         }
       },
       logout() {
@@ -394,7 +326,7 @@
   }
 
   /*手机端*/
-  @media screen and (max-width: 840px) {
+  @media screen and (max-width: 1009px) {
     .all {
       height: 60px;
       width: 100%;

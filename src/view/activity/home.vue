@@ -66,7 +66,6 @@
 
 <script>
   import detail_activity from '@/view/activity/detail_activity.vue'
-  import {api}  from '@/api/ajax'
   export default {
     components:{
         detail_activity,
@@ -203,7 +202,7 @@
         //报名按钮
         handleSign(){
             const url = '/api/activity/signUp/'+this.detail_item.id;
-            api.get(url).then(res => {
+          this.$api.get(url).then(res => {
                 if (res.code === 0) {
                     this.$message.success('恭喜你，报名成功');
                 }
@@ -233,7 +232,7 @@
         //请求活动列表
         requestActivityList(){
             const url = '/api/activity/queryActivityListAll';
-            api.get(url).then(res => {
+            this.$api.get(url).then(res => {
                 let _this = this;
                 if (res.code === 0) {
                     this.tableData=[];

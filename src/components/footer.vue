@@ -28,6 +28,19 @@
         <i class="iconfont icon-dingwei"></i>
       </div>
 
+      <el-popover
+        placement="top"
+        trigger="hover"
+        width="90%"
+        ref="popover3">
+        <div class="popover-content">
+          <div>商务合作： 15315510691‬</div>
+        </div>
+      </el-popover>
+      <div class="icon-item" v-popover:popover3>
+        <i class="iconfont icon-hezuo"></i>
+      </div>
+
     </div>
 
 

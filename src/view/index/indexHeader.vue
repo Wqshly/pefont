@@ -1,46 +1,46 @@
 <template>
   <div class="index_sidebar">
-    <div class="sidebar" >
-      <div class="d" >
-      <el-menu  mode="horizontal" active-text-color="#fff" unique-opened router
-               @select="handleSelect">
-        <template v-for="item in items">
-          <!--        有子目录的-->
-          <template v-if="item.subs">
-            <el-submenu :index="item.index" :key="item.index" class="el-menu-item">
-              <template slot="title">
+    <div class="sidebar">
+      <div class="d">
+        <el-menu mode="horizontal" active-text-color="#fff" unique-opened router
+                 @select="handleSelect">
+          <template v-for="item in items">
+            <!--        有子目录的-->
+            <template v-if="item.subs">
+              <el-submenu :index="item.index" :key="item.index" class="el-menu-item">
+                <template slot="title">
+                  <span slot="title">{{item.title}}</span>
+                </template>
+                <!--            子目录下拉内容-->
+                <template v-for="subItem in item.subs">
+                  <el-menu-item :index="subItem.index" :key="subItem.index">
+                    <span>{{subItem.title}}</span>
+                  </el-menu-item>
+                </template>
+              </el-submenu>
+            </template>
+            <!--        无子目录的-->
+            <template v-else>
+              <el-menu-item :index="item.index" :key="item.index">
                 <span slot="title">{{item.title}}</span>
-              </template>
-              <!--            子目录下拉内容-->
-              <template v-for="subItem in item.subs">
-                <el-menu-item :index="subItem.index" :key="subItem.index">
-                  <span>{{subItem.title}}</span>
-                </el-menu-item>
-              </template>
-            </el-submenu>
+              </el-menu-item>
+            </template>
+            <!--        LOGO-->
+            <template v-if="item.index==='equipment'">
+              <li>
+                <img v-lazy="require('../../assets/logo.png')" alt="">
+              </li>
+            </template>
           </template>
-          <!--        无子目录的-->
-          <template v-else>
-            <el-menu-item :index="item.index" :key="item.index">
-              <span slot="title">{{item.title}}</span>
-            </el-menu-item>
-          </template>
-          <!--        LOGO-->
-          <template v-if="item.index==='function'">
-            <li >
-              <img v-lazy="require('../../assets/logo.png')" alt="">
-            </li>
-          </template>
-        </template>
-      </el-menu>
+        </el-menu>
       </div>
 
 
     </div>
     <div class="sidebar_phone">
       <div style="height: 60px">
-        <img v-lazy="require('../../assets/brand.png')"  style="height: 60px"  alt="">
-        <i class="el-icon-s-fold" @click="drawer = !drawer"  style=""></i>
+        <img v-lazy="require('../../assets/brand.png')" style="height: 60px" alt="">
+        <i class="el-icon-s-fold" @click="drawer = !drawer" style=""></i>
       </div>
       <el-collapse-transition>
         <div v-show="drawer" style="">
@@ -66,74 +66,86 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                drawer:false,
-                screenWidth: '',
-                items: [
-                    {
-                        index: 'home',
-                        title: '首页'
-                    },
-                    {
-                        index: 'function',
-                        title: '产品功能'
-                    },
-                    {
-                        index: 'app',
-                        title: 'APP下载'
-                    },
-                    {
-                        index: '/home',
-                        title: '登录入口'
-                    },
+  export default {
+    data() {
+      return {
+        drawer: false,
+        screenWidth: '',
+        items: [
+          {
+            index: 'home',
+            title: '首页'
+          },
+          {
+            index: 'venue',
+            title: '预约场地'
+          },
+          {
+            index: 'equipment',
+            title: '器材租赁'
+          },
+          {
+            index: 'function',
+            title: '产品功能'
+          },
+          {
+            index: 'app',
+            title: 'APP下载'
+          },
+          {
+            index: '/home',
+            title: '登录入口'
+          },
 
-                ]
-            }
-        },
-        methods: {
-            handleSelect(key, keyPath) {
+        ]
+      }
+    },
+    methods: {
+      handleSelect(key, keyPath) {
 
-            },
+      },
 
-            handleClick(val){
-                this.drawer=false;
-                if(('/'+val.index)!=this.$route.path){
-                    this.$router.push(val.index);
-                }
-            }
-        },
-        mounted() {
-
-        },
-        created(){
-            this.drawer=false;
+      handleClick(val) {
+        this.drawer = false;
+        if (('/' + val.index) != this.$route.path) {
+          this.$router.push(val.index);
         }
+      }
+    },
+    mounted() {
+
+    },
+    created() {
+      this.drawer = false;
     }
+  }
 </script>
 
 <style scoped>
 
-  .index_sidebar  {
+  .index_sidebar {
     margin-bottom: 60px;
   }
+
   .index_sidebar .sidebar {
     transform: none;
-    display:inline;
+    display: inline;
     width: 100%;
     position: absolute;
     left: 50%;
     -webkit-transform: translateX(-50%);
     z-index: 666;
   }
+
   .index_sidebar .sidebar * {
     border-bottom: none !important;
   }
+
   .index_sidebar .sidebar .el-menu-item {
     background: transparent none !important;
     border-bottom: none !important;
   }
+
   .index_sidebar .sidebar .el-menu-item:hover {
     color: #409EFF !important;
   }
@@ -145,7 +157,7 @@
     margin-bottom: 10px;
   }
 
-  .index_sidebar .sidebar .d ul,.index_sidebar li {
+  .index_sidebar .sidebar .d ul, .index_sidebar li {
     list-style: none;
     line-height: 124px !important;
     color: white !important;
@@ -159,7 +171,7 @@
   }
 
 
-  .index_sidebar .sidebar_phone{
+  .index_sidebar .sidebar_phone {
     position: fixed;
     z-index: 99999;
     width: 100%;
@@ -169,35 +181,39 @@
   }
 
   /*左上角图标*/
-  .index_sidebar .sidebar_phone .el-icon-s-fold:hover{
-    color:#409EFF;
-    margin-right:15px;
-    font-size:30px;
-    vertical-align:middle;
+  .index_sidebar .sidebar_phone .el-icon-s-fold:hover {
+    color: #409EFF;
+    margin-right: 15px;
+    font-size: 30px;
+    vertical-align: middle;
     float: right;
     line-height: 60px
   }
-  .index_sidebar .sidebar_phone .el-icon-s-fold{
-    color:white;
-    margin-right:15px;
-    font-size:30px;
-    vertical-align:middle;
+
+  .index_sidebar .sidebar_phone .el-icon-s-fold {
+    color: white;
+    margin-right: 15px;
+    font-size: 30px;
+    vertical-align: middle;
     float: right;
     line-height: 60px;
     cursor: pointer;
   }
+
   /*下拉*/
-  .index_sidebar .sidebar_phone .el-table--enable-row-hover .el-table__body tr:hover>td {
+  .index_sidebar .sidebar_phone .el-table--enable-row-hover .el-table__body tr:hover > td {
     background: black;
     color: #409EFF !important;
   }
-  .index_sidebar .sidebar_phone .el-table__row>td{
+
+  .index_sidebar .sidebar_phone .el-table__row > td {
     border: none;
     background: black;
     color: white;
   }
+
   .index_sidebar .sidebar_phone .el-table::before {
-  height: 0;
+    height: 0;
   }
 
 
@@ -205,21 +221,26 @@
   .index_sidebar .sidebar_phone {
     display: inherit;
   }
-  .index_sidebar .sidebar{
+
+  .index_sidebar .sidebar {
     display: none;
   }
+
   @media (min-width: 760px) {
     .index_sidebar .sidebar_phone {
       display: none;
     }
-    .index_sidebar .sidebar{
+
+    .index_sidebar .sidebar {
       display: inherit;
     }
-    .index_sidebar  {
+
+    .index_sidebar {
       margin-bottom: 0;
     }
   }
-  .index_sidebar .el-table__row{
+
+  .index_sidebar .el-table__row {
     cursor: pointer;
   }
 </style>

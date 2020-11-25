@@ -3,7 +3,7 @@
     <i class="el-icon-s-fold" @click.stop="drawer = !drawer" :class="{'active': drawer === true }" ></i>
     <i class="el-icon-s-custom" @click.stop="jump('account')" :class="{'active':isActive === 'account' }" ></i>
     <div id="phone_item_container" v-if="drawer">
-      <div class="header_phone_item" v-for="item in headers" @click.stop="jump(item.link)" :class="{'active':isActive === item.link }"  >
+      <div class="header_phone_item" v-for="item in headers" @click.stop="jump(item.link)" :class="{'active':isActive === item.link && item.link !== '404'}"  >
           <p>{{item.name}}</p>
       </div>
     </div>

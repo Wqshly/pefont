@@ -284,6 +284,7 @@
   #app{
     width: 100%;
   }
+
   /*MP4*/
   .homepage .video-box video {
     width: 100%;
@@ -317,7 +318,6 @@
     }
   }
   .homepage .index-banner .index-font-box h1 {
-    font-weight: 700;
     font-size: 40px;
     color: #fff;
   }

@@ -1,5 +1,6 @@
 <template>
   <div id="container">
+
     <div class="table">
       <div class="table-header">
         <el-input type="text"
@@ -9,8 +10,11 @@
                   style="width: 200px;display: inline-block"
                   placeholder="输入名字搜索">
         </el-input>
-        <p class="a" @click.stop="handleMultiSignIn">批量签到</p>
-        <p class="a" @click.stop="handleMultiSignOut">批量签退</p>
+        <div>
+          <el-radio-group v-model="filter_label_outlay">
+            <el-radio-button v-for="item in statusOp" :key=item :label=item></el-radio-button>
+          </el-radio-group>
+        </div>
       </div>
       <el-table @selection-change="handleSelectionChange"
                 :data="handleData()"
@@ -52,10 +56,6 @@
                      :total="total">
       </el-pagination>
     </div>
-    <div id="ex-right-container">
-      <v-calendar class="rank" />
-      <v-score class="score" />
-    </div>
   </div>
 </template>
 
@@ -75,38 +75,12 @@
         pageSize: 10,
         total: 0,
         multipleSelection: [],
+        statusOp: ['已发起','进行中','已结束'],
+        filter_label_outlay: '已发起',
       }
     },
     methods: {
-      Sign(url, data) {
-        this.$api.post_JSON(url, data).then(res => {
-          if (res.code === 0) {
-            this.requestTableData();
-          } else {
-            this.$message.error(res.msg);
-          }
-        });
-      },
-      handleSignIn(index, row) {
-        this.Sign('/api/SignIn/setSignInByClass', [row.id]);
-      },
-      handleMultiSignIn() {
-        let data = [];
-        for (let i in this.multipleSelection) {
-          data.push(this.multipleSelection[i].id);
-        }
-        this.Sign('/api/SignIn/setSignInByClass', data);
-      },
-      handleSignOut(index, row) {
-        this.Sign('/api/SignIn/setSignOutByClass', [row.id]);
-      },
-      handleMultiSignOut() {
-        let data = [];
-        for (let i in this.multipleSelection) {
-          data.push(this.multipleSelection[i].id);
-        }
-        this.Sign('/api/SignIn/setSignOutByClass', data);
-      },
+
       //多选
       handleSelectionChange(val) {
         this.multipleSelection = val;
@@ -213,40 +187,5 @@
     max-width: 1000px;
   }
 
-  .score {
-    padding-top: 20px;
-  }
 
-  #ex-right-container {
-    width: 550px;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 20px;
-  }
-
-  p {
-    padding: 8px 0;
-    font-size: 15px;
-    float: right;
-  }
-
-  .a {
-    color: #409eff;
-    cursor: pointer;
-    padding-right: 20px;
-  }
-
-  @media screen and (max-width: 860px ) {
-    #ex-right-container {
-      width: 100%;
-      justify-content: space-between;
-    }
-
-    .table {
-      width: 100% ;
-    }
-    .score {
-      padding-top: 0;
-    }
-  }
 </style>

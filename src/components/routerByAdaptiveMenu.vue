@@ -70,7 +70,7 @@ export default {
   }
   .active{
     background-color: #409EFF!important;
-    color: white;
+    color: white!important;
   }
   @media (max-width: 760px) {
     .options{

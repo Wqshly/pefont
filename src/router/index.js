@@ -5,6 +5,8 @@ import Router from 'vue-router'
 /*门户*/
 const indexPage = () => import(/* webpackChunkName: '0' */ '../view/index/Page');
 const index_home = () => import(/* webpackChunkName: '0' */ '../view/index/home');
+const index_venue = () => import(/* webpackChunkName: '0' */ '../view/index/venue');
+const index_equipment = () => import(/* webpackChunkName: '0' */ '../view/index/equipment');
 const index_function = () => import(/* webpackChunkName: '0' */ '../view/index/function');
 const index_app = () => import(/* webpackChunkName: '0' */ '../view/index/app1');
 const notFoundPage = () => import(/* webpackChunkName: '0' */ '../view/404');
@@ -26,7 +28,8 @@ const home2_page = () => import(/* webpackChunkName: '2' */ '../view/home2/home'
 
 /*本地比赛*/
 const competitionPage = () => import(/* webpackChunkName: '3' */ '../view/competition/Page');
-const competition_home = () => import(/* webpackChunkName: '3' */ '../view/competition/home');
+const competition_create = () => import(/* webpackChunkName: '3' */ '../view/competition/create');
+const competition_mana = () => import(/* webpackChunkName: '3' */ '../view/competition/management');
 
 /*promotion page*/
 const promotionPage = () => import(/* webpackChunkName: '4' */ '../view/promotion/Page');
@@ -73,6 +76,13 @@ const theory_theory = () => import(/* webpackChunkName: '11' */ '../view/theory/
 const theory_exam = () => import(/* webpackChunkName: '11' */ '../view/theory/theoryExam');
 const theory_exams = () => import(/* webpackChunkName: '11' */ '../view/theory/theoryExams');
 
+/*预约场地*/
+const venuePage = () => import(/* webpackChunkName: '12' */ '../view/venue/Page');
+const venue_page = () => import(/* webpackChunkName: '12' */ '../view/venue/home');
+
+/*器材租赁*/
+const equipmentPage = () => import(/* webpackChunkName: '13' */ '../view/equipment/Page');
+const equipment_page = () => import(/* webpackChunkName: '13' */ '../view/equipment/home');
 
 const router = new Router({
   routes: [
@@ -95,6 +105,34 @@ const router = new Router({
         {
           path: '/home/home',
           component: home_page
+        },
+      ]
+    },
+    {
+      path: '/venue',
+      component: venuePage,
+      children: [
+        {
+          path: '/',
+          redirect:'/venue/home',
+        },
+        {
+          path: '/venue/home',
+          component: venue_page
+        },
+      ]
+    },
+    {
+      path: '/equipment',
+      component: equipmentPage,
+      children: [
+        {
+          path: '/',
+          redirect:'/equipment/home',
+        },
+        {
+          path: '/equipment/home',
+          component: equipment_page
         },
       ]
     },
@@ -132,11 +170,19 @@ const router = new Router({
       children: [
         {
           path: '/',
-          redirect: '/competition/1'
+          redirect: '/competition/home'
         },
         {
           path: '/competition/home',
-          component: competition_home
+          redirect: '/404'
+        },
+        {
+          path: '/competition/create',
+          component: competition_create
+        },
+        {
+          path: '/competition/management',
+          component: competition_mana
         }
       ]
     },
@@ -322,6 +368,14 @@ const router = new Router({
         {
           path: '/index/home',
           component: index_home
+        },
+        {
+          path: '/index/venue',
+          component: index_venue
+        },
+        {
+          path: '/index/equipment',
+          component: index_equipment
         },
         {
           path: '/index/function',
