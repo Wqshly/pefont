@@ -211,6 +211,7 @@
   .table {
     width: calc(100% - 600px);
     max-width: 1000px;
+    min-width: 500px;
   }
 
   .score {

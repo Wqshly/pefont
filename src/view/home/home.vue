@@ -1,11 +1,13 @@
 <template>
   <div id="container">
-    <div id="home-left-container">
-      <v-rank class="left-itme"/>
-
+    <div class="home-left-container">
     </div>
-
-    <div class="score">
+    <div class="home-center-container">
+      <v-rank class="center_row"/>
+      <v-rank class="center_row"/>
+      <v-rank class="center_row"/>
+    </div>
+    <div class="home-right-container">
       <v-score/>
     </div>
   </div>
@@ -39,16 +41,26 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+
   }
 
-  #home-left-container {
+  .home-left-container {
+    border:3px solid #ebebeb;
+    width: 300px;
+    height: 500px;
   }
-
-  .left-itme {
+  .home-center-container {
     margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
   }
-
-  .score {
+  .center_row {
+    width: 100%;
+    margin: 10px 0;
+  }
+  .home-right-container {
     width: 300px;
     margin-right: 20px;
   }

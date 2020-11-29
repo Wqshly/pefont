@@ -1,11 +1,17 @@
 <template>
   <div>
     <div class="venue-container" v-if="!detail">
-      <div>
+      <div style="display: flex;flex-wrap: wrap;width: 100%;justify-content: center">
+        <el-input type="text"
+                  v-model="search2"
+                  prefix-icon="el-icon-search"
+                  style="max-width: 200px;padding-right: 50px"
+                  placeholder="输入类型搜索">
+        </el-input>
         <el-input type="text"
                   v-model="search"
                   prefix-icon="el-icon-search"
-                  style="max-width: 400px"
+                  style="max-width: 300px"
                   placeholder="输入场馆名搜索">
         </el-input>
       </div>
@@ -23,8 +29,21 @@
                   <span class="font">场馆名：{{ item.name }}</span>
                   <span class="font">开放时间：{{ item.date }}</span>
                   <span class="font">地点：{{ item.position }}</span>
+                  <span class="font">支持的运动：
+                    <el-tag
+                      style="margin-right: 10px"
+                      v-for="type in item.type"
+                      :key="type"
+                      effect="dark">
+                    {{ type }}
+                  </el-tag>
+                  </span>
+
                 </div>
-                <el-button type="success" round @click="open(item)">查询可预约时间</el-button>
+              </div>
+
+              <div style="position: absolute;bottom: 0;right: 0">
+                <el-button type="primary" plain @click="open(item)">查询详情</el-button>
               </div>
             </div>
           </el-card>
@@ -42,7 +61,9 @@
       </el-pagination>
 
     </div>
-    <venue_detail v-else/>
+    <venue_detail
+      @back="back"
+      v-else/>
   </div>
 
 </template>
@@ -58,6 +79,7 @@
       return {
         url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
         search: '',
+        search2: '',
         detail: false,
         currentPage: 1,
         pageSize: 10,
@@ -66,6 +88,7 @@
           date: '',
           name: '',
           position: '',
+          type: []
         }],
       }
     },
@@ -88,7 +111,10 @@
 
       //搜索筛选
       filter(val) {
-        return (!this.search || val.name.toLowerCase().includes(this.search.toLowerCase()));
+        return (
+          (!this.search || val.name.toLowerCase().includes(this.search.toLowerCase()))
+          && (!this.search2 || (val.type.indexOf(this.search2) != -1))
+        );
       },
 
       handleClick(item) {
@@ -96,8 +122,12 @@
       },
 
       open() {
-        window.scroll(0, 0);
+        window.scroll(0, 500);
         this.detail = !this.detail;
+      },
+      back() {
+        window.scroll(0, 100);
+        this.detail = false;
       }
 
     },
@@ -106,7 +136,8 @@
         date: '11月22日',
         name: '山科大体育馆',
         position: '山科大体育馆',
-      }
+        type: ['足球', '篮球']
+      };
       for (let i = 0; i <= 18; ++i) {
         this.tableData.push(e);
       }
@@ -140,6 +171,7 @@
     display: flex;
     flex-wrap: wrap;
     width: fit-content;
+    position: relative;
   }
 
   .item_img {

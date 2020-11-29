@@ -8,21 +8,15 @@
         </video>
         <div class="overlay"></div>
       </div>
-      <div class="index-font-box" >
+      <div class="index-font-box">
         <h1>校园体育,提升健康</h1>
         <p>每天锻炼一小时，健康工作50年，幸福生活一辈子</p>
       </div>
     </div>
 
-    <div class="section-1" >
+    <div class="section-1">
       <div class="container_self">
-        <template>
-          <el-carousel indicator-position="outside" type="card" >
-            <el-carousel-item v-for="item in items1" :key="item">
-              <div class="width_contro"><el-image :src="item.url" fil="'scale-down'"></el-image></div>
-            </el-carousel-item>
-          </el-carousel>
-        </template>
+        <carousel :data="items1" :type="'card'"/>
       </div>
     </div>
 
@@ -42,8 +36,8 @@
 
         <div id="section2-container">
           <div class="section2-item" v-for="e in section2">
-              <img v-lazy="require('../../assets/img/index/home/section2/'+e.url)" alt="">
-              <p>{{e.text}}</p>
+            <img v-lazy="require('../../assets/img/index/home/section2/'+e.url)" alt="">
+            <p>{{e.text}}</p>
           </div>
         </div>
         <div id="section2-phone-container">
@@ -67,15 +61,15 @@
 
       <div id="section3-container">
         <div class="section3-item" v-for="e in section3">
-            <img v-lazy="require('../../assets/img/index/home/section3/'+e.url)" alt="">
-            <h3 align="center">{{e.h3}}</h3>
-            <p align="center">{{e.p}}</p>
+          <img v-lazy="require('../../assets/img/index/home/section3/'+e.url)" alt="">
+          <h3 align="center">{{e.h3}}</h3>
+          <p align="center">{{e.p}}</p>
         </div>
       </div>
     </div>
 
     <div class="section-4">
-      <div class="container_self" >
+      <div class="container_self">
         <div class="title">
           <h2 style="text-align: center">PE校园智能</h2>
         </div>
@@ -160,128 +154,133 @@
 </template>
 
 <script>
-    export default {
-        name: 'home',
-        data () {
-            return {
-                /*轮播图 走马灯*/
-                items1:[
-                    {
-                        name:  "1",
-                        url:"http://www.xiaoyuanpe.com/1.png"
-                    },
-                    {
-                        name:  "2",
-                        url:"http://www.xiaoyuanpe.com/2.png"
-                    },
-                    {
-                        name:  "3",
-                        url:"http://www.xiaoyuanpe.com/3.png"
-                    },
-                ],
-                section2:[
-                    {
-                      text: '乒乓球',
-                      url: 'pingpang.jpg',
-                    },
-                    {
-                        text: '羽毛球',
-                        url: 'yumao.jpg',
-                    },
-                    {
-                        text: '篮球',
-                        url: 'lanqiu.jpg',
-                    },
-                    {
-                        text: '足球',
-                        url: 'zuqiu.jpg',
-                    },
-                    {
-                        text: '铅球',
-                        url: 'qianqiu.jpg',
-                    },
-                    {
-                        text: '帆船',
-                        url: 'fanchuan.jpg',
-                    },
-                    {
-                        text: '跳高',
-                        url: 'tiaogao.jpg',
-                    },
-                    {
-                        text: '50米跑',
-                        url: 'paobu.jpg',
-                    },
-                    {
-                        text: '跨栏',
-                        url: 'kualan.jpg',
-                    },
-                ],
-                section3:[
-                    {
-                        url:'专业系统.png',
-                        h3:'专业系统',
-                        p:'集成课程体系，学校培养评估，学生素质评价为一体的综合素质管理平台',
-                    },
-                    {
-                        url:'多端.png',
-                        h3:'多端形态',
-                        p:'APP、H5、小程序、PC、Web多端形态，满足不同的使用场景需求',
-                    },
-                    {
-                        url:'个性定制.png',
-                        h3:'个性定制',
-                        p:'针对不同高校和学生群体需求,定制符合其自身发展需求的功能',
-                    },
-                    {
-                        url:'升级.png',
-                        h3:'持续升级',
-                        p:'不断优化迭代，持续升级，为第二课堂的前行铺平道路',
-                    },
-                ],
-            }
-        },
-        methods: {
-            lazy(){
-                document.addEventListener("DOMContentLoaded", function() {
-                    var lazyVideos = [].slice.call(document.querySelectorAll("video.lazy"));
+  import carousel from "../../components/common/carousel";
 
-                    if ("IntersectionObserver" in window) {
-                        var lazyVideoObserver = new IntersectionObserver(function(entries, observer) {
-                            entries.forEach(function(video) {
-                                if (video.isIntersecting) {
-                                    for (var source in video.target.children) {
-                                        var videoSource = video.target.children[source];
-                                        if (typeof videoSource.tagName === "string" && videoSource.tagName === "SOURCE") {
-                                            videoSource.src = videoSource.dataset.src;
-                                        }
-                                    }
+  export default {
+    components: {
+      carousel,
+    },
+    data() {
+      return {
+        /*轮播图 走马灯*/
+        items1: [
+          {
+            name: "1",
+            url: "http://www.xiaoyuanpe.com/1.png"
+          },
+          {
+            name: "2",
+            url: "http://www.xiaoyuanpe.com/2.png"
+          },
+          {
+            name: "3",
+            url: "http://www.xiaoyuanpe.com/3.png"
+          },
+        ],
+        section2: [
+          {
+            text: '乒乓球',
+            url: 'pingpang.jpg',
+          },
+          {
+            text: '羽毛球',
+            url: 'yumao.jpg',
+          },
+          {
+            text: '篮球',
+            url: 'lanqiu.jpg',
+          },
+          {
+            text: '足球',
+            url: 'zuqiu.jpg',
+          },
+          {
+            text: '铅球',
+            url: 'qianqiu.jpg',
+          },
+          {
+            text: '帆船',
+            url: 'fanchuan.jpg',
+          },
+          {
+            text: '跳高',
+            url: 'tiaogao.jpg',
+          },
+          {
+            text: '50米跑',
+            url: 'paobu.jpg',
+          },
+          {
+            text: '跨栏',
+            url: 'kualan.jpg',
+          },
+        ],
+        section3: [
+          {
+            url: '专业系统.png',
+            h3: '专业系统',
+            p: '集成课程体系，学校培养评估，学生素质评价为一体的综合素质管理平台',
+          },
+          {
+            url: '多端.png',
+            h3: '多端形态',
+            p: 'APP、H5、小程序、PC、Web多端形态，满足不同的使用场景需求',
+          },
+          {
+            url: '个性定制.png',
+            h3: '个性定制',
+            p: '针对不同高校和学生群体需求,定制符合其自身发展需求的功能',
+          },
+          {
+            url: '升级.png',
+            h3: '持续升级',
+            p: '不断优化迭代，持续升级，为第二课堂的前行铺平道路',
+          },
+        ],
+      }
+    },
+    methods: {
+      lazy() {
+        document.addEventListener("DOMContentLoaded", function () {
+          var lazyVideos = [].slice.call(document.querySelectorAll("video.lazy"));
 
-                                    video.target.loadData();
-                                    video.target.classList.remove("lazy");
-                                    lazyVideoObserver.unobserve(video.target);
-                                }
-                            });
-                        });
-
-                        lazyVideos.forEach(function(lazyVideo) {
-                            lazyVideoObserver.observe(lazyVideo);
-                        });
+          if ("IntersectionObserver" in window) {
+            var lazyVideoObserver = new IntersectionObserver(function (entries, observer) {
+              entries.forEach(function (video) {
+                if (video.isIntersecting) {
+                  for (var source in video.target.children) {
+                    var videoSource = video.target.children[source];
+                    if (typeof videoSource.tagName === "string" && videoSource.tagName === "SOURCE") {
+                      videoSource.src = videoSource.dataset.src;
                     }
-                });
-            }
+                  }
 
-        },
-        mounted() {
-        },
-        created(){
-            this.lazy();
-        }
+                  video.target.loadData();
+                  video.target.classList.remove("lazy");
+                  lazyVideoObserver.unobserve(video.target);
+                }
+              });
+            });
+
+            lazyVideos.forEach(function (lazyVideo) {
+              lazyVideoObserver.observe(lazyVideo);
+            });
+          }
+        });
+      },
+
+    },
+    mounted() {
+
+    },
+    created() {
+      this.lazy();
     }
+  }
 </script>
 
 <style scoped>
-  #app{
+  #app {
     width: 100%;
   }
 
@@ -290,26 +289,29 @@
     width: 100%;
     height: 100%;
   }
+
   .homepage .index-banner {
     position: relative;
     width: 100%;
   }
+
   .homepage .index-banner .video-box .overlay {
     position: absolute;
     width: 100%;
     left: 0;
     top: 0;
     right: 0;
-    bottom: -1px;/**/
+    bottom: -1px; /**/
     opacity: .7;
     background: #1C1D21;
   }
-  .homepage  .index-banner .index-font-box {
+
+  .homepage .index-banner .index-font-box {
     display: none;
   }
 
   @media (min-width: 760px) {
-    .homepage  .index-banner .index-font-box {
+    .homepage .index-banner .index-font-box {
       position: absolute;
       display: inherit;
       top: 28%;
@@ -317,6 +319,7 @@
       font-weight: 200;
     }
   }
+
   .homepage .index-banner .index-font-box h1 {
     font-size: 40px;
     color: #fff;
@@ -329,36 +332,41 @@
   }
 
   /*自适应margin*/
-  .homepage .container_self{
+  .homepage .container_self {
     overflow: hidden;
     margin: 0 auto;
     width: 95%;
   }
-  @media (min-width: 1200px){
+
+  @media (min-width: 1200px) {
     .homepage .container_self {
-      width: 60%!important;
+      width: 60% !important;
     }
   }
+
   /*文字*/
   .homepage .container_self .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
     font-family: inherit;
-    font-weight: 500!important;
+    font-weight: 500 !important;
     line-height: 1.1;
     margin-top: 20px;
     margin-bottom: 10px;
   }
+
   .homepage .container_self * {
     box-sizing: border-box;
     font-family: "Microsoft Yahei", sans-serif;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
   }
+
   .homepage .container_self p {
-    font-weight: 500!important;
-    font-size: 14px!important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
   }
+
   .homepage .container_self h2 {
-    font-size: 30px!important;
+    font-size: 30px !important;
     display: block;
     margin-block-start: 0.83em;
     margin-block-end: 0.83em;
@@ -367,43 +375,11 @@
   }
 
   /*区域一*/
-  .homepage .section-1{
+  .homepage .section-1 {
     width: 100%;
     margin: 35px 0 15px 0;
     display: none;
-    background:transparent;
-  }
-  /*控制走马灯图片不变形的核心*/
-  .homepage .section-1 .width_contro{
-    max-width: 420px;
-    margin: 0 auto;
-  }
-  .homepage .el-carousel__item {
-    background:transparent!important;
-  }
-  /*核心结束*/
-
-  /* 走马灯文字*/
-  .homepage .el-carousel__item h3 {
-    color: black;
-    font-size: 18px;
-    opacity: 1;
-    text-align: center;
-    position: relative;
-    vertical-align: bottom;
-    bottom: 0;
-    line-height: 100%;
-  }
-
-  .homepage .el-carousel{
-    overflow: hidden!important;
-  }
-  .homepage .el-carousel__item:nth-child(2n) {
-    background-color: white;
-  }
-
-  .homepage .el-carousel__item:nth-child(2n+1) {
-    background-color: white;
+    background: transparent;
   }
 
   @media (min-width: 760px) {
@@ -412,13 +388,14 @@
     }
   }
 
-  .index_sidebar .el-table__row{
+  .index_sidebar .el-table__row {
     cursor: pointer;
   }
+
   /*区域2*/
   .homepage .section-2 {
     position: relative;
-    overflow:hidden;
+    overflow: hidden;
     padding-bottom: 40px;
   }
 
@@ -427,23 +404,25 @@
     margin-bottom: 20px;
     text-align: center;
   }
+
   .homepage .section-2 .description .detail {
     margin-top: 20px;
   }
 
-  #section2-container{
+  #section2-container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
   }
 
-  #section2-phone-container{
+  #section2-phone-container {
     width: 100%;
     flex-wrap: wrap;
     display: none;
     justify-content: center;
   }
-  .section2-item{
+
+  .section2-item {
     display: flex;
     width: 33%;
     border: 1px solid #ddd;
@@ -452,7 +431,8 @@
     justify-content: center;
     align-items: center;
   }
-  .section2-phone-item{
+
+  .section2-phone-item {
     display: flex;
     width: 90%;
     border: 1px solid #ddd;
@@ -461,27 +441,30 @@
     justify-content: center;
     align-items: center;
   }
-  .section2-phone-item img{
+
+  .section2-phone-item img {
     width: 100%;
   }
-  .section2-item p{
+
+  .section2-item p {
     font-size: 12px;
     padding-top: 5px;
   }
-  .section2-item img{
+
+  .section2-item img {
     width: 100%;
   }
 
   /*页面最窄*/
-  @media (max-width: 759px){
+  @media (max-width: 759px) {
     #section2-container {
       display: none;
     }
-    #section2-phone-container{
+
+    #section2-phone-container {
       display: flex;
     }
   }
-
 
 
   /*区域3*/
@@ -494,25 +477,28 @@
     overflow: hidden;
     padding-bottom: 50px;
   }
-  .homepage .section-3 .description{
+
+  .homepage .section-3 .description {
     padding-top: 25px;
   }
 
-  .homepage .section-3  p{
+  .homepage .section-3 p {
     color: rgba(255, 255, 255, 0.7);
   }
-  .homepage .section-3  h3 {
+
+  .homepage .section-3 h3 {
     color: #fff;
   }
 
-  #section3-container{
+  #section3-container {
     display: flex;
     width: 100%;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
   }
-  #section3-container .section3-item{
+
+  #section3-container .section3-item {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -521,24 +507,29 @@
     flex-wrap: wrap;
     padding: 20px 0;
   }
-  .section3-item p,.section3-item h3{
+
+  .section3-item p, .section3-item h3 {
     width: 70%;
   }
-  .section3-item img{
+
+  .section3-item img {
     width: 10%;
   }
+
   /*页面中等时每行两个*/
-  @media (min-width: 760px) and (max-width:1200px) {
+  @media (min-width: 760px) and (max-width: 1200px) {
     #section3-container .section3-item {
       width: 50%;
     }
-    .section3-item img{
+
+    .section3-item img {
       width: 15%;
     }
   }
+
   /*页面最宽时每行四个*/
-  @media (min-width: 1200px){
-    #section3-container{
+  @media (min-width: 1200px) {
+    #section3-container {
       width: 70%;
       margin: 0 auto;
     }
@@ -546,7 +537,8 @@
     #section3-container .section3-item {
       width: 25%;
     }
-    .section3-item img{
+
+    .section3-item img {
       width: 15%;
     }
   }
@@ -556,14 +548,16 @@
     overflow: hidden;
     padding: 30px 0;
   }
+
   .homepage .section-4 .bottom-row {
     padding-top: 100px;
   }
 
   .homepage .section-4 h3 {
     float: left;
-    font-size: 24px!important;
+    font-size: 24px !important;
   }
+
   .homepage .section-4 .row {
     margin: 30px 0;
   }
@@ -572,41 +566,50 @@
     float: left;
     width: 100%;
   }
+
   .homepage .section-4 .bottom-row {
     padding-top: 100px;
   }
+
   .homepage .section-4 .container_self .card {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
   }
+
   .homepage .section-4 .container_self .card .word {
     width: calc(100% - 60px);
   }
+
   .homepage .section-4 .container_self .right-pic h3 {
     margin: 0 0 30px 0;
     float: right;
   }
+
   .homepage .section-4 .container_self .right-pic p {
     clear: both;
     text-align: right;
     color: #666;
   }
+
   .homepage .section-4 .container_self .left-pic h3 {
     margin: 0 0 30px 0;
     float: left;
   }
+
   .homepage .section-4 .container_self .left-pic p {
     clear: both;
     text-align: left;
     color: #666;
   }
+
   .homepage .section-4 .container_self .card {
     display: flex;
-    padding:10px 0;
+    padding: 10px 0;
     justify-content: space-between;
     align-items: flex-start;
   }
+
   .homepage .section-4 .container_self .card .icon {
     width: 60px;
     height: 60px;
@@ -616,14 +619,17 @@
     background: url(../../assets/img/index/home/section4/transcript.png) no-repeat;
     background-size: contain;
   }
+
   .homepage .section-4 .container_self .card .dataopen {
     background: url(../../assets/img/index/home/section4/dataopen.png) no-repeat;
     background-size: contain;
   }
+
   .homepage .section-4 .container_self .card .work {
     background: url(../../assets/img/index/home/section4/work.png) no-repeat;
     background-size: contain;
   }
+
   .homepage .section-4 .container_self .card .stastic {
     background: url(../../assets/img/index/home/section4/statistic.png) no-repeat;
     background-size: contain;
@@ -643,15 +649,18 @@
     position: relative;
     top: 11%;
   }
-  @media screen and (min-width: 1024px){
+
+  @media screen and (min-width: 1024px) {
     .homepage .section-5 {
       display: block;
       height: 600px;
     }
   }
-  .homepage .section-5 h3{
+
+  .homepage .section-5 h3 {
     color: black;
   }
+
   .homepage .section-5 .container_self .detail {
     margin-top: 20px;
   }

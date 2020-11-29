@@ -1,5 +1,6 @@
 <template>
   <div id="calendar">
+    <h3>近期打卡情况</h3>
     <el-calendar>
       <!-- 这里使用的是 2.5 slot 语法，对于新项目请使用 2.6 slot 语法-->
       <template
@@ -38,11 +39,11 @@
   #calendar {
     width: 550px;
   }
-  .item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  h3 {
+    font-weight: 400;
+    padding-left: 20px;
   }
+
   .is-selected {
 
   }

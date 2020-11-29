@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import vVenue from '../../components/venue.vue'
+  import vVenue from '../../components/venue/venue.vue'
   export default {
     components:{
       vVenue

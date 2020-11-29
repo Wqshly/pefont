@@ -32,7 +32,8 @@
 <style scoped>
   .home_main {
     margin: 0 auto;
-    width: 100%;
+    width: fit-content;
+    min-width: 80%;
     padding-top: 5px;
     overflow: hidden;
   }

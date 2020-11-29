@@ -26,7 +26,7 @@
 <style scoped>
   .home_main {
     margin: 0 auto;
-    max-width: 1140px;
+    max-width: 1400px;
     width: 100%;
     padding-top: 5px;
     overflow: hidden;
