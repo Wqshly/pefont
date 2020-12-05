@@ -1,16 +1,16 @@
 <template>
-  <div class="all">
-    <div id="normal">
-      <div id="header_item_container">
-        <div id="img_container" @click="jump({link:''})">
-          <img src="../assets/logo2.png" alt="PE">
+  <div class="all2">
+    <div class="normal">
+      <div class="header_item_container">
+        <div class="img_container" @click="jump2({link:'/'})">
+          <img src="../../assets/logo2.png" alt="PE">
         </div>
         <div class="header_item"
              v-for="(item,index) in headers"
              @click="jump(item)"
              :class="[{'active':isActive === item.link && item.link !== '404'},{'float_right' : item.float ==='right'}]">
           <!--一级菜单-->
-          <div v-if="item.name !=='学校管理' || $store.state.user.identity == '学校管理员'">
+          <div>
             <i v-if="!item.subs && item.iconName" :class="item.iconName"></i>
             <p v-if="!item.subs && !item.iconName">{{item.name}}</p>
           </div>
@@ -23,35 +23,23 @@
             <el-dropdown-menu slot="dropdown">
               <div v-for="(sub,index) in item.subs" :key="index">
                 <el-dropdown-item v-if="!sub.subs" @click.native="jump2(sub)">{{sub.name}}</el-dropdown-item>
-                <!--三级菜单-->
-                <el-dropdown style="width: 100%" v-else>
-                  <el-dropdown-item>{{sub.name}}</el-dropdown-item>
-                  <el-dropdown-menu style="margin: -20px -157px 0 0;" slot="dropdown">
-                    <el-dropdown-item v-for="(s,index) in sub.subs" :key="index" @click.native="jump3(s)">
-                      {{s.name}}
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
               </div>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
       </div>
     </div>
-    <phone-header class="small" :headers="headers"></phone-header>
     <back></back>
   </div>
 </template>
 
 <script>
-  import back from './backTop'
-  import phoneHeader from './phoneHeader'
+  import back from '../../components/backTop'
 
   export default {
     //本组件的当前路由蓝色渲染适用于一级路由  也就是路由路径中的第一个'/'的部分
     components: {
       back,
-      phoneHeader,
     },
     data() {
       return {
@@ -59,42 +47,24 @@
         reverse_headers: [],
         headers: [
           {
-            name: '首页',
-            link: 'home'
+            name: '管理首页',
+            link: 'management',
           },
           {
-            name: '早操',
-            link: 'exercises'
+            name: '本地比赛',
+            link: 'competition',
           },
           {
-            name: '课外活动',
-            link: 'home2'
+            name: '区域联赛',
+            link: '404'
           },
           {
-            name: '校内校外活动',
-            link: 'activity',
-            subs: [
-              {
-                name: '活动首页',
-                link: '/activity/home'
-              },
-              {
-                name: '校内通知',
-                link: '/activity/notice'
-              },
-              {
-                name: '发起活动',
-                link: '/activity/promotion'
-              },
-              {
-                name: '活动管理',
-                link: '/activity/management'
-              },
-              {
-                name: '组织签到',
-                link: '/activity/check'
-              },
-            ]
+            name: '器材管理',
+            link: '404',
+          },
+          {
+            name: '场地管理',
+            link: 'venue',
           },
           {
             name: '账户',
@@ -108,52 +78,6 @@
             float: 'right',
             iconName: 'el-icon-s-custom',
           },
-          {
-            name: '学校管理',
-            link: 'management',
-            float: 'right',
-          },
-          {
-            name: '健康管理',
-            link: 'health',
-            subs: [
-              {
-                name: '个人信息',
-                link: '/health/home'
-              },
-              {
-                name: '祛痘',
-                link: '/health/anti'
-              },
-            ],
-            float: 'right',
-          },
-          {
-            name: '运动装备',
-            link: 'shop',
-            float: 'right',
-          },
-
-          {
-            name: '裁判园地',
-            link: 'theory',
-            float: 'right',
-          },
-          {
-            name: '云比赛',
-            link: '404',
-            float: 'right',
-          },
-          {
-            name: '器材租赁',
-            link: '404',
-            float: 'right',
-          },
-          {
-            name: '场地预约',
-            link: '404',
-            float: 'right',
-          },
         ],
         drawer: false,
 
@@ -164,7 +88,8 @@
       jump(val) {
         if (!val.noJump) {
           this.drawer = false;
-          this.$router.push('/' + val.link);
+          this.isActive = val.link;
+          this.$router.push('/' + val.link + '/management');
         }
       },
       //二级目录跳转函数
@@ -174,14 +99,7 @@
           this.$router.push(val.link);
         }
       },
-      jump3(val) {
-        if (!val.noJump) {
-          this.drawer = false;
-          this.$store.commit('setCompetitionClass', val.name);
-          this.$router.push(val.link);
-          this.$eventBus.emit("setCompetitionClass", val.name);
-        }
-      },
+
       logout() {
         api.get('/api/login/logout').then(res => {
         });
@@ -199,13 +117,13 @@
   }
 </script>
 
-<style>
-  .all {
+<style scoped>
+  .all2 {
     height: 80px;
     width: 100%;
   }
 
-  .all #normal {
+  .all2 .normal {
     width: 100%;
     height: 80px;
     position: fixed;
@@ -215,7 +133,7 @@
     border-bottom: 1px solid #dcdfe6;
   }
 
-  #header_item_container {
+  .header_item_container {
     height: 80px;
     line-height: 80px;
     top: 0;
@@ -225,7 +143,7 @@
     vertical-align: middle;
   }
 
-  #img_container {
+  .img_container {
     display: flex;
     cursor: pointer;
     height: 80px;
@@ -233,11 +151,11 @@
     align-items: center;
   }
 
-  #header_item_container img {
+  .header_item_container img {
     height: 30px;
   }
 
-  #normal #header_item_container .header_item {
+  .normal .header_item_container .header_item {
     line-height: 80px;
     height: 80px;
     margin: 0 0 0 15px;
@@ -247,7 +165,7 @@
     font-size: 14px;
   }
 
-  #normal i {
+  .normal i {
     font-size: 30px;
     vertical-align: middle;
     line-height: 80px;
@@ -256,12 +174,12 @@
   }
 
 
-  #normal p {
+  .normal p {
     color: #60606d;
     font-size: 14px;
   }
 
-  #normal p:hover, i:hover {
+  .normal p:hover, i:hover {
     color: #409EFF !important;
   }
 
@@ -274,32 +192,16 @@
     color: #409EFF !important;
   }
 
-  .active3 {
-    border-bottom: none;
-    color: #409EFF !important;
-  }
-
-  #normal {
+  .normal {
     display: block;
   }
 
-  .small {
-    display: none !important;
-  }
 
   /*手机端*/
   @media screen and (max-width: 1009px) {
-    .all {
-      height: 60px;
-      width: 100%;
-    }
 
-    #normal {
-      display: none;
-    }
-
-    .small {
-      display: flex !important;
+    .img_container {
+      display: none!important;
     }
   }
 

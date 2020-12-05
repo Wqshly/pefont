@@ -16,7 +16,7 @@
 
     <div class="section-1">
       <div class="container_self">
-        <carousel :data="items1" :type="'card'"/>
+        <carousel v-if="items1.length !== 0" :data="items1" :type="'card'"/>
       </div>
     </div>
 

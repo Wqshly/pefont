@@ -1,10 +1,14 @@
 <template>
   <div id="phone">
-    <i class="el-icon-s-fold" @click.stop="drawer = !drawer" :class="{'active': drawer === true }" ></i>
-    <i class="el-icon-s-custom" @click.stop="jump('account')" :class="{'active':isActive === 'account' }" ></i>
+    <i class="el-icon-s-fold" @click.stop="drawer = !drawer" :class="{'active': drawer === true }"></i>
+    <i class="el-icon-s-custom" @click.stop="jump('account')" :class="{'active':isActive === 'account' }"></i>
     <div id="phone_item_container" v-if="drawer">
-      <div class="header_phone_item" v-for="item in headers" @click.stop="jump(item.link)" :class="{'active':isActive === item.link && item.link !== '404'}"  >
-          <p>{{item.name}}</p>
+      <div class="header_phone_item"
+           v-if="item.name !=='学校管理' || $store.state.user.identity == '学校管理员'"
+           v-for="item in headers"
+           @click.stop="jump(item.link)"
+           :class="{'active':isActive === item.link && item.link !== '404'}">
+        <p>{{item.name}}</p>
       </div>
     </div>
   </div>
@@ -12,29 +16,29 @@
 
 <script>
 
-export default {
-    props:{
-      headers:[]
+  export default {
+    props: {
+      headers: []
     },
     data() {
-        return {
-            isActive: 'activity',
-            drawer: false,
-        }
+      return {
+        isActive: 'activity',
+        drawer: false,
+      }
     },
     methods: {
-        jump(val) {
-            this.drawer = false;
-            this.isActive = val;
-            this.$router.push('/' + val);
-        },
+      jump(val) {
+        this.drawer = false;
+        this.isActive = val;
+        this.$router.push('/' + val);
+      },
     },
     mounted() {
     },
     created() {
-        this.isActive = (this.$route.path).split('/')[1];
+      this.isActive = (this.$route.path).split('/')[1];
     }
-}
+  }
 </script>
 
 <style scoped>
@@ -43,7 +47,7 @@ export default {
     width: 100%;
     z-index: 9999;
     position: fixed;
-    top:0;
+    top: 0;
     overflow: hidden;
     color: white;
     line-height: 50px;
@@ -53,35 +57,39 @@ export default {
     justify-content: space-between;
     align-items: center;
   }
-  #phone_item_container{
+
+  #phone_item_container {
     position: fixed;
     width: 100%;
-    top:60px;
+    top: 60px;
     z-index: 9999;
     background-color: white;
     border: black 1px solid;
   }
+
   i {
     margin: 0 20px;
     font-size: 24px;
   }
-  .active{
-    color:#409EFF!important;
+
+  .active {
+    color: #409EFF !important;
   }
-  .header_phone_item{
+
+  .header_phone_item {
     width: 100%;
     cursor: pointer;
-    transition: background-color 0.5s,color 0.5s;
+    transition: background-color 0.5s, color 0.5s;
     line-height: 30px;
     color: #1B1C20;
   }
 
-  .header_phone_item:hover{
+  .header_phone_item:hover {
     background-color: #1B1C20;
-    color:white;
+    color: white;
   }
 
-  .header_phone_item p{
-      margin-left: 82px;
+  .header_phone_item p {
+    margin-left: 82px;
   }
 </style>

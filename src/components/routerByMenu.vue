@@ -60,6 +60,7 @@
     overflow: hidden;
     width: 100%;
     margin-bottom: 1px;
+    background-color: transparent;
   }
 
   .center {

@@ -1,11 +1,11 @@
 <template>
   <div id="competition_container">
-    <v-competition/>
+
   </div>
 </template>
 
 <script>
-import vCompetition from "../../components/competition"
+
 export default {
     components:{
         vCompetition,
@@ -25,7 +25,7 @@ export default {
 
 <style scoped>
   #competition_container {
-    width: 100%;
+    width: 90%;
     margin: 0 auto;
   }
 

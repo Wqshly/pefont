@@ -13,44 +13,58 @@
   </el-carousel>
 </template>
 
-<script >
+<script>
 
-export default {
-  props: {
-    data: [
-      {
-        name: "1",
-        url: "http://www.xiaoyuanpe.com/1.png"
-      }
-    ],
-    type:'',
-    position:'outside',
-    trigger:'click',
-    interval:5000,
-  },
-  data () {
-    return{
-      bannerHeight: "",
-    };
-  },
-  methods: {
-    imgLoad() {
-      this.$nextTick(() => {
+  export default {
+    props: {
+      data: {
+        default: [
+          {
+            name: "1",
+            url: "http://www.xiaoyuanpe.com/1.png"
+          }
+        ]
+      },
+      type: {
+        default: ''
+      },
+      position: {
+        default: 'outside'
+      },
+      trigger: {
+        default: 'click'
+      },
+      interval: {
+        default: 5000
+      },
+    },
+    data() {
+      return {
+        bannerHeight: "",
+      };
+    },
+    methods: {
+      imgLoad() {
+        this.$nextTick(() => {
+          this.bannerHeight = this.$refs.bannerHeight[0].height;
+        });
+      },
+      resizeCarousel() {
         this.bannerHeight = this.$refs.bannerHeight[0].height;
-      });
+        this.imgLoad();
+      }
+
+    },
+    mounted() {
+      this.imgLoad();
+      window.addEventListener('resize', this.resizeCarousel, false);
+    },
+    beforeDestroy() {
+      window.removeEventListener('resize', this.resizeCarousel, false);
     }
 
-  },
-  mounted() {
-    this.imgLoad();
-    window.addEventListener('resize', () => {
-      this.bannerHeight = this.$refs.bannerHeight[0].height;
-      this.imgLoad();
-    }, false);
-  },
 
-
-}
+  }
 </script>
 
 <style scoped>

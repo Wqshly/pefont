@@ -1,6 +1,6 @@
 <template>
   <div class="competition-promotional">
-    <div class="competition-header"><h1>{{this.competitionClass}}</h1></div>
+    <div class="competition-header"><h1>{{competitionClass}}</h1></div>
 
     <el-form :model="ruleForm" label-width="120px" class="demo-form">
       <el-form-item label="比赛名称" prop="title">
@@ -11,6 +11,14 @@
       </el-form-item>
 
       <el-form-item label="比赛类别">
+        <el-select v-model="competitionClass" placeholder="请选择">
+          <el-option
+            v-for="item in classOption"
+            :key="item"
+            :label="item"
+            :value="item">
+          </el-option>
+        </el-select>
         <el-select v-model="ruleForm.subclass" placeholder="请选择">
           <el-option
             v-for="item in subClass[competitionClass]"
@@ -81,10 +89,10 @@
       </el-form-item>
 
       <el-form-item label="宣传海报">
-        <div :class="[{'avatar-uploader': !ruleForm.imageUrl},'avatar-container']">
+        <div :class="[{'avatar-uploader': !imageUrl},'avatar-container']">
           <input ref="upload" type="file" accept="image/*" class="avatar-input" @change="changeAvatar"/>
-          <img v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" alt="">
-          <i v-if="!ruleForm.imageUrl" class="el-icon-plus avatar-uploader-icon"></i>
+          <img v-if="imageUrl" :src="imageUrl" alt="">
+          <i v-if="!imageUrl" class="el-icon-plus avatar-uploader-icon"></i>
         </div>
       </el-form-item>
     </el-form>
@@ -212,7 +220,6 @@
 </template>
 
 <script>
-  import {api} from '@/api/ajax'
 
   export default {
 
@@ -220,7 +227,9 @@
       return {
         notifyPromise: Promise.resolve(),
         isQuerying: false,
+        imageUrl: '',
         competitionClass: '综合类比赛',
+        classOption: ['综合类比赛', '田径比赛', '球类比赛', '水上运动', '其他比赛'],
         subClass: {
           "综合类比赛": ['田径运动会', '综合性运动会', '其他'],
           "田径比赛": ['田赛', '竞赛', '全能'],
@@ -239,7 +248,6 @@
           signUp_time: [],
           contact_name: '',
           contact_method: '',
-          imageUrl: '',
         },
 
         editableTabsValue: '1',
@@ -351,7 +359,7 @@
         }
       },
 
-      checkImg(file){
+      checkImg(file) {
         let errorMsg;
         if (file.type.split('/')[0] !== 'image') {
           errorMsg = '不支持的图片格式';
@@ -361,7 +369,7 @@
           errorMsg = '上传图片大小不能超过 10MB!';
         }
 
-        if(errorMsg) {
+        if (errorMsg) {
           this.$notify.error({
             title: '请更换图片',
             message: errorMsg,
@@ -374,10 +382,10 @@
 
       changeAvatar() {
         let previewFile = this.$refs.upload.files[0];
-        if(this.checkImg(previewFile)) {
+        if (this.checkImg(previewFile)) {
           let reader = new FileReader();
           reader.onload = (e) => {
-            this.ruleForm.imageUrl = e.target.result;
+            this.imageUrl = e.target.result;
           };
           reader.readAsDataURL(previewFile);
         }
@@ -385,15 +393,15 @@
 
       checkForm() {
         let errorMsg;
-        if (!this.ruleForm.imageUrl) {
+        if (!this.imageUrl) {
           errorMsg = "没有选择海报"
         }
 
-        if(this.ruleForm.activity_time.length === 0){
+        if (this.ruleForm.activity_time.length === 0) {
           errorMsg = "请选择活动时间"
         }
 
-        if(this.ruleForm.signUp_time.length === 0){
+        if (this.ruleForm.signUp_time.length === 0) {
           errorMsg = "请选择报名时间"
         }
 
@@ -466,10 +474,6 @@
         })
       },
 
-      changeClass(val) {
-        this.competitionClass = val;
-      },
-
       badRequest() {
         this.isQuerying = false;
         this.alert("BAD REQUEST");
@@ -477,16 +481,11 @@
     },
 
     mounted() {
-      this.competitionClass = this.$store.state.competitionClass || '综合类比赛';
-      this.ruleForm = this.$store.state.ruleForm;
-      this.editableTabs = this.$store.state.editableTabs;
-      this.$eventBus.on("setCompetitionClass", this.changeClass);
       this.$eventBus.on("bad", this.badRequest);
     },
 
     beforeDestroy() {
-      this.$store.commit('setRuleForm', this.ruleForm);
-      this.$store.commit('setEditableTabs', this.editableTabs);
+
     }
 
   }
@@ -531,7 +530,7 @@
     max-width: 100%;
   }
 
-  .avatar-container img{
+  .avatar-container img {
     max-width: 100%;
   }
 
@@ -582,7 +581,10 @@
     z-index: 100;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     padding-right: 100px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
 </style>

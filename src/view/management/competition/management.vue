@@ -1,6 +1,6 @@
 <template>
-  <div id="container">
-
+  <div calss="container">
+    <router-menu :headers="headers" :center="true"></router-menu>
     <div class="table">
       <div class="table-header">
         <el-input type="text"
@@ -60,22 +60,32 @@
 </template>
 
 <script>
-  import vCalendar from "../../components/exerciseCalendar"
-  import vScore from "../../components/myScore"
   export default {
-    components: {
-      vCalendar,
-      vScore
-    },
     data() {
       return {
+        headers: [
+          {
+            name: '本地比赛',
+            link: '/competition/management/home'
+          },
+          {
+            name: '发起比赛',
+            link: '/competition/management/create'
+          },
+          {
+            name: '管理比赛',
+            link: '/competition/management/management'
+          }
+        ],
+
+
         search: '',
         tableData: [],
         currentPage: 1,
         pageSize: 10,
         total: 0,
         multipleSelection: [],
-        statusOp: ['已发起','进行中','已结束'],
+        statusOp: ['已发起', '进行中', '已结束'],
         filter_label_outlay: '已发起',
       }
     },
@@ -175,17 +185,12 @@
 </script>
 
 <style scoped>
-  #container {
+  .container {
     display: flex;
     display: -webkit-flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    width: 80%;
+    justify-content: center;
   }
-
-  .table {
-    width: calc(100% - 600px);
-    max-width: 1000px;
-  }
-
 
 </style>

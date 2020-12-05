@@ -6,7 +6,7 @@
 
     <div class="row">
       <div class="item_left">
-        <carousel v-if="items1.length !==0" :data="items1"/>
+        <carousel v-if="items1.length !== 0" :data="items1"/>
       </div>
       <div class="item_right">
         <div class="inner">
@@ -30,7 +30,7 @@
                      :key="item"
                      :label="item.name">
           <div style="width: 100%">
-            <carousel v-if="items1.length !== 0" :type="'card'" :data="items1" style="width: 100%;"/>
+            <carousel v-if="items1.length !==0 " :type="'card'" :data="items1" style="width: 100%;"/>
             <div class="inner2">
               <span class="font">场地规模：{{ remoteData.name }}</span>
               <span class="font">总场地数：{{ remoteData.position }}</span>
@@ -240,7 +240,6 @@
   .venue-detail-container {
     width: 100%;
     padding-left: 30px;
-    background-color: #f2f5f6;
     padding-top: 30px;
   }
 

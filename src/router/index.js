@@ -26,10 +26,7 @@ const exercises_page = () => import(/* webpackChunkName: '1' */ '../view/exercis
 const home2Page = () => import(/* webpackChunkName: '2' */ '../view/home2/Page');
 const home2_page = () => import(/* webpackChunkName: '2' */ '../view/home2/home');
 
-/*本地比赛*/
-const competitionPage = () => import(/* webpackChunkName: '3' */ '../view/competition/Page');
-const competition_create = () => import(/* webpackChunkName: '3' */ '../view/competition/create');
-const competition_mana = () => import(/* webpackChunkName: '3' */ '../view/competition/management');
+
 
 /*promotion page*/
 const promotionPage = () => import(/* webpackChunkName: '4' */ '../view/promotion/Page');
@@ -59,11 +56,6 @@ const account_management = () => import(/* webpackChunkName: '7' */ '../view/acc
 const account_privacy = () => import(/* webpackChunkName: '7' */ '../view/account/accountPrivacy');
 const account_logout = () => import(/* webpackChunkName: '7' */ '../view/account/logout');
 
-/*management page*/
-const managementPage = () => import(/* webpackChunkName: '9' */ '../view/management/Page');
-const mana_page = () => import(/* webpackChunkName: '9' */ '../view/management/home');
-const mana_class = () => import(/* webpackChunkName: '9' */ '../view/management/manaClass');
-
 /*health page*/
 const healthPage = () => import(/* webpackChunkName: '10' */ '../view/health/Page');
 const health_home = () => import(/* webpackChunkName: '10' */ '../view/health/home');
@@ -83,6 +75,15 @@ const venue_page = () => import(/* webpackChunkName: '12' */ '../view/venue/home
 /*器材租赁*/
 const equipmentPage = () => import(/* webpackChunkName: '13' */ '../view/equipment/Page');
 const equipment_page = () => import(/* webpackChunkName: '13' */ '../view/equipment/home');
+
+/*management page*/
+const managementPage = () => import(/* webpackChunkName: '9' */ '../view/management/Page');
+const mana_page = () => import(/* webpackChunkName: '9' */ '../view/management/home');
+const mana_class = () => import(/* webpackChunkName: '9' */ '../view/management/manaClass');
+const competition_create = () => import(/* webpackChunkName: '3' */ '../view/management/competition/create');
+const competition_mana = () => import(/* webpackChunkName: '3' */ '../view/management/competition/management');
+const venue_create = () => import(/* webpackChunkName: '3' */ '../view/management/venue/create');
+const venue_management = () => import(/* webpackChunkName: '3' */ '../view/management/venue/management');
 
 const router = new Router({
   routes: [
@@ -164,28 +165,7 @@ const router = new Router({
         },
       ]
     },
-    {
-      path: '/competition',
-      component: competitionPage,
-      children: [
-        {
-          path: '/',
-          redirect: '/competition/home'
-        },
-        {
-          path: '/competition/home',
-          redirect: '/404'
-        },
-        {
-          path: '/competition/create',
-          component: competition_create
-        },
-        {
-          path: '/competition/management',
-          component: competition_mana
-        }
-      ]
-    },
+
     {
       path: '/promotion',
       component: promotionPage,
@@ -337,23 +317,55 @@ const router = new Router({
 
       ]
     },
+
     {
       path: '/management',
       component: managementPage,
       children: [
         {
           path: '/',
-          redirect:'/management/home',
+          redirect:'/management/management/home',
         },
         {
-          path: '/management/home',
+          path: '/management/management',
+          redirect:'/management/management/home',
+        },
+        {
+          path: '/management/management/home',
           component: mana_page
         },
         {
-          path: '/management/class',
+          path: '/management/management/class',
           component: mana_class
         },
 
+        //管理页面中的本地比赛
+        {
+          path: '/competition/management',
+          redirect:'/competition/management/create',
+        },
+        {
+          path: '/competition/management/create',
+          component: competition_create
+        },
+        {
+          path: '/competition/management/management',
+          component: competition_mana
+        },
+
+        //管理页面中的场馆
+        {
+          path: '/venue/management',
+          redirect:'/venue/management/create',
+        },
+        {
+          path: '/venue/management/create',
+          component: venue_create
+        },
+        {
+          path: '/venue/management/management',
+          component: venue_management
+        },
       ]
     },
     {
