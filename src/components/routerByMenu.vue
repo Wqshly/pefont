@@ -21,8 +21,12 @@
         },
      ],*/
     props: {
-      headers: null,
-      center: false,
+      headers: {
+        default: null
+      },
+      center: {
+        default: false
+      },
     },
     data() {
       return {

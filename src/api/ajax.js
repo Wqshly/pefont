@@ -1,5 +1,6 @@
 import axios from 'axios'
 import router from '../router'
+import {eventBus} from './bus'
 
 const qs = require('qs');
 const root = process.env.API_ROOT;
@@ -11,9 +12,7 @@ axios.interceptors.response.use(function (response) {
     return response;
   }
 }, function (error) {
-  if(error.status === 400) {
-    alert('错误请求');
-  }
+  eventBus.emit("bad");
   return Promise.reject(error);
 });
 
@@ -26,8 +25,7 @@ const api = {
         resolve(res)
       })
     } catch (err) {
-      //alert('无法连接至服务器');
-      console.log('无法连接至服务器');
+
     }
   },
   async post(url, data) {
@@ -38,8 +36,7 @@ const api = {
         resolve(res)
       })
     } catch (err) {
-      //alert('无法连接至服务器');
-      console.log('无法连接至服务器');
+
     }
   },
   async post_JSON(url, data) {
@@ -53,8 +50,7 @@ const api = {
         resolve(res)
       })
     } catch (err) {
-      //alert('无法连接至服务器');
-      console.log('无法连接至服务器');
+
     }
   },
   async upload(url, data) {
@@ -68,7 +64,7 @@ const api = {
         resolve(res)
       })
     } catch (err) {
-      console.log('无法连接至服务器');
+
     }
   },
 

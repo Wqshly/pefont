@@ -81,18 +81,10 @@
       </el-form-item>
 
       <el-form-item label="宣传海报">
-        <div style="height:fit-content;width:fit-content">
-          <el-upload
-            :class="[{'avatar-uploader': !ruleForm.imageUrl}]"
-            ref="upload"
-            :show-file-list="false"
-            :auto-upload="false"
-            :on-success="handleAvatarSuccess"
-            :on-change="onchange"
-            :before-upload="beforeAvatarUpload">
-            <img id="upload1" v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" alt="">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+        <div :class="[{'avatar-uploader': !ruleForm.imageUrl},'avatar-container']">
+          <input ref="upload" type="file" accept="image/*" class="avatar-input" @change="changeAvatar"/>
+          <img v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" alt="">
+          <i v-if="!ruleForm.imageUrl" class="el-icon-plus avatar-uploader-icon"></i>
         </div>
       </el-form-item>
     </el-form>
@@ -177,11 +169,7 @@
             </el-form-item>
 
             <el-form-item label="报名费">
-              <el-switch active-text="有"
-                         inactive-text="没有"
-                         v-model="item.data.needMoney">
-              </el-switch>
-              <div v-if="item.data.needMoney">
+              <div>
                 <el-input v-model="item.data.moneyEveryPeople"
                           style="width:100px">
                 </el-input>
@@ -231,14 +219,14 @@
     data() {
       return {
         notifyPromise: Promise.resolve(),
-        isQuerying: true,
+        isQuerying: false,
         competitionClass: '综合类比赛',
         subClass: {
-          "综合类比赛": ['田径运动会','综合性运动会','其他'],
-          "田径比赛": ['田赛','竞赛','全能'],
-          "球类比赛": ['足球','排球','篮球','网球','乒乓球','其他'],
-          "水上运动": ['游泳比赛','帆船比赛','其他'],
-          "其他比赛": ['自行车赛','跆拳道赛','柔道赛','拳击赛','其他'],
+          "综合类比赛": ['田径运动会', '综合性运动会', '其他'],
+          "田径比赛": ['田赛', '竞赛', '全能'],
+          "球类比赛": ['足球', '排球', '篮球', '网球', '乒乓球', '其他'],
+          "水上运动": ['游泳比赛', '帆船比赛', '其他'],
+          "其他比赛": ['自行车赛', '跆拳道赛', '柔道赛', '拳击赛', '其他'],
         },
         ruleForm: {
           title: '',
@@ -268,7 +256,6 @@
               mark: '',
               registrationConditions: '',
               competitionVenue: '',
-              needMoney: false,
               moneyEveryPeople: 0,
               needReferee: '',
               refereeConditions: '',
@@ -332,8 +319,7 @@
             mark: '',
             registrationConditions: '',
             competitionVenue: '',
-            needMoney: false,
-            moneyEveryPeople: '',
+            moneyEveryPeople: 0,
             needReferee: '',
             refereeConditions: '',
           }
@@ -364,14 +350,56 @@
           return false
         }
       },
-      checkForm() {
+
+      checkImg(file){
         let errorMsg;
-        if(!this.ruleForm.imageUrl) {
-          errorMsg = "没有选择海报"
+        if (file.type.split('/')[0] !== 'image') {
+          errorMsg = '不支持的图片格式';
+        }
+
+        if (file.size / 1024 / 1024 > 10) {
+          errorMsg = '上传图片大小不能超过 10MB!';
         }
 
         if(errorMsg) {
           this.$notify.error({
+            title: '请更换图片',
+            message: errorMsg,
+            duration: 10000
+          });
+          return false;
+        }
+        return true;
+      },
+
+      changeAvatar() {
+        let previewFile = this.$refs.upload.files[0];
+        if(this.checkImg(previewFile)) {
+          let reader = new FileReader();
+          reader.onload = (e) => {
+            this.ruleForm.imageUrl = e.target.result;
+          };
+          reader.readAsDataURL(previewFile);
+        }
+      },
+
+      checkForm() {
+        let errorMsg;
+        if (!this.ruleForm.imageUrl) {
+          errorMsg = "没有选择海报"
+        }
+
+        if(this.ruleForm.activity_time.length === 0){
+          errorMsg = "请选择活动时间"
+        }
+
+        if(this.ruleForm.signUp_time.length === 0){
+          errorMsg = "请选择报名时间"
+        }
+
+        if (errorMsg) {
+          this.$notify.error({
+            title: '错误的提交',
             message: errorMsg,
             duration: 10000
           });
@@ -379,32 +407,43 @@
         }
         return true;
       },
-      //表单提条按钮,填写合法逻辑=>上传图片逻辑
+
       submitForm(formName) {
-        this.$confirm('确认提交？')
-          .then(_ => {
-
-            if (this.checkForm()) {
-              this.isQuerying = true;
-              this.notify('正在提交，请稍后');
-              this.submitUpload();
-            }
-
-          })
-          .catch(_ => {
-          });
+        this.$confirm('确认提交？').then(_ => {
+          if (this.checkForm()) {
+            this.isQuerying = true;
+            this.$notify('正在提交，请稍后');
+            this.remote_api();
+          }
+        }).catch(_ => {
+        });
       },
 
-      //上传图片逻辑=>beforeAvatarUpload=>handleAvatarSuccess
-      submitUpload() {
-        this.$refs.upload.submit();
+      mappingProjects() {
+        let projects = [];
+        this.editableTabs.forEach(e => {
+          let project = {};
+          project.projectName = e.data.projectName;
+          project.team = e.data.isTeam;
+          project.maximum = e.data.maxNumberOfPartner;
+          project.integralSet = e.data.mark;
+          project.signinagCondition = e.data.registrationConditions;
+          project.venue = e.data.competitionVenue;
+          project.teamSize = e.data.minTeamPeople + "至" + e.data.maxTeamPeople + "人";
+          project.entryFee = e.data.moneyEveryPeople;
+          project.judge = e.data.needReferee;
+          project.refereeConditions = e.data.refereeConditions;
+          projects.push(project);
+        });
+        console.log(projects);
+        return projects;
       },
 
-      remote_api(file) {
+      remote_api() {
         let url = '/api/activity/addActivity';
         let data = new FormData();
         data.append('activityClassification', this.ruleForm.subclass);
-        data.append('pictureFile', file);
+        data.append('pictureFile', this.$refs.upload.files[0]);
         data.append('activityName', this.ruleForm.title);
         data.append('publisherId', this.$store.state.user.id);
         data.append('publishData', new Date());
@@ -414,6 +453,8 @@
         data.append('registrationStartTime', this.ruleForm.signUp_time[0]);
         data.append('startTime', this.ruleForm.activity_time[0]);
         data.append('endTime', this.ruleForm.activity_time[1]);
+
+        data.append('projects', this.mappingProjects());
 
         this.$api.upload(url, data).then(res => {
           if (res.code === 0) {
@@ -425,86 +466,29 @@
         })
       },
 
-      //上传前对图片类型和大小进行判断
-      beforeAvatarUpload(file) {
-        let isJPG = false;
-        if(
-          file.type === 'image/jpeg'
-          || file.type === 'image/png'
-          || file.type === 'image/jpg'
-          || file.type === 'image/bmp') {
-          isJPG = true;
-        }
-
-        if (!isJPG) {
-          errorMsg = '不支持的图片格式';
-        }
-
-        let isLt10M = file.size / 1024 / 1024 < 10;
-        let _URL = window.URL || window.webkitURL;
-        let errorMsg;
-
-        if (!isLt10M) {
-          errorMsg = '上传图片大小不能超过 10MB!';
-        }
-
-        let isSize = new Promise((resolve, reject) => {
-          let img = new Image();
-          img.src = _URL.createObjectURL(file)
-          img.onload = function () {
-
-            if (true/*this.width > this.height*/) {
-              resolve(true);
-            } else {
-              resolve(false);
-            }
-          };
-        }).then((res) => {
-          return file;
-        });
-
-        if(!isSize) {
-          errorMsg = '图片宽高不符合要求';
-        }
-
-        if(errorMsg) {
-          this.$notify.error({
-            title: '请更换图片',
-            message: errorMsg,
-            duration: 10000
-          });
-        }
-        if(isJPG &&isLt10M && isSize) {
-          this.remote_api(file);
-        }
-        return false;
-      },
-
-      handleAvatarSuccess(res, file) {
-        this.notify('永远不会到达的代码 因为before返回的false');
-        this.notify('上传成功');
-      },
-
-      onchange(file) {
-        this.ruleForm.imageUrl = URL.createObjectURL(file.raw);
-      },
-
-      changeClass(val){
+      changeClass(val) {
         this.competitionClass = val;
+      },
+
+      badRequest() {
+        this.isQuerying = false;
+        this.alert("BAD REQUEST");
       }
-
-
     },
+
     mounted() {
       this.competitionClass = this.$store.state.competitionClass || '综合类比赛';
       this.ruleForm = this.$store.state.ruleForm;
       this.editableTabs = this.$store.state.editableTabs;
       this.$eventBus.on("setCompetitionClass", this.changeClass);
+      this.$eventBus.on("bad", this.badRequest);
     },
+
     beforeDestroy() {
       this.$store.commit('setRuleForm', this.ruleForm);
       this.$store.commit('setEditableTabs', this.editableTabs);
     }
+
   }
 </script>
 
@@ -540,12 +524,31 @@
     width: 130px !important;
   }
 
+  .avatar-container {
+    cursor: pointer;
+    height: fit-content;
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  .avatar-container img{
+    max-width: 100%;
+  }
+
+  .avatar-input {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
   .competition-promotional .avatar-uploader {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
     position: relative;
-    overflow: hidden;
   }
 
   .competition-promotional .avatar-uploader:hover {

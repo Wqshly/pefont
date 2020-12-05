@@ -10,7 +10,7 @@
              @click="jump(item)"
              :class="[{'active':isActive === item.link && item.link !== '404'},{'float_right' : item.float ==='right'}]">
           <!--一级菜单-->
-          <div>
+          <div v-if="item.name !=='学校管理' || $store.state.user.identity == '学校管理员'">
             <i v-if="!item.subs && item.iconName" :class="item.iconName"></i>
             <p v-if="!item.subs && !item.iconName">{{item.name}}</p>
           </div>
@@ -150,6 +150,11 @@
             ],
             float: 'right',
             iconName: 'el-icon-s-custom',
+          },
+          {
+            name: '学校管理',
+            link: 'management',
+            float: 'right',
           },
           {
             name: '健康管理',

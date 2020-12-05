@@ -12,33 +12,37 @@
 </template>
 
 <script>
-    export default {
-        data () {
-            return {
-                options:[
-                    {
-                        name:'管理首页',
-                        link:'/management/home',
-                    },
+  export default {
+    data() {
+      return {
+        options: [
+          {
+            name: '管理首页',
+            link: '/management/home',
+          },
 
 
-                ],
-            }
-        },
-        methods:{
+        ],
+      }
+    },
+    methods: {},
+    mounted(){
+      if(this.$store.state.user.identity !== '学校管理员'){
+        this.$router.push('/login');
+      }
+    },
+    created() {
 
-        },
-        created() {
-
-        },
-    }
+    },
+  }
 </script>
 
 <style scoped>
-  .home_page{
+  .home_page {
 
   }
-  .home_main{
+
+  .home_main {
     margin: 0 auto;
     max-width: 1140px;
     width: 100%;
