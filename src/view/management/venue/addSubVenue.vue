@@ -1,16 +1,16 @@
 <template>
   <div id="venue_new_container">
     <router-menu :headers="headers"></router-menu>
-    <venue-create/>
+    <sub-venue/>
   </div>
 </template>
 
 <script>
-  import venueCreate from "../../../components/venue/management"
+  import subVenue from "../../../components/venue/addSubVenue"
 
   export default {
     components: {
-      venueCreate
+      subVenue
     },
     data() {
       return {

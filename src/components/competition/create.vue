@@ -3,14 +3,14 @@
     <div class="competition-header"><h1>{{competitionClass}}</h1></div>
 
     <el-form :model="ruleForm" label-width="120px" class="demo-form">
-      <el-form-item label="比赛名称" prop="title">
+      <el-form-item label="比赛名称" prop="title" required>
         <el-input
           placeholder="比赛名称"
           v-model="ruleForm.title">
         </el-input>
       </el-form-item>
 
-      <el-form-item label="比赛类别">
+      <el-form-item label="比赛类别" required>
         <el-select v-model="competitionClass" placeholder="请选择">
           <el-option
             v-for="item in classOption"
@@ -54,7 +54,7 @@
         </transition>
       </el-form-item>
 
-      <el-form-item label="报名起止时间" prop="signUp_time">
+      <el-form-item label="报名起止时间" prop="signUp_time" required>
         <el-date-picker
           v-model="ruleForm.signUp_time"
           type="datetimerange"
@@ -64,7 +64,7 @@
         </el-date-picker>
       </el-form-item>
 
-      <el-form-item label="参赛起止时间" prop="activity_time">
+      <el-form-item label="参赛起止时间" prop="activity_time" required>
         <el-date-picker
           v-model="ruleForm.activity_time"
           type="datetimerange"
@@ -88,7 +88,7 @@
         </el-input>
       </el-form-item>
 
-      <el-form-item label="宣传海报">
+      <el-form-item label="宣传海报" required>
         <div :class="[{'avatar-uploader': !imageUrl},'avatar-container']">
           <input ref="upload" type="file" accept="image/*" class="avatar-input" @change="changeAvatar"/>
           <img v-if="imageUrl" :src="imageUrl" alt="">
@@ -115,7 +115,7 @@
           :name="item.name">
 
           <el-form :model="item.data" label-width="120px" class="demo-form2">
-            <el-form-item label="项目名" prop="title">
+            <el-form-item label="项目名" prop="title" required>
               <el-input
                 placeholder="比赛名称"
                 v-model="item.data.projectName">
@@ -193,7 +193,7 @@
             </el-form-item>
 
             <el-form-item label="裁判条件" v-if="item.data.needReferee">
-              <el-input v-model="registrationConditions"
+              <el-input v-model="item.data.registrationConditions"
                         type="textarea"
                         :rows="3"
                         maxlength="150"
@@ -214,7 +214,7 @@
 
     <div class="competition-footer">
       <el-button type="success" :disabled="this.isQuerying" @click="submitForm('ruleForm')">确认发起</el-button>
-      <el-button type="primary" :disabled="this.isQuerying" @click="submitForm('ruleForm')">暂时保存</el-button>
+      <el-button type="primary" :disabled="this.isQuerying" @click="submitPreForm('ruleForm')">暂时保存</el-button>
     </div>
   </div>
 </template>
@@ -225,6 +225,7 @@
 
     data() {
       return {
+        activityId: -1,
         notifyPromise: Promise.resolve(),
         isQuerying: false,
         imageUrl: '',
@@ -313,24 +314,12 @@
         }
         return "最大参赛人数";
       },
-      addTab() {
+      addTab(data) {
         this.tabIndex++;
         this.editableTabs.push({
           title: '比赛项目',
           name: this.tabIndex,
-          data: {
-            projectName: '',
-            isTeam: false,
-            minTeamPeople: 4,
-            maxTeamPeople: 4,
-            maxNumberOfPartner: 15,
-            mark: '',
-            registrationConditions: '',
-            competitionVenue: '',
-            moneyEveryPeople: 0,
-            needReferee: '',
-            refereeConditions: '',
-          }
+          data: data
         });
         this.editableTabsValue = this.tabIndex;
       },
@@ -393,6 +382,10 @@
 
       checkForm() {
         let errorMsg;
+        if (!this.ruleForm.title) {
+          errorMsg = "必须填写比赛名称"
+        }
+
         if (!this.imageUrl) {
           errorMsg = "没有选择海报"
         }
@@ -405,6 +398,13 @@
           errorMsg = "请选择报名时间"
         }
 
+        for (let i = 0; i < this.editableTabs.length; ++i) {
+          if (!this.editableTabs[i].data.projectName) {
+            errorMsg = "必须填写子项目名";
+            break;
+          }
+        }
+
         if (errorMsg) {
           this.$notify.error({
             title: '错误的提交',
@@ -415,40 +415,74 @@
         }
         return true;
       },
-
+      submitPre() {
+        this.$api.get('/api/activity/release/'+this.activityId).then(res => {
+          if(res.code === 0 ){
+            this.$message.success('成功!');
+          }
+        });
+      },
       submitForm(formName) {
         this.$confirm('确认提交？').then(_ => {
           if (this.checkForm()) {
             this.isQuerying = true;
-            this.$notify('正在提交，请稍后');
-            this.remote_api();
+            this.$notify({
+              title: '',
+              message: '正在提交，请稍后',
+              duration: 10000
+            });
+            if(this.activityId !==-1){
+              this.submitPre();
+            } else {
+              this.remote_api('/api/activity/addActivity');
+            }
+
           }
         }).catch(_ => {
         });
       },
 
+      submitPreForm(formName) {
+        this.$confirm('确认提交？').then(_ => {
+          if (this.checkForm()) {
+            this.isQuerying = true;
+            this.$notify({
+              title: '',
+              message: '正在提交，请稍后',
+              duration: 5000
+            });
+            this.remote_api('/api/activity/preAddActivity');
+          }
+        }).catch(_ => {
+        });
+      },
       mappingProjects() {
         let projects = [];
         this.editableTabs.forEach(e => {
           let project = {};
+          if (e.data.id) {
+            project.id = e.data.id;
+          }
           project.projectName = e.data.projectName;
-          project.team = e.data.isTeam;
+          project.team = e.data.isTeam ? 1 : 0;
           project.maximum = e.data.maxNumberOfPartner;
-          project.integralSet = e.data.mark;
-          project.signinagCondition = e.data.registrationConditions;
-          project.venue = e.data.competitionVenue;
-          project.teamSize = e.data.minTeamPeople + "至" + e.data.maxTeamPeople + "人";
+          //project.integralSet = e.data.mark || "无";
+          project.signinagCondition = e.data.registrationConditions || "无";
+          project.venue = e.data.competitionVenue || "无";
+          if (e.data.isTeam) {
+            project.teamPeope = e.data.minTeamPeople + "至" + e.data.maxTeamPeople + "人";
+          }
           project.entryFee = e.data.moneyEveryPeople;
           project.judge = e.data.needReferee;
-          project.refereeConditions = e.data.refereeConditions;
+          if (e.data.needReferee) {
+            project.refereeConditions = e.data.refereeConditions;
+          }
           projects.push(project);
         });
-        console.log(projects);
         return projects;
       },
 
-      remote_api() {
-        let url = '/api/activity/addActivity';
+      remote_api(url) {
         let data = new FormData();
         data.append('activityClassification', this.ruleForm.subclass);
         data.append('pictureFile', this.$refs.upload.files[0]);
@@ -461,8 +495,13 @@
         data.append('registrationStartTime', this.ruleForm.signUp_time[0]);
         data.append('startTime', this.ruleForm.activity_time[0]);
         data.append('endTime', this.ruleForm.activity_time[1]);
+        let projects = this.mappingProjects();
+        for (let i = 0; i < projects.length; ++i) {
+          for (let name in projects[i]) {
+            data.append('projects[' + i + '].' + name, projects[i][name]);
+          }
+        }
 
-        data.append('projects', this.mappingProjects());
 
         this.$api.upload(url, data).then(res => {
           if (res.code === 0) {
@@ -477,10 +516,54 @@
       badRequest() {
         this.isQuerying = false;
         this.alert("BAD REQUEST");
+      },
+
+      dataParser(data) {
+        this.activityId = data.id;
+        let list = data.imagePath.split("\\");
+        this.imageUrl = "http://www.xiaoyuanpe.com/" + list[list.length - 1];
+        this.ruleForm.title = data.activityName;
+
+        this.ruleForm.activity_time = [];
+        this.ruleForm.activity_time.push(new Date(data.startTime));
+        this.ruleForm.activity_time.push(new Date(data.endTime));
+
+        this.ruleForm.signUp_time = [];
+        this.ruleForm.signUp_time.push(new Date(data.registrationStartTime));
+        this.ruleForm.signUp_time.push(new Date(data.registrationClosingTime));
+
+        this.editableTabs = [];
+        data.projects.forEach(e => {
+          let project = e;
+          let data = {
+            id: project.id,
+            projectName: project.projectName,
+            isTeam: project.team === 0,
+            minTeamPeople: 4,
+            maxTeamPeople: 4,
+            maxNumberOfPartner: project.maximum,
+            mark: project.integralSet || '',
+            registrationConditions: project.signingCondition || '',
+            competitionVenue: project.venue || '',
+            moneyEveryPeople: project.entryFee,
+            needReferee: project.judge,
+            refereeConditions: project.refereeConditions || '',
+            activityId: project.activityId
+          };
+          this.addTab(data);
+        });
+      },
+      getPreActivity() {
+        this.$api.get('/api/activity/getPreActivity').then(res => {
+          if (res.data !== []) {
+            this.dataParser(res.data[0])
+          }
+        });
       }
     },
 
     mounted() {
+      this.getPreActivity();
       this.$eventBus.on("bad", this.badRequest);
     },
 

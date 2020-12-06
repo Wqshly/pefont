@@ -5,10 +5,13 @@
                :interval="interval"
                :height="bannerHeight+'px'">
     <el-carousel-item v-for="item in data" :key="item">
-      <img ref="bannerHeight"
-           :src="item.url"
-           class="bannerImg"
-           @load="imgLoad"/>
+      <p v-if="showName">{{item.name}}</p>
+      <div class="item">
+        <img ref="bannerHeight"
+             :src="item.url"
+             class="bannerImg"
+             @load="imgLoad"/>
+      </div>
     </el-carousel-item>
   </el-carousel>
 </template>
@@ -17,6 +20,10 @@
 
   export default {
     props: {
+      showName: {
+        default: false
+      },
+
       data: {
         default: [
           {
@@ -46,11 +53,13 @@
     methods: {
       imgLoad() {
         this.$nextTick(() => {
-          this.bannerHeight = this.$refs.bannerHeight[0].height;
+          let height = this.showName ? 40 : 0;
+          this.bannerHeight = this.$refs.bannerHeight[0].height + height;
         });
       },
       resizeCarousel() {
-        this.bannerHeight = this.$refs.bannerHeight[0].height;
+        let height = this.showName ? 40 : 0;
+        this.bannerHeight = this.$refs.bannerHeight[0].height + height;
         this.imgLoad();
       }
 
@@ -70,5 +79,17 @@
 <style scoped>
   .bannerImg {
     width: 100%;
+  }
+
+  .item {
+    position: relative;
+  }
+
+  p {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-weight: 300;
   }
 </style>

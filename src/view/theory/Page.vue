@@ -3,7 +3,7 @@
     <div class="home_page">
       <v-header></v-header>
       <div class="home_main">
-        <n-header :headers="items"></n-header>
+        <router-menu :headers="items"/>
         <router-view></router-view>
       </div>
       <v-footer></v-footer>
@@ -12,42 +12,38 @@
 </template>
 
 <script>
-    import nHeader from '@/components/routerByMenu'
-    export default {
-        components: {
-            nHeader
-        },
-        data () {
-            return {
-                items: [
-                    {
-                        link: '/theory/home',
-                        name: '理论学习',
-                        secondLink:'/theory/theory'
-                    },
-                    {
-                        link: '/theory/exam',
-                        name: '理论考试',
+  export default {
 
-                    },
+    data() {
+      return {
+        items: [
+          {
+            link: '/theory/home',
+            name: '裁判学习',
+            secondLink: '/theory/theory'
+          },
+          {
+            link: '/theory/exam',
+            name: '在线考试',
 
-                ],
-            }
-        },
-        methods:{
+          },
 
-        },
-        created() {
+        ],
+      }
+    },
+    methods: {},
+    created() {
 
-        },
-    }
+    },
+  }
 </script>
 
 <style scoped>
-  .home_page{
+  .home_page {
 
   }
-  .home_main{
+
+  .home_main {
     margin: 0 auto;
     max-width: 1140px;
     width: 100%;

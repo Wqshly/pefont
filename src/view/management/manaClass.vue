@@ -1,5 +1,6 @@
 <template>
   <div class="main-nav">
+    <el-button icon="el-icon-arrow-left" type="primary" plain @click="$emit('back')">返回</el-button>
     <div class="content">
 
       <el-button
@@ -131,8 +132,27 @@
 <script>
 
   export default {
-    //活动中心的父级组件
-    name: 'mana_class',
+    props: {
+      choose: {
+        default: [0, 0, 0]
+      },
+      reload: {
+        default: 0
+      }
+    },
+    watch: {
+      reload: {
+        handler(val) {
+          this.reload = val;
+          this.reloadTable();
+        },
+        deep: true,
+        immediate: true,
+      }
+
+    },
+
+
     data() {
       return {
         search: '',
@@ -169,12 +189,14 @@
           studentNumber: 0,
         },
       }
-    },
+    }
+    ,
     methods: {
       //多选
       handleSelectionChange(val) {
         this.multipleSelection = val;
-      },
+      }
+      ,
       /*批量按钮*/
       handleDeleteSome() {
 
@@ -193,7 +215,8 @@
         }).catch(() => {
 
         });
-      },
+      }
+      ,
       delete(data) {
         let url = '/api/user/deleteUser';
         this.$api.post_JSON(url, data).then(res => {
@@ -211,16 +234,19 @@
             });
           }
         })
-      },
+      }
+      ,
       //每页条数
       handleSizeChangeTemp(val) {
         this.pageSize_temp = val;
 
-      },
+      }
+      ,
       //当前页数
       handleCurrentChangeTemp(val) {
 
-      },
+      }
+      ,
 
       //导入表格 显示到展示区
       insert(obj) {
@@ -228,7 +254,8 @@
         this.arr_temp_filename = a.value;
         this.importf(obj);
         this.dialogTableVisible = true;
-      },
+      }
+      ,
       uploadAPI() {
         console.log(document.getElementById('file').files[0]);
         let data = new FormData();
@@ -252,7 +279,8 @@
           }
         });
         this.dialogTableVisible = false;
-      },
+      }
+      ,
       //导入表格确认
       confirm_import() {
         this.$confirm('将上传至服务器 ，是否继续?', '提示', {
@@ -266,7 +294,8 @@
         }).catch(() => {
           this.dialogTableVisible = false;
         });
-      },
+      }
+      ,
       //新增确认
       confirm_new() {
         this.dialogEditVisible2 = false;
@@ -293,7 +322,8 @@
             });
           }
         })
-      },
+      }
+      ,
       //编辑确认
       confirm_edit() {
         this.dialogEditVisible = false;
@@ -317,7 +347,8 @@
             });
           }
         })
-      },
+      }
+      ,
       //excel导出API
       importf(obj) {
         let _this = this;
@@ -373,7 +404,8 @@
         }
 
 
-      },
+      }
+      ,
 
       //导出表格
       export1() {
@@ -386,7 +418,8 @@
         }).catch(() => {
 
         });
-      },
+      }
+      ,
       //excel导出API非模板
       export2Excel2() {
         require.ensure([], () => {
@@ -397,7 +430,8 @@
           const data = this.formatJson(filterVal, list);
           export_json_to_excel(tHeader, data, '班级信息'); //对应下载文件的名字
         })
-      },
+      }
+      ,
       //excel导出API模板
       export2Excel() {
         require.ensure([], () => {
@@ -408,23 +442,28 @@
           const data = this.formatJson(filterVal, list);
           export_json_to_excel(tHeader, data, '模板'); //对应下载文件的名字
         })
-      },
+      }
+      ,
       formatJson(filterVal, jsonData) {
         return jsonData.map(v => filterVal.map(j => v[j]))
-      },
+      }
+      ,
       //导出表格结束
 
       reloadTable() {
-        this.requestStudentList(this.$route.query.sid, this.$route.query.cid, this.$route.query.ccid);
-      },
+        this.requestStudentList(this.choose[0], this.choose[1], this.choose[2]);
+      }
+      ,
       handleNew() {
         this.dialogEditVisible2 = true;
-      },
+      }
+      ,
 
       /*表格的操作*/
       handleClick(index, row) {
 
-      },
+      }
+      ,
 
       handleEdit(index, row) {
         this.editDia = [];
@@ -443,7 +482,8 @@
           this.editDia.push(temp);
         }
         this.dialogEditVisible = true;
-      },
+      }
+      ,
 
       handleDelete(index, row) {
         this.$confirm('确定删除？?', '提示', {
@@ -461,29 +501,37 @@
 
         });
 
-      },
+      }
+      ,
 
       //处理显示数据
       handleData() {
         let temp_data = this.tableData.filter(data => this.filter(data));
         this.total = temp_data.length;
         return temp_data.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize);
-      },
+      }
+      ,
 
       //搜索筛选
       filter(val) {
-        return (!this.search || val.studentName.toLowerCase().includes(this.search.toLowerCase()) || val.studentNumber.toLowerCase().includes(this.search.toLowerCase()));
-      },
+        return (
+          !this.search || val.studentName.toLowerCase().includes(this.search.toLowerCase())
+          || val.studentNumber.toLowerCase().includes(this.search.toLowerCase()))
+          ;
+      }
+      ,
       //每页大小
       handleSizeChange(val) {
         this.pageSize = val;
 
-      },
+      }
+      ,
 
       //当前页数
       handleCurrentChange(val) {
 
-      },
+      }
+      ,
 
       requestStudentList(sid, cid, ccid) {
         const url = '/api/student/queryStudentInfoByClass/' + sid + '/' + cid + '/' + ccid;
@@ -508,17 +556,12 @@
             });
           }
         })
-      },
+      }
+      ,
 
-    },
+    }
+    ,
 
-    mounted() {
-
-    },
-
-    created() {
-      this.reloadTable();
-    },
   }
 </script>
 

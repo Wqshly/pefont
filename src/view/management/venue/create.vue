@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import venueCreate from "../../../components/venue/create"
+  import venueCreate from "../../../components/venue/addVenue"
 
   export default {
     components: {
@@ -22,6 +22,10 @@
           {
             name: '管理场馆',
             link: '/venue/management/management'
+          },
+          {
+            name: '添加运动馆',
+            link: '/venue/management/addSubVenue'
           },
         ]
       }

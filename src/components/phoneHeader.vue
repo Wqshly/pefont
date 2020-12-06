@@ -30,7 +30,11 @@
       jump(val) {
         this.drawer = false;
         this.isActive = val;
-        this.$router.push('/' + val);
+        if(val === 'management') {
+          window.open('/#/management');
+        } else {
+          this.$router.push('/' + val);
+        }
       },
     },
     mounted() {
@@ -42,7 +46,6 @@
 </script>
 
 <style scoped>
-
   #phone {
     width: 100%;
     z-index: 9999;

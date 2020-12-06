@@ -84,7 +84,7 @@ const competition_create = () => import(/* webpackChunkName: '3' */ '../view/man
 const competition_mana = () => import(/* webpackChunkName: '3' */ '../view/management/competition/management');
 const venue_create = () => import(/* webpackChunkName: '3' */ '../view/management/venue/create');
 const venue_management = () => import(/* webpackChunkName: '3' */ '../view/management/venue/management');
-
+const venue_sub_add = () => import(/* webpackChunkName: '3' */ '../view/management/venue/addSubVenue');
 const router = new Router({
   routes: [
     {
@@ -365,6 +365,10 @@ const router = new Router({
         {
           path: '/venue/management/management',
           component: venue_management
+        },
+        {
+          path: '/venue/management/addSubVenue',
+          component: venue_sub_add
         },
       ]
     },

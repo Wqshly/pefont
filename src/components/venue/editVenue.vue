@@ -1,6 +1,13 @@
 <template>
   <div class="venue-create">
+
     <el-form :model="ruleForm" label-width="120px" class="demo-form">
+      <el-form-item class="form-row">
+        <h3>编辑场馆</h3>
+      </el-form-item>
+      <el-form-item class="form-row">
+        <el-button type="primary" icon="el-icon-edit" plain @click.stop="addSubs(id)">为该场馆添加运动馆</el-button>
+      </el-form-item>
       <el-form-item label="场馆名" class="form-row">
         <el-input
           placeholder="场馆名"
@@ -50,55 +57,56 @@
       </el-form-item>
 
       <el-form-item label="展示图" class="form-row">
-        <div class="button-container">
-          <el-button type="primary" plain style="cursor: pointer">添加展示图</el-button>
-          <input ref="display" type="file" accept="image/*" @change="changeDisplay"/>
-        </div>
-
-        <div class="tags">
-          <div v-for="(item,index) in displayImageUrl" style="padding-right: 10px">
-            <el-tag
-              :key="item.name"
-              closable
-              :disable-transitions="false"
-              @close="handleRemoveImg(index)">
-              {{item.name}}
-            </el-tag>
-          </div>
-        </div>
+        <img-list :display-image-url="displayImageUrl"/>
 
       </el-form-item>
-      <carousel v-if="displayImageUrl.length !== 0" :data="displayImageUrl" style="width: 100%;max-width: 700px;"/>
-
       <el-form-item class="form-row">
-        <el-button type="success" plain style="cursor: pointer" @click="submit" :disabled="isQuerying">确认新增</el-button>
+        <el-button type="success" plain style="cursor: pointer" @click="submit" :disabled="isQuerying">确认</el-button>
       </el-form-item>
     </el-form>
+
   </div>
 </template>
 
 <script>
-  import carousel from "../common/carousel";
+  import imgList from "../common/imgList";
+
   export default {
     components: {
-      carousel
+      imgList
+    },
+    props: {
+      id: {
+        default: -1
+      }
+    },
+    watch: {
+      id(val) {
+        this.id = val;
+        this.ruleForm.title = val;
+      }
     },
     data() {
-      return{
-        dimensionsUnit: '公顷',
-        unitOption: ['公顷','平方米'],
+      return {
         imageUrl: '',
         displayImageUrl: [],
+        dimensionsUnit: '公顷',
+        unitOption: ['公顷', '平方米'],
         isQuerying: false,
         ruleForm: {
           title: '',
           position: '',
           dimensions: '',
           buildTime: '',
+
         }
       }
     },
     methods: {
+      addSubs(venueId) {
+        this.$store.commit('setVenueOption', venueId);
+        this.$router.push('/venue/management/addSubVenue');
+      },
       checkForm() {
         let errorMsg;
         let e = {
@@ -134,7 +142,7 @@
 
       },
 
-      submit(){
+      submit() {
         this.$confirm('确认提交？').then(_ => {
           if (this.checkForm()) {
             this.isQuerying = true;
@@ -144,10 +152,10 @@
         }).catch(_ => {
         });
       },
-      handleRemoveImg(index){
-        this.displayImageUrl.splice(index,1);
+      handleRemoveImg(index) {
+        this.displayImageUrl.splice(index, 1);
       },
-      addDisplayImg(name,url){
+      addDisplayImg(name, url) {
         this.displayImageUrl.push({
           name: name,
           url: url,
@@ -160,13 +168,16 @@
         if (this.checkImg(previewFile)) {
           let reader = new FileReader();
           reader.onload = (e) => {
-            this.addDisplayImg(this.$refs.display.files[0].name,e.target.result);
+            this.addDisplayImg(this.$refs.display.files[0].name, e.target.result);
           };
           reader.readAsDataURL(previewFile);
         }
       },
       checkImg(file) {
         let errorMsg;
+        if (!file) {
+          return false;
+        }
         if (file.type.split('/')[0] !== 'image') {
           errorMsg = '不支持的图片格式';
         }
@@ -198,7 +209,7 @@
     },
 
     mounted() {
-
+      this.ruleForm.title = this.id;
     },
 
   }
@@ -220,6 +231,7 @@
     width: fit-content;
     max-width: 100%;
   }
+
   .venue-create .avatar-container img {
     max-width: 100%;
   }
@@ -252,6 +264,7 @@
     height: 178px;
     line-height: 178px;
   }
+
   .venue-create .tags {
     width: 100%;
     display: flex;

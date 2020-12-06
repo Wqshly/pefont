@@ -67,11 +67,29 @@
             link: 'exercises'
           },
           {
-            name: '课外活动',
-            link: 'home2'
+            name: '比赛',
+            link: '404',
+            subs: [
+              {
+                name: '报名参赛',
+                link: '/activity/home'
+              },
+              {
+                name: '已报名',
+                link: '/activity/notice'
+              },
+              {
+                name: '已参赛',
+                link: '/activity/promotion'
+              },
+              {
+                name: '云比赛',
+                link: '/activity/management'
+              },
+            ]
           },
           {
-            name: '校内校外活动',
+            name: '活动',
             link: 'activity',
             subs: [
               {
@@ -109,7 +127,7 @@
             iconName: 'el-icon-s-custom',
           },
           {
-            name: '学校管理',
+            name: '管理员入口',
             link: 'management',
             float: 'right',
           },
@@ -125,12 +143,11 @@
                 name: '祛痘',
                 link: '/health/anti'
               },
+              {
+                name: '形体矫正',
+                link: '404'
+              },
             ],
-            float: 'right',
-          },
-          {
-            name: '运动装备',
-            link: 'shop',
             float: 'right',
           },
 
@@ -138,21 +155,35 @@
             name: '裁判园地',
             link: 'theory',
             float: 'right',
+            subs: [
+              {
+                name: '裁判学习',
+                link: '/theory/home'
+              },
+              {
+                name: '在线考试',
+                link: '/theory/exam'
+              },
+            ],
           },
           {
-            name: '云比赛',
+            name: '场地与器材',
             link: '404',
             float: 'right',
-          },
-          {
-            name: '器材租赁',
-            link: '404',
-            float: 'right',
-          },
-          {
-            name: '场地预约',
-            link: '404',
-            float: 'right',
+            subs: [
+              {
+                name: '场地预约',
+                link: '/health/home'
+              },
+              {
+                name: '器材租赁',
+                link: '/health/anti'
+              },
+              {
+                name: '运动装备',
+                link: '/health/anti'
+              },
+            ],
           },
         ],
         drawer: false,
@@ -164,7 +195,12 @@
       jump(val) {
         if (!val.noJump) {
           this.drawer = false;
-          this.$router.push('/' + val.link);
+          if(val.link === 'management') {
+            window.open('/#/management');
+          } else {
+            this.$router.push('/' + val.link);
+          }
+
         }
       },
       //二级目录跳转函数
@@ -199,7 +235,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .all {
     height: 80px;
     width: 100%;

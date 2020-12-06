@@ -198,7 +198,7 @@
 
 
   /*手机端*/
-  @media screen and (max-width: 1009px) {
+  @media screen and (max-width: 700px) {
 
     .img_container {
       display: none!important;

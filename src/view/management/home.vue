@@ -1,6 +1,6 @@
 <template>
   <div class="main-nav">
-    <div class="content">
+    <div v-if="!editClass" class="content">
 
       <template>
         <div class="crumb" v-for="(crumb,i) in crumbs" @click="crumbsClick(crumb.value)"
@@ -117,19 +117,25 @@
       </el-dialog>
 
     </div>
+    <mana-class :choose="current_choose"
+                :reload="reload"
+                @back="editClass = false"
+                v-else/>
   </div>
 </template>
 
 <script>
 
-  import {api} from "@/api/ajax"
-  import {clone} from "@/api/clone.js"
+  import manaClass from "./manaClass";
 
   export default {
-    //活动中心的父级组件
-    name: 'mana_page',
+    components: {
+      manaClass
+    },
     data() {
       return {
+        reload: 0,
+        editClass: false,
         search: '',
         tableProp: '',
         dialogEditVisible: false,
@@ -218,7 +224,7 @@
         let data = new FormData();
         data.append('excelFile', document.getElementById('file1').files[0]);
         console.log(data);
-        api.upload('/api/importFile/ImportFileClass', data).then(res => {
+        this.$api.upload('/api/importFile/ImportFileClass', data).then(res => {
           let _this = this;
           if (res.code === 0) {
             _this.$message({
@@ -251,7 +257,7 @@
         });
       },
       updata(url) {
-        api.post_JSON(url, this.editUpload).then(res => {
+        this.$api.post_JSON(url, this.editUpload).then(res => {
 
           let _this = this;
           if (res.code === 0) {
@@ -371,7 +377,7 @@
           collegeId: collegeId,
           className: className
         };
-        api.post_JSON(url, data).then(res => {
+        this.$api.post_JSON(url, data).then(res => {
 
           let _this = this;
           if (res.code === 0) {
@@ -406,7 +412,7 @@
           schoolZipCode: "未设置",
           schoolIntroduction: "未设置"
         };
-        api.post_JSON(url, data).then(res => {
+        this.$api.post_JSON(url, data).then(res => {
 
           let _this = this;
           if (res.code === 0) {
@@ -432,8 +438,7 @@
           collegeInfo: "未设置"
         };
 
-        api.post_JSON(url, data).then(res => {
-
+        this.$api.post_JSON(url, data).then(res => {
           let _this = this;
           if (res.code === 0) {
             _this.$message({
@@ -490,7 +495,8 @@
           this.current_choose[1] = row.id;
         } else if (this.crumb_flag === 3) {
           this.current_choose[2] = row.id;
-          this.$router.push('/management/management/class?sid=' + this.current_choose[0] + '&cid=' + this.current_choose[1] + '&ccid=' + this.current_choose[2]);
+          this.editClass = true;
+          this.reload++;
         }
       },
       mappingKey(key) {
@@ -578,7 +584,7 @@
         } else if (this.crumb_flag === 3) {
           url = '/api/classes/deleteClasses'
         }
-        api.post_JSON(url, data).then(res => {
+        this.$api.post_JSON(url, data).then(res => {
           let _this = this;
           if (res.code === 0) {
             _this.$message({
@@ -629,7 +635,7 @@
 
       requestClassList(sid, cid) {
         const url = '/api/classes/queryClassesList/' + sid + '/' + cid;
-        api.get(url).then(res => {
+        this.$api.get(url).then(res => {
           let _this = this;
           if (res.code === 0) {
 
@@ -656,7 +662,7 @@
 
       requestCollegeList(id) {
         const url = '/api/college/queryCollegeList/' + id;
-        api.get(url).then(res => {
+        this.$api.get(url).then(res => {
           let _this = this;
           if (res.code === 0) {
             this.tableData.data_college = [];
@@ -683,7 +689,7 @@
 
       requestSchoolList() {
         const url = '/api/school/selectSchoolByUser';
-        api.get(url).then(res => {
+        this.$api.get(url).then(res => {
           let _this = this;
           if (res.code === 0) {
 
