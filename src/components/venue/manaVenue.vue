@@ -176,12 +176,7 @@
 
   .item_img {
     max-width: 60%;
-  }
-
-  @media screen and (max-width: 1140px) {
-    .item_img {
-      max-width: 100%;
-    }
+    min-width: 300px;
   }
 
   .item_right {

@@ -6,7 +6,7 @@
         <video class="lazy" loop autoplay muted playsinline poster="../../assets/prepost.png">
           <source src="../../assets/home.mp4" type="video/mp4">
         </video>
-        <div class="overlay"></div>
+        <div class="mask"></div>
       </div>
       <div class="index-font-box">
         <h1>校园体育,提升健康</h1>
@@ -14,26 +14,32 @@
       </div>
     </div>
 
+    <div class="section-0">
+      <div class="section0-item" v-for="e in section0">
+        <img v-lazy="require('../../assets/img/index/home/section0/'+e.url)" alt="">
+        <h3 align="center">{{e.h3}}</h3>
+        <p align="center">{{e.p}}
+        </p>
+      </div>
+    </div>
+
     <div class="section-1">
       <div class="container_self">
+        <div class="description">
+          <h2 align="center">PE校园-健康生活每一天</h2>
+          <p align="center">
+            校园PE，由青岛新体创体育产业集团有限公司研发，青岛指尖跃动科技有限公司提供技术支持。
+          </p>
+          <p align="center">
+            校园PE旨在促进学生每天锻炼一小时，用运动时长获取PE体育学分，从而保证学生运动时长，乐享健康生活。
+          </p>
+        </div>
         <carousel v-if="items1.length !== 0" :data="items1" :type="'card'"/>
       </div>
     </div>
 
     <div class="section-2">
       <div class="container_self">
-        <div class="container_self description">
-          <h2>PE校园-健康生活每一天</h2>
-          <div class="detail">
-            <p>
-              校园PE，由青岛新体创体育产业集团有限公司研发，青岛指尖跃动科技有限公司提供技术支持。
-            </p>
-            <p>
-              校园PE旨在促进学生每天锻炼一小时，用运动时长获取PE体育学分，从而保证学生运动时长，乐享健康生活。
-            </p>
-          </div>
-        </div>
-
         <div id="section2-container">
           <div class="section2-item" v-for="e in section2">
             <img v-lazy="require('../../assets/img/index/home/section2/'+e.url)" alt="">
@@ -43,6 +49,7 @@
         <div id="section2-phone-container">
           <div class="section2-phone-item">
             <img v-lazy="require('../../assets/img/index/home/section2/fanchuan.jpg')" alt="">
+            <p>帆船</p>
           </div>
         </div>
       </div>
@@ -50,13 +57,9 @@
 
     <div class="section-3">
       <div class="container_self">
-        <div class="description">
           <h2 align="center">PE校园优势</h2>
-          <div class="container_self detail">
-            <p align="center">&nbsp;&nbsp;&nbsp;PE校园专注于为高校学生的综合能力提升提供系列服务，保障大学生不断成长的同时，也在不断改善自身产品，为学生和高校提供更好的服务。
-            </p>
-          </div>
-        </div>
+          <p align="center">PE校园专注于为高校学生的综合能力提升提供系列服务，保障大学生不断成长的同时，也在不断改善自身产品，为学生和高校提供更好的服务。
+          </p>
       </div>
 
       <div id="section3-container">
@@ -136,15 +139,14 @@
 
     <div class="section-5">
       <div class="container_self">
-        <h2>选择PE校园<br>让大学生活更简单
+        <h2 align="center">选择PE校园
+        </h2>
+        <h2 align="center">让大学生活更简单
         </h2>
         <div class="detail">
-          <p>PE校园未来将为大学生成长提供一站式的全面服务，</p>
-          <p>
+          <p align="center">PE校园未来将为大学生成长提供一站式的全面服务，</p>
+          <p align="center">
             二课、学习、培训、就业、交友、娱乐...你想要的，PE校园都有！
-          </p>
-          <p>
-            选择PE校园，让大学生活更简单!
           </p>
         </div>
       </div>
@@ -175,6 +177,43 @@
           {
             name: "3",
             url: "http://www.xiaoyuanpe.com/3.png"
+          },
+        ],
+        section0: [
+          {
+            url: 'act_1.png',
+            h3: '乐享活动',
+            p: '每位同学都可通过线上发起活动，通过审核并完成的活动将产生PE分',
+          },
+          {
+            url: 'act_2.png',
+            h3: '快捷预约',
+            p: '场馆动态线上云，随时随地查询场馆状态，告别线下预约，足不出户完成预约',
+          },
+          {
+            url: 'act_3.png',
+            h3: '记录运动',
+            p: 'app打卡记录早操，每一次参加的活动和运动都记录在案',
+          },
+          {
+            url: 'act_4.png',
+            h3: '获取学分',
+            p: '每次的早操或运动都将折算成一定的PE分，当PE分累计到一定时，将获得响应的学分',
+          },
+          {
+            url: 'act_5.png',
+            h3: '发起比赛',
+            p: '由管理员线上发起比赛，不仅支持传统的校园比赛，还支持多个高校联合发起跨区比赛',
+          },
+          {
+            url: 'act_6.png',
+            h3: '报名参赛',
+            p: '学生科通过线上报名参赛，具有裁判技能证书的学生还可线上报名裁判',
+          },
+          {
+            url: 'act_7.png',
+            h3: '比赛PE分记录',
+            p: '校方可根据自身情况，合理的设置比赛的PE分结算规则，将比赛成绩按规则结算成PE分',
           },
         ],
         section2: [
@@ -280,8 +319,39 @@
 </script>
 
 <style scoped>
-  #app {
-    width: 100%;
+
+  /*自适应margin*/
+  .homepage .container_self {
+    overflow: hidden;
+    margin: 0 auto;
+    width: 95%;
+  }
+
+  /*文字*/
+  .homepage .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: inherit;
+    font-weight: 500 !important;
+    line-height: 1.1;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .homepage * {
+    font-family: "Microsoft Yahei", sans-serif;
+  }
+
+  .homepage p {
+    font-weight: 500 !important;
+    font-size: 16px;
+  }
+
+  .homepage h2 {
+    font-size: 30px !important;
+    display: block;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
   }
 
   /*MP4*/
@@ -295,7 +365,7 @@
     width: 100%;
   }
 
-  .homepage .index-banner .video-box .overlay {
+  .homepage .index-banner .video-box .mask {
     position: absolute;
     width: 100%;
     left: 0;
@@ -331,12 +401,6 @@
     color: #898888;
   }
 
-  /*自适应margin*/
-  .homepage .container_self {
-    overflow: hidden;
-    margin: 0 auto;
-    width: 95%;
-  }
 
   @media (min-width: 1200px) {
     .homepage .container_self {
@@ -344,52 +408,44 @@
     }
   }
 
-  /*文字*/
-  .homepage .container_self .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-    font-family: inherit;
-    font-weight: 500 !important;
-    line-height: 1.1;
-    margin-top: 20px;
-    margin-bottom: 10px;
+  /*区域一*/
+  .homepage .section-0 {
+    width: 100%;
+    margin: 35px 0 15px 0;
+    background: transparent;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
-  .homepage .container_self * {
-    box-sizing: border-box;
-    font-family: "Microsoft Yahei", sans-serif;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
+  .homepage .section-0 .section0-item {
+    width: 20%;
+    display: flex;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
-  .homepage .container_self p {
-    font-weight: 500 !important;
-    font-size: 14px !important;
+  .homepage .section-0 .section0-item img {
+    width: 80%;
   }
 
-  .homepage .container_self h2 {
-    font-size: 30px !important;
-    display: block;
-    margin-block-start: 0.83em;
-    margin-block-end: 0.83em;
-    margin-inline-start: 0;
-    margin-inline-end: 0;
+  @media (max-width: 760px) {
+    .homepage .section-0 .section0-item {
+      width: 40%;
+    }
   }
 
   /*区域一*/
   .homepage .section-1 {
     width: 100%;
     margin: 35px 0 15px 0;
-    display: none;
     background: transparent;
   }
 
-  @media (min-width: 760px) {
-    .homepage .section-1 {
-      display: inherit;
-    }
-  }
-
-  .index_sidebar .el-table__row {
-    cursor: pointer;
+  .homepage .description {
+    margin-bottom: 40px;
   }
 
   /*区域2*/
@@ -447,7 +503,6 @@
   }
 
   .section2-item p {
-    font-size: 12px;
     padding-top: 5px;
   }
 
@@ -476,10 +531,6 @@
     color: white;
     overflow: hidden;
     padding-bottom: 50px;
-  }
-
-  .homepage .section-3 .description {
-    padding-top: 25px;
   }
 
   .homepage .section-3 p {

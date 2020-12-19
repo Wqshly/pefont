@@ -5,7 +5,8 @@ import router from './router'
 
 import VueLazyload from 'vue-lazyload'
 import icon from "./assets/icon/iconfont.js"
-
+import AMap from 'vue-amap';
+Vue.use(AMap);
 Vue.use(router);
 Vue.use(VueLazyload);
 
@@ -19,6 +20,14 @@ Vue.component('router-menu', menu);
 
 Vue.config.productionTip = false;
 
+
+// 初始化vue-amap
+AMap.initAMapApiLoader({
+  // 高德key
+  key: '53d6d35a83c5f27b087142c8c4b10a42',
+  // 插件集合 （插件按需引入）
+  plugin: ['AMap.Geolocation']
+});
 
 new Vue({
   el: '#app',

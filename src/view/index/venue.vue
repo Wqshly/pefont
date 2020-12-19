@@ -5,8 +5,17 @@
         <h1>线上预约</h1>
         <p>无需登录，更简单快捷地场馆预约</p>
       </div>
+      <div class="center-input">
+        <div style="width: 40%;">
+        <el-input
+          placeholder="输入场馆关键词"
+          suffix-icon="el-icon-search"
+          v-model="input1">
+        </el-input>
+        </div>
+      </div>
     </div>
-    <v-venue></v-venue>
+    <v-venue :search="input1"></v-venue>
   </div>
 </template>
 
@@ -16,10 +25,15 @@
     components:{
       vVenue
     },
+    data() {
+      return {
+        input1: null,
+      }
+    }
   }
 </script>
 
-<style scoped>
+<style>
 
   .venue .index-banner {
     height: 34.5vw;
@@ -32,6 +46,33 @@
     display: none;
   }
 
+  .venue .center-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .venue .center-input input::-ms-input-placeholder input::-webkit-input-placeholder{
+    color: #ffffff;
+  }
+
+  .venue .center-input input::-webkit-input-placeholder{
+    color: #ffffff;
+  }
+  .venue .center-input .el-input__inner {
+    background-color: transparent!important;
+    border: 2px solid #ffffff!important;
+    border-radius: 40px;
+    color: #ffffff;
+  }
+  .venue .center-input .el-icon-search {
+    color: #ffffff;
+  }
   @media (min-width: 760px) {
     .venue .index-banner .index-font-box {
       position: absolute;

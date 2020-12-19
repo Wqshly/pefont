@@ -1,58 +1,68 @@
 <template>
   <div class="venue-detail-container">
-    <div class="row">
-      <el-button plain type="primary" icon="el-icon-arrow-left" @click="$emit('back')">返回</el-button>
-    </div>
-
-    <div class="row">
-      <div class="item_left">
-        <carousel v-if="items1.length !==0" :data="items1"/>
+    <div>
+      <div class="row">
+        <el-button plain type="primary" icon="el-icon-arrow-left" @click="$emit('back')">返回</el-button>
       </div>
-      <div class="item_right">
-        <div class="inner">
-          <span class="font">场馆名：{{ remoteData.name }}</span>
-          <span class="font">地点：{{ remoteData.position }}</span>
-          <span class="font">简介：{{ remoteData.description }}</span>
-          <span class="font">联系人：{{ remoteData.description }}</span>
-          <span class="font">联系方式：{{ remoteData.description }}</span>
-          <span class="font">开放时间：{{ remoteData.description }}</span>
-          <span class="font">其他描述：{{ remoteData.others }}</span>
+
+      <div class="row">
+        <div class="item_left">
+          <div class="item_img">
+            <carousel v-if="items1.length !==0" :data="items1"/>
+          </div>
+          <div class="item_description">
+            <div class="inner">
+              <h2 class="font">山东科技大学东场馆</h2>
+              <span class="font">场馆地址：{{ remoteData.position }}</span>
+              <span class="font">场馆电话：{{ remoteData.description }}</span>
+              <span class="font">开放时间：{{ remoteData.description }}</span>
+              <span class="font">人均价格：{{ remoteData.others }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="item_map">
+          <n-map/>
         </div>
       </div>
 
-    </div>
+      <div class="row">
+        <p style="width: 100%;">温馨提示：本场馆属于学校用地，所订场地可能因为学校临时征用等原因导致订单取消。</p>
+        <p>所订场地限打球所用，如有培训或其他商业活动需求，请提前致电球馆协商。</p>
+      </div>
 
-    <div class="row">
-      <el-tabs @tab-click="handleClick"
-               type="border-card"
-               style="width:80%">
-        <el-tab-pane v-for="item in remoteData.subs"
-                     :key="item"
-                     :label="item.name">
-          <div style="width: 100%">
-            <carousel v-if="items1.length !== 0" :type="'card'" :data="items1" style="width: 100%;"/>
-            <div class="inner2">
-              <span class="font">场地规模：{{ remoteData.name }}</span>
-              <span class="font">总场地数：{{ remoteData.position }}</span>
-              <span class="font">占地：{{ remoteData.description }}</span>
-              <span class="font">修建时间：{{ remoteData.description }}</span>
-              <span class="font">其他：{{ remoteData.description }}</span>
-            </div>
-            <div class="row">
-              <el-date-picker
-                v-model="value1"
-                type="datetimerange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期">
-              </el-date-picker>
-              <el-button type="primary" plain @click="query(item.name)">查询可预约时间</el-button>
-            </div>
+      <div class="row">
+        <el-tabs @tab-click="handleClick"
+                 type="border-card"
+                 style="width:80%">
+          <el-tab-pane v-for="item in remoteData.subs"
+                       :key="item"
+                       :label="item.name">
+            <div style="width: 100%">
+              <carousel v-if="items1.length !== 0" :type="'card'" :data="items1" style="width: 100%;"/>
+              <div class="inner2">
+                <div>
+                  <normal-table style="margin: 10px 20px 15px 0" :title="'交通信息'" :table="table1"/>
+                  <normal-table :title="'场地设施'" :table="table2"/>
+                </div>
+
+                <normal-table :title="'场馆服务'" :table="table3"/>
+              </div>
+              <div class="row" style="position: relative">
+                <el-date-picker
+                  v-model="value1"
+                  type="datetimerange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期">
+                </el-date-picker>
+                <el-button type="primary" plain @click="query(item.name)">查询可预约场地</el-button>
+                <div v-if="isQueryed" style="position: absolute;bottom: 0;right: 0">
+                  <el-button type="success" plain @click="open">我要预约</el-button>
+                </div>
+              </div>
 
 
-            <div class="inner2">
-              <p v-if="!isQueryed">选择时间段查询场地</p>
-              <div v-else>
+              <div class="inner2" v-if="isQueryed">
                 <el-tag
                   style="margin-right: 10px"
                   v-for="item in ['A-1','A-3']"
@@ -60,61 +70,17 @@
                   effect="dark">
                   {{ item }}
                 </el-tag>
-                <div style="width:100%;padding-top: 20px"><el-button type="success" plain @click="open">我要预约</el-button></div>
               </div>
-            </div>
 
-          </div>
-        </el-tab-pane>
-      </el-tabs>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
     </div>
 
-    <el-dialog :visible.sync="dialogFormVisible" :width="'550px'">
-      <el-form :model="dialogForm" label-position="left" label-width="100px">
 
-        <el-form-item label="场馆名">
-          {{dialogForm.venueName}}
-        </el-form-item>
-
-        <el-form-item label="运动馆">
-          {{dialogForm.areaName}}
-        </el-form-item>
-
-        <el-form-item label="可预约场地">
-          <el-tag
-            style="margin-right: 10px;cursor: pointer"
-            v-for="item in ['A-1','A-3']"
-            :key="item"
-            @click.stop="chooseArea(item)"
-            :effect="mappingEffect(item)">
-            {{ item }}
-          </el-tag>
-        </el-form-item>
-
-        <el-form-item label="预约时段">
-          <el-date-picker
-            v-model="dialogForm.time"
-            disabled
-            type="datetimerange"
-            range-separator="至"
-            start-placeholder="预约时间"
-            end-placeholder="预计结束时间">
-          </el-date-picker>
-        </el-form-item>
-
-        <el-form-item label="联系人">
-          <el-input v-model="dialogForm.name" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="联系方式">
-          <el-input v-model="dialogForm.method" autocomplete="off"></el-input>
-        </el-form-item>
-
-      </el-form>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-      </div>
+    <el-dialog :visible.sync="dialogFormVisible" :width="'100%'" fullscreen="true" style="z-index: 1000000;display: flex;justify-content: center;align-items: center">
+      <n-subscribe/>
     </el-dialog>
   </div>
 
@@ -123,16 +89,21 @@
 
 <script>
   import carousel from "../common/carousel";
-
+  import nMap from "../map";
+  import normalTable from "../normalTable";
+  import nSubscribe from "./subscribe";
   export default {
     components: {
       carousel,
+      nMap,
+      normalTable,
+      nSubscribe
     },
     data() {
       return {
         isQueryed: false,
         //现在 至 两小时后
-        value1: [new Date(), new Date().setTime(new Date().getTime() + 3600 * 1000 * 2 )],
+        value1: [new Date(), new Date().setTime(new Date().getTime() + 3600 * 1000 * 2)],
         /*轮播图 走马灯*/
         items1: [
           {
@@ -148,6 +119,22 @@
             url: "http://www.xiaoyuanpe.com/3.png"
           },
         ],
+        table1: [
+          ["公交","赤岗路口，步行约5分钟"],["地铁","客村地铁D出口，步行约10-15分钟"],
+        ],
+        table2: [
+          ["地板","塑胶地板、木质地板"],["灯光","侧灯"],["休息区","风扇"]
+        ],
+        table3: [
+          ["器材租赁","储物柜、球拍，租拍5块钱一只，不限时间"],
+          ["器材维护","拉线"],
+          ["更多服务","WIFI、支持刷卡、会员卡、专业培训、羽毛球培训"],
+          ["洗浴设施","更衣室、提供洗浴、热水供应、免费热水淋浴"],
+          ["场馆卖品","饮料、羽毛球、球拍、球鞋、球衣、拍线"],
+          ["发票","趣运动提供发票，仅限发票套餐"],
+          ["停车","工业园停车（5块钱一小时，30元封顶）"],
+        ],
+
         dialogFormVisible: false,
         currentPage: 1,
         pageSize: 10,
@@ -199,26 +186,30 @@
         this.dialogForm.areaName = tab.label;
       },
 
-      chooseArea(val){
+      chooseArea(val) {
         let findIndex = this.dialogForm.area.findIndex(e => {
-          if(e === val) {
+          if (e === val) {
             return true
           }
         });
 
-        if(findIndex >= 0 ) {
+        if (findIndex >= 0) {
           this.dialogForm.area.splice(findIndex, 1);
         } else {
           this.dialogForm.area.push(val);
         }
       },
 
-      mappingEffect(val){
-        for(let i = 0; i < this.dialogForm.area.length; ++i){
-          if(this.dialogForm.area[i] === val) {
+      mappingEffect(val) {
+        for (let i = 0; i < this.dialogForm.area.length; ++i) {
+          if (this.dialogForm.area[i] === val) {
             return "dark";
           }
         }
+      },
+      back() {
+        window.scroll(0, 100);
+        this.dialogFormVisible = false;
       }
     },
     mounted() {
@@ -228,7 +219,7 @@
 
     },
     watch: {
-      value1(val){
+      value1(val) {
         this.isQueryed = false;
       }
     }
@@ -242,6 +233,7 @@
     padding-left: 30px;
     background-color: #f2f5f6;
     padding-top: 30px;
+    position: relative;
   }
 
   .row {
@@ -252,17 +244,31 @@
   }
 
   .item_left {
-    width: 60%;
+    min-width: 320px;
+    width: calc(100% - 400px);
+    display: flex;
+    flex-wrap: wrap;
   }
 
-  .item_right {
+  .item_img {
+    width: 50%;
+    min-width: 300px;
+  }
+
+  .item_map {
+    width: 300px;
+    height: 300px;
+  }
+
+  .item_description {
     width: fit-content;
-    margin-left: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
     display: flex;
     flex-direction: column;
   }
 
-  .item_right .inner{
+  .item_description .inner {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -270,11 +276,11 @@
   }
 
   .inner .font {
-    color: grey;
-    margin: 9px;
+    margin-bottom: 15px;
+    font-weight: 500;
   }
 
-  .inner2{
+  .inner2 {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 30px;
@@ -286,4 +292,5 @@
     margin: 9px;
     width: 40%;
   }
+
 </style>

@@ -1,20 +1,6 @@
 <template>
   <div>
     <div class="venue-container" v-if="!detail">
-      <div style="display: flex;flex-wrap: wrap;width: 100%;justify-content: center">
-        <el-input type="text"
-                  v-model="search2"
-                  prefix-icon="el-icon-search"
-                  style="max-width: 200px;padding-right: 50px"
-                  placeholder="输入类型搜索">
-        </el-input>
-        <el-input type="text"
-                  v-model="search"
-                  prefix-icon="el-icon-search"
-                  style="max-width: 300px"
-                  placeholder="输入场馆名搜索">
-        </el-input>
-      </div>
       <div class="card-container">
         <div v-for="item in handleData()" @click="handleClick(item)" class="card">
           <el-card shadow="hover" style="width: fit-content;">
@@ -29,7 +15,8 @@
                   <span class="font">场馆名：{{ item.name }}</span>
                   <span class="font">开放时间：{{ item.date }}</span>
                   <span class="font">地点：{{ item.position }}</span>
-                  <span class="font">支持的运动：
+                  <span class="font">场馆类型：{{ item.date }}</span>
+                  <span class="font">可开展运动：
                     <el-tag
                       style="margin-right: 10px"
                       v-for="type in item.type"
@@ -38,7 +25,7 @@
                     {{ type }}
                   </el-tag>
                   </span>
-
+                  <span class="font">人均消费：{{ item.date }}</span>
                 </div>
               </div>
 
@@ -48,18 +35,21 @@
             </div>
           </el-card>
         </div>
+        <el-pagination
+          class="pagination"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage"
+          :page-size="pageSize"
+          layout="total, prev, pager, next, jumper, sizes"
+          :total="total">
+        </el-pagination>
       </div>
 
-      <el-pagination
-        class="pagination"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage"
-        :page-size="pageSize"
-        layout="total, prev, pager, next, jumper, sizes"
-        :total="total">
-      </el-pagination>
-
+      <div class="right-container">
+        <n-map style="margin-bottom: 30px"/>
+        <n-advertisement/>
+      </div>
     </div>
     <venue_detail
       @back="back"
@@ -70,15 +60,20 @@
 
 <script>
   import venue_detail from "./venue_detail";
-
+  import nMap from "../map";
+  import nAdvertisement from "../advertisement";
   export default {
     components: {
       venue_detail,
+      nMap,
+      nAdvertisement,
+    },
+    props: {
+      search: String
     },
     data() {
       return {
         url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-        search: '',
         search2: '',
         detail: false,
         currentPage: 1,
@@ -153,14 +148,25 @@
     background-color: #f2f5f6;
     padding-top: 30px;
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
+    justify-content: space-around;
+    position: relative;
   }
 
   .card-container {
+    width: calc(100% - 325px);
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
+  }
+
+  .right-container {
+    width: 300px;
+    padding-left: 15px;
+    padding-right: 10px;
+    position: sticky;
+    top:0;
+    right: 0;
   }
 
   .card {
@@ -175,18 +181,13 @@
   }
 
   .item_img {
-    max-width: 60%;
-  }
-
-  @media screen and (max-width: 1140px) {
-    .item_img {
-      max-width: 100%;
-    }
+    max-width: 37.5%;
+    min-width: 300px;
   }
 
   .item_right {
     width: fit-content;
-    margin: 0 0 0 10px;
+    margin: 0 0 0 30px;
   }
 
   .item_right .inner {
@@ -197,8 +198,8 @@
   }
 
   .inner .font {
-    color: grey;
-    margin: 9px 0;
+    margin: 6px 0;
+    font-weight: 500;
   }
 
   .pagination {

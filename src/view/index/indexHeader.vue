@@ -26,7 +26,7 @@
               </el-menu-item>
             </template>
             <!--        LOGO-->
-            <template v-if="item.index==='equipment'">
+            <template v-if="item.index==='venue'">
               <li>
                 <img v-lazy="require('../../assets/logo.png')" alt="">
               </li>
@@ -78,19 +78,12 @@
           },
           {
             index: 'venue',
-            title: '预约场地'
+            title: '场地预约'
           },
+
           {
-            index: 'equipment',
-            title: '器材租赁'
-          },
-          {
-            index: 'function',
-            title: '产品功能'
-          },
-          {
-            index: 'app',
-            title: 'APP下载'
+            index: '404',
+            title: '商务合作'
           },
           {
             index: '/home',
