@@ -6,7 +6,7 @@
         <p>无需登录，更简单快捷地场馆预约</p>
       </div>
       <div class="center-input">
-        <div style="width: 40%;">
+        <div style="width: 40%;position: sticky;top: 0" v-if="!detail">
         <el-input
           placeholder="输入场馆关键词"
           suffix-icon="el-icon-search"
@@ -28,7 +28,13 @@
     data() {
       return {
         input1: null,
+        detail: false,
       }
+    },
+    mounted() {
+      this.$eventBus.on("venue-detail",f => {
+        this.detail = f;
+      });
     }
   }
 </script>

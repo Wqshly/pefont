@@ -118,7 +118,7 @@
         choose: [],
       }
     },
-    mounted() {
+    created() {
       for (let i = 0; i < 20; ++i) {
         this.title.push(i + "号场");
       }
@@ -195,10 +195,8 @@
             return true;
           }
         });
-        if (findIndex === -1) {
-          return false;
-        }
-        return true;
+        return findIndex !== -1;
+
       }
     }
   }

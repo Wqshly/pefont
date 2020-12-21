@@ -79,8 +79,11 @@
     </div>
 
 
-    <el-dialog :visible.sync="dialogFormVisible" :width="'100%'" fullscreen="true" style="z-index: 1000000;display: flex;justify-content: center;align-items: center">
-      <n-subscribe/>
+    <el-dialog @close="dialogFormVisible = false"
+               v-show="dialogFormVisible"
+               fullscreen="true"
+               style="z-index: 100001;display: flex;justify-content: center;align-items: center">
+      <n-subscribe slot="footer"/>
     </el-dialog>
   </div>
 

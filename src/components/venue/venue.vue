@@ -1,7 +1,17 @@
 <template>
-  <div>
-    <div class="venue-container" v-if="!detail">
-      <div class="card-container">
+  <div style="position: relative;background-color: #f2f5f6">
+    <div class="center-input-sub-venue" v-show="!detail">
+      <div style="width: 40%" v-show="showInput">
+        <el-input
+          placeholder="输入场馆关键词"
+          suffix-icon="el-icon-search"
+          v-model="search">
+        </el-input>
+      </div>
+
+    </div>
+    <div class="venue-container" v-show="!detail">
+      <div class="card-container" id="float-1">
         <div v-for="item in handleData()" @click="handleClick(item)" class="card">
           <el-card shadow="hover" style="width: fit-content;">
             <div class="item">
@@ -46,14 +56,14 @@
         </el-pagination>
       </div>
 
-      <div class="right-container">
+      <div class="right-container" id="float-2">
         <n-map style="margin-bottom: 30px"/>
         <n-advertisement/>
       </div>
     </div>
     <venue_detail
       @back="back"
-      v-else/>
+      v-show="detail"/>
   </div>
 
 </template>
@@ -62,6 +72,7 @@
   import venue_detail from "./venue_detail";
   import nMap from "../map";
   import nAdvertisement from "../advertisement";
+
   export default {
     components: {
       venue_detail,
@@ -76,9 +87,11 @@
         url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
         search2: '',
         detail: false,
+        showInput:false,
         currentPage: 1,
         pageSize: 10,
         total: 0,
+        right_y: 0,
         tableData: [{
           date: '',
           name: '',
@@ -119,12 +132,39 @@
       open() {
         window.scroll(0, 500);
         this.detail = !this.detail;
+        this.$eventBus.emit("venue-detail",true);
       },
       back() {
         window.scroll(0, 100);
         this.detail = false;
-      }
+        this.$eventBus.emit("venue-detail",false);
+      },
+      getAbsPoint(e) {
+        let y = e.offsetTop;
+        while (e = e.offsetParent) {
+          y += e.offsetTop;
+        }
+        return y
+      },
 
+      registerListener() {
+        let card = document.getElementById("float-1");
+        let right = document.getElementById("float-2");
+
+        window.addEventListener("scroll", () => {
+          let card_y = this.getAbsPoint(card);
+
+          let marginTop = document.documentElement.scrollTop - card_y + 60;
+          if (marginTop > 0) {
+            right.style.marginTop = marginTop + "px";
+            this.showInput = true;
+          } else {
+            right.style.marginTop = "0px";
+            this.showInput = false;
+          }
+        });
+
+      },
     },
     created() {
       let e = {
@@ -136,25 +176,26 @@
       for (let i = 0; i <= 18; ++i) {
         this.tableData.push(e);
       }
+    },
 
+    mounted() {
+      this.registerListener();
     }
   }
 </script>
 
-<style scoped>
+<style>
 
   .venue-container {
     width: 100%;
-    background-color: #f2f5f6;
-    padding-top: 30px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    flex-wrap: nowrap;
+    justify-content: center;
     position: relative;
   }
 
   .card-container {
-    width: calc(100% - 325px);
+    max-width: 800px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -164,9 +205,6 @@
     width: 300px;
     padding-left: 15px;
     padding-right: 10px;
-    position: sticky;
-    top:0;
-    right: 0;
   }
 
   .card {
@@ -181,13 +219,11 @@
   }
 
   .item_img {
-    max-width: 37.5%;
-    min-width: 300px;
+    width: 300px;
   }
 
   .item_right {
-    width: fit-content;
-    margin: 0 0 0 30px;
+    width: 300px;
   }
 
   .item_right .inner {
@@ -200,9 +236,40 @@
   .inner .font {
     margin: 6px 0;
     font-weight: 500;
+    word-wrap: break-word;
+    min-width: 300px;
+    padding-left: 20px;
+    max-width: 500px;
   }
 
   .pagination {
     margin: 10px 0;
+  }
+  .center-input-sub-venue {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    position: sticky;
+    top:0;
+    z-index: 100000;
+    height: 60px;
+  }
+  .center-input-sub-venue input::-ms-input-placeholder input::-webkit-input-placeholder{
+    color: black
+  }
+
+  .center-input-sub-venue input::-webkit-input-placeholder{
+    color: black
+  }
+  .center-input-sub-venue .el-input__inner {
+    background-color: #f2f5f6!important;
+    border: 2px solid black!important;
+    border-radius: 40px;
+    color: black
+  }
+  .center-input-sub-venue .el-icon-search {
+    color: black
   }
 </style>
