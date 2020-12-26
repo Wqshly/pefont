@@ -11,20 +11,26 @@
       <div class="index-font-box">
         <h1>校园体育,提升健康</h1>
         <p>每天锻炼一小时，健康工作50年，幸福生活一辈子</p>
+        <p> {{getCurrentDate()}}</p>
       </div>
     </div>
 
     <div class="section-0">
       <div class="section0-item" v-for="e in section0">
-        <img v-lazy="require('../../assets/img/index/home/section0/'+e.url)" alt="">
-        <h3 align="center">{{e.h3}}</h3>
-        <p align="center">{{e.p}}
-        </p>
+        <div class="img-container">
+          <img v-lazy="require('../../assets/img/index/home/section0/'+e.url)" alt="">
+        </div>
+        <div style="height: 20%;">
+          <h3 align="center">{{e.h3}}</h3>
+          <p align="center">{{e.p}}
+          </p>
+        </div>
       </div>
     </div>
 
     <div class="section-1">
       <div class="container_self">
+        <carousel v-if="items1.length !== 0" :data="items1" :type="'card'"/>
         <div class="description">
           <h2 align="center">PE校园-健康生活每一天</h2>
           <p align="center">
@@ -34,7 +40,6 @@
             校园PE旨在促进学生每天锻炼一小时，用运动时长获取PE体育学分，从而保证学生运动时长，乐享健康生活。
           </p>
         </div>
-        <carousel v-if="items1.length !== 0" :data="items1" :type="'card'"/>
       </div>
     </div>
 
@@ -57,9 +62,9 @@
 
     <div class="section-3">
       <div class="container_self">
-          <h2 align="center">PE校园优势</h2>
-          <p align="center">PE校园专注于为高校学生的综合能力提升提供系列服务，保障大学生不断成长的同时，也在不断改善自身产品，为学生和高校提供更好的服务。
-          </p>
+        <h2 align="center">PE校园优势</h2>
+        <p align="center">PE校园专注于为高校学生的综合能力提升提供系列服务，保障大学生不断成长的同时，也在不断改善自身产品，为学生和高校提供更好的服务。
+        </p>
       </div>
 
       <div id="section3-container">
@@ -307,7 +312,15 @@
           }
         });
       },
-
+      getCurrentDate() {
+        let dayLsit = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六',];
+        let myDate = new Date();
+        let year = myDate.getFullYear(); //年
+        let month = myDate.getMonth() + 1; //月
+        let day = myDate.getDate(); //日
+        let days = dayLsit[myDate.getDay()];
+        return year + "年" + month + "月" + day + "日  " + days;
+      }
     },
     mounted() {
 
@@ -421,19 +434,35 @@
   .homepage .section-0 .section0-item {
     width: 20%;
     display: flex;
+    position: relative;
     padding: 15px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
   }
 
+  .homepage .section-0 .img-container {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
   .homepage .section-0 .section0-item img {
-    width: 80%;
+    width: 90%;
   }
 
   @media (max-width: 760px) {
     .homepage .section-0 .section0-item {
       width: 40%;
+    }
+  }
+
+  @media (max-width: 340px) {
+    .homepage .section-0 .section0-item {
+      width: 100%;
     }
   }
 
