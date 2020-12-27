@@ -22,9 +22,10 @@ const home_page = () => import(/* webpackChunkName: '0' */ '../view/home/home');
 const exercisesPage = () => import(/* webpackChunkName: '1' */ '../view/exercises/Page');
 const exercises_page = () => import(/* webpackChunkName: '1' */ '../view/exercises/home');
 
-/*home2 page*/
-const home2Page = () => import(/* webpackChunkName: '2' */ '../view/home2/Page');
-const home2_page = () => import(/* webpackChunkName: '2' */ '../view/home2/home');
+/*比赛*/
+const competitionPage = () => import(/* webpackChunkName: '2' */ '../view/competition/Page');
+const competition_localCompetition = () => import(/* webpackChunkName: '2' */ '../view/competition/localCompetition');
+const competition_page = () => import(/* webpackChunkName: '2' */ '../view/competition/home');
 
 
 
@@ -153,16 +154,24 @@ const router = new Router({
       ]
     },
     {
-      path: '/home2',
-      component: home2Page,
+      path: '/competition',
+      component: competitionPage,
       children: [
         {
           path: '/',
-          redirect: '/404',
+          redirect: '/competition/localCompetition',
         },
         {
-          path: '/home2/home',
-          component: home2_page
+          path: '/competition/localCompetition',
+          component: competition_localCompetition
+        },
+        {
+          path: '/competition/regionalLeague',
+          component: notFoundPage
+        },
+        {
+          path: '/competition/myCompetition',
+          component: competition_page
         },
       ]
     },
