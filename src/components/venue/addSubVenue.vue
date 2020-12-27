@@ -13,6 +13,40 @@
         </el-input>
       </el-form-item>
 
+      <el-form-item label="场地设施" class="form-row">
+        <div v-for="(i, index) in ruleForm.facilities">
+          <el-input
+            style="width: 150px"
+            placeholder="条目"
+            v-model="i.key">
+          </el-input>
+          <el-input
+            style="width: calc(100% - 220px)"
+            placeholder="描述"
+            v-model="i.value">
+          </el-input>
+          <el-button icon="el-icon-delete" @click="deleteFacilities(index)"></el-button>
+        </div>
+        <el-button type="primary" plain style="margin-top: 10px" @click="addFacilities">增加条目</el-button>
+      </el-form-item>
+
+      <el-form-item label="场馆服务" class="form-row">
+        <div v-for="(i, index) in ruleForm.venueService">
+          <el-input
+            style="width: 150px"
+            placeholder="条目"
+            v-model="i.key">
+          </el-input>
+          <el-input
+            style="width: calc(100% - 220px)"
+            placeholder="描述"
+            v-model="i.value">
+          </el-input>
+          <el-button icon="el-icon-delete" @click="deleteVenueService(index)"></el-button>
+        </div>
+        <el-button type="primary" plain style="margin-top: 10px" @click="addVenueService">增加条目</el-button>
+      </el-form-item>
+
       <el-form-item label="场地规模" class="form-row">
         <el-input
           placeholder="场地规模"
@@ -87,8 +121,25 @@
           title: '',
           num: 1,
           buildTime: '',
+          facilities: [{key: '', value: ''}],
+          travelInformation: [{key: '', value: ''}],
+          venueService: [{key: '', value: ''}],
         }
       }
+    },
+    methods: {
+      addFacilities() {
+        this.ruleForm.facilities.push({key: '', value: ''});
+      },
+      deleteFacilities(index) {
+        this.ruleForm.facilities.splice(index, 1);
+      },
+      addVenueService() {
+        this.ruleForm.venueService.push({key: '', value: ''});
+      },
+      deleteVenueService(index) {
+        this.ruleForm.venueService.splice(index, 1);
+      },
     },
     mounted() {
       if(!this.$store.state.venueOption) {

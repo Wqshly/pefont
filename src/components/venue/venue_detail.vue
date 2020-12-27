@@ -28,6 +28,11 @@
       <div class="row">
         <p style="width: 100%;">温馨提示：本场馆属于学校用地，所订场地可能因为学校临时征用等原因导致订单取消。</p>
         <p>所订场地限打球所用，如有培训或其他商业活动需求，请提前致电球馆协商。</p>
+        <div class="inner2">
+          <div>
+            <normal-table style="margin: 10px 20px 15px 0" :title="'交通信息'" :table="table1"/>
+          </div>
+        </div>
       </div>
 
       <div class="row">
@@ -41,7 +46,6 @@
               <carousel v-if="items1.length !== 0" :type="'card'" :data="items1" style="width: 100%;"/>
               <div class="inner2">
                 <div>
-                  <normal-table style="margin: 10px 20px 15px 0" :title="'交通信息'" :table="table1"/>
                   <normal-table :title="'场地设施'" :table="table2"/>
                 </div>
 
@@ -82,7 +86,7 @@
     <el-dialog @close="dialogFormVisible = false"
                v-show="dialogFormVisible"
                fullscreen="true"
-               style="z-index: 100001;display: flex;justify-content: center;align-items: center">
+               style="display: flex;justify-content: center;align-items: center">
       <n-subscribe slot="footer"/>
     </el-dialog>
   </div>

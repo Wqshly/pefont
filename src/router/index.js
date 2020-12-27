@@ -82,8 +82,9 @@ const mana_page = () => import(/* webpackChunkName: '9' */ '../view/management/h
 const mana_class = () => import(/* webpackChunkName: '9' */ '../view/management/manaClass');
 const competition_create = () => import(/* webpackChunkName: '3' */ '../view/management/competition/create');
 const competition_mana = () => import(/* webpackChunkName: '3' */ '../view/management/competition/management');
-const venue_create = () => import(/* webpackChunkName: '3' */ '../view/management/venue/create');
+
 const venue_management = () => import(/* webpackChunkName: '3' */ '../view/management/venue/management');
+const venue_create = () => import(/* webpackChunkName: '3' */ '../view/management/venue/create');
 const venue_sub_add = () => import(/* webpackChunkName: '3' */ '../view/management/venue/addSubVenue');
 const router = new Router({
   routes: [

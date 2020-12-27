@@ -23,9 +23,17 @@
     },
     methods: {},
     mounted() {
-      /*if (this.$store.state.user.identity !== '学校管理员') {
-        this.$router.push('/login');
-      }*/
+      if(this.$store.state.user.id === -1) {
+        this.$api.get('/api/login/LoginOrNot').then(res => {
+          if (res.code === 0) {
+            this.$store.state.user = res.data;
+            if (this.$store.state.user.identity !== '学校管理员') {
+              this.$router.push('/login');
+            }
+          }
+        });
+      }
+
     },
     created() {
 
