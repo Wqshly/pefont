@@ -68,24 +68,20 @@
           },
           {
             name: '比赛',
-            link: '404',
+            link: 'competition',
             subs: [
               {
-                name: '报名参赛',
-                link: '/activity/home'
+                name: '本地比赛',
+                link: '/competition/localCompetition'
               },
               {
-                name: '已报名',
-                link: '/activity/notice'
+                name: '区域联赛',
+                link: '/competition/regionalLeague'
               },
               {
-                name: '已参赛',
-                link: '/activity/promotion'
-              },
-              {
-                name: '云比赛',
-                link: '/activity/management'
-              },
+                name: '我的比赛',
+                link: '/competition/myCompetition'
+              }
             ]
           },
           {

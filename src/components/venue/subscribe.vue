@@ -83,16 +83,12 @@
 
         <div class="right-container-row">
           联系人：
-          <el-input
-          v-model="contact_name">
-        </el-input>
-
+          <el-input v-model="contact_name"/>
         </div>
         <div class="right-container-row" style="margin-top: 10px">
           联系方式：
-          <el-input
-          v-model="contact_method"          >
-        </el-input>
+          <el-input v-model="contact_method"/>
+
         </div>
 
         <div class="right-container-row" style="padding: 10px 0;display: flex;flex-wrap: nowrap;font-size: 18px">
@@ -135,7 +131,7 @@
             money: 50 + j,
             disable: false
           };
-          if (i === 0 || i ===1 && j % 2) {
+          if (i === 0 || i === 1 && j % 2) {
             td.disable = true;
           }
 
@@ -155,7 +151,7 @@
     },
     methods: {
       handleClick(td, rowIndex, columnIndex) {
-        if(td.disable){
+        if (td.disable) {
           return;
         }
         let e = {
@@ -207,6 +203,7 @@
     width: fit-content;
     height: fit-content;
   }
+
   .subscribe_venue {
     display: flex;
     flex-wrap: wrap;
@@ -327,6 +324,11 @@
     font-size: 16px;
   }
 
+  .right-container-row {
+    width: 100%;
+    text-align: left!important;
+  }
+
   .color-block {
     border: 1px solid #d6d6d6;
     height: 20px;
@@ -368,4 +370,5 @@
     overflow: auto;
     margin-bottom: 30px;
   }
+
 </style>
