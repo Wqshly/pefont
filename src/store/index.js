@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
@@ -10,40 +10,39 @@ export default new Vuex.Store({
     venueOption: '',
     user: {
       id: -1,
-      userNumber: "",
-      username: "",
-      password: "",
+      userNumber: '',
+      username: '',
+      password: '',
       age: 22,
-      sex: "",
-      unit: "",
-      identity: "学生",
-      phone: "",
-      email: "",
-      schoolId: ""
+      sex: '',
+      unit: '',
+      identity: '学生',
+      phone: '',
+      email: '',
+      schoolId: ''
     }
   },
   mutations: {
-    setUser(state, user) {
-      state.user = user;
+    setUser (state, user) {
+      state.user = user
     },
-    setActivityId(state, activityId) {
-      state.activityId = activityId;
+    setActivityId (state, activityId) {
+      state.activityId = activityId
     },
-    setActivityClass(state, activityClass) {
-      state.activityClass = activityClass;
+    setActivityClass (state, activityClass) {
+      state.activityClass = activityClass
     },
-    setVenueOption(state, venueOption) {
-      state.venueOption = venueOption;
+    setVenueOption (state, venueOption) {
+      state.venueOption = venueOption
     },
-    setCompetitionClass(state, competition) {
-      state.competitionClass = competition;
+    setCompetitionClass (state, competition) {
+      state.competitionClass = competition
     },
-    setRuleForm(state, ruleForm) {
-      state.ruleForm = ruleForm;
+    setRuleForm (state, ruleForm) {
+      state.ruleForm = ruleForm
     },
-    setEditableTabs(state, editableTabs) {
-      state.editableTabs = editableTabs;
+    setEditableTabs (state, editableTabs) {
+      state.editableTabs = editableTabs
     }
   }
-});
-
+})

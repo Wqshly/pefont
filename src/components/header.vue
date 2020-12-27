@@ -7,10 +7,11 @@
         </div>
         <div class="header_item"
              v-for="(item,index) in headers"
+             :key="index"
              @click="jump(item)"
              :class="[{'active':isActive === item.link && item.link !== '404'},{'float_right' : item.float ==='right'}]">
           <!--一级菜单-->
-          <div v-if="item.name !=='学校管理' || $store.state.user.identity == '学校管理员'">
+          <div v-if="item.name !=='学校管理' || $store.state.user.identity === '学校管理员'">
             <i v-if="!item.subs && item.iconName" :class="item.iconName"></i>
             <p v-if="!item.subs && !item.iconName">{{item.name}}</p>
           </div>
@@ -44,191 +45,190 @@
 </template>
 
 <script>
-  import back from './backTop'
-  import phoneHeader from './phoneHeader'
+import back from './backTop'
+import phoneHeader from './phoneHeader'
 
-  export default {
-    //本组件的当前路由蓝色渲染适用于一级路由  也就是路由路径中的第一个'/'的部分
-    components: {
-      back,
-      phoneHeader,
-    },
-    data() {
-      return {
-        isActive: 'activity',
-        reverse_headers: [],
-        headers: [
-          {
-            name: '首页',
-            link: 'home'
-          },
-          {
-            name: '早操',
-            link: 'exercises'
-          },
-          {
-            name: '比赛',
-            link: 'competition',
-            subs: [
-              {
-                name: '本地比赛',
-                link: '/competition/localCompetition'
-              },
-              {
-                name: '区域联赛',
-                link: '/competition/regionalLeague'
-              },
-              {
-                name: '我的比赛',
-                link: '/competition/myCompetition'
-              }
-            ]
-          },
-          {
-            name: '活动',
-            link: 'activity',
-            subs: [
-              {
-                name: '活动首页',
-                link: '/activity/home'
-              },
-              {
-                name: '校内通知',
-                link: '/activity/notice'
-              },
-              {
-                name: '发起活动',
-                link: '/activity/promotion'
-              },
-              {
-                name: '活动管理',
-                link: '/activity/management'
-              },
-              {
-                name: '组织签到',
-                link: '/activity/check'
-              },
-            ]
-          },
-          {
-            name: '账户',
-            link: 'account',
-            subs: [
-              {
-                name: '注销',
-                link: '/account/logout'
-              },
-            ],
-            float: 'right',
-            iconName: 'el-icon-s-custom',
-          },
-          {
-            name: '管理员入口',
-            link: 'management',
-            float: 'right',
-          },
-          {
-            name: '健康管理',
-            link: 'health',
-            subs: [
-              {
-                name: '个人信息',
-                link: '/health/home'
-              },
-              {
-                name: '祛痘',
-                link: '/health/anti'
-              },
-              {
-                name: '形体矫正',
-                link: '404'
-              },
-            ],
-            float: 'right',
-          },
+export default {
+  // 本组件的当前路由蓝色渲染适用于一级路由  也就是路由路径中的第一个'/'的部分
+  components: {
+    back,
+    phoneHeader
+  },
+  data () {
+    return {
+      isActive: 'activity',
+      reverse_headers: [],
+      headers: [
+        {
+          name: '首页',
+          link: 'home'
+        },
+        {
+          name: '早操',
+          link: 'exercises'
+        },
+        {
+          name: '比赛',
+          link: 'competition',
+          subs: [
+            {
+              name: '本地比赛',
+              link: '/competition/localCompetition'
+            },
+            {
+              name: '区域联赛',
+              link: '/competition/regionalLeague'
+            },
+            {
+              name: '我的比赛',
+              link: '/competition/myCompetition'
+            }
+          ]
+        },
+        {
+          name: '活动',
+          link: 'activity',
+          subs: [
+            {
+              name: '活动首页',
+              link: '/activity/home'
+            },
+            {
+              name: '校内通知',
+              link: '/activity/notice'
+            },
+            {
+              name: '发起活动',
+              link: '/activity/promotion'
+            },
+            {
+              name: '活动管理',
+              link: '/activity/management'
+            },
+            {
+              name: '组织签到',
+              link: '/activity/check'
+            }
+          ]
+        },
+        {
+          name: '账户',
+          link: 'account',
+          subs: [
+            {
+              name: '注销',
+              link: '/account/logout'
+            }
+          ],
+          float: 'right',
+          iconName: 'el-icon-s-custom'
+        },
+        {
+          name: '管理员入口',
+          link: 'management',
+          float: 'right'
+        },
+        {
+          name: '健康管理',
+          link: 'health',
+          subs: [
+            {
+              name: '个人信息',
+              link: '/health/home'
+            },
+            {
+              name: '祛痘',
+              link: '/health/anti'
+            },
+            {
+              name: '形体矫正',
+              link: '404'
+            }
+          ],
+          float: 'right'
+        },
 
-          {
-            name: '裁判园地',
-            link: 'theory',
-            float: 'right',
-            subs: [
-              {
-                name: '裁判学习',
-                link: '/theory/home'
-              },
-              {
-                name: '在线考试',
-                link: '/theory/exam'
-              },
-            ],
-          },
-          {
-            name: '场地与器材',
-            link: '404',
-            float: 'right',
-            subs: [
-              {
-                name: '场地预约',
-                link: '/health/home'
-              },
-              {
-                name: '器材租赁',
-                link: '/health/anti'
-              },
-              {
-                name: '运动装备',
-                link: '/health/anti'
-              },
-            ],
-          },
-        ],
-        drawer: false,
-
-      }
-    },
-    methods: {
-      //一级目录跳转函数   便于渲染active样式
-      jump(val) {
-        if (!val.noJump) {
-          this.drawer = false;
-          if(val.link === 'management') {
-            window.open('/#/management');
-          } else {
-            this.$router.push('/' + val.link);
-          }
-
+        {
+          name: '裁判园地',
+          link: 'theory',
+          float: 'right',
+          subs: [
+            {
+              name: '裁判学习',
+              link: '/theory/home'
+            },
+            {
+              name: '在线考试',
+              link: '/theory/exam'
+            }
+          ]
+        },
+        {
+          name: '场地与器材',
+          link: '404',
+          float: 'right',
+          subs: [
+            {
+              name: '场地预约',
+              link: '/health/home'
+            },
+            {
+              name: '器材租赁',
+              link: '/health/anti'
+            },
+            {
+              name: '运动装备',
+              link: '/health/anti'
+            }
+          ]
         }
-      },
-      //二级目录跳转函数
-      jump2(val) {
-        if (!val.noJump) {
-          this.drawer = false;
-          this.$router.push(val.link);
-        }
-      },
-      jump3(val) {
-        if (!val.noJump) {
-          this.drawer = false;
-          this.$store.commit('setCompetitionClass', val.name);
-          this.$router.push(val.link);
-          this.$eventBus.emit("setCompetitionClass", val.name);
-        }
-      },
-      logout() {
-        api.get('/api/login/logout').then(res => {
-        });
-        this.$store.commit('setUserId', -1);
-        this.$router.push('/login');
-      }
-    },
-    mounted() {
+      ],
+      drawer: false
 
-    },
-    created() {
-      this.reverse_headers = this.$clone.deepClone(this.headers).reverse();
-      this.isActive = (this.$route.path).split('/')[1];
     }
+  },
+  methods: {
+    // 一级目录跳转函数   便于渲染active样式
+    jump (val) {
+      if (!val.noJump) {
+        this.drawer = false
+        if (val.link === 'management') {
+          window.open('/#/management')
+        } else {
+          this.$router.push('/' + val.link)
+        }
+      }
+    },
+    // 二级目录跳转函数
+    jump2 (val) {
+      if (!val.noJump) {
+        this.drawer = false
+        this.$router.push(val.link)
+      }
+    },
+    jump3 (val) {
+      if (!val.noJump) {
+        this.drawer = false
+        this.$store.commit('setCompetitionClass', val.name)
+        this.$router.push(val.link)
+        this.$eventBus.emit('setCompetitionClass', val.name)
+      }
+    },
+    logout () {
+      api.get('/api/login/logout').then(res => {
+      })
+      this.$store.commit('setUserId', -1)
+      this.$router.push('/login')
+    }
+  },
+  mounted () {
+
+  },
+  created () {
+    this.reverse_headers = this.$clone.deepClone(this.headers).reverse()
+    this.isActive = (this.$route.path).split('/')[1]
   }
+}
 </script>
 
 <style scoped>
@@ -286,7 +286,6 @@
     cursor: pointer;
     color: #60606d;
   }
-
 
   #normal p {
     color: #60606d;

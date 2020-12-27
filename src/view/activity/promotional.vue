@@ -54,7 +54,8 @@
           </div>
         </el-form-item>
         <el-form-item>
-          <el-button style="float: right;" type="primary" @click="submitForm('ruleForm')">创建活动</el-button>
+          <el-button style="float: left;" @click.native="cancel">取消创建</el-button>
+          <el-button style="float: right;" type="primary" @click.native="submitForm('ruleForm')">创建活动</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -124,6 +125,18 @@ export default {
     }
   },
   methods: {
+    // 放弃创建，返回上一页面
+    cancel () {
+      this.$confirm('确认取消发起活动？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          this.$router.go(-1)
+        })
+        .catch(() => {})
+    },
     notify (msg) {
       this.notifyPromise = this.notifyPromise.then(this.$nextTick).then(() => {
         this.$notify({
@@ -138,7 +151,11 @@ export default {
         if (valid) {
           this.submitUpload()
         } else {
-          this.notify('error submit!!')
+          this.$message({
+            message: '表单有未填写或填写不规范的项，请检查您填写的信息是否规范。',
+            type: 'error',
+            duration: 4000
+          })
           return false
         }
       })
@@ -165,12 +182,12 @@ export default {
         let _this = this
         if (res.code === 0) {
           _this.$message.success('成功!')
-          _this.$alert('您已成功创建活动，点击确认将跳转到活动首页！', '提示', {
+          _this.$confirm('您已成功创建活动，点击确认将跳转到活动首页！', '提示', {
             confirmButtonText: '确认',
-            callback: action => {
-              _this.$router.push('/activity/management')
-            }
-          })
+            cancelButtonText: '取消'
+          }).then(() => {
+            _this.$router.push('/activity/management')
+          }).catch(() => {})
         } else {
           _this.$message.error(res.msg)
         }
