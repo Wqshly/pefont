@@ -38,7 +38,7 @@
       </div>
       <div class="form-container" v-show="VRCODE">
         <div class="form-row title">
-          <p>扫&nbsp码&nbsp登&nbsp录</p>
+          <p>扫&nbsp;码&nbsp;登&nbsp;录</p>
         </div>
         <div class="form-row">
           <img src="../assets/img/login/app_icon.png" alt="">
@@ -50,96 +50,95 @@
 </template>
 
 <script>
-  import particles from 'particles.js'
+import particles from 'particles.js'
 
-  export default {
-    data() {
-      return {
-        VRCODE: false,
-        loginForm: {
-          schoolId: null,
-          usernumber: null,
-          password: null,
-        },
-        registerForm: {
-          userNumber: "未设置",
-          username: "未设置",
-          password: "123456",
-          age: 0,
-          sex: "未设置",
-          unit: "未设置",
-          identity: "学生",
-          phone: "未设置",
-          email: "未设置",
-          schoolId: null
-        },
-        options: [
-          {
-            id: 1,
-            schoolName: '山东科技大学',
-          },
-        ],
-        loginDisable: false,
-      }
-    },
-    methods: {
-      show() {
-        this.VRCODE = !this.VRCODE;
+export default {
+  data () {
+    return {
+      VRCODE: false,
+      loginForm: {
+        schoolId: null,
+        usernumber: null,
+        password: null
       },
-      requestSchoolList() {
-        let url = '/api/school/querySchoolList';
-        this.$api.get(url).then(res => {
+      registerForm: {
+        userNumber: '未设置',
+        username: '未设置',
+        password: '123456',
+        age: 0,
+        sex: '未设置',
+        unit: '未设置',
+        identity: '学生',
+        phone: '未设置',
+        email: '未设置',
+        schoolId: null
+      },
+      options: [
+        {
+          id: 1,
+          schoolName: '山东科技大学'
+        }
+      ],
+      loginDisable: false
+    }
+  },
+  methods: {
+    show () {
+      this.VRCODE = !this.VRCODE
+    },
+    requestSchoolList () {
+      let url = '/api/school/querySchoolList'
+      this.$api.get(url).then(res => {
+        if (res.code === 0) {
+          this.options = this.$clone.transObjectToList(res.data)
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    login () {
+      if (!this.loginDisable) {
+        this.loginDisable = true
+        let url = '/api/login/login'
+        this.$api.post(url, this.loginForm).then(res => {
+          this.loginDisable = false
           if (res.code === 0) {
-            this.options = this.$clone.transObjectToList(res.data);
+            this.$router.push('/home')
+            this.$store.commit('setUser', res.data)
           } else {
-            this.$message.error(res.msg);
+            this.$message.error(res.msg)
           }
         })
-      },
-      login() {
-        if (!this.loginDisable) {
-          this.loginDisable = true;
-          let url = '/api/login/login';
-          this.$api.post(url, this.loginForm).then(res => {
-            this.loginDisable = false;
-            if (res.code === 0) {
-              this.$router.push('/home');
-              this.$store.commit('setUser', res.data);
-            } else {
-              this.$message.error(res.msg);
-            }
-          })
-        }
-
-      },
-      register(formName) {
-        this.registerForm.password = this.loginForm.password;
-        this.registerForm.schoolId = this.loginForm.schoolId;
-        this.registerForm.userNumber = this.loginForm.usernumber;
-        let url = '/api/user/addUser';
-        this.$api.post_JSON(url, this.registerForm).then(res => {
-          if (res.code === 0) {
-            this.$message.success('注册成功!');
-          } else {
-            this.$message.error(res.msg);
-          }
-        });
-      },
-      keyDown(e) {
-        if (e.keyCode === 13) {
-          this.login();
-        }
       }
     },
-    mounted() {
-      particlesJS.load('particles', '/static/particles.json');
-      window.addEventListener('keydown', this.keyDown);
+    register (formName) {
+      this.registerForm.password = this.loginForm.password
+      this.registerForm.schoolId = this.loginForm.schoolId
+      this.registerForm.userNumber = this.loginForm.usernumber
+      let url = '/api/user/addUser'
+      this.$api.post_JSON(url, this.registerForm).then(res => {
+        if (res.code === 0) {
+          this.$message.success('注册成功!')
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
-    created() {
-      this.requestSchoolList();
+    keyDown (e) {
+      if (e.keyCode === 13) {
+        this.login()
+      }
     }
-
+  },
+  mounted () {
+    particlesJS.load('particles', '/static/particles.json')
+    window.addEventListener('keydown', this.keyDown)
+  },
+  created () {
+    this.requestSchoolList()
   }
+
+}
 </script>
 
 <style scoped>

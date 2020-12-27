@@ -13,30 +13,30 @@
 export default {
   data () {
     return {
-        items: [
-            {
-                link: '/activity/home',
-                name: '活动首页'
-            },
-            {
-                link: '/activity/notice',
-                name: '校内通知'
-            },
-            {
-                link: '/activity/promotion',
-                name: '发起活动',
-            },
-            {
-                link: '/activity/management',
-                name: '活动管理',
-            },
-            {
-                link: '/activity/check',
-                name: '组织签到',
-            }
-        ],
+      items: [
+        {
+          link: '/activity/home',
+          name: '活动首页'
+        },
+        {
+          link: '/activity/notice',
+          name: '校内通知'
+        },
+        {
+          link: '/activity/promotion',
+          name: '发起活动'
+        },
+        {
+          link: '/activity/management',
+          name: '活动管理'
+        },
+        {
+          link: '/activity/check',
+          name: '组织签到'
+        }
+      ]
     }
-  },
+  }
 
 }
 </script>
