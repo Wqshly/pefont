@@ -100,252 +100,246 @@
 </template>
 
 <script>
-    import {api}  from '@/api/ajax'
-    export default {
-        inject:["reload"],
-        data () {
-            return {
-                signIdList:[],
-                valid:true,
-                dialogTableVisible:false,
-                notifyPromise:Promise.resolve(),
-                multipleSelection: [],
-                search:'',
-                filter_status:'全部',
-                signOp:['未签到','已签到','已签退'],
-                check_title:'请先在活动管理中选择一个活动进行组织签到',
-                currentPage: 1,
-                pageSize: 10,
-                total:0,
-                tableData: [{
-                    userNumber: '',
-                    name: '',
-                    status:'',
-                }, ],
-                tableData_copy: [{
-                    userNumber: '20160502',
-                    name: '王小虎',
-                    status:'未签到',
-                }, {
-                    userNumber: '20160504',
-                    name: '王小虎',
-                    status:'已签到',
-                }, {
-                    userNumber: '20160501',
-                    name: '王小虎',
-                    status:'已签退',
-                }, {
-                    userNumber: '20160503',
-                    name: '王小虎',
-                    status:'已签到',
-                }],
-          };
-        },
-        methods: {
-
-            //过滤数据
-            handleData(){
-                let temp_data = this.tableData.filter(data=>this.filter(data));
-                this.total=temp_data.length;
-                return temp_data.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize);
-            },
-
-            //搜索筛选&&状态筛选
-            filter(val){
-                return (val.name)&&(!this.search || val.name.toLowerCase().includes(this.search.toLowerCase())) &&( val.status === this.filter_status ||this.filter_status==='全部');
-            },
-
-            //导出表格
-            export1(){
-                let filename = '';
-                if(this.title===''){
-                    filename='数据为空，将下载模板表格';
-                }
-                else {
-                    filename = '将下载文件 '+this.check_title+'签到信息.xlsx';
-                }
-                this.$confirm(filename+', 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.export2Excel();
-                    this.$message({
-                        type: 'success',
-                        message: '成功!'
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消'
-                    });
-                });
-
-            },
-
-            //excel导出API
-            export2Excel() {
-                require.ensure([], () => {
-                    const { export_json_to_excel } = require('../../vendor/Export2Excel');
-                    const tHeader = ['姓名', '学号', '状态']; //对应表格输出的title
-                    const filterVal = ['name', 'userNumber', 'status']; // 对应表格输出的数据
-                    const list = this.tableData;
-                    const data = this.formatJson(filterVal, list);
-                    export_json_to_excel(tHeader, data, this.check_title+'签到信息'); //对应下载文件的名字
-                })
-            },
-            formatJson(filterVal, jsonData) {
-                return jsonData.map(v => filterVal.map(j => v[j]))
-            },
-            //导出表格结束
-
-            //深度克隆 避免改变被赋值对象影响赋值对象
-            deepClone(obj){
-                let newObj=Array.isArray(obj)?[]:{};
-
-                if(obj&&typeof obj ==="object"){
-                    for(let key in obj){
-                        if(obj.hasOwnProperty(key)){
-                            newObj[key]=(obj && typeof obj[key]==='object')?this.deepClone(obj[key]):obj[key];
-                        }
-                    }
-                }
-                return newObj
-            },
-
-            //表格点击事件
-            handleClick(row) {
-                console.log(row);
-
-            },
-
-            notify(msg) {
-                this.notifyPromise = this.notifyPromise.then(this.$nextTick).then(()=>{
-                    this.$notify({
-                        title: msg,
-                    });
-                })
-            },
-
-            requestSignOut(data){
-                let url = '/api/SignIn/updateSignOutList';
-                api.post_JSON(url,data).then(res => {
-                    if (res.code === 0){
-                        for(var i = 0; i < this.tableData.length; i++){
-                            if(-1!==data.indexOf(this.tableData[i].signId)){
-                                if(this.tableData[i].status==='已签到'){
-                                    this.tableData[i].status='已签退';
-                                    this.notify(this.tableData[i].userNumber+'签退成功');
-                                }
-                            }
-                        }
-                    }
-                })
-            },
-            requestSignIn(data){
-                let url = '/api/SignIn/updateSignInList';
-                api.post_JSON(url,data).then(res => {
-                    if (res.code === 0){
-                        for(var i = 0; i < this.tableData.length; i++){
-                            if(-1!==data.indexOf(this.tableData[i].signId)){
-                                if(this.tableData[i].status==='未签到'){
-                                    this.tableData[i].status='已签到';
-                                    this.notify(this.tableData[i].userNumber+'签到成功');
-                                }
-                            }
-                        }
-                    }
-                })
-            },
-
-            //签到
-            handleSignIn(index,row){
-                let data = [];
-                data.push(row.signId);
-                this.requestSignIn(data);
-            },
-            //签退
-            handleSignOut(index,row){
-                let data = [];
-                data.push(row.signId);
-                this.requestSignOut(data);
-            },
-            //批量
-            groupSignIn(){
-                let data = [];
-                for(var j=0;j < this.multipleSelection.length;j++){
-                    data.push(this.multipleSelection[j].signId);
-                }
-                this.requestSignIn(data);
-            },
-            groupSignOut(){
-                let data = [];
-                for(var j=0;j < this.multipleSelection.length;j++){
-                    data.push(this.multipleSelection[j].signId);
-                }
-                this.requestSignOut(data);
-            },
-            //每页条数
-            handleSizeChange(val) {
-                this.pageSize=val;
-            },
-
-            //当前页数
-            handleCurrentChange(val) {
-            },
-            //渲染单行颜色
-            tableRowClassName({row, rowIndex}) {
-                if(row.status==='已签退')
-                    return 'success-row';
-                if(row.status==='已签到')
-                    return  'warning-row';
-                return ''
-            },
-
-            //多选
-            handleSelectionChange(val) {
-                this.multipleSelection = val;
-            },
-            requestPartner(){
-                let url = '/api/activity/getPartner/'+this.$store.state.activityId;
-                api.get(url).then(res => {
-                    if (res.code === 0){
-                        if(res.data != []){
-                            this.tableData = [];
-                            //因为是一个数据所以不是list，没有长度
-                            if(res.data.length === undefined){
-                                this.check_title = res.data.activityId;
-                                this.tableData.push(this.mappingObject(res.data));
-                            }else{
-                                this.check_title = res.data[0].activityId;
-                                for(let i = 0;i < res.data.length; ++i){
-                                    this.tableData.push(this.mappingObject(res.data[i]));
-                                }
-                            }
-                        }
-                        else{
-                            this.check_title = '该活动暂无参与人员';
-                        }
-                        this.total=this.tableData.length;
-                    }
-                })
-            },
-            mappingObject(obj){
-                let data = {};
-                data.name = obj.studentId;
-                data.userNumber = obj.studentNumber;
-                data.status = this.signOp[obj.signStatus];
-                data.signId = obj.signId;
-                return data;
-            },
-        },
-        created() {
-            if(this.$store.state.activityId!==0){
-                this.valid=false;
-                this.requestPartner();
-            }
-        }
+import {api} from '@/api/ajax'
+export default {
+  inject: ['reload'],
+  data () {
+    return {
+      signIdList: [],
+      valid: true,
+      dialogTableVisible: false,
+      notifyPromise: Promise.resolve(),
+      multipleSelection: [],
+      search: '',
+      filter_status: '全部',
+      signOp: ['未签到', '已签到', '已签退'],
+      check_title: '请先在活动管理中选择一个活动进行组织签到',
+      currentPage: 1,
+      pageSize: 10,
+      total: 0,
+      tableData: [{
+        userNumber: '',
+        name: '',
+        status: ''
+      } ],
+      tableData_copy: [{
+        userNumber: '20160502',
+        name: '王小虎',
+        status: '未签到'
+      }, {
+        userNumber: '20160504',
+        name: '王小虎',
+        status: '已签到'
+      }, {
+        userNumber: '20160501',
+        name: '王小虎',
+        status: '已签退'
+      }, {
+        userNumber: '20160503',
+        name: '王小虎',
+        status: '已签到'
+      }]
     }
+  },
+  methods: {
+
+    // 过滤数据
+    handleData () {
+      let temp_data = this.tableData.filter(data => this.filter(data))
+      this.total = temp_data.length
+      return temp_data.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+    },
+
+    // 搜索筛选&&状态筛选
+    filter (val) {
+      return (val.name) && (!this.search || val.name.toLowerCase().includes(this.search.toLowerCase())) && (val.status === this.filter_status || this.filter_status === '全部')
+    },
+
+    // 导出表格
+    export1 () {
+      let filename = ''
+      if (this.title === '') {
+        filename = '数据为空，将下载模板表格'
+      } else {
+        filename = '将下载文件 ' + this.check_title + '签到信息.xlsx'
+      }
+      this.$confirm(filename + ', 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.export2Excel()
+        this.$message({
+          type: 'success',
+          message: '成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    },
+
+    // excel导出API
+    export2Excel () {
+      require.ensure([], () => {
+        const { export_json_to_excel } = require('../../vendor/Export2Excel')
+        const tHeader = ['姓名', '学号', '状态'] // 对应表格输出的title
+        const filterVal = ['name', 'userNumber', 'status'] // 对应表格输出的数据
+        const list = this.tableData
+        const data = this.formatJson(filterVal, list)
+        export_json_to_excel(tHeader, data, this.check_title + '签到信息') // 对应下载文件的名字
+      })
+    },
+    formatJson (filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]))
+    },
+    // 导出表格结束
+
+    // 深度克隆 避免改变被赋值对象影响赋值对象
+    deepClone (obj) {
+      let newObj = Array.isArray(obj) ? [] : {}
+
+      if (obj && typeof obj === 'object') {
+        for (let key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            newObj[key] = (obj && typeof obj[key] === 'object') ? this.deepClone(obj[key]) : obj[key]
+          }
+        }
+      }
+      return newObj
+    },
+
+    // 表格点击事件
+    handleClick (row) {
+      console.log(row)
+    },
+
+    notify (msg) {
+      this.notifyPromise = this.notifyPromise.then(this.$nextTick).then(() => {
+        this.$notify({
+          title: msg
+        })
+      })
+    },
+
+    requestSignOut (data) {
+      let url = '/api/SignIn/updateSignOutList'
+      api.post_JSON(url, data).then(res => {
+        if (res.code === 0) {
+          for (var i = 0; i < this.tableData.length; i++) {
+            if (data.indexOf(this.tableData[i].signId) !== -1) {
+              if (this.tableData[i].status === '已签到') {
+                this.tableData[i].status = '已签退'
+                this.notify(this.tableData[i].userNumber + '签退成功')
+              }
+            }
+          }
+        }
+      })
+    },
+    requestSignIn (data) {
+      let url = '/api/SignIn/updateSignInList'
+      api.post_JSON(url, data).then(res => {
+        if (res.code === 0) {
+          for (var i = 0; i < this.tableData.length; i++) {
+            if (data.indexOf(this.tableData[i].signId) !== -1) {
+              if (this.tableData[i].status === '未签到') {
+                this.tableData[i].status = '已签到'
+                this.notify(this.tableData[i].userNumber + '签到成功')
+              }
+            }
+          }
+        }
+      })
+    },
+
+    // 签到
+    handleSignIn (index, row) {
+      let data = []
+      data.push(row.signId)
+      this.requestSignIn(data)
+    },
+    // 签退
+    handleSignOut (index, row) {
+      let data = []
+      data.push(row.signId)
+      this.requestSignOut(data)
+    },
+    // 批量
+    groupSignIn () {
+      let data = []
+      for (var j = 0; j < this.multipleSelection.length; j++) {
+        data.push(this.multipleSelection[j].signId)
+      }
+      this.requestSignIn(data)
+    },
+    groupSignOut () {
+      let data = []
+      for (var j = 0; j < this.multipleSelection.length; j++) {
+        data.push(this.multipleSelection[j].signId)
+      }
+      this.requestSignOut(data)
+    },
+    // 每页条数
+    handleSizeChange (val) {
+      this.pageSize = val
+    },
+
+    // 当前页数
+    handleCurrentChange (val) {
+    },
+    // 渲染单行颜色
+    tableRowClassName ({row, rowIndex}) {
+      if (row.status === '已签退') { return 'success-row' }
+      if (row.status === '已签到') { return 'warning-row' }
+      return ''
+    },
+
+    // 多选
+    handleSelectionChange (val) {
+      this.multipleSelection = val
+    },
+    requestPartner () {
+      let url = '/api/activity/getPartner/' + this.$store.state.activityId
+      api.get(url).then(res => {
+        if (res.code === 0) {
+          if (res.data != []) {
+            this.tableData = []
+            // 因为是一个数据所以不是list，没有长度
+            if (res.data.length === undefined) {
+              this.check_title = res.data.activityId
+              this.tableData.push(this.mappingObject(res.data))
+            } else {
+              this.check_title = res.data[0].activityId
+              for (let i = 0; i < res.data.length; ++i) {
+                this.tableData.push(this.mappingObject(res.data[i]))
+              }
+            }
+          } else {
+            this.check_title = '该活动暂无参与人员'
+          }
+          this.total = this.tableData.length
+        }
+      })
+    },
+    mappingObject (obj) {
+      let data = {}
+      data.name = obj.studentId
+      data.userNumber = obj.studentNumber
+      data.status = this.signOp[obj.signStatus]
+      data.signId = obj.signId
+      return data
+    }
+  },
+  created () {
+    if (this.$store.state.activityId !== 0) {
+      this.valid = false
+      this.requestPartner()
+    }
+  }
+}
 </script>
 
 <style>
@@ -400,6 +394,5 @@
     opacity: 0;
     cursor: pointer;
   }
-
 
 </style>

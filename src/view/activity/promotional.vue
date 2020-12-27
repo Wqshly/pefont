@@ -1,229 +1,69 @@
 <template>
   <div class="activity-promotional">
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" >
-      <el-form-item label="活动名称" prop="title">
-        <el-input
-          filterable placeholder="活动名称"
-          v-model="ruleForm.title">
-        </el-input>
-      </el-form-item>
-
-      <el-form-item label="活动简介" prop="description">
-        <el-input
-          type="description"
-          placeholder="请输入活动简介"
-          v-model="ruleForm.description"
-          maxlength="250"
-          :autosize="{ minRows: 3, maxRows: 5}"
-          show-word-limit
-        >
-        </el-input>
-      </el-form-item>
-
-      <el-form-item label="活动区域" prop="region">
-        <el-select
-          v-model="ruleForm.region"
-          filterable placeholder="活动区域">
-          <el-option
-            v-for="item in options.region"
-            :key="item.value"
-            :label="item.value"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-
-      <el-form-item label="审核人" prop="checker">
-        <el-select
-          placeholder="所属组织"
-          v-model="ruleForm.checker.region">
-          <el-option
-            v-for="item in options.checker_region"
-            :key="item.value"
-            :label="item.value"
-            :value="item.value">
-          </el-option>
-
-        </el-select>
-        <el-select
-          placeholder="姓名"
-          prop="checker"
-          v-model="ruleForm.checker.name">
-          <el-option
-            v-for="item in options.checker_name"
-            :key="item.value"
-            :label="item.value"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-
-      <el-form-item label="活动地点" prop="position">
-        <el-input
-          placeholder="活动地点"
-          v-model="ruleForm.position"
-          clearable>
-        </el-input>
-      </el-form-item>
-
-      <el-form-item label="活动分类" prop="class">
-        <el-radio v-model="ruleForm.class"
-                  v-for="item in options.class"
-                  :key="item.value"
-                  :label="item.value"
-                  :value="item.value"
-        >{{item.value}}</el-radio>
-      </el-form-item>
-
-      <el-form-item label="参加费用" prop="fee">
-        <el-input
-
-          filterable placeholder="费用说明"
-          v-model="ruleForm.fee_description">
-          <el-select
-            placeholder="参加费用"
-            prop="fee"
-            slot="prepend"
-            v-model="ruleForm.fee">
-            <el-option
-              v-for="item in options.fee"
-              :key="item.value"
-              :label="item.value"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-input>
-
-      </el-form-item>
-
-      <el-form-item label="需要签退">
-        <el-switch v-model="ruleForm.signOut"></el-switch>
-      </el-form-item>
-
-      <el-form-item label="报名起止" prop="signUp_time_start">
-        <el-date-picker
-          v-model="ruleForm.signUp_time_start"
-          type="datetime"
-          placeholder="报名开始时间"
-          align="right"
-          :picker-options="pickerOptions">
-        </el-date-picker>
-        --
-        <el-date-picker
-          v-model="ruleForm.signUp_time_end"
-          type="datetime"
-          placeholder="报名结束时间"
-          align="right"
-          :picker-options="pickerOptions">
-        </el-date-picker>
-      </el-form-item>
-
-      <el-form-item label="活动起止" prop="activity_time_start">
-        <el-date-picker
-          v-model="ruleForm.activity_time_start"
-          type="datetime"
-          placeholder="选择日期时间"
-          align="right"
-          :picker-options="pickerOptions">
-        </el-date-picker>
-        --
-        <el-date-picker
-        v-model="ruleForm.activity_time_end"
-        type="datetime"
-        placeholder="选择日期时间"
-        align="right"
-        :picker-options="pickerOptions">
-        </el-date-picker>
-      </el-form-item>
-
-      <el-form-item label="活动人数" >
-        <el-tooltip class="item" effect="dark" content="默认为无限制" placement="top">
-          <el-input
-            filterable placeholder="活动区域"
-            v-model="ruleForm.numberOfPeople">
+    <div style="margin: 0 auto; width: 700px;background-color: #ffffff">
+      <p style="text-align: center;font-size: 30px; padding: 20px;">发起活动</p>
+      <el-form style="padding-bottom: 20px;" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+        <el-form-item label="活动名称：" prop="activityName">
+          <el-input v-model="ruleForm.activityName" placeholder="请输入活动名称"></el-input>
+        </el-form-item>
+        <el-form-item label="活动简介：" prop="activityContent">
+          <el-input v-model="ruleForm.activityContent" placeholder="请输入活动简介(简介字数不要超过规定字数)"
+                    type="textarea" maxlength="250" :autosize="{ minRows: 3, maxRows: 5}" show-word-limit></el-input>
+        </el-form-item>
+        <el-form-item label="活动地点：" prop="activityArea">
+          <el-input v-model="ruleForm.activityArea" placeholder="活动地点" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="报名起止：" prop="signUpTime">
+          <el-date-picker v-model="ruleForm.signUpTime" type="daterange"
+                          start-placeholder="开始日期" range-separator="至" end-placeholder="结束日期"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="活动起止：" prop="activityTime">
+          <el-date-picker v-model="ruleForm.activityTime" type="daterange"
+                          start-placeholder="开始日期" range-separator="至" end-placeholder="结束日期"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="活动缴费：" prop="costDescription">
+          <el-input v-model="ruleForm.costDescription" placeholder="补充说明(缴费用途等说明性文字)">
+            <el-select v-model="ruleForm.cost" slot="prepend">
+              <el-option v-for="(item, index) in options.fee"
+                         :key="index"
+                         :label="item.value"
+                         :value="item.value"></el-option>
+            </el-select>
           </el-input>
-        </el-tooltip>
-
-      </el-form-item>
-
-      <el-form-item label="活动院系" >
-        <el-switch active-text="全选" v-model="ruleForm.college_checkAll" ></el-switch>
-        <transition name="el-zoom-in-top">
-          <el-checkbox-group class="transition-box" v-model="ruleForm.college" v-show="!ruleForm.college_checkAll">
-          <el-checkbox v-for="item in options.college "
-                       :label="item"
-                       :key="item"
-                       :value="item"></el-checkbox>
-        </el-checkbox-group>
-        </transition>
-      </el-form-item>
-
-      <el-form-item label="活动年级" >
-        <el-switch active-text="全选" v-model="ruleForm.activity_grade_checkAll" ></el-switch>
-        <transition name="el-zoom-in-top">
-          <el-checkbox-group class="transition-box" v-model="ruleForm.activity_grade" v-show="!ruleForm.activity_grade_checkAll">
-            <el-checkbox v-for="item in options.activity_grade "
-                         :label="item"
-                         :key="item"
-                         :value="item"></el-checkbox>
-          </el-checkbox-group>
-        </transition>
-      </el-form-item>
-
-      <el-form-item label="联系人">
-        <el-input
-          filterable placeholder="联系人"
-          v-model="ruleForm.contact_name">
-        </el-input>
-      </el-form-item>
-
-      <el-form-item label="联系人方式" >
-        <el-input
-          filterable placeholder="联系方式"
-          v-model="ruleForm.contact_method">
-        </el-input>
-      </el-form-item>
-
-      <el-tooltip class="item" effect="dark" content="报名制:报名不需要审核，人满截止  审核制：报名需审核" placement="top-start">
-      <el-form-item label="报名方式" >
-        <el-radio v-model="ruleForm.sign_method"
-                  v-for="item in options.sign_method"
-                  :key="item.value"
-                  :label="item.value"
-                  :value="item.value"
-        >{{item.value}}</el-radio>
-      </el-form-item>
-      </el-tooltip>
-
-      <el-form-item label="外勤打卡">
-        <el-switch v-model="ruleForm.delivery"></el-switch>
-      </el-form-item>
-
-      <el-form-item label="活动海报">
-        <div style="height:fit-content;width:fit-content">
-          <el-upload
-            class="avatar-uploader"
-            ref="upload"
-            :show-file-list="false"
-            :auto-upload="false"
-            :on-success="handleAvatarSuccess"
-            :on-change="onchange"
-            :before-upload="beforeAvatarUpload">
-            <img width="100%" v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" class="avatar" alt="">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </div>
-    </el-form-item>
-
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">发起活动</el-button>
-      </el-form-item>
-    </el-form>
+        </el-form-item>
+        <el-form-item label="人数限制：">
+          <el-input-number v-model="ruleForm.peopleNum" :min="1"/>
+        </el-form-item>
+        <el-form-item label="联系方式：">
+          <el-input v-model="ruleForm.contactPhone" placeholder="输入联系人电话号码">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="活动海报：">
+          <div style="height:fit-content;width:fit-content">
+            <el-upload
+              class="avatar-uploader"
+              ref="upload"
+              :show-file-list="false"
+              :auto-upload="false"
+              :on-success="handleAvatarSuccess"
+              :on-change="onchange"
+              :before-upload="beforeAvatarUpload">
+              <img width="100%" v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" class="avatar" alt="">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </div>
+        </el-form-item>
+        <el-form-item>
+          <el-button style="float: right;" type="primary" @click="submitForm('ruleForm')">创建活动</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
 <script>
 import {api} from '@/api/ajax'
+
 export default {
   name: 'activity-promotional',
 
@@ -231,138 +71,55 @@ export default {
     return {
       notifyPromise: Promise.resolve(),
       ruleForm: {
-        title: '',
-        description: '',
-        region: '',
-        checker: {
-          region: '',
-          name: ''
-        },
-
-        position: '',
-        class: '',
-        fee: '免费',
-        signOut: true,
-        fee_description: '免费活动',
-        signUp_time_start: '',
-        signUp_time_end: '',
-        activity_time_start: '',
-        activity_time_end: '',
-        numberOfPeople: '无限制',
-        college_checkAll: true,
-        college: ['学院1', '学院2', '学院3', '学院4', '学院5', '学院6', '学院7', '学院8', '学院9', '学院10'],
-        activity_grade_checkAll: true,
-        activity_grade: ['2015', '2016', '2017', '2018', '2019', '2020', '2021'],
-        contact_name: '',
-        contact_method: '',
-        sign_method: '报名制',
-        delivery: false,
+        activityName: '', // 活动名称
+        activityContent: '', // 活动简介
+        activityArea: '', // 活动地点
+        signUpTime: '', // 报名起讫时间
+        registrationStartTime: '', // 报名开始时间
+        registrationClosingTime: '', // 报名结束时间
+        activityTime: '', // 活动起讫时间
+        startTime: '', // 活动开始时间
+        endTime: '', // 活动结束时间
+        cost: '', // 活动花费
+        costDescription: '', // 花费说明
+        peopleNum: 1, // 人数限制
+        contactPhone: '', // 联系方式
+        pictureFile: {}, // 上传的图片
         imageUrl: ''
       },
-      pickerOptions: {
-        shortcuts: [{
-          text: '今天',
-          onClick (picker) {
-            picker.$emit('pick', new Date())
-          }
-        }, {
-          text: '明天',
-          onClick (picker) {
-            const date = new Date()
-            date.setTime(date.getTime() + 3600 * 1000 * 24)
-            picker.$emit('pick', date)
-          }
-        }, {
-          text: '一周后',
-          onClick (picker) {
-            const date = new Date()
-            date.setTime(date.getTime() + 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', date)
-          }
-        }]
-      },
       options: {
-        region: [
-          { value: '选项1' },
-          { value: '选项2' },
-          { value: '选项3' },
-          { value: '选项4' },
-          { value: '选项5' }
-        ],
-
-        checker_region: [
-          { value: '选项1' },
-          { value: '选项2' },
-          { value: '选项3' },
-          { value: '选项4' },
-          { value: '选项5' }
-        ],
-
-        checker_name: [
-          { value: '选项1' },
-          { value: '选项2' },
-          { value: '选项3' },
-          { value: '选项4' },
-          { value: '选项5' }
-        ],
-        class: [
-          { value: '思想政治' },
-          { value: '社会实践' },
-          { value: '文化艺术' },
-          { value: '学术科学' },
-          { value: '社会工作' }
-        ],
         fee: [
           { value: '免费' },
-          { value: 'AA制' },
           { value: '50元以下' },
           { value: '20-200元' },
           { value: '200-500元' },
           { value: '500-1000元' },
           { value: '1000元以上' }
-        ],
-        college: ['学院1', '学院2', '学院3', '学院4', '学院5', '学院6', '学院7', '学院8', '学院9', '学院10'],
-        activity_grade: ['2015', '2016', '2017', '2018', '2019', '2020', '2021'],
-        sign_method: [
-          { value: '报名制' },
-          { value: '审核制' }
         ]
       },
       rules: {
-        title: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
+        activityName: [
+          {required: true, message: '请输入活动名称', trigger: 'blur'},
+          {min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur'}
         ],
-        description: [
-          { required: true, message: '请输入活动简介', trigger: 'change' }
+        activityContent: [
+          {required: true, message: '请输入活动简介', trigger: 'change'}
         ],
-        region: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
-        ],
-        checker: [
-          {
-            required: true, message: '请选择审核人', trigger: 'change'
-          }
-        ],
-        position: [
-          { required: true, message: '请指定活动地点', trigger: 'change' }
+        activityArea: [
+          {required: true, message: '请指定活动地点', trigger: 'change'}
         ],
         class: [
-          { required: true, message: '请选择活动性质', trigger: 'change' }
+          {required: true, message: '请选择活动性质', trigger: 'change'}
         ],
-        fee: [
-          { required: true, message: '请输入费用说明', trigger: 'change' }
+        signUpTime: [
+          {required: true, message: '请选择起止日期', trigger: 'blur'}
         ],
-        signUp_time_start: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+        activityTime: [
+          {required: true, message: '请选择起止日期', trigger: 'blur'}
         ],
-        activity_time_start: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-        ],
-        type: [
-          { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+        costDescription: [
+          {required: true, message: '请输入费用说明', trigger: 'change'}
         ]
-
       }
     }
   },
@@ -393,20 +150,27 @@ export default {
     },
     remote_api (file) {
       let url = '/api/activity/addActivity/'
-      let data = new FormData()
-      data.append('pictureFile', file)
-      data.append('activityName', this.ruleForm.title)
-      data.append('publisherId', this.$store.state.user.id)
-      data.append('publishData', new Date())
-      data.append('schoolId', 1)
-      data.append('collegeId', 1)
-      data.append('activityContent', this.ruleForm.description)
-      api.upload(url, data).then(res => {
-        console.log(res)
+      this.ruleForm.publisherId = this.$store.state.user.id
+      this.ruleForm.registrationStartTime = this.ruleForm.signUpTime[0]
+      this.ruleForm.registrationClosingTime = this.ruleForm.signUpTime[1]
+      this.ruleForm.startTime = this.ruleForm.activityTime[0]
+      this.ruleForm.endTime = this.ruleForm.activityTime[1]
+      this.ruleForm.pictureFile = file
+      // 将json转为formData
+      const formData = new FormData()
+      Object.keys(this.ruleForm).forEach((item) => {
+        formData.append(item, this.ruleForm[item])
+      })
+      api.upload(url, formData).then(res => {
         let _this = this
         if (res.code === 0) {
           _this.$message.success('成功!')
-          _this.$router.push('/activity2')
+          _this.$alert('您已成功创建活动，点击确认将跳转到活动首页！', '提示', {
+            confirmButtonText: '确认',
+            callback: action => {
+              _this.$router.push('/activity/management')
+            }
+          })
         } else {
           _this.$message.error(res.msg)
         }
@@ -414,6 +178,7 @@ export default {
     },
     // 上传前对图片类型和大小进行判断
     beforeAvatarUpload (file) {
+      console.log(this.ruleForm.signUpTime)
       // const isJPG = file.type === 'image/jpeg';
       let isLt2M = file.size / 1024 / 1024 < 2
       let _URL = window.URL || window.webkitURL
@@ -464,12 +229,11 @@ export default {
 </script>
 
 <style>
-  .activity-promotional{
-    width: 90%;
+
+  .activity-promotional .el-select > .el-input {
+    width: 130px !important;
   }
-  .activity-promotional .el-select>.el-input {
-    width: 130px!important;
-  }
+
   .activity-promotional .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
@@ -477,9 +241,11 @@ export default {
     position: relative;
     overflow: hidden;
   }
+
   .activity-promotional .avatar-uploader .el-upload:hover {
     border-color: #409EFF;
   }
+
   .activity-promotional .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
@@ -488,13 +254,15 @@ export default {
     line-height: 178px;
     text-align: center;
   }
+
   .activity-promotional .avatar {
     width: 178px;
     height: 178px;
     display: block;
   }
-  .activity-promotional .el-form{
-    width:100%;
+
+  .activity-promotional .el-form {
+    width: 100%;
     max-width: 660px;
 
   }

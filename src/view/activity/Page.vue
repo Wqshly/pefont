@@ -2,7 +2,6 @@
   <div class="container">
     <v-header></v-header>
     <div class="page-area">
-      <router-menu :headers="items"></router-menu>
       <router-view></router-view>
     </div>
   </div>
@@ -51,7 +50,6 @@ export default {
     max-width: 1140px;
     margin:0 auto;
     min-height: 800px;
-    padding-bottom: 40px;
   }
 
 </style>
