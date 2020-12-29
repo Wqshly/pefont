@@ -6,37 +6,37 @@
 </template>
 
 <script>
-  import venueCreate from "../../../components/venue/management"
+import venueCreate from '../../../components/venue/management'
 
-  export default {
-    components: {
-      venueCreate
-    },
-    data() {
-      return {
-        headers: [
-          {
-            name: '新增场馆',
-            link: '/venue/management/create'
-          },
-          {
-            name: '管理场馆',
-            link: '/venue/management/management'
-          },
-          {
-            name: '添加运动馆',
-            link: '/venue/management/addSubVenue'
-          },
-        ]
-      }
-    },
-    mounted() {
+export default {
+  components: {
+    venueCreate
+  },
+  data () {
+    return {
+      headers: [
+        {
+          name: '新增场馆',
+          link: '/venue/management/create'
+        },
+        {
+          name: '管理场馆',
+          link: '/venue/management/management'
+        },
+        {
+          name: '添加运动馆',
+          link: '/venue/management/addSubVenue'
+        }
+      ]
+    }
+  },
+  mounted () {
 
-    },
-    created() {
+  },
+  created () {
 
-    },
   }
+}
 </script>
 
 <style scoped>

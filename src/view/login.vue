@@ -104,6 +104,7 @@ export default {
           this.loginDisable = false
           if (res.code === 0) {
             this.$router.push('/home')
+            console.log(res.data)
             this.$store.commit('setUser', res.data)
           } else {
             this.$message.error(res.msg)

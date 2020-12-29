@@ -38,13 +38,11 @@
       </div>
       <template v-if="isRegistrationPage">
         <el-card style="margin-top: 20px; padding-bottom: 20px;border-radius: 20px;">
-          <el-page-header @back="goBack">
-            <template slot="content">
-              <div>{{item.activityName}}<el-tag style="margin-left: 10px;">报名中</el-tag></div>
-            </template>
+          <el-page-header @back="goBack" :content="item.activityName">
           </el-page-header>
-          <el-divider content-position="right">发布者：{{item.publisherId}}</el-divider>
+          <el-divider content-position="right"><el-tag style="margin-left: 10px;">报名中</el-tag></el-divider>
           <div style="padding: 10px;">
+            <div class="activity-detail-row">发布者：{{item.publisherId}} ({{item.college}})</div>
             <div class="activity-detail-row">已报名：<span style="font-style: italic;">{{item.signNum}}</span>/<span style="font-style: italic;">{{item.peopleNum}}</span>人</div>
             <div class="activity-detail-row">活动简介：{{item.activityContent}}</div>
             <div class="activity-detail-row">活动地点：{{item.activityArea}}</div>

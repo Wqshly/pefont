@@ -1,140 +1,139 @@
 <template>
-  <div class="all2">
+  <div class="header-style">
     <div class="normal">
-      <div class="header_item_container">
-        <div class="img_container" @click="jump2({link:'/'})">
-          <img src="../../assets/logo2.png" alt="PE">
+      <div class="header-item-container">
+        <div class="img-container" style="padding-right: 10px;">
+          <img src="@/assets/logo2.png" alt="PE">
         </div>
-        <div class="header_item"
-             v-for="(item,index) in headers"
-             :key="index"
-             @click="jump(item)"
-             :class="[{'active':isActive === item.link && item.link !== '404'},{'float_right' : item.float ==='right'}]">
-          <!--一级菜单-->
-          <div>
-            <i v-if="!item.subs && item.iconName" :class="item.iconName"></i>
-            <p v-if="!item.subs && !item.iconName">{{item.name}}</p>
-          </div>
-          <!--二级菜单-->
-          <el-dropdown v-if="item.subs" show-timeout="0" hide-timeout="250" :trigger="item.trigger">
-            <div>
-              <i v-if="item.iconName" :class="item.iconName"></i>
-              <p v-if="!item.iconName">{{item.name}}</p>
-            </div>
-            <el-dropdown-menu slot="dropdown">
-              <div v-for="(sub,index) in item.subs" :key="index">
-                <el-dropdown-item v-if="!sub.subs" @click.native="jump2(sub)">{{sub.name}}</el-dropdown-item>
-              </div>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
+        <el-menu mode="horizontal" router>
+          <template v-for="(FirstLevelItem,index) in headerList">
+            <!-- 有子目录的 -->
+            <template v-if="FirstLevelItem.subs">
+              <el-submenu :index="FirstLevelItem.index" :key="index" :class="[{'float-right' : FirstLevelItem.float ==='right'}]">
+                <template slot="title">
+                  <i :class="FirstLevelItem.icon"></i>
+                  <span slot="title">{{FirstLevelItem.title}}</span>
+                </template>
+                <!-- 二级菜单 -->
+                <template v-for="(subItem,index) in FirstLevelItem.subs">
+                  <template v-if="subItem.subs">
+                    <el-submenu :index="subItem.index" :key="index">
+                      <template slot="title">
+                        <i :class="subItem.icon"></i>
+                        <span slot="title">{{subItem.title}}</span>
+                      </template>
+                      <template v-for="(ThreeLevelItem,index) in subItem.subs">
+                        <el-menu-item :index="ThreeLevelItem.index" :key="index">
+                          <span>{{ThreeLevelItem.title}}</span>
+                        </el-menu-item>
+                      </template>
+                    </el-submenu>
+                  </template>
+                  <template v-else>
+                    <el-menu-item :index="subItem.index" :key="subItem.index">
+                      <span>{{subItem.title}}</span>
+                    </el-menu-item>
+                  </template>
+                </template>
+              </el-submenu>
+            </template>
+            <!-- 无子目录的 -->
+            <template v-else>
+              <el-menu-item :index="FirstLevelItem.index" :key="index">
+                <i :class="FirstLevelItem.icon"></i>
+                <span slot="title">{{FirstLevelItem.title}}</span>
+              </el-menu-item>
+            </template>
+          </template>
+        </el-menu>
       </div>
     </div>
-    <back></back>
   </div>
 </template>
 
 <script>
-import {api} from '@/api/ajax'
-import back from '../../components/backTop'
 
 export default {
-  // 本组件的当前路由蓝色渲染适用于一级路由  也就是路由路径中的第一个'/'的部分
-  components: {
-    back
-  },
   data () {
     return {
-      isActive: 'activity',
-      reverse_headers: [],
-      headers: [
+      headerList: [
         {
-          name: '管理首页',
-          link: 'management'
+          title: '管理首页',
+          icon: '',
+          index: 'management'
         },
         {
-          name: '比赛管理',
-          link: ''
-        },
-        {
-          name: '本地比赛',
-          link: 'competition'
-        },
-        {
-          name: '区域联赛',
-          link: '404'
-        },
-        {
-          name: '场地与器材',
+          title: '比赛管理',
+          index: 'competitionManage',
           subs: [
             {
-              name: '器材管理',
-              link: '404'
+              title: '本地比赛',
+              index: 'localCompetition',
+              subs: [
+                {
+                  title: '发起比赛',
+                  index: '/management/createCompetition'
+                },
+                {
+                  title: '管理比赛',
+                  index: '/management/manageCompetition'
+                }
+              ]
             },
             {
-              name: '场地管理',
-              link: 'venue'
+              title: '区域联赛',
+              index: '/404'
             }
           ]
         },
         {
-          name: '账户',
-          link: 'account',
+          title: '活动管理',
+          index: '/management/activity',
           subs: [
             {
-              name: '注销',
-              link: '/account/logout'
+              title: '审批活动',
+              index: '/management/activityApproval'
             }
-          ],
+          ]
+        },
+        {
+          title: '场馆管理',
+          index: '/management/venue',
+          subs: [
+            {
+              title: '添加场馆',
+              index: '/management/venueCreate'
+            },
+            {
+              title: '场馆管理',
+              index: '/management/venueManage'
+            }
+          ]
+        },
+        {
+          icon: 'el-icon-s-custom',
+          index: '/account',
           float: 'right',
-          iconName: 'el-icon-s-custom'
+          subs: [
+            {
+              title: '注销',
+              index: '/account/logout'
+            }
+          ]
         }
-      ],
-      drawer: false
-
+      ]
     }
-  },
-  methods: {
-    // 一级目录跳转函数   便于渲染active样式
-    jump (val) {
-      if (!val.noJump) {
-        this.drawer = false
-        this.isActive = val.link
-        this.$router.push('/' + val.link + '/management')
-      }
-    },
-    // 二级目录跳转函数
-    jump2 (val) {
-      if (!val.noJump) {
-        this.drawer = false
-        this.$router.push(val.link)
-      }
-    },
-
-    logout () {
-      api.get('/api/login/logout').then(res => {
-      })
-      this.$store.commit('setUserId', -1)
-      this.$router.push('/login')
-    }
-  },
-  mounted () {
-
-  },
-  created () {
-    this.reverse_headers = this.$clone.deepClone(this.headers).reverse()
-    this.isActive = (this.$route.path).split('/')[1]
   }
 }
 </script>
 
 <style scoped>
-  .all2 {
+  .header-style {
     height: 80px;
     width: 100%;
   }
 
-  .all2 .normal {
+  .header-style .normal {
     width: 100%;
     height: 80px;
     position: fixed;
@@ -144,7 +143,7 @@ export default {
     border-bottom: 1px solid #dcdfe6;
   }
 
-  .header_item_container {
+  .header-item-container {
     height: 80px;
     line-height: 80px;
     top: 0;
@@ -154,7 +153,7 @@ export default {
     vertical-align: middle;
   }
 
-  .img_container {
+  .img-container {
     display: flex;
     cursor: pointer;
     height: 80px;
@@ -162,18 +161,8 @@ export default {
     align-items: center;
   }
 
-  .header_item_container img {
+  .header-item-container img {
     height: 30px;
-  }
-
-  .normal .header_item_container .header_item {
-    line-height: 80px;
-    height: 80px;
-    margin: 0 0 0 15px;
-    float: left;
-    cursor: pointer;
-    text-align: center;
-    font-size: 14px;
   }
 
   .normal i {
@@ -193,13 +182,8 @@ export default {
     color: #409EFF !important;
   }
 
-  .float_right {
+  .float-right {
     float: right !important;
-  }
-
-  .active {
-    border-bottom: 2px solid #409EFF;
-    color: #409EFF !important;
   }
 
   .normal {
@@ -208,8 +192,7 @@ export default {
 
   /*手机端*/
   @media screen and (max-width: 700px) {
-
-    .img_container {
+    .img-container {
       display: none !important;
     }
   }

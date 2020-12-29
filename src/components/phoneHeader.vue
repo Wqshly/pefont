@@ -16,33 +16,33 @@
 
 <script>
 
-  export default {
-    props: {
-      headers: []
-    },
-    data() {
-      return {
-        isActive: 'activity',
-        drawer: false,
-      }
-    },
-    methods: {
-      jump(val) {
-        this.drawer = false;
-        this.isActive = val;
-        if(val === 'management') {
-          window.open('/#/management');
-        } else {
-          this.$router.push('/' + val);
-        }
-      },
-    },
-    mounted() {
-    },
-    created() {
-      this.isActive = (this.$route.path).split('/')[1];
+export default {
+  props: {
+    headers: []
+  },
+  data () {
+    return {
+      isActive: 'activity',
+      drawer: false
     }
+  },
+  methods: {
+    jump (val) {
+      this.drawer = false
+      this.isActive = val
+      if (val === 'management') {
+        window.open('/#/management')
+      } else {
+        this.$router.push('/' + val)
+      }
+    }
+  },
+  mounted () {
+  },
+  created () {
+    this.isActive = (this.$route.path).split('/')[1]
   }
+}
 </script>
 
 <style scoped>

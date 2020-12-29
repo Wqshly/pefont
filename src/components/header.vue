@@ -90,21 +90,22 @@ export default {
           link: 'activity',
           subs: [
             {
-              name: '活动首页',
-              link: '/activity/home'
-            },
-            {
               name: '活动报名',
               link: '/activity/registration'
-            },
-            {
-              name: '校内通知',
-              link: '/activity/notice'
             },
             {
               name: '发起活动',
               link: '/activity/promotion'
             },
+            {
+              name: '我发起的',
+              link: '/activity/myActivity'
+            },
+            {
+              name: '校内通知',
+              link: '/activity/notice'
+            },
+            {},
             {
               name: '活动管理',
               link: '/activity/management'

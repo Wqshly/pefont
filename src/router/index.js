@@ -36,7 +36,6 @@ const promotionHome = () => import(/* webpackChunkName: '4' */ '../view/promotio
 
 /* activity page */
 const activityPage = () => import(/* webpackChunkName: '5' */ '../view/activity/Page')
-const activityHome = () => Promise.resolve(require('@/view/activity/home'))
 const activityRegistration = () => Promise.resolve(require('@/view/activity/registration'))
 const activityNotice = () => import(/* webpackChunkName: '5' */ '../view/activity/notice')
 const activityPromotional = () => import(/* webpackChunkName: '5' */ '../view/activity/promotional')
@@ -79,13 +78,14 @@ const venue_page = () => import(/* webpackChunkName: '12' */ '../view/venue/home
 const equipmentPage = () => import(/* webpackChunkName: '13' */ '../view/equipment/Page')
 const equipment_page = () => import(/* webpackChunkName: '13' */ '../view/equipment/home')
 
-/* management page */
+/* 学校管理员页面 */
 const managementPage = () => import(/* webpackChunkName: '9' */ '../view/management/Page')
+const activityApproval = () => Promise.resolve(require('@/view/management/activity/activityApproval'))
 const mana_page = () => import(/* webpackChunkName: '9' */ '../view/management/home')
 const mana_class = () => import(/* webpackChunkName: '9' */ '../view/management/manaClass')
-const competition_create = () => import(/* webpackChunkName: '3' */ '../view/management/competition/create')
-const competition_mana = () => import(/* webpackChunkName: '3' */ '../view/management/competition/management')
-const venue_create = () => import(/* webpackChunkName: '3' */ '../view/management/venue/create')
+const competitionCreate = () => import(/* webpackChunkName: '3' */ '../view/management/competition/create')
+const competitionManage = () => import(/* webpackChunkName: '3' */ '../view/management/competition/management')
+const venueCreate = () => import(/* webpackChunkName: '3' */ '../view/management/venue/create')
 const venue_management = () => import(/* webpackChunkName: '3' */ '../view/management/venue/management')
 const venue_sub_add = () => import(/* webpackChunkName: '3' */ '../view/management/venue/addSubVenue')
 const router = new Router({
@@ -216,11 +216,7 @@ const router = new Router({
       children: [
         {
           path: '/',
-          redirect: '/activity/home'
-        },
-        {
-          path: '/activity/home',
-          component: activityHome
+          redirect: '/activity/registration'
         },
         {
           path: '/activity/registration',
@@ -332,57 +328,51 @@ const router = new Router({
 
       ]
     },
-
     {
       path: '/management',
       component: managementPage,
       children: [
         {
-          path: '/',
-          redirect: '/management/management/home'
-        },
-        {
           path: '/management/management',
-          redirect: '/management/management/home'
+          redirect: '/management/home'
         },
         {
-          path: '/management/management/home',
+          path: '/management/home',
           component: mana_page
+        },
+        {
+          path: '/management/activityApproval',
+          component: activityApproval
         },
         {
           path: '/management/management/class',
           component: mana_class
         },
-
         // 管理页面中的本地比赛
         {
-          path: '/competition/management',
-          redirect: '/competition/management/create'
+          path: '/management/createCompetition',
+          component: competitionCreate
         },
         {
-          path: '/competition/management/create',
-          component: competition_create
-        },
-        {
-          path: '/competition/management/management',
-          component: competition_mana
+          path: '/management/competition/management',
+          component: competitionManage
         },
 
         // 管理页面中的场馆
         {
-          path: '/venue/management',
-          redirect: '/venue/management/create'
+          path: '/management/venue',
+          redirect: '/management/venue/create'
         },
         {
-          path: '/venue/management/create',
-          component: venue_create
+          path: '/management/venueCreate',
+          component: venueCreate
         },
         {
-          path: '/venue/management/management',
+          path: '/management/venue/management',
           component: venue_management
         },
         {
-          path: '/venue/management/addSubVenue',
+          path: '/management/venue/addSubVenue',
           component: venue_sub_add
         }
       ]
