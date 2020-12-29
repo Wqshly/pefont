@@ -7,19 +7,19 @@
 <script>
 
 export default {
-    components:{
-        vCompetition,
-    },
-    data() {
-        return {
-        }
-    },
-    mounted() {
+  components: {
+    vCompetition
+  },
+  data () {
+    return {
+    }
+  },
+  mounted () {
 
-    },
-    created() {
+  },
+  created () {
 
-    },
+  }
 }
 </script>
 

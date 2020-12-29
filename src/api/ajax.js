@@ -5,7 +5,7 @@ import {eventBus} from './bus'
 const qs = require('qs')
 const root = process.env.API_ROOT
 
-axios.interceptors.response.use(function (response) {
+axios.interceptors.response.use(response => {
   if (response.data.code === -1) {
     router.push('/login')
   } else {
@@ -21,7 +21,7 @@ const api = {
     try {
       let res = await axios.get(root + url)
       res = res.data
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         resolve(res)
       })
     } catch (err) {

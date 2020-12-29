@@ -221,357 +221,355 @@
 
 <script>
 
-  export default {
+export default {
 
-    data() {
-      return {
-        activityId: -1,
-        notifyPromise: Promise.resolve(),
-        isQuerying: false,
-        imageUrl: '',
-        competitionClass: '综合类比赛',
-        classOption: ['综合类比赛', '田径比赛', '球类比赛', '水上运动', '其他比赛'],
-        subClass: {
-          "综合类比赛": ['田径运动会', '综合性运动会', '其他'],
-          "田径比赛": ['田赛', '竞赛', '全能'],
-          "球类比赛": ['足球', '排球', '篮球', '网球', '乒乓球', '其他'],
-          "水上运动": ['游泳比赛', '帆船比赛', '其他'],
-          "其他比赛": ['自行车赛', '跆拳道赛', '柔道赛', '拳击赛', '其他'],
-        },
-        ruleForm: {
-          title: '',
-          subclass: '',
-          college_checkAll: true,
-          college: ['学院1', '学院2', '学院3', '学院4', '学院5', '学院6', '学院7', '学院8', '学院9', '学院10'],
-          activity_grade_checkAll: true,
-          activity_grade: ['2015', '2016', '2017', '2018', '2019', '2020', '2021'],
-          activity_time: [],
-          signUp_time: [],
-          contact_name: '',
-          contact_method: '',
-        },
+  data () {
+    return {
+      activityId: -1,
+      notifyPromise: Promise.resolve(),
+      isQuerying: false,
+      imageUrl: '',
+      competitionClass: '综合类比赛',
+      classOption: ['综合类比赛', '田径比赛', '球类比赛', '水上运动', '其他比赛'],
+      subClass: {
+        '综合类比赛': ['田径运动会', '综合性运动会', '其他'],
+        '田径比赛': ['田赛', '竞赛', '全能'],
+        '球类比赛': ['足球', '排球', '篮球', '网球', '乒乓球', '其他'],
+        '水上运动': ['游泳比赛', '帆船比赛', '其他'],
+        '其他比赛': ['自行车赛', '跆拳道赛', '柔道赛', '拳击赛', '其他']
+      },
+      ruleForm: {
+        title: '',
+        subclass: '',
+        college_checkAll: true,
+        college: ['学院1', '学院2', '学院3', '学院4', '学院5', '学院6', '学院7', '学院8', '学院9', '学院10'],
+        activity_grade_checkAll: true,
+        activity_grade: ['2015', '2016', '2017', '2018', '2019', '2020', '2021'],
+        activity_time: [],
+        signUp_time: [],
+        contact_name: '',
+        contact_method: ''
+      },
 
-        editableTabsValue: '1',
-        editableTabs: [
-          {
-            title: '比赛项目',
-            name: '1',
-            data: {
-              projectName: '',
-              isTeam: false,
-              minTeamPeople: 4,
-              maxTeamPeople: 4,
-              maxNumberOfPartner: 15,
-              mark: '',
-              registrationConditions: '',
-              competitionVenue: '',
-              moneyEveryPeople: 0,
-              needReferee: '',
-              refereeConditions: '',
-            },
-          },
-        ],
-        tabIndex: 1,
-        pickerOptions: {
-          shortcuts: [{
-            text: '今天',
-            onClick(picker) {
-              picker.$emit('pick', new Date());
-            }
-          }, {
-            text: '明天',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() + 3600 * 1000 * 24);
-              picker.$emit('pick', date);
-            }
-          }, {
-            text: '一周后',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() + 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
-            }
-          }]
-        },
-        options: {
-          college: ['学院1', '学院2', '学院3', '学院4', '学院5', '学院6', '学院7', '学院8', '学院9', '学院10'],
-          activity_grade: ['2015', '2016', '2017', '2018', '2019', '2020', '2021'],
-        },
-      };
-    },
-    methods: {
-      notify(msg) {
-        this.notifyPromise = this.notifyPromise.then(this.$nextTick).then(() => {
-          this.$notify({
-            title: msg,
-          });
-        })
-      },
-      mappingCounts(e) {
-        if (e) {
-          return "最大参赛团队数";
-        }
-        return "最大参赛人数";
-      },
-      addTab(data) {
-        this.tabIndex++;
-        this.editableTabs.push({
+      editableTabsValue: '1',
+      editableTabs: [
+        {
           title: '比赛项目',
-          name: this.tabIndex,
-          data: data
-        });
-        this.editableTabsValue = this.tabIndex;
-      },
-
-      removeTab(targetName) {
-        let tabs = this.editableTabs;
-        let activeName = this.editableTabsValue;
-        if (activeName === targetName) {
-          tabs.forEach((tab, index) => {
-            if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1];
-              if (nextTab) {
-                activeName = nextTab.name;
-              }
-            }
-          });
-        }
-        this.editableTabsValue = activeName;
-        this.editableTabs = tabs.filter(tab => tab.name !== targetName);
-      },
-
-      beforeLeave(currentName, oldName) {
-        if (currentName === "add") {
-          this.addTab();
-          return false
-        }
-      },
-
-      checkImg(file) {
-        let errorMsg;
-        if (file.type.split('/')[0] !== 'image') {
-          errorMsg = '不支持的图片格式';
-        }
-
-        if (file.size / 1024 / 1024 > 10) {
-          errorMsg = '上传图片大小不能超过 10MB!';
-        }
-
-        if (errorMsg) {
-          this.$notify.error({
-            title: '请更换图片',
-            message: errorMsg,
-            duration: 10000
-          });
-          return false;
-        }
-        return true;
-      },
-
-      changeAvatar() {
-        let previewFile = this.$refs.upload.files[0];
-        if (this.checkImg(previewFile)) {
-          let reader = new FileReader();
-          reader.onload = (e) => {
-            this.imageUrl = e.target.result;
-          };
-          reader.readAsDataURL(previewFile);
-        }
-      },
-
-      checkForm() {
-        let errorMsg;
-        if (!this.ruleForm.title) {
-          errorMsg = "必须填写比赛名称"
-        }
-
-        if (!this.imageUrl) {
-          errorMsg = "没有选择海报"
-        }
-
-        if (this.ruleForm.activity_time.length === 0) {
-          errorMsg = "请选择活动时间"
-        }
-
-        if (this.ruleForm.signUp_time.length === 0) {
-          errorMsg = "请选择报名时间"
-        }
-
-        for (let i = 0; i < this.editableTabs.length; ++i) {
-          if (!this.editableTabs[i].data.projectName) {
-            errorMsg = "必须填写子项目名";
-            break;
-          }
-        }
-
-        if (errorMsg) {
-          this.$notify.error({
-            title: '错误的提交',
-            message: errorMsg,
-            duration: 10000
-          });
-          return false
-        }
-        return true;
-      },
-      submitPre() {
-        this.$api.get('/api/activity/release/'+this.activityId).then(res => {
-          if(res.code === 0 ){
-            this.$message.success('成功!');
-          }
-        });
-      },
-      submitForm(formName) {
-        this.$confirm('确认提交？').then(_ => {
-          if (this.checkForm()) {
-            this.isQuerying = true;
-            this.$notify({
-              title: '',
-              message: '正在提交，请稍后',
-              duration: 10000
-            });
-            if(this.activityId !==-1){
-              this.submitPre();
-            } else {
-              this.remote_api('/api/activity/addActivity');
-            }
-
-          }
-        }).catch(_ => {
-        });
-      },
-
-      submitPreForm(formName) {
-        this.$confirm('确认提交？').then(_ => {
-          if (this.checkForm()) {
-            this.isQuerying = true;
-            this.$notify({
-              title: '',
-              message: '正在提交，请稍后',
-              duration: 5000
-            });
-            this.remote_api('/api/activity/preAddActivity');
-          }
-        }).catch(_ => {
-        });
-      },
-      mappingProjects() {
-        let projects = [];
-        this.editableTabs.forEach(e => {
-          let project = {};
-          if (e.data.id) {
-            project.id = e.data.id;
-          }
-          project.projectName = e.data.projectName;
-          project.team = e.data.isTeam ? 1 : 0;
-          project.maximum = e.data.maxNumberOfPartner;
-          //project.integralSet = e.data.mark || "无";
-          project.signinagCondition = e.data.registrationConditions || "无";
-          project.venue = e.data.competitionVenue || "无";
-          if (e.data.isTeam) {
-            project.teamPeope = e.data.minTeamPeople + "至" + e.data.maxTeamPeople + "人";
-          }
-          project.entryFee = e.data.moneyEveryPeople;
-          project.judge = e.data.needReferee;
-          if (e.data.needReferee) {
-            project.refereeConditions = e.data.refereeConditions;
-          }
-          projects.push(project);
-        });
-        return projects;
-      },
-
-      remote_api(url) {
-        let data = new FormData();
-        data.append('activityClassification', this.ruleForm.subclass);
-        data.append('pictureFile', this.$refs.upload.files[0]);
-        data.append('activityName', this.ruleForm.title);
-        data.append('publisherId', this.$store.state.user.id);
-        data.append('publishData', new Date());
-        data.append('contact', this.ruleForm.contact_name);
-        data.append('contactPhone', this.ruleForm.contact_method);
-        data.append('registrationClosingTime', this.ruleForm.signUp_time[1]);
-        data.append('registrationStartTime', this.ruleForm.signUp_time[0]);
-        data.append('startTime', this.ruleForm.activity_time[0]);
-        data.append('endTime', this.ruleForm.activity_time[1]);
-        let projects = this.mappingProjects();
-        for (let i = 0; i < projects.length; ++i) {
-          for (let name in projects[i]) {
-            data.append('projects[' + i + '].' + name, projects[i][name]);
-          }
-        }
-
-
-        this.$api.upload(url, data).then(res => {
-          if (res.code === 0) {
-            this.$message.success('成功!');
-          } else {
-            this.$message.error(res.msg);
-          }
-          this.isQuerying = false;
-        })
-      },
-
-      badRequest() {
-        this.isQuerying = false;
-        this.alert("BAD REQUEST");
-      },
-
-      dataParser(data) {
-        this.activityId = data.id;
-        let list = data.imagePath.split("\\");
-        this.imageUrl = "http://www.xiaoyuanpe.com/" + list[list.length - 1];
-        this.ruleForm.title = data.activityName;
-
-        this.ruleForm.activity_time = [];
-        this.ruleForm.activity_time.push(new Date(data.startTime));
-        this.ruleForm.activity_time.push(new Date(data.endTime));
-
-        this.ruleForm.signUp_time = [];
-        this.ruleForm.signUp_time.push(new Date(data.registrationStartTime));
-        this.ruleForm.signUp_time.push(new Date(data.registrationClosingTime));
-
-        this.editableTabs = [];
-        data.projects.forEach(e => {
-          let project = e;
-          let data = {
-            id: project.id,
-            projectName: project.projectName,
-            isTeam: project.team === 0,
+          name: '1',
+          data: {
+            projectName: '',
+            isTeam: false,
             minTeamPeople: 4,
             maxTeamPeople: 4,
-            maxNumberOfPartner: project.maximum,
-            mark: project.integralSet || '',
-            registrationConditions: project.signingCondition || '',
-            competitionVenue: project.venue || '',
-            moneyEveryPeople: project.entryFee,
-            needReferee: project.judge,
-            refereeConditions: project.refereeConditions || '',
-            activityId: project.activityId
-          };
-          this.addTab(data);
-        });
-      },
-      getPreActivity() {
-        this.$api.get('/api/activity/getPreActivity').then(res => {
-          if (res.data !== []) {
-            this.dataParser(res.data[0])
+            maxNumberOfPartner: 15,
+            mark: '',
+            registrationConditions: '',
+            competitionVenue: '',
+            moneyEveryPeople: 0,
+            needReferee: '',
+            refereeConditions: ''
           }
-        });
+        }
+      ],
+      tabIndex: 1,
+      pickerOptions: {
+        shortcuts: [{
+          text: '今天',
+          onClick (picker) {
+            picker.$emit('pick', new Date())
+          }
+        }, {
+          text: '明天',
+          onClick (picker) {
+            const date = new Date()
+            date.setTime(date.getTime() + 3600 * 1000 * 24)
+            picker.$emit('pick', date)
+          }
+        }, {
+          text: '一周后',
+          onClick (picker) {
+            const date = new Date()
+            date.setTime(date.getTime() + 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', date)
+          }
+        }]
+      },
+      options: {
+        college: ['学院1', '学院2', '学院3', '学院4', '学院5', '学院6', '学院7', '学院8', '学院9', '学院10'],
+        activity_grade: ['2015', '2016', '2017', '2018', '2019', '2020', '2021']
+      }
+    }
+  },
+  methods: {
+    notify (msg) {
+      this.notifyPromise = this.notifyPromise.then(this.$nextTick).then(() => {
+        this.$notify({
+          title: msg
+        })
+      })
+    },
+    mappingCounts (e) {
+      if (e) {
+        return '最大参赛团队数'
+      }
+      return '最大参赛人数'
+    },
+    addTab (data) {
+      this.tabIndex++
+      this.editableTabs.push({
+        title: '比赛项目',
+        name: this.tabIndex,
+        data: data
+      })
+      this.editableTabsValue = this.tabIndex
+    },
+
+    removeTab (targetName) {
+      let tabs = this.editableTabs
+      let activeName = this.editableTabsValue
+      if (activeName === targetName) {
+        tabs.forEach((tab, index) => {
+          if (tab.name === targetName) {
+            let nextTab = tabs[index + 1] || tabs[index - 1]
+            if (nextTab) {
+              activeName = nextTab.name
+            }
+          }
+        })
+      }
+      this.editableTabsValue = activeName
+      this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+    },
+
+    beforeLeave (currentName, oldName) {
+      if (currentName === 'add') {
+        this.addTab()
+        return false
       }
     },
 
-    mounted() {
-      this.getPreActivity();
-      this.$eventBus.on("bad", this.badRequest);
+    checkImg (file) {
+      let errorMsg
+      if (file.type.split('/')[0] !== 'image') {
+        errorMsg = '不支持的图片格式'
+      }
+
+      if (file.size / 1024 / 1024 > 10) {
+        errorMsg = '上传图片大小不能超过 10MB!'
+      }
+
+      if (errorMsg) {
+        this.$notify.error({
+          title: '请更换图片',
+          message: errorMsg,
+          duration: 10000
+        })
+        return false
+      }
+      return true
     },
 
-    beforeDestroy() {
+    changeAvatar () {
+      let previewFile = this.$refs.upload.files[0]
+      if (this.checkImg(previewFile)) {
+        let reader = new FileReader()
+        reader.onload = (e) => {
+          this.imageUrl = e.target.result
+        }
+        reader.readAsDataURL(previewFile)
+      }
+    },
 
+    checkForm () {
+      let errorMsg
+      if (!this.ruleForm.title) {
+        errorMsg = '必须填写比赛名称'
+      }
+
+      if (!this.imageUrl) {
+        errorMsg = '没有选择海报'
+      }
+
+      if (this.ruleForm.activity_time.length === 0) {
+        errorMsg = '请选择活动时间'
+      }
+
+      if (this.ruleForm.signUp_time.length === 0) {
+        errorMsg = '请选择报名时间'
+      }
+
+      for (let i = 0; i < this.editableTabs.length; ++i) {
+        if (!this.editableTabs[i].data.projectName) {
+          errorMsg = '必须填写子项目名'
+          break
+        }
+      }
+
+      if (errorMsg) {
+        this.$notify.error({
+          title: '错误的提交',
+          message: errorMsg,
+          duration: 10000
+        })
+        return false
+      }
+      return true
+    },
+    submitPre () {
+      this.$api.get('/api/activity/release/' + this.activityId).then(res => {
+        if (res.code === 0) {
+          this.$message.success('成功!')
+        }
+      })
+    },
+    submitForm (formName) {
+      this.$confirm('确认提交？').then(_ => {
+        if (this.checkForm()) {
+          this.isQuerying = true
+          this.$notify({
+            title: '',
+            message: '正在提交，请稍后',
+            duration: 10000
+          })
+          if (this.activityId !== -1) {
+            this.submitPre()
+          } else {
+            this.remote_api('/api/activity/addActivity')
+          }
+        }
+      }).catch(_ => {
+      })
+    },
+
+    submitPreForm (formName) {
+      this.$confirm('确认提交？').then(_ => {
+        if (this.checkForm()) {
+          this.isQuerying = true
+          this.$notify({
+            title: '',
+            message: '正在提交，请稍后',
+            duration: 5000
+          })
+          this.remote_api('/api/activity/preAddActivity')
+        }
+      }).catch(_ => {
+      })
+    },
+    mappingProjects () {
+      let projects = []
+      this.editableTabs.forEach(e => {
+        let project = {}
+        if (e.data.id) {
+          project.id = e.data.id
+        }
+        project.projectName = e.data.projectName
+        project.team = e.data.isTeam ? 1 : 0
+        project.maximum = e.data.maxNumberOfPartner
+        // project.integralSet = e.data.mark || "无";
+        project.signinagCondition = e.data.registrationConditions || '无'
+        project.venue = e.data.competitionVenue || '无'
+        if (e.data.isTeam) {
+          project.teamPeope = e.data.minTeamPeople + '至' + e.data.maxTeamPeople + '人'
+        }
+        project.entryFee = e.data.moneyEveryPeople
+        project.judge = e.data.needReferee
+        if (e.data.needReferee) {
+          project.refereeConditions = e.data.refereeConditions
+        }
+        projects.push(project)
+      })
+      return projects
+    },
+
+    remote_api (url) {
+      let data = new FormData()
+      data.append('activityClassification', this.ruleForm.subclass)
+      data.append('pictureFile', this.$refs.upload.files[0])
+      data.append('activityName', this.ruleForm.title)
+      data.append('publisherId', this.$store.state.user.id)
+      data.append('publishData', new Date())
+      data.append('contact', this.ruleForm.contact_name)
+      data.append('contactPhone', this.ruleForm.contact_method)
+      data.append('registrationClosingTime', this.ruleForm.signUp_time[1])
+      data.append('registrationStartTime', this.ruleForm.signUp_time[0])
+      data.append('startTime', this.ruleForm.activity_time[0])
+      data.append('endTime', this.ruleForm.activity_time[1])
+      let projects = this.mappingProjects()
+      for (let i = 0; i < projects.length; ++i) {
+        for (let name in projects[i]) {
+          data.append('projects[' + i + '].' + name, projects[i][name])
+        }
+      }
+
+      this.$api.upload(url, data).then(res => {
+        if (res.code === 0) {
+          this.$message.success('成功!')
+        } else {
+          this.$message.error(res.msg)
+        }
+        this.isQuerying = false
+      })
+    },
+
+    badRequest () {
+      this.isQuerying = false
+      this.alert('BAD REQUEST')
+    },
+
+    dataParser (data) {
+      this.activityId = data.id
+      let list = data.imagePath.split('\\')
+      this.imageUrl = 'http://www.xiaoyuanpe.com/' + list[list.length - 1]
+      this.ruleForm.title = data.activityName
+
+      this.ruleForm.activity_time = []
+      this.ruleForm.activity_time.push(new Date(data.startTime))
+      this.ruleForm.activity_time.push(new Date(data.endTime))
+
+      this.ruleForm.signUp_time = []
+      this.ruleForm.signUp_time.push(new Date(data.registrationStartTime))
+      this.ruleForm.signUp_time.push(new Date(data.registrationClosingTime))
+
+      this.editableTabs = []
+      data.projects.forEach(e => {
+        let project = e
+        let data = {
+          id: project.id,
+          projectName: project.projectName,
+          isTeam: project.team === 0,
+          minTeamPeople: 4,
+          maxTeamPeople: 4,
+          maxNumberOfPartner: project.maximum,
+          mark: project.integralSet || '',
+          registrationConditions: project.signingCondition || '',
+          competitionVenue: project.venue || '',
+          moneyEveryPeople: project.entryFee,
+          needReferee: project.judge,
+          refereeConditions: project.refereeConditions || '',
+          activityId: project.activityId
+        }
+        this.addTab(data)
+      })
+    },
+    getPreActivity () {
+      this.$api.get('/api/activity/getPreActivity').then(res => {
+        if (res.data !== []) {
+          this.dataParser(res.data[0])
+        }
+      })
     }
+  },
+
+  mounted () {
+    this.getPreActivity()
+    this.$eventBus.on('bad', this.badRequest)
+  },
+
+  beforeDestroy () {
 
   }
+
+}
 </script>
 
 <style scoped>

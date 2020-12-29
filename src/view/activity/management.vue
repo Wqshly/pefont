@@ -98,163 +98,154 @@
 </template>
 
 <script>
-    import {api}  from '@/api/ajax'
-    export default {
-        components:{
-        },
-        name: 'activity-management',
-        data () {
-            return {
-                filter_label_outlay:'全部',
-                filter_status_outlay:'全部',
-                detail:false,
-                search: '',
-                currentPage: 1,
-                pageSize: 10,
-                total:0,
-                roleOp:['参与者','签到员','发起人'],
-                statusOp:['待审核','已审核','报名阶段','待完结','已完结'],
-                tableData: [
-                    {
-                    title:'',
-                    date: '',
-                    name: '',
-                    status: '',
-                    label:'',
-                    description: '',
-                  },
-                ],
-            }
-        },
-
-        methods: {
-            //渲染TAG
-            renderColor(label){
-                if(label==='参与者')
-                    return 'info';
-                if(label==='签到员')
-                    return '';
-                if(label==='发起人')
-                    return 'danger';
-            },
-
-            //过长的内容转换为省略号
-            filter_description(val){
-                if(val.length>30){
-                    return val.slice(0,30)+'...';
-                }
-                else{
-                    return val;
-                }
-            },
-
-            //渲染单行颜色
-            tableRowClassName({row, rowIndex}) {
-                if(row.status==='已完结')
-                  return 'success-row';
-                if(row.status==='待完结')
-                  return  'warning-row';
-                if(row.status==='待审核')
-                    return 'info-row';
-                  return ''
-            },
-
-            handleData(){
-                let temp_data = this.tableData.filter(data=>this.filter(data));
-                this.total=temp_data.length;
-                return temp_data.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize);
-            },
-
-            //搜索筛选&&标签筛选&&状态筛选
-            filter(val){
-                return (!this.search || val.title.toLowerCase().includes(this.search.toLowerCase())) &&( val.label === this.filter_label_outlay ||this.filter_label_outlay==='全部')&&(val.status === this.filter_status_outlay ||this.filter_status_outlay==='全部');
-            },
-
-            //组织签到
-            handleSignIn(index,row){
-                window.scroll(0,0);
-                this.$store.commit('setActivityId',row.id);
-                this.$router.push('./check');
-            },
-            //编辑活动
-            handleEdit(index,row) {
-                window.scroll(0,0);
-                this.$store.commit('setActivityId',row.id);
-                this.$router.push('./check');
-            },
-            //设置签到员
-            setSigner(index,row) {
-                this.$prompt('请输入签到员学号', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                }).then(({ value }) => {
-                    this.setS(row.id,value);
-                }).catch(() => {
-                });
-            },
-            setS(activityId,number){
-                let url = '/api/activity/assignation/'+activityId+'/'+number;
-                api.get(url).then(res => {
-                    if (res.code === 0) {
-                        this.$message.success('成功!');
-                    }
-                    else{
-                        this.$message.error(res.msg);
-                    }
-                })
-            },
-            //每页条数
-            handleSizeChange(val) {
-                this.pageSize=val;
-            },
-
-            //当前页数
-            handleCurrentChange(val) {
-            },
-
-            requestList(url){
-                api.get(url).then(res => {
-                    let _this = this;
-                    if (res.code === 0) {
-                        if(res.data != null){
-                            if(res.data.length === undefined){
-                                this.tableData.push(this.mappingObject(res.data));
-                            }else{
-                                for(let i = 0;i < res.data.length; ++i){
-                                    this.tableData.push(this.mappingObject(res.data[i]));
-                                }
-                            }
-                        }
-                        this.total=this.tableData.length;
-                    }
-                })
-            },
-
-            requestData(){
-                this.tableData = [];
-                this.requestList('/api/activity/getActivityBySignin');
-                this.requestList('/api/activity/getActivityByOrganizers');
-                this.requestList('/api/activity/getActivityByPartner');
-                this.total=this.tableData.length;
-            },
-            mappingObject(obj){
-                let data = {};
-                data.id = obj.id;
-                data.title = obj.activityId;
-                data.label = obj.characters;
-                data.name = obj.id;
-                data.description = obj.studentId;
-                data.status = this.statusOp[obj.sportState];
-                return data;
-            },
-        },
-        mounted() {
-
-        },
-        created() {
-            this.requestData();
+import {api} from '@/api/ajax'
+export default {
+  components: {
+  },
+  name: 'activity-management',
+  data () {
+    return {
+      filter_label_outlay: '全部',
+      filter_status_outlay: '全部',
+      detail: false,
+      search: '',
+      currentPage: 1,
+      pageSize: 10,
+      total: 0,
+      roleOp: ['参与者', '签到员', '发起人'],
+      statusOp: ['待审核', '已审核', '报名阶段', '待完结', '已完结'],
+      tableData: [
+        {
+          title: '',
+          date: '',
+          name: '',
+          status: '',
+          label: '',
+          description: ''
         }
+      ]
     }
+  },
+
+  methods: {
+    // 渲染TAG
+    renderColor (label) {
+      if (label === '参与者') { return 'info' }
+      if (label === '签到员') { return '' }
+      if (label === '发起人') { return 'danger' }
+    },
+
+    // 过长的内容转换为省略号
+    filter_description (val) {
+      if (val.length > 30) {
+        return val.slice(0, 30) + '...'
+      } else {
+        return val
+      }
+    },
+
+    // 渲染单行颜色
+    tableRowClassName ({row, rowIndex}) {
+      if (row.status === '已完结') { return 'success-row' }
+      if (row.status === '待完结') { return 'warning-row' }
+      if (row.status === '待审核') { return 'info-row' }
+      return ''
+    },
+
+    handleData () {
+      let temp_data = this.tableData.filter(data => this.filter(data))
+      this.total = temp_data.length
+      return temp_data.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+    },
+
+    // 搜索筛选&&标签筛选&&状态筛选
+    filter (val) {
+      return (!this.search || val.title.toLowerCase().includes(this.search.toLowerCase())) && (val.label === this.filter_label_outlay || this.filter_label_outlay === '全部') && (val.status === this.filter_status_outlay || this.filter_status_outlay === '全部')
+    },
+
+    // 组织签到
+    handleSignIn (index, row) {
+      window.scroll(0, 0)
+      this.$store.commit('setActivityId', row.id)
+      this.$router.push('./check')
+    },
+    // 编辑活动
+    handleEdit (index, row) {
+      window.scroll(0, 0)
+      this.$store.commit('setActivityId', row.id)
+      this.$router.push('./check')
+    },
+    // 设置签到员
+    setSigner (index, row) {
+      this.$prompt('请输入签到员学号', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        this.setS(row.id, value)
+      }).catch(() => {
+      })
+    },
+    setS (activityId, number) {
+      let url = '/api/activity/assignation/' + activityId + '/' + number
+      api.get(url).then(res => {
+        if (res.code === 0) {
+          this.$message.success('成功!')
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    // 每页条数
+    handleSizeChange (val) {
+      this.pageSize = val
+    },
+
+    // 当前页数
+    handleCurrentChange (val) {
+    },
+
+    requestList (url) {
+      api.get(url).then(res => {
+        if (res.code === 0) {
+          if (res.data != null) {
+            if (res.data.length === undefined) {
+              this.tableData.push(this.mappingObject(res.data))
+            } else {
+              for (let i = 0; i < res.data.length; ++i) {
+                this.tableData.push(this.mappingObject(res.data[i]))
+              }
+            }
+          }
+          this.total = this.tableData.length
+        }
+      })
+    },
+
+    requestData () {
+      this.tableData = []
+      this.requestList('/api/activity/getActivityBySignin')
+      this.requestList('/api/activity/getActivityByOrganizers')
+      this.requestList('/api/activity/getActivityByPartner')
+      this.total = this.tableData.length
+    },
+    mappingObject (obj) {
+      let data = {}
+      data.id = obj.id
+      data.title = obj.activityId
+      data.label = obj.characters
+      data.name = obj.id
+      data.description = obj.studentId
+      data.status = this.statusOp[obj.sportState]
+      return data
+    }
+  },
+  mounted () {
+
+  },
+  created () {
+    this.requestData()
+  }
+}
 </script>
 
 <style>
@@ -286,7 +277,5 @@
   .activity-management .info-row{
     background-color:  rgb(192, 196, 204)!important;
   }
-
-
 
 </style>

@@ -9,25 +9,25 @@
   </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        headers: [
-          {
-            name: '早操',
-            link: '/exercises/signIn'
-          },
-        ]
-      }
-    },
-    methods: {},
-    mounted() {
+export default {
+  data () {
+    return {
+      headers: [
+        {
+          name: '早操',
+          link: '/exercises/signIn'
+        }
+      ]
+    }
+  },
+  methods: {},
+  mounted () {
 
-    },
-    created() {
+  },
+  created () {
 
-    },
   }
+}
 </script>
 <style scoped>
   .home_main {

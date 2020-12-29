@@ -37,6 +37,7 @@ const promotionHome = () => import(/* webpackChunkName: '4' */ '../view/promotio
 /* activity page */
 const activityPage = () => import(/* webpackChunkName: '5' */ '../view/activity/Page')
 const activityHome = () => Promise.resolve(require('@/view/activity/home'))
+const activityRegistration = () => Promise.resolve(require('@/view/activity/registration'))
 const activityNotice = () => import(/* webpackChunkName: '5' */ '../view/activity/notice')
 const activityPromotional = () => import(/* webpackChunkName: '5' */ '../view/activity/promotional')
 const activityManagement = () => import(/* webpackChunkName: '5 */ '../view/activity/management')
@@ -220,6 +221,10 @@ const router = new Router({
         {
           path: '/activity/home',
           component: activityHome
+        },
+        {
+          path: '/activity/registration',
+          component: activityRegistration
         },
         {
           path: '/activity/notice',

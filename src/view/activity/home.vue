@@ -10,7 +10,7 @@
             style="width: 150px;margin-left:10px;"
             placeholder="输入关键字搜索"></el-input>
         </template>
-        <div v-for="scope in handleData()" @click="handleClick(scope)">
+        <div v-for="(scope,index) in handleData()" :key="index" @click="handleClick(scope)">
           <el-card shadow="hover" class="item">
             <el-image
               style=""
@@ -30,10 +30,6 @@
             </div>
           </el-card>
         </div>
-        <el-card shadow="hover" class="item">
-          <center>已经到底了</center>
-          <br>
-        </el-card>
       </template>
 
       <el-pagination
@@ -163,13 +159,14 @@ export default {
 
     // 处理表格数据
     handleData () {
-      let temp_data = this.tableData.filter(data => this.filter(data))
-      this.total = temp_data.length
-      return temp_data.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      let tempData = this.tableData.filter(data => this.filter(data))
+      this.total = tempData.length
+      return tempData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     },
 
     // 搜索筛选
     filter (val) {
+      console.log(val)
       return (!this.search || val.title.toLowerCase().includes(this.search.toLowerCase()))
     },
 
@@ -227,7 +224,6 @@ export default {
     requestActivityList () {
       const url = '/api/activity/queryActivityListAll'
       this.$api.get(url).then(res => {
-        let _this = this
         if (res.code === 0) {
           this.tableData = []
           if (res.data != null) {
@@ -245,7 +241,6 @@ export default {
       })
     }
   },
-
   created () {
     this.requestActivityList()
   }

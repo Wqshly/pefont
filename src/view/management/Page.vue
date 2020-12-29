@@ -11,34 +11,33 @@
 </template>
 
 <script>
-  import managerHeader from './managerHeader'
+import managerHeader from './managerHeader'
 
-  export default {
-    components: {
-      managerHeader
-    },
-    data() {
-      return {
-      }
-    },
-    methods: {},
-    mounted() {
-      if(this.$store.state.user.id === -1) {
-        this.$api.get('/api/login/LoginOrNot').then(res => {
-          if (res.code === 0) {
-            this.$store.state.user = res.data;
-            if (this.$store.state.user.identity !== '学校管理员') {
-              this.$router.push('/login');
-            }
+export default {
+  components: {
+    managerHeader
+  },
+  data () {
+    return {
+    }
+  },
+  methods: {},
+  mounted () {
+    if (this.$store.state.user.id === -1) {
+      this.$api.get('/api/login/LoginOrNot').then(res => {
+        if (res.code === 0) {
+          this.$store.state.user = res.data
+          if (this.$store.state.user.identity !== '学校管理员') {
+            this.$router.push('/login')
           }
-        });
-      }
+        }
+      })
+    }
+  },
+  created () {
 
-    },
-    created() {
-
-    },
   }
+}
 </script>
 
 <style scoped>

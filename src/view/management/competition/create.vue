@@ -6,37 +6,37 @@
 </template>
 
 <script>
-  import competitionCreate from "../../../components/competition/create"
+import competitionCreate from '../../../components/competition/create'
 
-  export default {
-    components: {
-      competitionCreate,
-    },
-    data() {
-      return {
-        headers: [
-          {
-            name: '本地比赛',
-            link: '/competition/management/home'
-          },
-          {
-            name: '发起比赛',
-            link: '/competition/management/create'
-          },
-          {
-            name: '管理比赛',
-            link: '/competition/management/management'
-          }
-        ]
-      }
-    },
-    mounted() {
+export default {
+  components: {
+    competitionCreate
+  },
+  data () {
+    return {
+      headers: [
+        {
+          name: '本地比赛',
+          link: '/competition/management/home'
+        },
+        {
+          name: '发起比赛',
+          link: '/competition/management/create'
+        },
+        {
+          name: '管理比赛',
+          link: '/competition/management/management'
+        }
+      ]
+    }
+  },
+  mounted () {
 
-    },
-    created() {
+  },
+  created () {
 
-    },
   }
+}
 </script>
 
 <style scoped>

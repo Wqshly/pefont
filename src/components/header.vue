@@ -94,6 +94,10 @@ export default {
               link: '/activity/home'
             },
             {
+              name: '活动报名',
+              link: '/activity/registration'
+            },
+            {
               name: '校内通知',
               link: '/activity/notice'
             },

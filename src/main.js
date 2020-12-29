@@ -4,6 +4,7 @@ import store from './store'
 import router from './router'
 
 import VueLazyload from 'vue-lazyload'
+import VueCropper from 'vue-cropper'
 import AMap from 'vue-amap'
 
 import header from './components/header.vue'
@@ -16,6 +17,7 @@ import {eventBus} from './api/bus'
 Vue.use(AMap)
 Vue.use(router)
 Vue.use(VueLazyload)
+Vue.use(VueCropper)
 
 Vue.component('v-header', header)
 Vue.component('v-footer', footer)

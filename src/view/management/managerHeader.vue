@@ -7,6 +7,7 @@
         </div>
         <div class="header_item"
              v-for="(item,index) in headers"
+             :key="index"
              @click="jump(item)"
              :class="[{'active':isActive === item.link && item.link !== '404'},{'float_right' : item.float ==='right'}]">
           <!--一级菜单-->
@@ -34,87 +35,97 @@
 </template>
 
 <script>
-  import back from '../../components/backTop'
+import {api} from '@/api/ajax'
+import back from '../../components/backTop'
 
-  export default {
-    //本组件的当前路由蓝色渲染适用于一级路由  也就是路由路径中的第一个'/'的部分
-    components: {
-      back,
-    },
-    data() {
-      return {
-        isActive: 'activity',
-        reverse_headers: [],
-        headers: [
-          {
-            name: '管理首页',
-            link: 'management',
-          },
-          {
-            name: '本地比赛',
-            link: 'competition',
-          },
-          {
-            name: '区域联赛',
-            link: '404'
-          },
-          {
-            name: '器材管理',
-            link: '404',
-          },
-          {
-            name: '场地管理',
-            link: 'venue',
-          },
-          {
-            name: '账户',
-            link: 'account',
-            subs: [
-              {
-                name: '注销',
-                link: '/account/logout'
-              },
-            ],
-            float: 'right',
-            iconName: 'el-icon-s-custom',
-          },
-        ],
-        drawer: false,
-
-      }
-    },
-    methods: {
-      //一级目录跳转函数   便于渲染active样式
-      jump(val) {
-        if (!val.noJump) {
-          this.drawer = false;
-          this.isActive = val.link;
-          this.$router.push('/' + val.link + '/management');
+export default {
+  // 本组件的当前路由蓝色渲染适用于一级路由  也就是路由路径中的第一个'/'的部分
+  components: {
+    back
+  },
+  data () {
+    return {
+      isActive: 'activity',
+      reverse_headers: [],
+      headers: [
+        {
+          name: '管理首页',
+          link: 'management'
+        },
+        {
+          name: '比赛管理',
+          link: ''
+        },
+        {
+          name: '本地比赛',
+          link: 'competition'
+        },
+        {
+          name: '区域联赛',
+          link: '404'
+        },
+        {
+          name: '场地与器材',
+          subs: [
+            {
+              name: '器材管理',
+              link: '404'
+            },
+            {
+              name: '场地管理',
+              link: 'venue'
+            }
+          ]
+        },
+        {
+          name: '账户',
+          link: 'account',
+          subs: [
+            {
+              name: '注销',
+              link: '/account/logout'
+            }
+          ],
+          float: 'right',
+          iconName: 'el-icon-s-custom'
         }
-      },
-      //二级目录跳转函数
-      jump2(val) {
-        if (!val.noJump) {
-          this.drawer = false;
-          this.$router.push(val.link);
-        }
-      },
+      ],
+      drawer: false
 
-      logout() {
-        api.get('/api/login/logout').then(res => {
-        });
-        this.$store.commit('setUserId', -1);
-        this.$router.push('/login');
-      }
-    },
-    mounted() {
-
-    },
-    created() {
-      this.reverse_headers = this.$clone.deepClone(this.headers).reverse();
-      this.isActive = (this.$route.path).split('/')[1];
     }
+  },
+  methods: {
+    // 一级目录跳转函数   便于渲染active样式
+    jump (val) {
+      if (!val.noJump) {
+        this.drawer = false
+        this.isActive = val.link
+        this.$router.push('/' + val.link + '/management')
+      }
+    },
+    // 二级目录跳转函数
+    jump2 (val) {
+      if (!val.noJump) {
+        this.drawer = false
+        this.$router.push(val.link)
+      }
+    },
+
+    logout () {
+      api.get('/api/login/logout').then(res => {
+      })
+      this.$store.commit('setUserId', -1)
+      this.$router.push('/login')
+    }
+  },
+  mounted () {
+
+  },
+  created () {
+    this.reverse_headers = this.$clone.deepClone(this.headers).reverse()
+    this.isActive = (this.$route.path).split('/')[1]
   }
+}
 </script>
 
 <style scoped>
@@ -173,7 +184,6 @@
     color: #60606d;
   }
 
-
   .normal p {
     color: #60606d;
     font-size: 14px;
@@ -196,12 +206,11 @@
     display: block;
   }
 
-
   /*手机端*/
   @media screen and (max-width: 700px) {
 
     .img_container {
-      display: none!important;
+      display: none !important;
     }
   }
 

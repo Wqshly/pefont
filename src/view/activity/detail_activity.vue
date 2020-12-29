@@ -32,7 +32,6 @@
         <el-form-item label="参加费用:" >
           {{detail_item.fee}}
 
-
         </el-form-item>
 
         <el-form-item label="费用说明:" >
@@ -109,26 +108,26 @@
 </template>
 
 <script>
-    export default {
-        props: ["detail_item"],
-        data () {
-            return {
+export default {
+  props: ['detail_item'],
+  data () {
+    return {
 
-            };
-        },
-        methods: {
-        },
-        watch: {
-            detail_item: {
-                deep: true,
-                handler(nv, ov) {
-                    this.detail_item = nv;
-                    console.log('监听:');
-                    console.log(nv);
-                }
-            }
-        },
     }
+  },
+  methods: {
+  },
+  watch: {
+    detail_item: {
+      deep: true,
+      handler (nv, ov) {
+        this.detail_item = nv
+        console.log('监听:')
+        console.log(nv)
+      }
+    }
+  }
+}
 </script>
 
 <style>
