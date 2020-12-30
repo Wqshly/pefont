@@ -62,48 +62,48 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        score1: [],
-        score2: [],
-      }
-    },
-    methods: {
-      requestScore(url, index) {
-        this.$api.get(url).then(res => {
-          if (res.code === 0) {
-            switch (index) {
-              case 1:
-                this.score1 = res.data;
-                break;
-              case 2:
-                this.score2 = res.data;
-                break;
-              default:
-                break;
-            }
-          } else {
-            this.$message.error(res.msg);
+export default {
+  data () {
+    return {
+      score1: [],
+      score2: []
+    }
+  },
+  methods: {
+    requestScore (url, index) {
+      this.$api.get(url).then(res => {
+        if (res.code === 0) {
+          switch (index) {
+            case 1:
+              this.score1 = res.data
+              break
+            case 2:
+              this.score2 = res.data
+              break
+            default:
+              break
           }
-        })
-      },
-      handleData1() {
-        return this.score1;
-      },
-      handleData2() {
-        return this.score2;
-      },
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
-    mounted() {
+    handleData1 () {
+      return this.score1
+    },
+    handleData2 () {
+      return this.score2
+    }
+  },
+  mounted () {
 
-    },
-    created() {
-      this.myName = this.$store.state.user.username;
-      this.requestScore('/api/semester/scoreByClass', 1);
-      this.requestScore('/api/semester/scoreBySchool', 2);
-    },
+  },
+  created () {
+    // this.myName = this.$store.state.user.username
+    this.requestScore('/api/semester/scoreByClass', 1)
+    this.requestScore('/api/semester/scoreBySchool', 2)
   }
+}
 </script>
 
 <style scoped>

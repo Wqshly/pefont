@@ -14,25 +14,25 @@
 </template>
 
 <script>
-  import vRank from "../../components/rank"
-  import vScore from "../../components/myScore"
+import vRank from '../../components/rank'
+import vScore from '../../components/myScore'
 
-  export default {
-    components: {
-      vRank,
-      vScore
-    },
-    data() {
-      return {}
-    },
-    methods: {},
-    mounted() {
+export default {
+  components: {
+    vRank,
+    vScore
+  },
+  data () {
+    return {}
+  },
+  methods: {},
+  mounted () {
 
-    },
-    created() {
+  },
+  created () {
 
-    },
   }
+}
 </script>
 
 <style scoped>

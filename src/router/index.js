@@ -88,6 +88,9 @@ const competitionManage = () => import(/* webpackChunkName: '3' */ '../view/mana
 const venueCreate = () => import(/* webpackChunkName: '3' */ '../view/management/venue/create')
 const venue_management = () => import(/* webpackChunkName: '3' */ '../view/management/venue/management')
 const venue_sub_add = () => import(/* webpackChunkName: '3' */ '../view/management/venue/addSubVenue')
+
+const notSchoolAdmin = () => Promise.resolve(require('@/view/pageControl/notSchoolAdmin'))
+
 const router = new Router({
   routes: [
     {
@@ -99,15 +102,11 @@ const router = new Router({
       component: notFoundPage
     },
     {
-      path: '/home',
+      path: '/',
       component: homePage,
       children: [
         {
-          path: '/',
-          redirect: '/home/home'
-        },
-        {
-          path: '/home/home',
+          path: '/home',
           component: home_page
         }
       ]
@@ -331,6 +330,9 @@ const router = new Router({
     {
       path: '/management',
       component: managementPage,
+      meta: {
+        schoolAdmin: true
+      },
       children: [
         {
           path: '/management/management',
@@ -338,42 +340,69 @@ const router = new Router({
         },
         {
           path: '/management/home',
-          component: mana_page
+          component: mana_page,
+          meta: {
+            schoolAdmin: true
+          }
         },
         {
           path: '/management/activityApproval',
-          component: activityApproval
+          component: activityApproval,
+          meta: {
+            schoolAdmin: true
+          }
         },
         {
           path: '/management/management/class',
-          component: mana_class
+          component: mana_class,
+          meta: {
+            schoolAdmin: true
+          }
         },
         // 管理页面中的本地比赛
         {
           path: '/management/createCompetition',
-          component: competitionCreate
+          component: competitionCreate,
+          meta: {
+            schoolAdmin: true
+          }
         },
         {
           path: '/management/competition/management',
-          component: competitionManage
+          component: competitionManage,
+          meta: {
+            schoolAdmin: true
+          }
         },
 
         // 管理页面中的场馆
         {
           path: '/management/venue',
-          redirect: '/management/venue/create'
+          redirect: '/management/venue/create',
+          meta: {
+            schoolAdmin: true
+          }
         },
         {
           path: '/management/venueCreate',
-          component: venueCreate
+          component: venueCreate,
+          meta: {
+            schoolAdmin: true
+          }
         },
         {
           path: '/management/venue/management',
-          component: venue_management
+          component: venue_management,
+          meta: {
+            schoolAdmin: true
+          }
         },
         {
           path: '/management/venue/addSubVenue',
-          component: venue_sub_add
+          component: venue_sub_add,
+          meta: {
+            schoolAdmin: true
+          }
         }
       ]
     },
@@ -407,6 +436,10 @@ const router = new Router({
           component: index_app
         }
       ]
+    },
+    {
+      path: '/notSchoolAdmin',
+      component: notSchoolAdmin
     }
   ]
 })

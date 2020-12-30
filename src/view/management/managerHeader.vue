@@ -2,9 +2,6 @@
   <div class="header-style">
     <div class="normal">
       <div class="header-item-container">
-        <div class="img-container" style="padding-right: 10px;">
-          <img src="@/assets/logo2.png" alt="PE">
-        </div>
         <el-menu mode="horizontal" router>
           <template v-for="(FirstLevelItem,index) in headerList">
             <!-- 有子目录的 -->
@@ -40,6 +37,9 @@
             <!-- 无子目录的 -->
             <template v-else>
               <el-menu-item :index="FirstLevelItem.index" :key="index">
+                <template v-if="FirstLevelItem.imgPath">
+                  <img src="@/assets/logo2.png" />
+                </template>
                 <i :class="FirstLevelItem.icon"></i>
                 <span slot="title">{{FirstLevelItem.title}}</span>
               </el-menu-item>
@@ -57,6 +57,10 @@ export default {
   data () {
     return {
       headerList: [
+        {
+          imgPath: true,
+          index: '/'
+        },
         {
           title: '管理首页',
           icon: '',
@@ -115,6 +119,10 @@ export default {
           index: '/account',
           float: 'right',
           subs: [
+            {
+              title: '返回用户页',
+              index: '/home'
+            },
             {
               title: '注销',
               index: '/account/logout'

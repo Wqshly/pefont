@@ -191,9 +191,6 @@ export default {
       })
     }
   },
-  mounted () {
-    this.className = this.$store.state.user.unit
-  },
   created () {
     this.requestTableData()
   }

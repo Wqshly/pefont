@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App'
-import store from './store'
 import router from './router'
 
 import VueLazyload from 'vue-lazyload'
@@ -37,42 +36,13 @@ Vue.prototype.$clone = clone
 Vue.prototype.$api = api
 Vue.prototype.$eventBus = eventBus
 
-if (store.state.user.id === -1) {
-  api.get('/api/login/LoginOrNot').then(res => {
-    if (res.code === 0) {
-      store.state.user = res.data
-    }
-  })
-}
-
+// 使用钩子函数，完成权限控制
 router.beforeEach((to, from, next) => {
-  if (from.path === '/competition/create') {
-    Vue.prototype.$confirm('确认离开页面？')
-      .then(_ => {
-        next()
-      })
-      .catch(_ => {
-      })
-  }
-  // if中是需要执行（判断是不是已登录）的条件
-  else if (
-    store.state.user.id === -1 &&
-    to.path !== '/login' &&
-    from.path !== '/login' &&
-    to.path.split('/')[1] !== 'index'
-  ) {
-    api.get('/api/login/LoginOrNot').then(res => {
-      if (res.code === 0) {
-        store.state.user = res.data
-        window.scrollTo(0, 0)
-        next()
-      } else {
-        next({
-          path: '/login',
-          query: {redirect: to.fullPath}
-        })
-      }
-    })
+  var userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+  if (!userInfo && to.path !== '/login' && to.path.split('/')[1] !== 'index') {
+    next('/login')
+  } else if (to.meta.schoolAdmin) {
+    userInfo.identity === '学校管理员' ? next() : next(false) || Vue.prototype.$message.error('您不是管理员，无法进入')
   } else {
     window.scrollTo(0, 0)
     if (to.path !== from.path) {
@@ -82,7 +52,6 @@ router.beforeEach((to, from, next) => {
 })
 
 new Vue({
-  store,
   router,
   render: h => h(App)
 }).$mount('#app')

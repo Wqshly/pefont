@@ -161,174 +161,174 @@
 </template>
 
 <script>
-  import carousel from "../../components/common/carousel";
+import carousel from '../../components/common/carousel'
 
-  export default {
-    components: {
-      carousel,
-    },
-    data() {
-      return {
-        /*轮播图 走马灯*/
-        items1: [
-          {
-            name: "1",
-            url: "http://www.xiaoyuanpe.com/1.png"
-          },
-          {
-            name: "2",
-            url: "http://www.xiaoyuanpe.com/2.png"
-          },
-          {
-            name: "3",
-            url: "http://www.xiaoyuanpe.com/3.png"
-          },
-        ],
-        section0: [
-          {
-            url: 'act_1.png',
-            h3: '乐享活动',
-            p: '每位同学都可通过线上发起活动，通过审核并完成的活动将产生PE分',
-          },
-          {
-            url: 'act_2.png',
-            h3: '快捷预约',
-            p: '场馆动态线上云，随时随地查询场馆状态，告别线下预约，足不出户完成预约',
-          },
-          {
-            url: 'act_3.png',
-            h3: '记录运动',
-            p: 'app打卡记录早操，每一次参加的活动和运动都记录在案',
-          },
-          {
-            url: 'act_4.png',
-            h3: '获取学分',
-            p: '每次的早操或运动都将折算成一定的PE分，当PE分累计到一定时，将获得响应的学分',
-          },
-          {
-            url: 'act_5.png',
-            h3: '发起比赛',
-            p: '由管理员线上发起比赛，不仅支持传统的校园比赛，还支持多个高校联合发起跨区比赛',
-          },
-          {
-            url: 'act_6.png',
-            h3: '报名参赛',
-            p: '学生科通过线上报名参赛，具有裁判技能证书的学生还可线上报名裁判',
-          },
-          {
-            url: 'act_7.png',
-            h3: '比赛PE分记录',
-            p: '校方可根据自身情况，合理的设置比赛的PE分结算规则，将比赛成绩按规则结算成PE分',
-          },
-        ],
-        section2: [
-          {
-            text: '乒乓球',
-            url: 'pingpang.jpg',
-          },
-          {
-            text: '羽毛球',
-            url: 'yumao.jpg',
-          },
-          {
-            text: '篮球',
-            url: 'lanqiu.jpg',
-          },
-          {
-            text: '足球',
-            url: 'zuqiu.jpg',
-          },
-          {
-            text: '铅球',
-            url: 'qianqiu.jpg',
-          },
-          {
-            text: '帆船',
-            url: 'fanchuan.jpg',
-          },
-          {
-            text: '跳高',
-            url: 'tiaogao.jpg',
-          },
-          {
-            text: '50米跑',
-            url: 'paobu.jpg',
-          },
-          {
-            text: '跨栏',
-            url: 'kualan.jpg',
-          },
-        ],
-        section3: [
-          {
-            url: '专业系统.png',
-            h3: '专业系统',
-            p: '集成课程体系，学校培养评估，学生素质评价为一体的综合素质管理平台',
-          },
-          {
-            url: '多端.png',
-            h3: '多端形态',
-            p: 'APP、H5、小程序、PC、Web多端形态，满足不同的使用场景需求',
-          },
-          {
-            url: '个性定制.png',
-            h3: '个性定制',
-            p: '针对不同高校和学生群体需求,定制符合其自身发展需求的功能',
-          },
-          {
-            url: '升级.png',
-            h3: '持续升级',
-            p: '不断优化迭代，持续升级，为第二课堂的前行铺平道路',
-          },
-        ],
-      }
-    },
-    methods: {
-      lazy() {
-        document.addEventListener("DOMContentLoaded", function () {
-          var lazyVideos = [].slice.call(document.querySelectorAll("video.lazy"));
-
-          if ("IntersectionObserver" in window) {
-            var lazyVideoObserver = new IntersectionObserver(function (entries, observer) {
-              entries.forEach(function (video) {
-                if (video.isIntersecting) {
-                  for (var source in video.target.children) {
-                    var videoSource = video.target.children[source];
-                    if (typeof videoSource.tagName === "string" && videoSource.tagName === "SOURCE") {
-                      videoSource.src = videoSource.dataset.src;
-                    }
-                  }
-
-                  video.target.loadData();
-                  video.target.classList.remove("lazy");
-                  lazyVideoObserver.unobserve(video.target);
-                }
-              });
-            });
-
-            lazyVideos.forEach(function (lazyVideo) {
-              lazyVideoObserver.observe(lazyVideo);
-            });
-          }
-        });
-      },
-      getCurrentDate() {
-        let dayLsit = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六',];
-        let myDate = new Date();
-        let year = myDate.getFullYear(); //年
-        let month = myDate.getMonth() + 1; //月
-        let day = myDate.getDate(); //日
-        let days = dayLsit[myDate.getDay()];
-        return year + "年" + month + "月" + day + "日  " + days;
-      }
-    },
-    mounted() {
-
-    },
-    created() {
-      this.lazy();
+export default {
+  components: {
+    carousel
+  },
+  data () {
+    return {
+      /* 轮播图 走马灯 */
+      items1: [
+        {
+          name: '1',
+          url: 'http://www.xiaoyuanpe.com/1.png'
+        },
+        {
+          name: '2',
+          url: 'http://www.xiaoyuanpe.com/2.png'
+        },
+        {
+          name: '3',
+          url: 'http://www.xiaoyuanpe.com/3.png'
+        }
+      ],
+      section0: [
+        {
+          url: 'act_1.png',
+          h3: '乐享活动',
+          p: '每位同学都可通过线上发起活动，通过审核并完成的活动将产生PE分'
+        },
+        {
+          url: 'act_2.png',
+          h3: '快捷预约',
+          p: '场馆动态线上云，随时随地查询场馆状态，告别线下预约，足不出户完成预约'
+        },
+        {
+          url: 'act_3.png',
+          h3: '记录运动',
+          p: 'app打卡记录早操，每一次参加的活动和运动都记录在案'
+        },
+        {
+          url: 'act_4.png',
+          h3: '获取学分',
+          p: '每次的早操或运动都将折算成一定的PE分，当PE分累计到一定时，将获得响应的学分'
+        },
+        {
+          url: 'act_5.png',
+          h3: '发起比赛',
+          p: '由管理员线上发起比赛，不仅支持传统的校园比赛，还支持多个高校联合发起跨区比赛'
+        },
+        {
+          url: 'act_6.png',
+          h3: '报名参赛',
+          p: '学生科通过线上报名参赛，具有裁判技能证书的学生还可线上报名裁判'
+        },
+        {
+          url: 'act_7.png',
+          h3: '比赛PE分记录',
+          p: '校方可根据自身情况，合理的设置比赛的PE分结算规则，将比赛成绩按规则结算成PE分'
+        }
+      ],
+      section2: [
+        {
+          text: '乒乓球',
+          url: 'pingpang.jpg'
+        },
+        {
+          text: '羽毛球',
+          url: 'yumao.jpg'
+        },
+        {
+          text: '篮球',
+          url: 'lanqiu.jpg'
+        },
+        {
+          text: '足球',
+          url: 'zuqiu.jpg'
+        },
+        {
+          text: '铅球',
+          url: 'qianqiu.jpg'
+        },
+        {
+          text: '帆船',
+          url: 'fanchuan.jpg'
+        },
+        {
+          text: '跳高',
+          url: 'tiaogao.jpg'
+        },
+        {
+          text: '50米跑',
+          url: 'paobu.jpg'
+        },
+        {
+          text: '跨栏',
+          url: 'kualan.jpg'
+        }
+      ],
+      section3: [
+        {
+          url: '专业系统.png',
+          h3: '专业系统',
+          p: '集成课程体系，学校培养评估，学生素质评价为一体的综合素质管理平台'
+        },
+        {
+          url: '多端.png',
+          h3: '多端形态',
+          p: 'APP、H5、小程序、PC、Web多端形态，满足不同的使用场景需求'
+        },
+        {
+          url: '个性定制.png',
+          h3: '个性定制',
+          p: '针对不同高校和学生群体需求,定制符合其自身发展需求的功能'
+        },
+        {
+          url: '升级.png',
+          h3: '持续升级',
+          p: '不断优化迭代，持续升级，为第二课堂的前行铺平道路'
+        }
+      ]
     }
+  },
+  methods: {
+    lazy () {
+      document.addEventListener('DOMContentLoaded', function () {
+        var lazyVideos = [].slice.call(document.querySelectorAll('video.lazy'))
+
+        if ('IntersectionObserver' in window) {
+          var lazyVideoObserver = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (video) {
+              if (video.isIntersecting) {
+                for (var source in video.target.children) {
+                  var videoSource = video.target.children[source]
+                  if (typeof videoSource.tagName === 'string' && videoSource.tagName === 'SOURCE') {
+                    videoSource.src = videoSource.dataset.src
+                  }
+                }
+
+                video.target.loadData()
+                video.target.classList.remove('lazy')
+                lazyVideoObserver.unobserve(video.target)
+              }
+            })
+          })
+
+          lazyVideos.forEach(function (lazyVideo) {
+            lazyVideoObserver.observe(lazyVideo)
+          })
+        }
+      })
+    },
+    getCurrentDate () {
+      let dayLsit = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
+      let myDate = new Date()
+      let year = myDate.getFullYear() // 年
+      let month = myDate.getMonth() + 1 // 月
+      let day = myDate.getDate() // 日
+      let days = dayLsit[myDate.getDay()]
+      return year + '年' + month + '月' + day + '日  ' + days
+    }
+  },
+  mounted () {
+
+  },
+  created () {
+    this.lazy()
   }
+}
 </script>
 
 <style scoped>
@@ -413,7 +413,6 @@
     font-size: 20px;
     color: #898888;
   }
-
 
   @media (min-width: 1200px) {
     .homepage .container_self {
@@ -549,7 +548,6 @@
       display: flex;
     }
   }
-
 
   /*区域3*/
   .homepage .section-3 {
@@ -745,6 +743,4 @@
     margin-top: 20px;
   }
 
-
 </style>
-

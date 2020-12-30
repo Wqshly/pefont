@@ -35,7 +35,6 @@
         </el-menu>
       </div>
 
-
     </div>
     <div class="sidebar_phone">
       <div style="height: 60px">
@@ -66,52 +65,52 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        drawer: false,
-        screenWidth: '',
-        items: [
-          {
-            index: 'home',
-            title: '首页'
-          },
-          {
-            index: 'venue',
-            title: '场地预约'
-          },
+export default {
+  data () {
+    return {
+      drawer: false,
+      screenWidth: '',
+      items: [
+        {
+          index: 'home',
+          title: '首页'
+        },
+        {
+          index: 'venue',
+          title: '场地预约'
+        },
 
-          {
-            index: '404',
-            title: '商务合作'
-          },
-          {
-            index: '/home',
-            title: '登录入口'
-          },
-
-        ]
-      }
-    },
-    methods: {
-      handleSelect(key, keyPath) {
-
-      },
-
-      handleClick(val) {
-        this.drawer = false;
-        if (('/' + val.index) != this.$route.path) {
-          this.$router.push(val.index);
+        {
+          index: '404',
+          title: '商务合作'
+        },
+        {
+          index: '/home',
+          title: '登录入口'
         }
-      }
-    },
-    mounted() {
+
+      ]
+    }
+  },
+  methods: {
+    handleSelect (key, keyPath) {
 
     },
-    created() {
-      this.drawer = false;
+
+    handleClick (val) {
+      this.drawer = false
+      if (('/' + val.index) != this.$route.path) {
+        this.$router.push(val.index)
+      }
     }
+  },
+  mounted () {
+
+  },
+  created () {
+    this.drawer = false
   }
+}
 </script>
 
 <style scoped>
@@ -163,7 +162,6 @@
     margin-bottom: 10px;
   }
 
-
   .index_sidebar .sidebar_phone {
     position: fixed;
     z-index: 99999;
@@ -208,7 +206,6 @@
   .index_sidebar .sidebar_phone .el-table::before {
     height: 0;
   }
-
 
   /*自适应*/
   .index_sidebar .sidebar_phone {

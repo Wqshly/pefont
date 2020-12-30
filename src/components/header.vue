@@ -1,341 +1,356 @@
 <template>
-  <div class="all">
-    <div id="normal">
-      <div id="header_item_container">
-        <div id="img_container" @click="jump({link:''})">
-          <img src="../assets/logo2.png" alt="PE">
-        </div>
-        <div class="header_item"
-             v-for="(item,index) in headers"
-             :key="index"
-             @click="jump(item)"
-             :class="[{'active':isActive === item.link && item.link !== '404'},{'float_right' : item.float ==='right'}]">
-          <!--一级菜单-->
-          <div v-if="item.name !=='学校管理' || $store.state.user.identity === '学校管理员'">
-            <i v-if="!item.subs && item.iconName" :class="item.iconName"></i>
-            <p v-if="!item.subs && !item.iconName">{{item.name}}</p>
-          </div>
-          <!--二级菜单-->
-          <el-dropdown v-if="item.subs" show-timeout="0" hide-timeout="250" :trigger="item.trigger">
-            <div>
-              <i v-if="item.iconName" :class="item.iconName"></i>
-              <p v-if="!item.iconName">{{item.name}}</p>
-            </div>
-            <el-dropdown-menu slot="dropdown">
-              <div v-for="(sub,index) in item.subs" :key="index">
-                <el-dropdown-item v-if="!sub.subs" @click.native="jump2(sub)">{{sub.name}}</el-dropdown-item>
-                <!--三级菜单-->
-                <el-dropdown style="width: 100%" v-else>
-                  <el-dropdown-item>{{sub.name}}</el-dropdown-item>
-                  <el-dropdown-menu style="margin: -20px -157px 0 0;" slot="dropdown">
-                    <el-dropdown-item v-for="(s,index) in sub.subs" :key="index" @click.native="jump3(s)">
-                      {{s.name}}
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </div>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
+  <div class="page-container">
+    <div id="web-menu">
+      <div class="header-item-container">
+        <el-menu mode="horizontal" router>
+          <template v-for="(FirstLevelItem,index) in headerList">
+            <!-- 有子目录的 -->
+            <template v-if="FirstLevelItem.subs">
+              <el-submenu :index="FirstLevelItem.index" :key="index" :class="[{'float-right' : FirstLevelItem.float !== 'left' && FirstLevelItem.float !== 'img'}]">
+                <template slot="title">
+                  <i :class="FirstLevelItem.icon"></i>
+                  <span slot="title">{{FirstLevelItem.title}}</span>
+                </template>
+                <!-- 二级菜单 -->
+                <template v-for="(subItem,index) in FirstLevelItem.subs">
+                  <template v-if="subItem.subs">
+                    <el-submenu :index="subItem.index" :key="index">
+                      <template slot="title">
+                        <i :class="subItem.icon"></i>
+                        <span slot="title">{{subItem.title}}</span>
+                      </template>
+                      <template v-for="(ThreeLevelItem,index) in subItem.subs">
+                        <el-menu-item :index="ThreeLevelItem.index" :key="index">
+                          <span>{{ThreeLevelItem.title}}</span>
+                        </el-menu-item>
+                      </template>
+                    </el-submenu>
+                  </template>
+                  <template v-else>
+                    <el-menu-item :index="subItem.index" :key="subItem.index">
+                      <span>{{subItem.title}}</span>
+                    </el-menu-item>
+                  </template>
+                </template>
+              </el-submenu>
+            </template>
+            <!-- 无子目录的 -->
+            <template v-else>
+              <el-menu-item :index="FirstLevelItem.index" :key="index" :class="[{'float-right' : FirstLevelItem.float !== 'left' && FirstLevelItem.float !== 'img'}]">
+                <i :class="FirstLevelItem.icon"></i>
+                <template v-if="FirstLevelItem.imgPath">
+                  <img style="height: 30px;" src="@/assets/logo2.png" />
+                </template>
+                <span slot="title">{{FirstLevelItem.title}}</span>
+              </el-menu-item>
+            </template>
+          </template>
+        </el-menu>
       </div>
     </div>
-    <phone-header class="small" :headers="headers"></phone-header>
+    <div id="app-menu">
+      <div class="header-item-container">
+        <el-menu mode="horizontal" router>
+          <el-submenu>
+            <template slot="title"><i class="el-icon-s-fold"></i>目录</template>
+            <template v-for="(FirstLevelItem,index) in headerList">
+              <!-- 有子目录的 -->
+              <template v-if="FirstLevelItem.subs">
+                <el-submenu v-if="FirstLevelItem.float !== 'account' && FirstLevelItem.float !== 'img'" :index="FirstLevelItem.index" :key="index">
+                  <template slot="title">
+                    <i :class="FirstLevelItem.icon"></i>
+                    <span slot="title">{{FirstLevelItem.title}}</span>
+                  </template>
+                  <!-- 二级菜单 -->
+                  <template v-for="(subItem,index) in FirstLevelItem.subs">
+                    <template v-if="subItem.subs">
+                      <el-submenu :index="subItem.index" :key="index">
+                        <template slot="title">
+                          <i :class="subItem.icon"></i>
+                          <span slot="title">{{subItem.title}}</span>
+                        </template>
+                        <template v-for="(ThreeLevelItem,index) in subItem.subs">
+                          <el-menu-item :index="ThreeLevelItem.index" :key="index">
+                            <span>{{ThreeLevelItem.title}}</span>
+                          </el-menu-item>
+                        </template>
+                      </el-submenu>
+                    </template>
+                    <template v-else>
+                      <el-menu-item :index="subItem.index" :key="subItem.index">
+                        <span>{{subItem.title}}</span>
+                      </el-menu-item>
+                    </template>
+                  </template>
+                </el-submenu>
+              </template>
+              <!-- 无子目录的 -->
+              <template v-else>
+                <el-menu-item v-if="FirstLevelItem.float !== 'account' && FirstLevelItem.float !== 'img'" :index="FirstLevelItem.index" :key="index">
+                  <i :class="FirstLevelItem.icon"></i>
+                  <span slot="title">{{FirstLevelItem.title}}</span>
+                </el-menu-item>
+              </template>
+            </template>
+          </el-submenu>
+          <template v-for="(FirstLevelItem,index) in headerList">
+            <!-- 有子目录的 -->
+            <template v-if="FirstLevelItem.subs">
+              <el-submenu v-if="FirstLevelItem.float === 'account'" :index="FirstLevelItem.index" :key="index" :class="[{'float-right' : FirstLevelItem.float ==='account'}]">
+                <template slot="title">
+                  <i :class="FirstLevelItem.icon"></i>
+                  <span slot="title">{{FirstLevelItem.title}}</span>
+                </template>
+                <!-- 二级菜单 -->
+                <template v-for="(subItem,index) in FirstLevelItem.subs">
+                  <template v-if="subItem.subs">
+                    <el-submenu :index="subItem.index" :key="index">
+                      <template slot="title">
+                        <i :class="subItem.icon"></i>
+                        <span slot="title">{{subItem.title}}</span>
+                      </template>
+                      <template v-for="(ThreeLevelItem,index) in subItem.subs">
+                        <el-menu-item :index="ThreeLevelItem.index" :key="index">
+                          <span>{{ThreeLevelItem.title}}</span>
+                        </el-menu-item>
+                      </template>
+                    </el-submenu>
+                  </template>
+                  <template v-else>
+                    <el-menu-item :index="subItem.index" :key="subItem.index">
+                      <span>{{subItem.title}}</span>
+                    </el-menu-item>
+                  </template>
+                </template>
+              </el-submenu>
+            </template>
+          </template>
+        </el-menu>
+      </div>
+    </div>
     <back></back>
   </div>
 </template>
 
 <script>
 import back from './backTop'
-import phoneHeader from './phoneHeader'
 
 export default {
   // 本组件的当前路由蓝色渲染适用于一级路由  也就是路由路径中的第一个'/'的部分
   components: {
-    back,
-    phoneHeader
+    back
   },
   data () {
     return {
       isActive: 'activity',
-      reverse_headers: [],
-      headers: [
+      headerList: [
         {
-          name: '首页',
-          link: 'home'
+          imgPath: true,
+          index: '/',
+          float: 'img'
         },
         {
-          name: '早操',
-          link: 'exercises'
+          title: '首页',
+          index: '/home',
+          float: 'left'
         },
         {
-          name: '比赛',
-          link: 'competition',
+          title: '早操',
+          index: '/exercises',
+          float: 'left'
+        },
+        {
+          title: '比赛',
+          index: 'competition',
+          float: 'left',
           subs: [
             {
-              name: '本地比赛',
-              link: '/competition/localCompetition'
+              title: '本地比赛',
+              index: '/competition/localCompetition'
             },
             {
-              name: '区域联赛',
-              link: '/competition/regionalLeague'
+              title: '区域联赛',
+              index: '/competition/regionalLeague'
             },
             {
-              name: '我的比赛',
-              link: '/competition/myCompetition'
+              title: '我的比赛',
+              index: '/competition/myCompetition'
             }
           ]
         },
         {
-          name: '活动',
-          link: 'activity',
+          title: '活动',
+          index: 'activity',
+          float: 'left',
           subs: [
             {
-              name: '活动报名',
-              link: '/activity/registration'
+              title: '活动报名',
+              index: '/activity/registration'
             },
             {
-              name: '发起活动',
-              link: '/activity/promotion'
+              title: '发起活动',
+              index: '/activity/promotion'
             },
             {
-              name: '我发起的',
-              link: '/activity/myActivity'
+              title: '我发起的',
+              index: '/activity/myActivity'
             },
             {
-              name: '校内通知',
-              link: '/activity/notice'
-            },
-            {},
-            {
-              name: '活动管理',
-              link: '/activity/management'
+              title: '校内通知',
+              index: '/activity/notice'
             },
             {
-              name: '组织签到',
-              link: '/activity/check'
+              title: '活动管理',
+              index: '/activity/management'
+            },
+            {
+              title: '组织签到',
+              index: '/activity/check'
             }
           ]
         },
         {
-          name: '账户',
-          link: 'account',
+          title: '账户',
+          icon: 'el-icon-s-custom',
+          index: 'account',
+          float: 'account',
           subs: [
             {
-              name: '注销',
-              link: '/account/logout'
-            }
-          ],
-          float: 'right',
-          iconName: 'el-icon-s-custom'
-        },
-        {
-          name: '管理员入口',
-          link: 'management',
-          float: 'right'
-        },
-        {
-          name: '健康管理',
-          link: 'health',
-          subs: [
-            {
-              name: '个人信息',
-              link: '/health/home'
+              title: '管理员入口',
+              index: '/management'
             },
             {
-              name: '祛痘',
-              link: '/health/anti'
-            },
-            {
-              name: '形体矫正',
-              link: '404'
-            }
-          ],
-          float: 'right'
-        },
-
-        {
-          name: '裁判园地',
-          link: 'theory',
-          float: 'right',
-          subs: [
-            {
-              name: '裁判学习',
-              link: '/theory/home'
-            },
-            {
-              name: '在线考试',
-              link: '/theory/exam'
+              title: '注销',
+              index: '/account/logout'
             }
           ]
         },
         {
-          name: '场地与器材',
-          link: '404',
+          title: '健康管理',
+          index: 'health',
           float: 'right',
           subs: [
             {
-              name: '场地预约',
-              link: '/health/home'
+              title: '个人信息',
+              index: '/health/home'
             },
             {
-              name: '器材租赁',
-              link: '/health/anti'
+              title: '祛痘',
+              index: '/health/anti'
             },
             {
-              name: '运动装备',
-              link: '/health/anti'
+              title: '形体矫正',
+              index: '404'
+            }
+          ]
+        },
+        {
+          title: '场地与器材',
+          index: '404',
+          float: 'right',
+          subs: [
+            {
+              title: '场地预约',
+              index: '/health/home'
+            },
+            {
+              title: '器材租赁',
+              index: '/health/anti'
+            },
+            {
+              title: '运动装备',
+              index: '/health/anti'
+            }
+          ]
+        },
+        {
+          title: '裁判园地',
+          index: 'theory',
+          float: 'right',
+          subs: [
+            {
+              title: '裁判学习',
+              index: '/theory/home'
+            },
+            {
+              title: '在线考试',
+              index: '/theory/exam'
             }
           ]
         }
-      ],
-      drawer: false
-
+      ]
     }
   },
   methods: {
-    // 一级目录跳转函数   便于渲染active样式
-    jump (val) {
-      if (!val.noJump) {
-        this.drawer = false
-        if (val.link === 'management') {
-          window.open('/#/management')
-        } else {
-          this.$router.push('/' + val.link)
-        }
-      }
-    },
-    // 二级目录跳转函数
-    jump2 (val) {
-      if (!val.noJump) {
-        this.drawer = false
-        this.$router.push(val.link)
-      }
-    },
-    jump3 (val) {
-      if (!val.noJump) {
-        this.drawer = false
-        this.$store.commit('setCompetitionClass', val.name)
-        this.$router.push(val.link)
-        this.$eventBus.emit('setCompetitionClass', val.name)
-      }
-    },
     logout () {
-      api.get('/api/login/logout').then(res => {
+      this.$api.get('/api/login/logout').then(res => {
       })
       this.$store.commit('setUserId', -1)
       this.$router.push('/login')
     }
-  },
-  mounted () {
-
-  },
-  created () {
-    this.reverse_headers = this.$clone.deepClone(this.headers).reverse()
-    this.isActive = (this.$route.path).split('/')[1]
   }
 }
 </script>
 
 <style scoped>
-  .all {
+  .page-container {
     height: 80px;
     width: 100%;
   }
 
-  .all #normal {
+  #web-menu {
     width: 100%;
-    height: 80px;
     position: fixed;
-    top: 0;
     z-index: 1999;
     background-color: white;
-    border-bottom: 1px solid #dcdfe6;
+    display: block !important;
   }
 
-  #header_item_container {
-    height: 80px;
-    line-height: 80px;
-    top: 0;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 1140px;
-    vertical-align: middle;
-  }
-
-  #img_container {
-    display: flex;
-    cursor: pointer;
-    height: 80px;
-    float: left;
-    align-items: center;
-  }
-
-  #header_item_container img {
-    height: 30px;
-  }
-
-  #normal #header_item_container .header_item {
-    line-height: 80px;
-    height: 80px;
-    margin: 0 0 0 15px;
-    float: left;
-    cursor: pointer;
-    text-align: center;
-    font-size: 14px;
-  }
-
-  #normal i {
-    font-size: 30px;
-    vertical-align: middle;
-    line-height: 80px;
-    cursor: pointer;
-    color: #60606d;
-  }
-
-  #normal p {
-    color: #60606d;
-    font-size: 14px;
-  }
-
-  #normal p:hover, i:hover {
-    color: #409EFF !important;
-  }
-
-  .float_right {
-    float: right !important;
-  }
-
-  .active {
-    border-bottom: 2px solid #409EFF;
-    color: #409EFF !important;
-  }
-
-  .active3 {
-    border-bottom: none;
-    color: #409EFF !important;
-  }
-
-  #normal {
+  #app-menu {
     display: block;
   }
 
-  .small {
-    display: none !important;
+  .header-item-container {
+    height: 80px;
+    line-height: 80px;
+    width: 100%;
+    max-width: 1140px;
+    top: 0;
+    margin: 0 auto;
+    vertical-align: middle;
+  }
+
+  .float-right {
+    float: right !important;
   }
 
   /*手机端*/
-  @media screen and (max-width: 1009px) {
-    .all {
+  @media screen and (max-width: 1020px) {
+    .page-container {
       height: 60px;
       width: 100%;
     }
 
-    #normal {
-      display: none;
+    #web-menu {
+      display: none !important;
     }
 
-    .small {
-      display: flex !important;
+    #app-menu {
+      width: 100%;
+      position: fixed;
+      z-index: 999;
+      display: block !important;
+    }
+
+    .header-item-container {
+      height: 60px;
+      width: 100%;
+      margin: 0 auto;
+      top: 0;
+      z-index: 999;
+      overflow: hidden;
+      background-color: #1B1C20;
+      align-items: center;
     }
   }
 

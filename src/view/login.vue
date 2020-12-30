@@ -103,9 +103,10 @@ export default {
         this.$api.post(url, this.loginForm).then(res => {
           this.loginDisable = false
           if (res.code === 0) {
-            this.$router.push('/home')
             console.log(res.data)
-            this.$store.commit('setUser', res.data)
+            var session = JSON.stringify(res.data)
+            sessionStorage.setItem('userInfo', session)
+            this.$router.push('/home')
           } else {
             this.$message.error(res.msg)
           }

@@ -9,19 +9,19 @@
   </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-      }
-    },
-    methods: {},
-    mounted() {
+export default {
+  data () {
+    return {
+    }
+  },
+  methods: {},
+  mounted () {
 
-    },
-    created() {
+  },
+  created () {
 
-    },
   }
+}
 </script>
 <style scoped>
   .home_main {
