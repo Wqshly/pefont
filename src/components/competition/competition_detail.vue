@@ -2,64 +2,67 @@
   <div class="competition-detail">
     <div class="competition-header">
       <div class="header_item">
-        <h3>山东科技大学第十三届运动会</h3>
+        <h3>{{competition.title}}</h3>
+        <el-button type="info" class="header_button" @click="sign = true">报名中</el-button>
       </div>
       <div class="header_item">
-        <img src="http://www.xiaoyuanpe.com/1.png"/>
+        <img :src="competition.img"/>
       </div>
-      <el-tag type="info" class="header_button">已完赛</el-tag>
       <div @click="$emit('back')" class="close">&times;</div>
     </div>
 
     <el-divider content-position="right">
 
     </el-divider>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form label-width="100px">
       <el-form-item style="margin-bottom: 0!important;" label="报名时间：">
-        <p>{{item}}-{{item}}</p>
+        <p>{{competition.signTime}}</p>
       </el-form-item>
       <el-form-item style="margin-bottom: 0!important;" label="比赛时间：">
-        <p>{{item}}-{{item}}</p>
+        <p>{{competition.competitionTime}}</p>
       </el-form-item>
       <el-form-item style="margin-bottom: 0!important;" label="地址：">
-        <p>{{item}}</p>
+        <p>{{competition.address}}</p>
       </el-form-item>
       <el-form-item style="margin-bottom: 0!important;" label="比赛项目：">
-        <el-tag type="info">足球</el-tag>
-        <el-tag type="info">羽毛球</el-tag>
-        <el-tag type="info">长跑</el-tag>
+        <el-tag class="competition-project" v-for="project in competition.projects" type="info"  @click="$emit('back')">{{project}}</el-tag>
       </el-form-item>
     </el-form>
+    <competition_sign v-show="sign"/>
   </div>
 </template>
 
 <script>
+  import competition_sign from "./competition_sign";
   export default {
+    components: {
+      competition_sign
+    },
     props: {
-      headers: {
-        default: null
-      },
-      center: {
-        default: false
-      },
+      competition: {
+        default: {
+          id: -1,
+          title: "山东科技大学第十三届运动会",
+          img: "http://www.xiaoyuanpe.com/1.png",
+          status: "已完赛",
+          signTime: "2020-12-20     2020-12-21",
+          competitionTime: "2020-12-27     2020-12-29",
+          address: "山东科技大学风雨操场",
+          projects: ["足球","羽毛球","长跑"],
+        }
+      }
+
     },
     data() {
       return {
-        options: ['全部比赛', '报名中', '已结束'],
-        competitionClass: '全部比赛',
-        tableData: [],
-        item: 122132131
+        sign: false
       }
     },
     methods: {
-      handleClick(item) {
-        alert(item)
-      }
+
     },
     mounted() {
-      for (let i = 0; i < 20; ++i) {
-        this.tableData.push("2020-xx-xx")
-      }
+
     },
     created() {
 
@@ -70,11 +73,11 @@
 <style scoped>
   .competition-detail {
     width: fit-content;
+    min-width: 300px;
     height: fit-content;
     background-color: white;
     border-radius: 20px;
     margin: 40px;
-    padding-bottom: 20px;
   }
 
   .competition-header {
@@ -93,9 +96,7 @@
     width: 100%;
   }
   .competition-header .header_button {
-    position: absolute;
-    bottom: 15px;
-    left: 15px;
+    margin-top: 50px;
   }
 
   .competition-header .close {
@@ -109,5 +110,12 @@
 
   .competition-header .close:hover {
     color: red;
+  }
+  .competition-project {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  .competition-project:hover {
+    color: black;
   }
 </style>

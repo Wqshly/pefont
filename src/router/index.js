@@ -26,9 +26,12 @@ const exercisesPage = () => import(/* webpackChunkName: '1' */ '../view/exercise
 const exercises_page = () => import(/* webpackChunkName: '1' */ '../view/exercises/home')
 
 /* 比赛 */
-const competitionPage = () => import(/* webpackChunkName: '2' */ '../view/competition/Page')
-const competition_localCompetition = () => import(/* webpackChunkName: '2' */ '../view/competition/localCompetition')
-const competition_page = () => import(/* webpackChunkName: '2' */ '../view/competition/home')
+const competitionPage = () => import(/* webpackChunkName: '2' */ '../view/competition/Page');
+const competition_localCompetition = () => import(/* webpackChunkName: '2' */ '../view/competition/localCompetition');
+const competition_myCompetition = () => import(/* webpackChunkName: '2' */ '../view/competition/myCompetition');
+const competition_page = () => import(/* webpackChunkName: '2' */ '../view/competition/home');
+
+
 
 /* promotion page */
 const promotionPage = () => import(/* webpackChunkName: '4' */ '../view/promotion/Page')
@@ -171,8 +174,8 @@ const router = new Router({
         },
         {
           path: '/competition/myCompetition',
-          component: competition_page
-        }
+          component: competition_myCompetition
+        },
       ]
     },
 
