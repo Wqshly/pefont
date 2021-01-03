@@ -27,12 +27,22 @@
           </template>
           <template slot-scope="scope">
             <span style="color: #e95f13;">{{ scope.row.title }}<br/></span>
-            <span style="margin-left: 10px">发起人：{{ filter_description(scope.row.description)}}</span>
+            <span style="margin-left: 10px;width: 100%">具体项目：{{ filter_description(scope.row.description)}}</span>
+            <br>
+            <span style="margin-left: 10px">比赛时间：{{ filter_description(scope.row.description)}}</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="label"
-          label="权限"
+          label="获得名次"
+          width="100">
+          <template slot-scope="scope">
+
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="label"
+          label="角色"
           width="100">
           <template slot-scope="scope">
             <el-tag

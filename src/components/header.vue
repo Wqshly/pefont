@@ -294,7 +294,7 @@ export default {
 
 <style scoped>
   .page-container {
-    height: 80px;
+    height: 60px;
     width: 100%;
   }
 
@@ -311,8 +311,8 @@ export default {
   }
 
   .header-item-container {
-    height: 80px;
-    line-height: 80px;
+    height: 60px;
+    line-height: 60px;
     width: 100%;
     max-width: 1140px;
     top: 0;

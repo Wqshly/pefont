@@ -25,7 +25,12 @@
         <p>{{competition.address}}</p>
       </el-form-item>
       <el-form-item style="margin-bottom: 0!important;" label="比赛项目：">
-        <el-tag class="competition-project" v-for="project in competition.projects" type="info"  @click="$emit('back')">{{project}}</el-tag>
+        <el-tag class="competition-project"
+                v-for="(project,index) in competition.projects"
+                :key="index"
+                type="info">
+          {{project}}
+        </el-tag>
       </el-form-item>
     </el-form>
     <competition_sign v-show="sign"/>
@@ -34,6 +39,7 @@
 
 <script>
   import competition_sign from "./competition_sign";
+
   export default {
     components: {
       competition_sign
@@ -48,7 +54,7 @@
           signTime: "2020-12-20     2020-12-21",
           competitionTime: "2020-12-27     2020-12-29",
           address: "山东科技大学风雨操场",
-          projects: ["足球","羽毛球","长跑"],
+          projects: ["足球", "羽毛球", "长跑"],
         }
       }
 
@@ -58,9 +64,7 @@
         sign: false
       }
     },
-    methods: {
-
-    },
+    methods: {},
     mounted() {
 
     },
@@ -87,14 +91,16 @@
     position: relative;
   }
 
-  .competition-header .header_item{
+  .competition-header .header_item {
     width: 50%;
     margin-right: 30px;
     padding: 20px;
   }
-  .competition-header .header_item img{
+
+  .competition-header .header_item img {
     width: 100%;
   }
+
   .competition-header .header_button {
     margin-top: 50px;
   }
@@ -111,10 +117,12 @@
   .competition-header .close:hover {
     color: red;
   }
+
   .competition-project {
     margin-right: 10px;
     cursor: pointer;
   }
+
   .competition-project:hover {
     color: black;
   }
