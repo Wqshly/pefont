@@ -37,8 +37,9 @@
           <el-table
             :data="PEScoreInWeek" ref="PEScoreInWeek">
 <!--            <el-table-column label="分数" width="50" prop="score"></el-table-column>-->
-            <el-table-column label="运动时长/(分钟)" width="130" prop="timeLen"></el-table-column>
-            <el-table-column label="日期" width="120" prop="startTime" :formatter="dateFormatter"></el-table-column>
+            <el-table-column label="类别" width="130" prop="clazz"></el-table-column>
+            <el-table-column label="PE分" width="130" prop="score"></el-table-column>
+<!--            <el-table-column label="日期" width="120" prop="startTime" :formatter="dateFormatter"></el-table-column>-->
           </el-table>
         </el-card>
       </div>
