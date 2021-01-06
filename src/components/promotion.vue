@@ -458,7 +458,8 @@ export default {
 
 <style>
   .activity-promotional{
-    width: 90%;
+    width: 100%;
+    background-color: #f2f5f6;
   }
   .activity-promotional .el-select>.el-input {
     width: 130px!important;

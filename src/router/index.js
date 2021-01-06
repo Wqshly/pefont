@@ -125,6 +125,26 @@ const router = new Router({
         {
           path: '/competition/myCompetition',
           component: competitionPage
+        },
+        {
+          path: '/activity/registration',
+          component: activityRegistration
+        },
+        {
+          path: '/activity/notice',
+          component: activityNotice
+        },
+        {
+          path: '/activity/promotion',
+          component: activityPromotional
+        },
+        {
+          path: '/activity/management',
+          component: activityManagement
+        },
+        {
+          path: '/activity/check',
+          component: activityCheck
         }
       ]
     },
@@ -197,26 +217,6 @@ const router = new Router({
         {
           path: '/',
           redirect: '/activity/registration'
-        },
-        {
-          path: '/activity/registration',
-          component: activityRegistration
-        },
-        {
-          path: '/activity/notice',
-          component: activityNotice
-        },
-        {
-          path: '/activity/promotion',
-          component: activityPromotional
-        },
-        {
-          path: '/activity/management',
-          component: activityManagement
-        },
-        {
-          path: '/activity/check',
-          component: activityCheck
         }
       ]
     },
