@@ -2,7 +2,7 @@
   <div class="main-nav">
     <div v-show="!detail">
       <div class="localCompetition-header">
-        <h3>专业赛事</h3>
+        <h3>本地赛事</h3>
         <el-select v-model="competitionClass" placeholder="请选择" class="select">
           <el-option v-for="(item, index) in options"
                      :key="index"
@@ -76,11 +76,12 @@
   }
 
   .localCompetition-header {
-    width: 100%;
+    width: 90%;
+    margin: 0 auto;
     height: 60px;
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-around;
+    justify-content: space-between;
     border-bottom: 1px solid #DCDFE6;
     align-items: center;
   }
@@ -94,7 +95,7 @@
   .competition-card {
     background-color: white;
     width: 25%;
-    min-width: 300px;
+    width: 300px;
     margin: 15px;
     padding: 20px;
     border-radius: 20px;

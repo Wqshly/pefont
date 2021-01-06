@@ -22,30 +22,52 @@
         </el-input>
       </el-form-item>
 
-      <el-form-item label="占地规模" class="form-row">
+      <el-form-item label="场馆电话" class="form-row">
         <el-input
-
-          placeholder="占地规模"
-          v-model="ruleForm.dimensions">
-          <el-select slot="append" v-model="dimensionsUnit" placeholder="单位" style="width: 100px;">
-            <el-option
-              v-for="item in unitOption"
-              :key="item"
-              :label="item"
-              :value="item">
-            </el-option>
-          </el-select>
+          placeholder="场馆名"
+          v-model="ruleForm.title">
         </el-input>
-
       </el-form-item>
 
-      <el-form-item label="修建时间" class="form-row">
-        <el-date-picker
-          v-model="ruleForm.buildTime"
-          type="month"
-          placeholder="选择修建时间">
-        </el-date-picker>
+      <el-form-item label="开放日期" class="form-row">
+        <el-checkbox-group v-model="ruleForm.openDate">
+          <el-checkbox v-for="o in openDateOptions" :label="o" :key="o"></el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
 
+      <el-form-item label="开放时间" class="form-row">
+        <el-time-picker
+          is-range
+          v-model="ruleForm.openTime"
+          range-separator="至"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+          placeholder="选择时间范围">
+        </el-time-picker>
+      </el-form-item>
+
+      <el-form-item label="交通信息" class="form-row">
+        <div v-for="(i, index) in ruleForm.travelInformation">
+          <el-input
+            style="width: 150px"
+            placeholder="条目"
+            v-model="i.key">
+          </el-input>
+          <el-input
+            style="width: calc(100% - 220px)"
+            placeholder="描述"
+            v-model="i.value">
+          </el-input>
+          <el-button icon="el-icon-delete" @click="deleteTravelInformation(index)"></el-button>
+        </div>
+        <el-button type="primary" plain style="margin-top: 10px" @click="addTravelInformation">增加条目</el-button>
+      </el-form-item>
+
+      <el-form-item label="人均价格" class="form-row">
+        <el-input
+          placeholder="人均价格"
+          v-model="ruleForm.title">
+        </el-input>
       </el-form-item>
 
       <el-form-item label="缩略图" class="form-row">
@@ -58,8 +80,8 @@
 
       <el-form-item label="展示图" class="form-row">
         <img-list :display-image-url="displayImageUrl"/>
-
       </el-form-item>
+
       <el-form-item class="form-row">
         <el-button type="success" plain style="cursor: pointer" @click="submit" :disabled="isQuerying">确认</el-button>
       </el-form-item>
@@ -72,13 +94,31 @@
   import imgList from "../common/imgList";
 
   export default {
-    components: {
-      imgList
-    },
     props: {
+      imageUrl: {
+        default: ''
+      },
+
+      displayImageUrl: {
+        default: []
+      },
       id: {
         default: -1
+      },
+      ruleForm: {
+        default: {
+          title: '',
+          position: '',
+          dimensions: '',
+          buildTime: '',
+          openDate: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
+          openTime: [new Date(2016, 9, 10, 8, 0), new Date(2016, 9, 10, 23, 40)],
+          travelInformation: [{key: '', value: ''}],
+        }
       }
+    },
+    components: {
+      imgList
     },
     watch: {
       id(val) {
@@ -88,24 +128,23 @@
     },
     data() {
       return {
-        imageUrl: '',
-        displayImageUrl: [],
+        openDateOptions: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
         dimensionsUnit: '公顷',
         unitOption: ['公顷', '平方米'],
         isQuerying: false,
-        ruleForm: {
-          title: '',
-          position: '',
-          dimensions: '',
-          buildTime: '',
 
-        }
       }
     },
     methods: {
       addSubs(venueId) {
         this.$store.commit('setVenueOption', venueId);
         this.$router.push('/venue/management/addSubVenue');
+      },
+      addTravelInformation() {
+        this.ruleForm.travelInformation.push({key: '', value: ''});
+      },
+      deleteTravelInformation(index) {
+        this.ruleForm.travelInformation.splice(index, 1);
       },
       checkForm() {
         let errorMsg;
@@ -143,6 +182,7 @@
       },
 
       submit() {
+        console.log(this.displayImageUrl)
         this.$confirm('确认提交？').then(_ => {
           if (this.checkForm()) {
             this.isQuerying = true;

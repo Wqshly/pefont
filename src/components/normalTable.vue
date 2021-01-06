@@ -7,8 +7,9 @@
     </thead>
 
     <tbody>
-    <tr v-for="tr in table">
+    <tr v-for="(tr, index) in table">
       <td v-for="td in tr">{{td}}</td>
+      <td v-if="deleteButton" class="delete" @click="deleteTr(index)">&times</td>
     </tr>
     </tbody>
   </table>
@@ -21,15 +22,36 @@
       },
       table: {
         default: []
-      }
+      },
+      deleteButton: {
+        default: false
+      },
     },
     data() {
       return {
         col: null
       }
     },
+    watch: {
+      table() {
+        this.col = this.table[0].length;
+        if(this.deleteButton) {
+          this.col += 1;
+        }
+      }
+    },
+    methods: {
+      deleteTr(index) {
+        this.table.splice(index, 1);
+      }
+    },
     mounted() {
-      this.col = this.table[0].length
+      if(table.length !== 0 ) {
+        this.col = this.table[0].length;
+        if(this.deleteButton) {
+          this.col += 1;
+        }
+      }
     }
   }
 </script>
@@ -75,5 +97,11 @@
 
   .pure-table td {
     background-color: transparent;
+  }
+  .delete{
+    cursor: pointer;
+  }
+  .delete:hover{
+    color: red;
   }
 </style>
