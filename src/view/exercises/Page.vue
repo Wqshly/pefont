@@ -2,7 +2,6 @@
   <div>
     <v-header></v-header>
     <div class="home_main">
-      <router-menu :headers="headers"></router-menu>
       <router-view></router-view>
     </div>
     <v-footer></v-footer>

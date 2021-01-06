@@ -1,6 +1,6 @@
 <template>
-  <div class="header-style">
-    <div class="normal">
+  <div class="page-container">
+    <div class="menu">
       <div class="header-item-container">
         <el-menu mode="horizontal" router>
           <template v-for="(FirstLevelItem,index) in headerList">
@@ -38,7 +38,7 @@
             <template v-else>
               <el-menu-item :index="FirstLevelItem.index" :key="index">
                 <template v-if="FirstLevelItem.imgPath">
-                  <img src="@/assets/logo2.png" />
+                  <img style="height: 30px;" src="@/assets/logo2.png" />
                 </template>
                 <i :class="FirstLevelItem.icon"></i>
                 <span slot="title">{{FirstLevelItem.title}}</span>
@@ -75,8 +75,12 @@ export default {
               index: 'localCompetition',
               subs: [
                 {
-                  title: '发起比赛',
+                  title: '创建比赛',
                   index: '/management/createCompetition'
+                },
+                {
+                  title: '发布比赛',
+                  index: '/management/releaseCompetition'
                 },
                 {
                   title: '管理比赛',
@@ -136,73 +140,29 @@ export default {
 </script>
 
 <style scoped>
-  .header-style {
+  .page-container {
     height: 80px;
     width: 100%;
   }
 
-  .header-style .normal {
+  .menu {
     width: 100%;
-    height: 80px;
     position: fixed;
-    top: 0;
-    z-index: 1999;
-    background-color: white;
-    border-bottom: 1px solid #dcdfe6;
+    z-index: 999;
+    background-color: #f9f9f9;
   }
 
   .header-item-container {
     height: 80px;
     line-height: 80px;
-    top: 0;
     margin: 0 auto;
     width: 100%;
     max-width: 1140px;
     vertical-align: middle;
   }
 
-  .img-container {
-    display: flex;
-    cursor: pointer;
-    height: 80px;
-    float: left;
-    align-items: center;
-  }
-
-  .header-item-container img {
-    height: 30px;
-  }
-
-  .normal i {
-    font-size: 30px;
-    vertical-align: middle;
-    line-height: 80px;
-    cursor: pointer;
-    color: #60606d;
-  }
-
-  .normal p {
-    color: #60606d;
-    font-size: 14px;
-  }
-
-  .normal p:hover, i:hover {
-    color: #409EFF !important;
-  }
-
   .float-right {
     float: right !important;
-  }
-
-  .normal {
-    display: block;
-  }
-
-  /*手机端*/
-  @media screen and (max-width: 700px) {
-    .img-container {
-      display: none !important;
-    }
   }
 
 </style>

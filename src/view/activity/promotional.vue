@@ -147,7 +147,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let url = '/api/activity/addActivity/'
-          this.ruleForm.publisherId = this.$store.state.user.id
+          // this.ruleForm.publisherId = this.$store.state.user.id
           this.ruleForm.registrationStartTime = this.ruleForm.signUpTime[0]
           this.ruleForm.registrationClosingTime = this.ruleForm.signUpTime[1]
           this.ruleForm.startTime = this.ruleForm.activityTime[0]
@@ -207,21 +207,6 @@ export default {
 
   .activity-promotional .avatar-uploader .el-upload:hover {
     border-color: #409EFF;
-  }
-
-  .activity-promotional .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-
-  .activity-promotional .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
   }
 
   .activity-promotional .el-form {

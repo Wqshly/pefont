@@ -73,7 +73,9 @@ export default {
       currentPage: 1, // 当前页
       pageSize: 10, // 每页显示条数
       total: 0, // 数据总条数
-      item: {} // 查看详情的条目序号
+      item: {
+        signNum: 0
+      } // 查看详情的条目序号
     }
   },
   methods: {

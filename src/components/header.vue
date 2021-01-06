@@ -301,7 +301,7 @@ export default {
   #web-menu {
     width: 100%;
     position: fixed;
-    z-index: 1999;
+    z-index: 999;
     background-color: white;
     display: block !important;
   }
@@ -315,7 +315,6 @@ export default {
     line-height: 80px;
     width: 100%;
     max-width: 1140px;
-    top: 0;
     margin: 0 auto;
     vertical-align: middle;
   }

@@ -34,49 +34,49 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        myName: null,
-        myScore: 0,
-        sportRecord: [],
-      }
+export default {
+  data () {
+    return {
+      myName: null,
+      myScore: 0,
+      sportRecord: []
+    }
+  },
+  methods: {
+    mappingStartTime (row, column) {
+      return row.startTime.split('.')[0].replace('T', '\n')
     },
-    methods: {
-      mappingStartTime(row, column) {
-        return row.startTime.split(".")[0].replace('T', '\n');
-      },
-      requestScore(url, index) {
-        this.$api.get(url).then(res => {
-          if (res.code === 0) {
-            switch (index) {
-              case 1:
-                this.myName = res.data.name;
-                this.myScore = res.data.score;
-                break;
-              case 2:
-                this.sportRecord = res.data;
-                break;
-              default:
-                break;
-            }
-          } else {
-            this.$message.error(res.msg);
+    requestScore (url, index) {
+      this.$api.get(url).then(res => {
+        if (res.code === 0) {
+          switch (index) {
+            case 1:
+              this.myName = res.data.name
+              this.myScore = res.data.score
+              break
+            case 2:
+              this.sportRecord = res.data
+              break
+            default:
+              break
           }
-        })
-      },
-      handleData() {
-        return this.sportRecord;
-      },
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
-    mounted() {
-      this.requestScore('/api/semester/singleScore', 1);
-      this.requestScore('/api/SignIn/searchActivityOneWeek', 2);
-    },
-    created() {
+    handleData () {
+      return this.sportRecord
+    }
+  },
+  mounted () {
+    this.requestScore('/api/semester/singleScore', 1)
+    this.requestScore('/api/SignIn/searchActivityOneWeek', 2)
+  },
+  created () {
 
-    },
   }
+}
 </script>
 
 <style scoped>

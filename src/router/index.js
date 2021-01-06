@@ -17,18 +17,18 @@ const notFoundPage = () => import(/* webpackChunkName: '0' */ '../view/404')
 /* login page */
 const login = () => import(/* webpackChunkName: '0' */ '../view/login')
 
-/* 首页 */
-const homePage = () => import(/* webpackChunkName: '0' */ '../view/home/Page')
-const home_page = () => import(/* webpackChunkName: '0' */ '../view/home/home')
+// 用户页模板
+const templatePage = () => Promise.resolve(require('@/components/templatePage'))
 
-/* 早操 */
-const exercisesPage = () => import(/* webpackChunkName: '1' */ '../view/exercises/Page')
-const exercises_page = () => import(/* webpackChunkName: '1' */ '../view/exercises/home')
+// 首页
+const homePage = () => Promise.resolve(require('@/view/home/home'))
 
-/* 比赛 */
-const competitionPage = () => import(/* webpackChunkName: '2' */ '../view/competition/Page')
-const competition_localCompetition = () => import(/* webpackChunkName: '2' */ '../view/competition/localCompetition')
-const competition_page = () => import(/* webpackChunkName: '2' */ '../view/competition/home')
+// 早操
+const exercisesPage = () => import(/* webpackChunkName: '1' */ '../view/exercises/home')
+
+// 比赛
+const competitionLocalCompetition = () => import(/* webpackChunkName: '2' */ '../view/competition/localCompetition')
+const competitionPage = () => import(/* webpackChunkName: '2' */ '../view/competition/home')
 
 /* promotion page */
 const promotionPage = () => import(/* webpackChunkName: '4' */ '../view/promotion/Page')
@@ -83,7 +83,8 @@ const managementPage = () => import(/* webpackChunkName: '9' */ '../view/managem
 const activityApproval = () => Promise.resolve(require('@/view/management/activity/activityApproval'))
 const mana_page = () => import(/* webpackChunkName: '9' */ '../view/management/home')
 const mana_class = () => import(/* webpackChunkName: '9' */ '../view/management/manaClass')
-const competitionCreate = () => import(/* webpackChunkName: '3' */ '../view/management/competition/create')
+const createCompetition = () => Promise.resolve(require('@/view/management/competition/createCompetition'))
+// const competitionCreate = () => import(/* webpackChunkName: '3' */ '../view/management/competition/create')
 const competitionManage = () => import(/* webpackChunkName: '3' */ '../view/management/competition/management')
 const venueCreate = () => import(/* webpackChunkName: '3' */ '../view/management/venue/create')
 const venue_management = () => import(/* webpackChunkName: '3' */ '../view/management/venue/management')
@@ -103,11 +104,27 @@ const router = new Router({
     },
     {
       path: '/',
-      component: homePage,
+      component: templatePage,
       children: [
         {
           path: '/home',
-          component: home_page
+          component: homePage
+        }, // 首页
+        {
+          path: '/exercises',
+          component: exercisesPage
+        }, // 早操
+        {
+          path: '/competition/localCompetition',
+          component: competitionLocalCompetition
+        }, // 本地运动
+        {
+          path: '/competition/regionalLeague',
+          component: notFoundPage
+        },
+        {
+          path: '/competition/myCompetition',
+          component: competitionPage
         }
       ]
     },
@@ -136,42 +153,6 @@ const router = new Router({
         {
           path: '/equipment/home',
           component: equipment_page
-        }
-      ]
-    },
-    {
-      path: '/exercises',
-      component: exercisesPage,
-      children: [
-        {
-          path: '/',
-          redirect: '/exercises/signIn'
-        },
-        {
-          path: '/exercises/signIn',
-          component: exercises_page
-        }
-      ]
-    },
-    {
-      path: '/competition',
-      component: competitionPage,
-      children: [
-        {
-          path: '/',
-          redirect: '/competition/localCompetition'
-        },
-        {
-          path: '/competition/localCompetition',
-          component: competition_localCompetition
-        },
-        {
-          path: '/competition/regionalLeague',
-          component: notFoundPage
-        },
-        {
-          path: '/competition/myCompetition',
-          component: competition_page
         }
       ]
     },
@@ -362,7 +343,7 @@ const router = new Router({
         // 管理页面中的本地比赛
         {
           path: '/management/createCompetition',
-          component: competitionCreate,
+          component: createCompetition,
           meta: {
             schoolAdmin: true
           }

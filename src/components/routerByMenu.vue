@@ -8,8 +8,8 @@
 </template>
 
 <script>
-  export default {
-    /*传递如下结构从而使用该组件
+export default {
+  /* 传递如下结构从而使用该组件
     //该组件只适用于最下级路由
     link 点击跳转路径
     link secondLink 与当前路由相同时 高亮该选项
@@ -19,39 +19,39 @@
             name: '理论学习',
             secondLink:'/theory/theory'
         },
-     ],*/
-    props: {
-      headers: {
-        default: null
-      },
-      center: {
-        default: false
-      },
+     ], */
+  props: {
+    headers: {
+      default: null
     },
-    data() {
-      return {
-        isActive: '',
+    center: {
+      default: false
+    }
+  },
+  data () {
+    return {
+      isActive: ''
+    }
+  },
+  methods: {
+    jump (val) {
+      if ((val) !== this.$route.path) {
+        this.$router.push(val)
+        window.scrollTo(0, 0)
       }
-    },
-    methods: {
-      jump(val) {
-        if ((val) !== this.$route.path) {
-          this.$router.push(val);
-          window.scrollTo(0, 0);
-        }
-      },
-    },
-    mounted() {
-      this.isActive = this.$route.path;
-    },
-    created() {
-    },
-    watch: {
-      $route(to, from) {
-        this.isActive = to.path.split('?')[0];
-      }
-    },
+    }
+  },
+  mounted () {
+    this.isActive = this.$route.path
+  },
+  created () {
+  },
+  watch: {
+    $route (to, from) {
+      this.isActive = to.path.split('?')[0]
+    }
   }
+}
 </script>
 
 <style scoped>
