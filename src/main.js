@@ -11,7 +11,8 @@ import footer from './components/footer.vue'
 import menu from './components/routerByMenu.vue'
 
 import {clone} from './api/clone.js'
-import {api} from './api/ajax'
+// import {api} from './api/ajax'
+import api from '@/api/index'
 import {eventBus} from './api/bus'
 Vue.use(AMap)
 Vue.use(router)
@@ -32,6 +33,7 @@ AMap.initAMapApiLoader({
   plugin: ['AMap.Geolocation']
 })
 
+// 全局注册
 Vue.prototype.$clone = clone
 Vue.prototype.$api = api
 Vue.prototype.$eventBus = eventBus

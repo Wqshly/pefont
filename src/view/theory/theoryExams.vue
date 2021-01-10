@@ -34,75 +34,73 @@
 
 <script>
 
-    import {api} from "@/api/ajax"
-    export default {
-        //活动中心的父级组件
-        name: 'theory_page',
-        data() {
-            return {
-                input:'',
-                currentPage: 1,
-                pageSize: 10,
-                total:0,
-                remote_data: [
-                    {
-                        "test_index": 1,
-                        "test_name": "裁判理论知识考试"
-                    },
-                    {
-                        "test_index": 2,
-                        "test_name": "基础体育知识考试"
-                    },
-                    {
-                        "test_index": 3,
-                        "test_name": "羽毛球理论考试"
-                    },
-                    {
-                        "test_index": 4,
-                        "test_name": "兵乓球理论考试"
-                    },
-                    {
-                        "test_index": 5,
-                        "test_name": "排球理论考试"
-                    },
-
-                ],
-            }
+export default {
+  // 活动中心的父级组件
+  name: 'theory_page',
+  data () {
+    return {
+      input: '',
+      currentPage: 1,
+      pageSize: 10,
+      total: 0,
+      remote_data: [
+        {
+          'test_index': 1,
+          'test_name': '裁判理论知识考试'
         },
-        methods: {
-
-            //处理表格数据
-            handleData(){
-                let temp_data = this.remote_data.filter(data=>this.filter(data));
-                this.total=temp_data.length;
-                return temp_data.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize);
-            },
-
-            //搜索筛选
-            filter(val){
-                return (!this.input || val.test_name.toLowerCase().includes(this.input.toLowerCase()));
-            },
-
-
-            //每页条数
-            handleSizeChange(val) {
-                this.pageSize=val;
-                /*console.log(`每页 ${val} 条`);*/
-            },
-
-            //当前页数
-            handleCurrentChange(val) {
-                /*console.log(`当前页: ${val}`);*/
-            },
-
+        {
+          'test_index': 2,
+          'test_name': '基础体育知识考试'
         },
-        mounted() {
-
+        {
+          'test_index': 3,
+          'test_name': '羽毛球理论考试'
         },
-        created() {
-
+        {
+          'test_index': 4,
+          'test_name': '兵乓球理论考试'
         },
+        {
+          'test_index': 5,
+          'test_name': '排球理论考试'
+        }
+
+      ]
     }
+  },
+  methods: {
+
+    // 处理表格数据
+    handleData () {
+      let temp_data = this.remote_data.filter(data => this.filter(data))
+      this.total = temp_data.length
+      return temp_data.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+    },
+
+    // 搜索筛选
+    filter (val) {
+      return (!this.input || val.test_name.toLowerCase().includes(this.input.toLowerCase()))
+    },
+
+    // 每页条数
+    handleSizeChange (val) {
+      this.pageSize = val
+      /* console.log(`每页 ${val} 条`); */
+    },
+
+    // 当前页数
+    handleCurrentChange (val) {
+      /* console.log(`当前页: ${val}`); */
+    }
+
+  },
+  mounted () {
+
+  },
+  created () {
+
+  }
+}
 </script>
 
 <style scoped>

@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import {api} from '@/api/ajax'
+
 export default {
   inject: ['reload'],
   data () {
@@ -225,8 +225,8 @@ export default {
     },
 
     requestSignOut (data) {
-      let url = '/api/SignIn/updateSignOutList'
-      api.post_JSON(url, data).then(res => {
+      let url = '/SignIn/updateSignOutList'
+      this.$api.http.postJson(url, data).then(res => {
         if (res.code === 0) {
           for (var i = 0; i < this.tableData.length; i++) {
             if (data.indexOf(this.tableData[i].signId) !== -1) {
@@ -240,8 +240,8 @@ export default {
       })
     },
     requestSignIn (data) {
-      let url = '/api/SignIn/updateSignInList'
-      api.post_JSON(url, data).then(res => {
+      let url = '/SignIn/updateSignInList'
+      this.$api.postJson(url, data).then(res => {
         if (res.code === 0) {
           for (var i = 0; i < this.tableData.length; i++) {
             if (data.indexOf(this.tableData[i].signId) !== -1) {
@@ -302,8 +302,8 @@ export default {
       this.multipleSelection = val
     },
     requestPartner () {
-      let url = '/api/activity/getPartner/' + this.$store.state.activityId
-      api.get(url).then(res => {
+      let url = '/activity/getPartner/' + this.$store.state.activityId
+      this.$api.http.get(url).then(res => {
         if (res.code === 0) {
           if (res.data != []) {
             this.tableData = []

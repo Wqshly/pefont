@@ -34,101 +34,99 @@
 
 <script>
 
-import {api} from "@/api/ajax"
 export default {
-  //活动中心的父级组件
+  // 活动中心的父级组件
   name: 'theory_page',
-    data() {
-        return {
-            input:'',
-            currentPage: 1,
-            pageSize: 10,
-            total:0,
-            remote_data: [
-                {
-                    "test_index": 1,
-                    "test_name": "第一章"
-                },
-                {
-                    "test_index": 2,
-                    "test_name": "第二章"
-                },
-                {
-                    "test_index": 3,
-                    "test_name": "第三章"
-                },
-                {
-                    "test_index": 4,
-                    "test_name": "第四章"
-                },
-                {
-                    "test_index": 5,
-                    "test_name": "第五章"
-                },
-                {
-                    "test_index": 6,
-                    "test_name": "第六章"
-                },
-                {
-                    "test_index": 7,
-                    "test_name": "第七章"
-                },
-                {
-                    "test_index": 8,
-                    "test_name": "第八章"
-                },
-                {
-                    "test_index": 9,
-                    "test_name": "第九章"
-                },
-                {
-                    "test_index": 10,
-                    "test_name": "第十章"
-                },
-                {
-                    "test_index": 11,
-                    "test_name": "第十一章"
-                },
-                {
-                    "test_index": 12,
-                    "test_name": "第十二章"
-                },
-            ],
+  data () {
+    return {
+      input: '',
+      currentPage: 1,
+      pageSize: 10,
+      total: 0,
+      remote_data: [
+        {
+          'test_index': 1,
+          'test_name': '第一章'
+        },
+        {
+          'test_index': 2,
+          'test_name': '第二章'
+        },
+        {
+          'test_index': 3,
+          'test_name': '第三章'
+        },
+        {
+          'test_index': 4,
+          'test_name': '第四章'
+        },
+        {
+          'test_index': 5,
+          'test_name': '第五章'
+        },
+        {
+          'test_index': 6,
+          'test_name': '第六章'
+        },
+        {
+          'test_index': 7,
+          'test_name': '第七章'
+        },
+        {
+          'test_index': 8,
+          'test_name': '第八章'
+        },
+        {
+          'test_index': 9,
+          'test_name': '第九章'
+        },
+        {
+          'test_index': 10,
+          'test_name': '第十章'
+        },
+        {
+          'test_index': 11,
+          'test_name': '第十一章'
+        },
+        {
+          'test_index': 12,
+          'test_name': '第十二章'
         }
+      ]
+    }
+  },
+  methods: {
+
+    // 处理表格数据
+    handleData () {
+      let temp_data = this.remote_data.filter(data => this.filter(data))
+      this.total = temp_data.length
+      return temp_data.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     },
-    methods: {
 
-        //处理表格数据
-        handleData(){
-            let temp_data = this.remote_data.filter(data=>this.filter(data));
-            this.total=temp_data.length;
-            return temp_data.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize);
-        },
-
-        //搜索筛选
-        filter(val){
-            return (!this.input || val.test_name.toLowerCase().includes(this.input.toLowerCase()));
-        },
-
-
-        //每页条数
-        handleSizeChange(val) {
-            this.pageSize=val;
-            /*console.log(`每页 ${val} 条`);*/
-        },
-
-        //当前页数
-        handleCurrentChange(val) {
-            /*console.log(`当前页: ${val}`);*/
-        },
-
+    // 搜索筛选
+    filter (val) {
+      return (!this.input || val.test_name.toLowerCase().includes(this.input.toLowerCase()))
     },
-    mounted() {
 
+    // 每页条数
+    handleSizeChange (val) {
+      this.pageSize = val
+      /* console.log(`每页 ${val} 条`); */
     },
-    created() {
 
-    },
+    // 当前页数
+    handleCurrentChange (val) {
+      /* console.log(`当前页: ${val}`); */
+    }
+
+  },
+  mounted () {
+
+  },
+  created () {
+
+  }
 }
 </script>
 

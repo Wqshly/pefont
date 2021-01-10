@@ -80,12 +80,17 @@ const equipment_page = () => import(/* webpackChunkName: '13' */ '../view/equipm
 
 /* 学校管理员页面 */
 const managementPage = () => import(/* webpackChunkName: '9' */ '../view/management/Page')
+
+// 比赛管理
+const createCompetition = () => Promise.resolve(require('@/view/management/competition/createCompetition'))
+const releaseCompetition = () => Promise.resolve(require('@/view/management/competition/releaseCompetition'))
+const manageCompetition = () => Promise.resolve(require('@/view/management/competition/manageCompetition'))
+const competitionManage = () => import(/* webpackChunkName: '3' */ '../view/management/competition/management')
+
 const activityApproval = () => Promise.resolve(require('@/view/management/activity/activityApproval'))
 const mana_page = () => import(/* webpackChunkName: '9' */ '../view/management/home')
 const mana_class = () => import(/* webpackChunkName: '9' */ '../view/management/manaClass')
-const createCompetition = () => Promise.resolve(require('@/view/management/competition/createCompetition'))
 // const competitionCreate = () => import(/* webpackChunkName: '3' */ '../view/management/competition/create')
-const competitionManage = () => import(/* webpackChunkName: '3' */ '../view/management/competition/management')
 const venueCreate = () => import(/* webpackChunkName: '3' */ '../view/management/venue/create')
 const venue_management = () => import(/* webpackChunkName: '3' */ '../view/management/venue/management')
 const venue_sub_add = () => import(/* webpackChunkName: '3' */ '../view/management/venue/addSubVenue')
@@ -340,10 +345,18 @@ const router = new Router({
             schoolAdmin: true
           }
         },
-        // 管理页面中的本地比赛
+        // 管理员 创建比赛
         {
           path: '/management/createCompetition',
           component: createCompetition,
+          meta: {
+            schoolAdmin: true
+          }
+        },
+        // 管理员 发布比赛
+        {
+          path: '/management/releaseCompetition',
+          component: releaseCompetition,
           meta: {
             schoolAdmin: true
           }
@@ -355,7 +368,13 @@ const router = new Router({
             schoolAdmin: true
           }
         },
-
+        {
+          path: '/management/manageCompetition',
+          component: manageCompetition,
+          meta: {
+            schoolAdmin: true
+          }
+        },
         // 管理页面中的场馆
         {
           path: '/management/venue',

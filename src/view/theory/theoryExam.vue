@@ -46,7 +46,6 @@
             </el-card>
           </template>
 
-
           <el-form-item style="margin-top: 20px">
             <el-button  type="success" round @click="open">提交</el-button>
           </el-form-item>
@@ -60,94 +59,92 @@
 
 <script>
 
-import {api} from "@/api/ajax"
 export default {
-  //活动中心的父级组件
+  // 活动中心的父级组件
   name: 'theory_page',
-    data() {
-        return {
-            remote_data: {
-                testIndex: 1,
-                testName: '章名',
-                questions: [
-                    {
-                        "a": "选项",
-                        "b": "选项",
-                        "c": "选项",
-                        "d": "选项",
-                        "title": "问题描述1",
-                        "index": 1,
-                        "questionId": 1,
-                        "answer":[],
-                        "type":1,
-                    },
-                    {
-                        "a": "选项",
-                        "b": "选项",
-                        "c": "选项",
-                        "d": "选项",
-                        "title": "问题描述2",
-                        "index": 1,
-                        "questionId": 1,
-                        "answer":[],
-                        "type":2,
-                    },
-                    {
-                        "a": "选项",
-                        "b": "选项",
-                        "c": "选项",
-                        "d": "选项",
-                        "title": "问题描述3",
-                        "index": 1,
-                        "questionId": 1,
-                        "answer":[],
-                        "type":3,
-                    },
-                ],
-            },
-            form: {
-                resource: [],
-                index:1
-            }
-        }
+  data () {
+    return {
+      remote_data: {
+        testIndex: 1,
+        testName: '章名',
+        questions: [
+          {
+            'a': '选项',
+            'b': '选项',
+            'c': '选项',
+            'd': '选项',
+            'title': '问题描述1',
+            'index': 1,
+            'questionId': 1,
+            'answer': [],
+            'type': 1
+          },
+          {
+            'a': '选项',
+            'b': '选项',
+            'c': '选项',
+            'd': '选项',
+            'title': '问题描述2',
+            'index': 1,
+            'questionId': 1,
+            'answer': [],
+            'type': 2
+          },
+          {
+            'a': '选项',
+            'b': '选项',
+            'c': '选项',
+            'd': '选项',
+            'title': '问题描述3',
+            'index': 1,
+            'questionId': 1,
+            'answer': [],
+            'type': 3
+          }
+        ]
+      },
+      form: {
+        resource: [],
+        index: 1
+      }
+    }
+  },
+  methods: {
+
+    // 处理表格数据
+    handleData () {
+      let temp_data = this.remote_data.filter(data => this.filter(data))
+      this.total = temp_data.length
+      return temp_data.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     },
-    methods: {
 
-        //处理表格数据
-        handleData(){
-            let temp_data = this.remote_data.filter(data=>this.filter(data));
-            this.total=temp_data.length;
-            return temp_data.slice((this.currentPage-1)*this.pageSize,this.currentPage*this.pageSize);
-        },
-
-        //搜索筛选
-        filter(val){
-            return (!this.input || val.test_name.toLowerCase().includes(this.input.toLowerCase()));
-        },
-
-
-        //每页条数
-        handleSizeChange(val) {
-            this.pageSize=val;
-            /*console.log(`每页 ${val} 条`);*/
-        },
-
-        //当前页数
-        handleCurrentChange(val) {
-            /*console.log(`当前页: ${val}`);*/
-        },
-
-        open(){
-            this.$message.success('恭喜你，提交成功');
-        },
-
+    // 搜索筛选
+    filter (val) {
+      return (!this.input || val.test_name.toLowerCase().includes(this.input.toLowerCase()))
     },
-    mounted() {
 
+    // 每页条数
+    handleSizeChange (val) {
+      this.pageSize = val
+      /* console.log(`每页 ${val} 条`); */
     },
-    created() {
-      console.log(this.$route.query.id);
+
+    // 当前页数
+    handleCurrentChange (val) {
+      /* console.log(`当前页: ${val}`); */
     },
+
+    open () {
+      this.$message.success('恭喜你，提交成功')
+    }
+
+  },
+  mounted () {
+
+  },
+  created () {
+    console.log(this.$route.query.id)
+  }
 }
 </script>
 
@@ -169,7 +166,5 @@ export default {
   .box-card{
     margin-bottom: 20px;
   }
-
-
 
 </style>

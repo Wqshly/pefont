@@ -5,7 +5,7 @@
       <div class="home_main">
         <router-view></router-view>
       </div>
-      <v-footer></v-footer>
+<!--      <v-footer></v-footer>-->
     </div>
   </div>
 </template>
@@ -37,8 +37,9 @@ export default {
 
   .home_main {
     width: 100%;
+    height: 100%;
     padding-top: 5px;
-    min-height: 500px;
+    min-height: 800px;
   }
 
 </style>

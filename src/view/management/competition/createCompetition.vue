@@ -2,7 +2,7 @@
   <div class="container">
     <div class="form-style">
       <div class="title-style">
-        <h1>{{step === 1 ? '发起比赛' : '添加比赛项'}}</h1>
+        <h1>{{step === 1 ? '创建比赛' : '添加比赛项'}}</h1>
       </div>
       <div v-show="step === 1">
         <el-form :model="ruleForm" label-width="100px" :rules="rules" ref="ruleForm">
@@ -171,8 +171,18 @@ export default {
     }
   },
   methods: {
+    // 查询是否有未发布的比赛
+    checkUnpublishedCompetition () {
+      this.$api.http.get('/activity/getPreActivity/')
+        .then(res => {
+          if (res.data.length !== 0) {
+            this.$message.warning('您有未发布的活动!')
+          }
+        })
+        .catch()
+    },
     getCollege () {
-      this.$api.get('api/college/queryCollegeList')
+      this.$api.http.get('/college/queryCollegeList')
         .then(res => {
           this.college = res.data
         })
@@ -242,8 +252,8 @@ export default {
           Object.keys(this.ruleForm).forEach((item) => {
             formData.append(item, this.ruleForm[item])
           })
-          let url = '/api/activity/preAddActivity/'
-          this.$api.upload(url, formData)
+          let url = '/activity/preAddActivity/'
+          this.$api.http.upload(url, formData)
             .then(res => {
               let _this = this
               if (res.code === 0) {
@@ -319,6 +329,7 @@ export default {
     }
   },
   mounted () {
+    this.checkUnpublishedCompetition()
     this.getCollege()
   }
 }
@@ -332,6 +343,7 @@ export default {
     min-height: 100px;
     margin: 0 auto;
     background-color: white;
+    padding-bottom: 50px;
   }
 
   .form-style {

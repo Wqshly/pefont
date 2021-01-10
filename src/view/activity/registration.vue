@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import {api} from '@/api/ajax'
 
 export default {
   name: 'registration',
@@ -81,7 +80,7 @@ export default {
   methods: {
     // 获取数据
     getActivity () {
-      api.get('/api/activity/queryActivityListSignIn')
+      this.$api.http.get('/activity/queryActivityListSignIn')
         .then(res => {
           if (res.code === 0) {
             this.tableData = res.data
@@ -123,13 +122,13 @@ export default {
     },
     // 报名
     handleSign () {
-      const url = '/api/activity/signUp/' + this.item.id
+      const url = '/activity/signUp/' + this.item.id
       this.$confirm('确认报名？', '提示', {
         confirmButtonText: '确认',
         cancelButtonText: '取消'
       })
         .then(() => {
-          api.get(url)
+          this.$api.http.get(url)
             .then(res => {
               if (res.code === 0) {
                 this.$message.success('恭喜你，报名成功')

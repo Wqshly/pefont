@@ -38,34 +38,34 @@
 </template>
 
 <script>
-  import detail from "../../components/competition/competition_detail";
+import detail from '../../components/competition/competition_detail'
 
-  export default {
-    components: {
-      nDetail: detail
-    },
-    data() {
-      return {
-        options: ['全部比赛', '报名中', '已结束'],
-        competitionClass: '全部比赛',
-        tableData: [],
-        detail: false,
-      }
-    },
-    methods: {
-      handleClick(item) {
-        this.detail = true;
-      }
-    },
-    mounted() {
-      for (let i = 0; i < 20; ++i) {
-        this.tableData.push("2020-xx-xx")
-      }
-    },
-    created() {
+export default {
+  components: {
+    nDetail: detail
+  },
+  data () {
+    return {
+      options: ['全部比赛', '报名中', '已结束'],
+      competitionClass: '全部比赛',
+      tableData: [],
+      detail: false
+    }
+  },
+  methods: {
+    handleClick (item) {
+      this.detail = true
+    }
+  },
+  mounted () {
+    for (let i = 0; i < 20; ++i) {
+      this.tableData.push('2020-xx-xx')
+    }
+  },
+  created () {
 
-    },
   }
+}
 </script>
 
 <style scoped>

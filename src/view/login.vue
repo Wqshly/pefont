@@ -57,9 +57,9 @@ export default {
     return {
       VRCODE: false,
       loginForm: {
-        schoolId: null,
         usernumber: null,
-        password: null
+        password: null,
+        schoolId: null
       },
       registerForm: {
         userNumber: '未设置',
@@ -87,8 +87,8 @@ export default {
       this.VRCODE = !this.VRCODE
     },
     requestSchoolList () {
-      let url = '/api/school/querySchoolList'
-      this.$api.get(url).then(res => {
+      let url = '/school/querySchoolList'
+      this.$api.http.get(url).then(res => {
         if (res.code === 0) {
           this.options = this.$clone.transObjectToList(res.data)
         } else {
@@ -99,26 +99,27 @@ export default {
     login () {
       if (!this.loginDisable) {
         this.loginDisable = true
-        let url = '/api/login/login'
-        this.$api.post(url, this.loginForm).then(res => {
-          this.loginDisable = false
-          if (res.code === 0) {
+        let url = '/login/login'
+        this.$api.http.post(url, this.loginForm)
+          .then(res => {
+            this.loginDisable = false
             console.log(res.data)
             var session = JSON.stringify(res.data)
             sessionStorage.setItem('userInfo', session)
             this.$router.push('/home')
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
+          })
+          .catch(err => {
+            this.loginDisable = false
+            console.log(err)
+          })
       }
     },
     register (formName) {
       this.registerForm.password = this.loginForm.password
       this.registerForm.schoolId = this.loginForm.schoolId
       this.registerForm.userNumber = this.loginForm.usernumber
-      let url = '/api/user/addUser'
-      this.$api.post_JSON(url, this.registerForm).then(res => {
+      let url = '/user/addUser'
+      this.$api.http.postJson(url, this.registerForm).then(res => {
         if (res.code === 0) {
           this.$message.success('注册成功!')
         } else {

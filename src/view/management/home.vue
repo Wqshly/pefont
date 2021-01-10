@@ -222,7 +222,7 @@ export default {
       let data = new FormData()
       data.append('excelFile', document.getElementById('file1').files[0])
       console.log(data)
-      this.$api.upload('/api/importFile/ImportFileClass', data).then(res => {
+      this.$api.http.upload('/importFile/ImportFileClass', data).then(res => {
         let _this = this
         if (res.code === 0) {
           _this.$message({
@@ -255,7 +255,7 @@ export default {
       })
     },
     updata (url) {
-      this.$api.post_JSON(url, this.editUpload).then(res => {
+      this.$api.http.postJson(url, this.editUpload).then(res => {
         let _this = this
         if (res.code === 0) {
           _this.$message({
@@ -279,11 +279,11 @@ export default {
         this.editUpload[this.editDia[i].key] = this.editDia[i].value
       }
       if (this.crumb_flag === 1) {
-        url = '/api/school/updateSchool'
+        url = '/school/updateSchool'
       } else if (this.crumb_flag === 2) {
-        url = '/api/college/updateCollege'
+        url = '/college/updateCollege'
       } else if (this.crumb_flag === 3) {
-        url = '/api/classes/updateClasses'
+        url = '/classes/updateClasses'
       }
       this.updata(url)
     },
@@ -363,13 +363,13 @@ export default {
     // 导出表格结束
 
     uploadClass (className, schoolId, collegeId) {
-      let url = '/api/classes/addClasses'
+      let url = '/classes/addClasses'
       let data = {
         schoolId: schoolId,
         collegeId: collegeId,
         className: className
       }
-      this.$api.post_JSON(url, data).then(res => {
+      this.$api.http.postJson(url, data).then(res => {
         let _this = this
         if (res.code === 0) {
           _this.$message({
@@ -395,7 +395,7 @@ export default {
       }
     },
     uploadSchool (schoolName) {
-      let url = '/api/school/addSchool'
+      let url = '/school/addSchool'
       let data = {
         schoolName: schoolName,
         schoolAddress: '未设置',
@@ -403,7 +403,7 @@ export default {
         schoolZipCode: '未设置',
         schoolIntroduction: '未设置'
       }
-      this.$api.post_JSON(url, data).then(res => {
+      this.$api.http.postJson(url, data).then(res => {
         let _this = this
         if (res.code === 0) {
           _this.$message({
@@ -420,7 +420,7 @@ export default {
       })
     },
     uploadCollege (collegeName, schoolId) {
-      let url = '/api/college/addCollege'
+      let url = '/college/addCollege'
       let data = {
         shcoolId: schoolId,
         collegeName: collegeName,
@@ -428,7 +428,7 @@ export default {
         collegeInfo: '未设置'
       }
 
-      this.$api.post_JSON(url, data).then(res => {
+      this.$api.http.postJson(url, data).then(res => {
         let _this = this
         if (res.code === 0) {
           _this.$message({
@@ -566,13 +566,13 @@ export default {
     delete (data) {
       let url = ''
       if (this.crumb_flag === 1) {
-        url = '/api/school/deleteSchool'
+        url = '/school/deleteSchool'
       } else if (this.crumb_flag === 2) {
-        url = '/api/college/deleteCollege'
+        url = '/college/deleteCollege'
       } else if (this.crumb_flag === 3) {
-        url = '/api/classes/deleteClasses'
+        url = '/classes/deleteClasses'
       }
-      this.$api.post_JSON(url, data).then(res => {
+      this.$api.http.postJson(url, data).then(res => {
         let _this = this
         if (res.code === 0) {
           _this.$message({
@@ -621,8 +621,8 @@ export default {
     },
 
     requestClassList (sid, cid) {
-      const url = '/api/classes/queryClassesList/' + sid + '/' + cid
-      this.$api.get(url).then(res => {
+      const url = '/classes/queryClassesList/' + sid + '/' + cid
+      this.$api.http.get(url).then(res => {
         let _this = this
         if (res.code === 0) {
           this.tableData.data_class = []
@@ -646,8 +646,8 @@ export default {
     },
 
     requestCollegeList (id) {
-      const url = '/api/college/queryCollegeList/' + id
-      this.$api.get(url).then(res => {
+      const url = '/college/queryCollegeList/' + id
+      this.$api.http.get(url).then(res => {
         let _this = this
         if (res.code === 0) {
           this.tableData.data_college = []
@@ -672,8 +672,8 @@ export default {
     },
 
     requestSchoolList () {
-      const url = '/api/school/selectSchoolByUser'
-      this.$api.get(url).then(res => {
+      const url = '/school/selectSchoolByUser'
+      this.$api.http.get(url).then(res => {
         let _this = this
         if (res.code === 0) {
           this.tableData.data_school = []

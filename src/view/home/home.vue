@@ -76,13 +76,13 @@ export default {
       }
     },
     getMyScore () {
-      this.$api.get('/api/semester/singleScore')
+      this.$api.http.get('/semester/singleScore')
         .then(res => {
           this.myScore = res.data.score
         })
     },
     getScore (url, formName) {
-      this.$api.get(url)
+      this.$api.http.get(url)
         .then(res => {
           this[formName] = res.data
           if (formName === 'PEScoreInWeek') {
@@ -98,9 +98,9 @@ export default {
   },
   mounted () {
     this.getMyScore()
-    this.getScore('/api/semester/singleScore', 'myScore') // 一周内的运动记录
-    this.getScore('/api/SignIn/searchActivityOneWeek', 'PEScoreInWeek') // 一周内的运动记录
-    this.getScore('/api/semester/scoreBySchool', 'SchoolPEScoreRank') // 本校PE分排名
+    this.getScore('/semester/singleScore', 'myScore') // 一周内的运动记录
+    this.getScore('/SignIn/searchActivityOneWeek', 'PEScoreInWeek') // 一周内的运动记录
+    this.getScore('/semester/scoreBySchool', 'SchoolPEScoreRank') // 本校PE分排名
   }
 }
 </script>

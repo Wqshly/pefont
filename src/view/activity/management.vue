@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import {api} from '@/api/ajax'
+
 export default {
   components: {
   },
@@ -186,8 +186,8 @@ export default {
       })
     },
     setS (activityId, number) {
-      let url = '/api/activity/assignation/' + activityId + '/' + number
-      api.get(url).then(res => {
+      let url = '/activity/assignation/' + activityId + '/' + number
+      this.$api.http.get(url).then(res => {
         if (res.code === 0) {
           this.$message.success('成功!')
         } else {

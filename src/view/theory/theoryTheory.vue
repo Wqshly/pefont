@@ -19,7 +19,6 @@ public class HelloWorld {
     }
 }
 
-
 注：String args[] 与 String[] args 都可以执行，但推荐使用 String[] args，这样可以避免歧义和误读。
 
 运行以上实例，输出结果如下：
@@ -45,25 +44,23 @@ java 后面跟着的是java文件中的类名,例如 HelloWorld 就是类名，�
 </template>
 
 <script>
-
-import {api} from "@/api/ajax"
 export default {
 
   name: 'theory_theory',
-    data() {
-        return {
+  data () {
+    return {
 
-        }
-    },
-    methods: {
+    }
+  },
+  methods: {
 
-    },
-    mounted() {
+  },
+  mounted () {
 
-    },
-    created() {
+  },
+  created () {
 
-    },
+  }
 }
 </script>
 
@@ -76,7 +73,5 @@ export default {
     overflow: hidden;
 
   }
-
-
 
 </style>

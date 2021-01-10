@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import {api} from '@/api/ajax'
 import imgUpload from '@/components/ImgUpload'
 
 export default {
@@ -131,35 +130,36 @@ export default {
     },
     // 将图片赋到表单中
     async uploadPic (data) {
-      let arr = data.file.split(',')
-      let mime = arr[0].match(/:(.*?);/)[1]
-      let bytes = atob(arr[1]) // 解码base64
-      let n = bytes.length
-      let ia = new Uint8Array(n)
-      while (n--) {
-        ia[n] = bytes.charCodeAt(n)
-      }
-      this.ruleForm.pictureFile = new File([ia], data.name, {type: mime})
-      // this.ruleForm.pictureFile = data.file
+      // let arr = data.file.split(',')
+      // let mime = arr[0].match(/:(.*?);/)[1]
+      // let bytes = atob(arr[1]) // 解码base64
+      // let n = bytes.length
+      // let ia = new Uint8Array(n)
+      // while (n--) {
+      //   ia[n] = bytes.charCodeAt(n)
+      // }
+      // this.ruleForm.pictureFile = new File([ia], data.name, {type: mime})
+      this.ruleForm.pictureFile = data.file
     },
     // 提交表单
     submitThisForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let url = '/api/activity/addActivity/'
+          let url = '/activity/addActivity/'
           // this.ruleForm.publisherId = this.$store.state.user.id
           this.ruleForm.registrationStartTime = this.ruleForm.signUpTime[0]
           this.ruleForm.registrationClosingTime = this.ruleForm.signUpTime[1]
           this.ruleForm.startTime = this.ruleForm.activityTime[0]
           this.ruleForm.endTime = this.ruleForm.activityTime[1]
           // 将json转为formData
-          const formData = new FormData()
-          Object.keys(this.ruleForm).forEach((item) => {
-            formData.append(item, this.ruleForm[item])
-          })
+          // const formData = new FormData()
+          // Object.keys(this.ruleForm).forEach((item) => {
+          //   formData.append(item, this.ruleForm[item])
+          // })
           console.log(url)
           console.log(this.ruleForm)
-          api.upload(url, formData)
+          this.$api.http.postJson(url, this.ruleForm)
+          // this.$api.http.upload(url, formData)
             .then(res => {
               let _this = this
               if (res.code === 0) {

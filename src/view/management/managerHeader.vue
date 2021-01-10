@@ -9,7 +9,7 @@
               <el-submenu :index="FirstLevelItem.index" :key="index" :class="[{'float-right' : FirstLevelItem.float ==='right'}]">
                 <template slot="title">
                   <i :class="FirstLevelItem.icon"></i>
-                  <span slot="title">{{FirstLevelItem.title}}</span>
+                  <span slot="title" class="title-font-style">{{FirstLevelItem.title}}</span>
                 </template>
                 <!-- 二级菜单 -->
                 <template v-for="(subItem,index) in FirstLevelItem.subs">
@@ -17,18 +17,18 @@
                     <el-submenu :index="subItem.index" :key="index">
                       <template slot="title">
                         <i :class="subItem.icon"></i>
-                        <span slot="title">{{subItem.title}}</span>
+                        <span slot="title" class="title-font-style">{{subItem.title}}</span>
                       </template>
                       <template v-for="(ThreeLevelItem,index) in subItem.subs">
                         <el-menu-item :index="ThreeLevelItem.index" :key="index">
-                          <span>{{ThreeLevelItem.title}}</span>
+                          <span class="title-font-style">{{ThreeLevelItem.title}}</span>
                         </el-menu-item>
                       </template>
                     </el-submenu>
                   </template>
                   <template v-else>
                     <el-menu-item :index="subItem.index" :key="subItem.index">
-                      <span>{{subItem.title}}</span>
+                      <span class="title-font-style">{{subItem.title}}</span>
                     </el-menu-item>
                   </template>
                 </template>
@@ -41,7 +41,7 @@
                   <img style="height: 30px;" src="@/assets/logo2.png" />
                 </template>
                 <i :class="FirstLevelItem.icon"></i>
-                <span slot="title">{{FirstLevelItem.title}}</span>
+                <span slot="title" class="title-font-style">{{FirstLevelItem.title}}</span>
               </el-menu-item>
             </template>
           </template>
@@ -143,6 +143,10 @@ export default {
   .page-container {
     height: 80px;
     width: 100%;
+  }
+
+  .title-font-style {
+    font-size: 18px;
   }
 
   .menu {

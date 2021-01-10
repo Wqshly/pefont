@@ -210,7 +210,7 @@
 </template>
 
 <script>
-import {api} from '@/api/ajax'
+
 export default {
 
   data () {
@@ -352,7 +352,7 @@ export default {
 
     // 表单提条按钮,填写合法逻辑=>上传图片逻辑
     submitForm (formName) {
-      if (this.havaPic == false) {
+      if (this.havaPic === false) {
         this.$notify.error({
           title: '请上传一张海报',
           duration: 0
@@ -392,7 +392,7 @@ export default {
       data.append('eventLocation', this.ruleForm.position)
       data.append('participationFee', this.ruleForm.fee)
 
-      api.upload(url, data).then(res => {
+      this.$api.http.upload(url, data).then(res => {
         if (res.code === 0) {
           this.$message.success('成功!')
           this.$router.push('/activity')
