@@ -2,9 +2,8 @@
   <div class="container">
     <div class="form-style">
       <div class="title-style">
-        <h1>{{step === 1 ? '创建比赛' : '添加比赛项'}}</h1>
+        <h1>创建比赛</h1>
       </div>
-      <div v-show="step === 1">
         <el-form :model="ruleForm" label-width="100px" :rules="rules" ref="ruleForm">
           <el-form-item label="比赛名称：" prop="activityName">
             <el-input v-model="ruleForm.activityName" placeholder="请输入比赛名称"></el-input>
@@ -41,10 +40,7 @@
             <img-upload ref="imgUpload" v-on:upload-pic="uploadPic" :options="picOptions"
                         img-width="240px" img-height="120px"></img-upload>
           </el-form-item>
-          <el-button type="primary" style="float: right;" @click.native="submitGame('ruleForm')">保存信息</el-button>
         </el-form>
-      </div>
-      <div v-show="step !== 1" class="competition-tabs">
         <el-tabs v-model="tabsValue" type="card" editable @edit="handleTabsEdit">
           <el-tab-pane v-for="(item,index) in projects"
                        :key="index"
@@ -104,10 +100,14 @@
             </el-form>
           </el-tab-pane>
         </el-tabs>
-        <el-button type="primary" style="float: right;" @click.native="submit()">完成添加</el-button>
-        <el-button type="primary" style="float: right;" @click.native="release()">发起比赛</el-button>
+      <el-tooltip class="item" effect="dark" content="直接发起比赛" placement="top">
+        <el-button type="primary" style="float: right;" @click.native="submitGame('ruleForm')">发起比赛</el-button>
+      </el-tooltip>
+      <el-tooltip class="item" effect="dark" content="比赛信息将被保存，暂不发起" placement="top">
+        <el-button @click.native="release('ruleForm')">创建比赛</el-button>
+      </el-tooltip>
       </div>
-    </div>
+<!--    </div>-->
   </div>
 </template>
 
@@ -216,7 +216,7 @@ export default {
           }
           this.tabIndex--
           this.tabsValue = activeName
-          this.ruleForm.projects = tabs.filter(tab => tab.name !== targetName)
+          this.projects = tabs.filter(tab => tab.name !== targetName)
         }
       }
     },
@@ -235,69 +235,55 @@ export default {
     },
     // 创建比赛
     submitGame (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          var collegeList = ''
-          this.ruleForm.college.forEach((item) => {
-            collegeList += item
-            collegeList += ','
-          })
-          this.ruleForm.collegeList = collegeList
-          this.ruleForm.registrationStartTime = this.ruleForm.signUpTime[0]
-          this.ruleForm.registrationClosingTime = this.ruleForm.signUpTime[1]
-          this.ruleForm.startTime = this.ruleForm.activityTime[0]
-          this.ruleForm.endTime = this.ruleForm.activityTime[1]
-          // 将json转为formData
-          const formData = new FormData()
-          Object.keys(this.ruleForm).forEach((item) => {
-            formData.append(item, this.ruleForm[item])
-          })
-          let url = '/activity/preAddActivity/'
-          this.$api.http.upload(url, formData)
-            .then(res => {
-              let _this = this
-              if (res.code === 0) {
-                this.gameID = res.data
-                _this.$message.success('成功!')
-                _this.$confirm('您已成功创建活动，点击确认，并添加具体比赛项目！', '提示', {
-                  confirmButtonText: '确认',
-                  cancelButtonText: '取消'
-                }).then(() => {
-                  this.step++
-                }).catch(() => {
-                })
-              } else {
-                _this.$message.error(res.msg)
+      if (this.projects.length > 0) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            var collegeList = ''
+            this.ruleForm.college.forEach((item) => {
+              collegeList += item
+              collegeList += ','
+            })
+            this.ruleForm.collegeList = collegeList
+            this.ruleForm.registrationStartTime = this.ruleForm.signUpTime[0]
+            this.ruleForm.registrationClosingTime = this.ruleForm.signUpTime[1]
+            this.ruleForm.startTime = this.ruleForm.activityTime[0]
+            this.ruleForm.endTime = this.ruleForm.activityTime[1]
+            // 将json转为formData
+            const formData = new FormData()
+            Object.keys(this.ruleForm).forEach((item) => {
+              formData.append(item, this.ruleForm[item])
+            })
+            this.projects.forEach(i => {
+              for (let item in this.projects[i]) {
+                formData.append('projects[' + i + '].' + item, this.projects[i][item])
               }
             })
-            .catch((err) => {
-              console.log(err)
-            })
-        }
-      })
-    },
-    // 给比赛添加具体项
-    submit () {
-      this.projects.forEach(item => {
-        item.activityId = this.gameID
-        console.log(item)
-      })
-      this.$api.post_JSON('/api/project/addProject', this.projects)
-        .then(res => {
-          let _this = this
-          if (res.code === 0) {
-            _this.$message.success('成功!')
-            _this.$confirm('您已成功为比赛添加了比赛项！', '提示', {
-              confirmButtonText: '确认',
-              cancelButtonText: '取消'
-            })
-          } else {
-            _this.$message.error(res.msg)
+            let url = '/activity/addGame'
+            this.$api.http.upload(url, formData)
+              .then(res => {
+                let _this = this
+                if (res.code === 0) {
+                  this.gameID = res.data
+                  _this.$message.success('成功!')
+                  _this.$confirm('比赛已正式发布，点击确认，跳转至比赛管理页！', '提示', {
+                    confirmButtonText: '确认',
+                    cancelButtonText: '取消'
+                  }).then(() => {
+                    this.step++
+                  }).catch(() => {
+                  })
+                } else {
+                  _this.$message.error(res.msg)
+                }
+              })
+              .catch((err) => {
+                console.log(err)
+              })
           }
         })
-        .catch((err) => {
-          console.log(err)
-        })
+      } else {
+        this.$message.warning('尚未为比赛添加项目，不能发起比赛！')
+      }
     },
     // 发布比赛
     release () {

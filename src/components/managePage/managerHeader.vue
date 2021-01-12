@@ -64,7 +64,21 @@ export default {
         {
           title: '管理首页',
           icon: '',
-          index: 'management'
+          index: '/management/home'
+        },
+        {
+          title: '学校管理',
+          index: 'schoolInfoManage',
+          subs: [
+            {
+              title: '学生管理',
+              index: '/management/studentManage'
+            },
+            {
+              title: '学校管理',
+              index: '/management/schoolManage'
+            }
+          ]
         },
         {
           title: '比赛管理',
@@ -153,7 +167,7 @@ export default {
     width: 100%;
     position: fixed;
     z-index: 999;
-    background-color: #f9f9f9;
+    /*background-color: #f9f9f9;*/
   }
 
   .header-item-container {

@@ -1,17 +1,15 @@
 <template>
-
+  <div></div>
 </template>
 
 <script>
 export default {
   data () {
-    return {
-
-    }
+    return {}
   },
   methods: {
     logout () {
-      this.$api.get('/api/login/logout').then(res => {
+      this.$api.http.get('/login/logout').then(res => {
         if (res.code === 0) {
           sessionStorage.removeItem('userInfo')
         }

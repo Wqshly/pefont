@@ -6,22 +6,35 @@ import VueLazyload from 'vue-lazyload'
 import VueCropper from 'vue-cropper'
 import AMap from 'vue-amap'
 
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {fas} from '@fortawesome/free-solid-svg-icons'
+
+import BasicTableTemp from '@/components/BasicTableTemp'
+
+import particles from 'particles.js'
+
 import header from './components/header.vue'
 import footer from './components/footer.vue'
 import menu from './components/routerByMenu.vue'
 
 import {clone} from './api/clone.js'
-// import {api} from './api/ajax'
+
 import api from '@/api/index'
 import {eventBus} from './api/bus'
 Vue.use(AMap)
 Vue.use(router)
 Vue.use(VueLazyload)
 Vue.use(VueCropper)
+Vue.use(particles)
 
 Vue.component('v-header', header)
 Vue.component('v-footer', footer)
 Vue.component('router-menu', menu)
+
+library.add(fas)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('basic-table-temp', BasicTableTemp)
 
 Vue.config.productionTip = false
 

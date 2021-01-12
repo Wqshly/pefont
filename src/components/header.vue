@@ -156,8 +156,18 @@ export default {
         },
         {
           title: '早操',
-          index: '/exercises',
-          float: 'left'
+          index: '/clockIn',
+          float: 'left',
+          subs: [
+            {
+              title: '设置签到员',
+              index: '/morningExercises/setCheckStaff'
+            },
+            {
+              title: '早操签到',
+              index: '/morningExercises/clockIn'
+            }
+          ]
         },
         {
           title: '比赛',
@@ -217,7 +227,7 @@ export default {
           subs: [
             {
               title: '管理员入口',
-              index: '/management'
+              index: '/management/home'
             },
             {
               title: '注销',

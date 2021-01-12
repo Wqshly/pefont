@@ -130,16 +130,16 @@ export default {
     },
     // 将图片赋到表单中
     async uploadPic (data) {
-      // let arr = data.file.split(',')
-      // let mime = arr[0].match(/:(.*?);/)[1]
-      // let bytes = atob(arr[1]) // 解码base64
-      // let n = bytes.length
-      // let ia = new Uint8Array(n)
-      // while (n--) {
-      //   ia[n] = bytes.charCodeAt(n)
-      // }
-      // this.ruleForm.pictureFile = new File([ia], data.name, {type: mime})
-      this.ruleForm.pictureFile = data.file
+      let arr = data.file.split(',')
+      let mime = arr[0].match(/:(.*?);/)[1]
+      let bytes = atob(arr[1]) // 解码base64
+      let n = bytes.length
+      let ia = new Uint8Array(n)
+      while (n--) {
+        ia[n] = bytes.charCodeAt(n)
+      }
+      this.ruleForm.pictureFile = new File([ia], data.name, {type: mime})
+      // this.ruleForm.pictureFile = data.file
     },
     // 提交表单
     submitThisForm (formName) {
@@ -152,29 +152,26 @@ export default {
           this.ruleForm.startTime = this.ruleForm.activityTime[0]
           this.ruleForm.endTime = this.ruleForm.activityTime[1]
           // 将json转为formData
-          // const formData = new FormData()
-          // Object.keys(this.ruleForm).forEach((item) => {
-          //   formData.append(item, this.ruleForm[item])
-          // })
+          const formData = new FormData()
+          Object.keys(this.ruleForm).forEach((item) => {
+            formData.append(item, this.ruleForm[item])
+          })
           console.log(url)
           console.log(this.ruleForm)
-          this.$api.http.postJson(url, this.ruleForm)
-          // this.$api.http.upload(url, formData)
+          formData.forEach((item) => {
+            console.log(item)
+          })
+          this.$api.http.upload(url, formData)
             .then(res => {
-              let _this = this
-              if (res.code === 0) {
-                _this.$message.success('成功!')
-                _this.$confirm('您已成功创建活动，点击确认将跳转到活动首页！', '提示', {
-                  confirmButtonText: '确认',
-                  cancelButtonText: '取消'
-                }).then(() => {
-                  _this.$router.push('/activity/management')
-                }).catch(() => {})
-              } else {
-                _this.$message.error(res.msg)
-              }
+              this.$message.success('成功!')
+              this.$confirm('您已成功创建活动，点击确认将跳转到活动首页！', '提示', {
+                confirmButtonText: '确认',
+                cancelButtonText: '取消'
+              }).then(() => {
+                this.$router.push('/activity/management')
+              }).catch(() => {})
             })
-            .catch((err) => {
+            .catch(err => {
               console.log(err)
             })
         } else {

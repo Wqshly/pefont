@@ -4,7 +4,7 @@
 
       <template>
         <div class="crumb" v-for="(crumb,i) in crumbs" @click="crumbsClick(crumb.value)"
-             :class="{ 'active': i+1 === crumb_flag }">
+             :class="{ 'active': i+1 === crumb_flag }" :key="i">
           {{crumb.title}}
           <div v-if="i!==2" style="display:inline-block;">&gt;</div>
         </div>
@@ -126,7 +126,7 @@
 
 <script>
 
-import manaClass from './manaClass'
+import manaClass from '@/view/management/manaClass'
 
 export default {
   components: {
@@ -290,10 +290,10 @@ export default {
     // excel导出API
     importf (obj) {
       let _this = this
-      let inputDOM = this.$refs.inputer   // 通过DOM取文件数据
+      let inputDOM = this.$refs.inputer // 通过DOM取文件数据
 
       this.file = event.currentTarget.files[0]
-      var rABS = false // 是否将文件读取为二进制字符串
+      var rABS = false // 是否将文件读取为二进制字符串
       var f = this.file
       var reader = new FileReader()
       // if (!FileReader.prototype.readAsBinaryString) {
@@ -646,7 +646,7 @@ export default {
     },
 
     requestCollegeList (id) {
-      const url = '/college/queryCollegeList/' + id
+      const url = '/college/queryCollegeList/'
       this.$api.http.get(url).then(res => {
         let _this = this
         if (res.code === 0) {

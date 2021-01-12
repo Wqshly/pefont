@@ -1,31 +1,26 @@
 <template>
   <div class="main-nav">
-    <v-rank></v-rank>
     <br>
   </div>
 </template>
 
 <script>
-    import vRank from "../../components/exerciseCalendar"
+
 export default {
-    components:{
-        vRank,
-    },
-    data() {
-        return {
+  data () {
+    return {
 
-        }
-    },
-    methods: {
+    }
+  },
+  methods: {
 
+  },
+  mounted () {
 
-    },
-    mounted() {
+  },
+  created () {
 
-    },
-    created() {
-
-    },
+  }
 }
 </script>
 

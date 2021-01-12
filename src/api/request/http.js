@@ -13,7 +13,7 @@ const service = axios.create({
 
 // 请求拦截
 service.interceptors.request.use(config => {
-  Loading.service({text: 'Loading...'})
+  // Loading.service({text: 'Loading...'})
   return config
 }, error => {
   Message.error({message: '请求超时'})
@@ -22,9 +22,9 @@ service.interceptors.request.use(config => {
 
 // 响应拦截
 service.interceptors.response.use(res => {
-  Loading.service().close()
+  // Loading.service().close()
   console.log(res.data)
-  if (res.data.code === -1 || res.data.code === 1) {
+  if (res.data.code === -1) {
     router.push('/login')
     return Promise.reject(res)
   } else if (res.data.code === 0) {
@@ -62,7 +62,7 @@ const http = {
     return res
   },
   async upload (url, data) {
-    let res = await axios.post(url, data, {headers: {'Content-Type': 'multipart/form-data'}})
+    let res = await service.post(url, data, {headers: {'Content-Type': 'multipart/form-data'}})
     return res
   }
 }

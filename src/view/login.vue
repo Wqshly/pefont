@@ -4,35 +4,27 @@
     <div id="container">
       <div class="form-container" v-show="!VRCODE">
         <div class="form-row title">
-          <p>账&nbsp;&nbsp;号&nbsp;&nbsp;登&nbsp;&nbsp;录</p>
+          <p>用&nbsp;&nbsp;户&nbsp;&nbsp;登&nbsp;&nbsp;录</p>
         </div>
+        <el-form :model="loginForm" :rules="loginFormRules" ref="loginForm">
+          <el-form-item prop="schoolId">
+            <el-select style="width: 100%;" v-model="loginForm.schoolId" filterable placeholder="请选择学校">
+              <el-option v-for="(item,index) in schoolList"
+                         :key="index"
+                         :label="item.schoolName"
+                         :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item prop="usernumber">
+            <el-input v-model="loginForm.usernumber" placeholder="请输入学号" clearable></el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input type="password" v-model="loginForm.password" placeholder="请输入密码" show-password clearable></el-input>
+          </el-form-item>
+        </el-form>
         <div class="form-row">
-          <el-select style="width: 100%;" v-model="loginForm.schoolId" filterable placeholder="请选择学校">
-            <el-option
-              v-for="item in options"
-              :key="item.id"
-              :label="item.schoolName"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </div>
-        <div class="form-row">
-          <el-input v-model="loginForm.usernumber"
-                    placeholder="请输入学号"
-                    clearable>
-          </el-input>
-        </div>
-        <div class="form-row">
-          <el-input type="password"
-                    v-model="loginForm.password"
-                    placeholder="请输入密码"
-                    show-password
-                    clearable>
-          </el-input>
-        </div>
-        <div class="form-row">
-          <el-button style="width: 100px;" @click="login" type="success" :disabled="loginDisable">登录</el-button>
-          <el-button style="width: 100px;" @click="register">注册</el-button>
+          <el-button style="width: 100px;" @click="login('loginForm')" type="success" :disabled="loginDisable">登录</el-button>
           <p class="login-for-code" @click="show">扫码登录</p>
         </div>
       </div>
@@ -50,35 +42,28 @@
 </template>
 
 <script>
-import particles from 'particles.js'
 
 export default {
   data () {
     return {
       VRCODE: false,
       loginForm: {
+        schoolId: null,
         usernumber: null,
-        password: null,
-        schoolId: null
+        password: null
       },
-      registerForm: {
-        userNumber: '未设置',
-        username: '未设置',
-        password: '123456',
-        age: 0,
-        sex: '未设置',
-        unit: '未设置',
-        identity: '学生',
-        phone: '未设置',
-        email: '未设置',
-        schoolId: null
+      loginFormRules: {
+        schoolId: [
+          {required: true, message: '请选择学校', trigger: 'blur'}
+        ],
+        usernumber: [
+          {required: true, message: '用户名不能为空', trigger: 'blur'}
+        ],
+        password: [
+          {required: true, message: '密码不能为空', trigger: 'blur'}
+        ]
       },
-      options: [
-        {
-          id: 1,
-          schoolName: '山东科技大学'
-        }
-      ],
+      schoolList: [],
       loginDisable: false
     }
   },
@@ -86,44 +71,35 @@ export default {
     show () {
       this.VRCODE = !this.VRCODE
     },
-    requestSchoolList () {
-      let url = '/school/querySchoolList'
-      this.$api.http.get(url).then(res => {
-        if (res.code === 0) {
-          this.options = this.$clone.transObjectToList(res.data)
-        } else {
-          this.$message.error(res.msg)
-        }
-      })
+    // 获取学校信息列表
+    getSchoolList () {
+      this.$api.http.get('/school/querySchoolList')
+        .then(res => {
+          this.schoolList = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
-    login () {
-      if (!this.loginDisable) {
-        this.loginDisable = true
-        let url = '/login/login'
-        this.$api.http.post(url, this.loginForm)
-          .then(res => {
-            this.loginDisable = false
-            console.log(res.data)
-            var session = JSON.stringify(res.data)
-            sessionStorage.setItem('userInfo', session)
-            this.$router.push('/home')
-          })
-          .catch(err => {
-            this.loginDisable = false
-            console.log(err)
-          })
-      }
-    },
-    register (formName) {
-      this.registerForm.password = this.loginForm.password
-      this.registerForm.schoolId = this.loginForm.schoolId
-      this.registerForm.userNumber = this.loginForm.usernumber
-      let url = '/user/addUser'
-      this.$api.http.postJson(url, this.registerForm).then(res => {
-        if (res.code === 0) {
-          this.$message.success('注册成功!')
-        } else {
-          this.$message.error(res.msg)
+    login (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if (!this.loginDisable) {
+            this.loginDisable = true
+            let url = '/login/login'
+            this.$api.http.post(url, this.loginForm)
+              .then(res => {
+                this.loginDisable = false
+                console.log(res.data)
+                var session = JSON.stringify(res.data)
+                sessionStorage.setItem('userInfo', session)
+                this.$router.push('/home')
+              })
+              .catch(err => {
+                this.loginDisable = false
+                console.log(err)
+              })
+          }
         }
       })
     },
@@ -133,14 +109,24 @@ export default {
       }
     }
   },
-  mounted () {
+  created () {
+    // 会造成内存泄漏，需要beforeDestroy中销毁
     particlesJS.load('particles', '/static/particles.json')
     window.addEventListener('keydown', this.keyDown)
   },
-  created () {
-    this.requestSchoolList()
+  // // 解决在mounted中创建的动画造成的内存泄露问题。
+  // beforeDestroy () {
+  //   // 销毁 particlesJS
+  //   if (pJSDom && pJSDom.length > 0) {
+  //     pJSDom.forEach(pJSDomItem => {
+  //       pJSDomItem.pJS.fn.vendors.destroypJS()
+  //     })
+  //   }
+  //   window.removeEventListener('keydown', this.keyDown)
+  // },
+  mounted () {
+    this.getSchoolList()
   }
-
 }
 </script>
 
@@ -186,7 +172,7 @@ export default {
   .title {
     font-size: 24px;
     font-weight: 400;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
   }
 
   .el-form-row__content {

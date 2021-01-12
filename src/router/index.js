@@ -24,11 +24,11 @@ const templatePage = () => Promise.resolve(require('@/components/templatePage'))
 const homePage = () => Promise.resolve(require('@/view/home/home'))
 
 // 早操
-const exercisesPage = () => import(/* webpackChunkName: '1' */ '../view/exercises/home')
+const clockIn = () => Promise.resolve(require('@/view/morningExercises/clockIn'))
+const setCheckStaff = () => Promise.resolve(require('@/view/morningExercises/setCheckStaff'))
 
 // 比赛
 const competitionLocalCompetition = () => import(/* webpackChunkName: '2' */ '../view/competition/localCompetition')
-const competitionPage = () => import(/* webpackChunkName: '2' */ '../view/competition/home')
 
 /* promotion page */
 const promotionPage = () => import(/* webpackChunkName: '4' */ '../view/promotion/Page')
@@ -79,7 +79,13 @@ const equipmentPage = () => import(/* webpackChunkName: '13' */ '../view/equipme
 const equipment_page = () => import(/* webpackChunkName: '13' */ '../view/equipment/home')
 
 /* 学校管理员页面 */
-const managementPage = () => import(/* webpackChunkName: '9' */ '../view/management/Page')
+const manageTemplatePage = () => Promise.resolve(require('@/components/managePage/manageTemplatePage'))
+const manageHomePage = () => Promise.resolve(require('@/view/management/home'))
+// const test = () => Promise.resolve(require('@/view/management/school/home'))
+
+// 学校信息管理
+const schoolInfoManage = () => Promise.resolve(require('@/view/management/school/schoolInfoManage'))
+const studentManage = () => Promise.resolve(require('@/view/management/school/studentManage'))
 
 // 比赛管理
 const createCompetition = () => Promise.resolve(require('@/view/management/competition/createCompetition'))
@@ -88,7 +94,6 @@ const manageCompetition = () => Promise.resolve(require('@/view/management/compe
 const competitionManage = () => import(/* webpackChunkName: '3' */ '../view/management/competition/management')
 
 const activityApproval = () => Promise.resolve(require('@/view/management/activity/activityApproval'))
-const mana_page = () => import(/* webpackChunkName: '9' */ '../view/management/home')
 const mana_class = () => import(/* webpackChunkName: '9' */ '../view/management/manaClass')
 // const competitionCreate = () => import(/* webpackChunkName: '3' */ '../view/management/competition/create')
 const venueCreate = () => import(/* webpackChunkName: '3' */ '../view/management/venue/create')
@@ -116,9 +121,13 @@ const router = new Router({
           component: homePage
         }, // 首页
         {
-          path: '/exercises',
-          component: exercisesPage
-        }, // 早操
+          path: '/morningExercises/clockIn',
+          component: clockIn
+        }, // 早操打卡
+        {
+          path: '/morningExercises/setCheckStaff',
+          component: setCheckStaff
+        }, // 设置签到员
         {
           path: '/competition/localCompetition',
           component: competitionLocalCompetition
@@ -129,7 +138,7 @@ const router = new Router({
         },
         {
           path: '/competition/myCompetition',
-          component: competitionPage
+          component: notFoundPage
         },
         {
           path: '/activity/registration',
@@ -315,18 +324,35 @@ const router = new Router({
     },
     {
       path: '/management',
-      component: managementPage,
+      component: manageTemplatePage,
       meta: {
         schoolAdmin: true
       },
       children: [
         {
-          path: '/management/management',
-          redirect: '/management/home'
+          path: '/management/schoolInfoManage',
+          component: schoolInfoManage,
+          meta: {
+            schoolAdmin: true
+          }
         },
         {
+          path: '/management/studentManage',
+          component: studentManage,
+          meta: {
+            schoolAdmin: true
+          }
+        },
+        // {
+        //   path: '/management/test',
+        //   component: test,
+        //   meta: {
+        //     schoolAdmin: true
+        //   }
+        // },
+        {
           path: '/management/home',
-          component: mana_page,
+          component: manageHomePage,
           meta: {
             schoolAdmin: true
           }

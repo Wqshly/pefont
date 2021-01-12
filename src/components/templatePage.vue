@@ -4,7 +4,6 @@
       <div class="main-style">
         <router-view></router-view>
       </div>
-      <v-footer></v-footer>
     </div>
 </template>
 

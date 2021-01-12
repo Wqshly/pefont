@@ -28,7 +28,9 @@
           <div style="margin: 0 auto; text-align: center;">
             <el-progress type="circle" :percentage="25"></el-progress>
           </div>
-          <div style="text-align: center; font-size: 24px;padding-top: 20px; padding-bottom: 20px;"><span style="font-style: italic;">{{myScore.score}}</span> 分</div>
+          <div style="text-align: center; font-size: 24px;padding-top: 20px; padding-bottom: 20px;"><span
+            style="font-style: italic;">{{myScore.score}}</span> 分
+          </div>
           <div style="text-align: center; padding-bottom: 20px;">最近一周获得：{{myScoreInWeek}}分</div>
         </el-card>
       </div>
@@ -36,11 +38,34 @@
         <el-card header="PE分获取记录(最近一周内)">
           <el-table
             :data="PEScoreInWeek" ref="PEScoreInWeek">
-<!--            <el-table-column label="分数" width="50" prop="score"></el-table-column>-->
+            <!--            <el-table-column label="分数" width="50" prop="score"></el-table-column>-->
             <el-table-column label="类别" width="130" prop="clazz"></el-table-column>
             <el-table-column label="PE分" width="130" prop="score"></el-table-column>
-<!--            <el-table-column label="日期" width="120" prop="startTime" :formatter="dateFormatter"></el-table-column>-->
+            <!--            <el-table-column label="日期" width="120" prop="startTime" :formatter="dateFormatter"></el-table-column>-->
           </el-table>
+        </el-card>
+      </div>
+      <div class="side-box">
+        <el-card header="最近一个月打卡情况">
+          <el-calendar v-model="value">
+            <template slot="dateCell" slot-scope="{date, data}">
+              <div
+                style="position:relative;text-align:center;height:100%;align-items:center;display:flex;justify-content: center; ">
+                {{data.day.split('-').slice(2)[0]}}
+                <div v-for="(item,index) in kaoqin" :key="index+1">
+                  <div v-if="(item.天).indexOf(data.day)!=-1">
+                    <el-tooltip placement="top">
+                      <div slot="content" v-html="ToHtml(item.日期)"></div>
+                      <!-- <el-button :type="item.结果"  style="margin-top:5px;">{{ToJieGuo(item.结果)}}</el-button> -->
+                      <div class="box-green" v-if="item.结果==='success'"></div>
+                      <div class="box-yello" v-if="item.结果==='warning'"></div>
+                      <div class="box-white" v-if="item.结果==='default'"></div>
+                    </el-tooltip>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </el-calendar>
         </el-card>
       </div>
     </div>
@@ -137,10 +162,11 @@ export default {
   }
 
   .home-left-container {
-    border:3px solid #ebebeb;
+    border: 3px solid #ebebeb;
     width: 300px;
     height: 500px;
   }
+
   .home-center-container {
     margin: 20px auto;
     display: flex;
@@ -148,10 +174,12 @@ export default {
     flex-direction: column;
     justify-content: center;
   }
+
   .center_row {
     width: 100%;
     margin: 10px 0;
   }
+
   .home-right-container {
     width: 300px;
     margin-right: 20px;

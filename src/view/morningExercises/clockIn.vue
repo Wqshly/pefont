@@ -52,21 +52,12 @@
                      :total="total">
       </el-pagination>
     </div>
-    <div id="ex-right-container">
-      <v-calendar class="rank" />
-      <v-score class="score" />
-    </div>
   </div>
 </template>
 
 <script>
-import vCalendar from '../../components/exerciseCalendar'
-import vScore from '../../components/myScore'
 export default {
-  components: {
-    vCalendar,
-    vScore
-  },
+  name: 'clockIn',
   data () {
     return {
       search: '',
@@ -79,7 +70,7 @@ export default {
   },
   methods: {
     Sign (url, data) {
-      this.$api.post_JSON(url, data).then(res => {
+      this.$api.http.postJson(url, data).then(res => {
         if (res.code === 0) {
           this.requestTableData()
         } else {
@@ -88,24 +79,24 @@ export default {
       })
     },
     handleSignIn (index, row) {
-      this.Sign('/api/SignIn/setSignInByClass', [row.id])
+      this.Sign('/SignIn/setSignInByClass', [row.id])
     },
     handleMultiSignIn () {
       let data = []
       for (let i in this.multipleSelection) {
         data.push(this.multipleSelection[i].id)
       }
-      this.Sign('/api/SignIn/setSignInByClass', data)
+      this.Sign('/SignIn/setSignInByClass', data)
     },
     handleSignOut (index, row) {
-      this.Sign('/api/SignIn/setSignOutByClass', [row.id])
+      this.Sign('/SignIn/setSignOutByClass', [row.id])
     },
     handleMultiSignOut () {
       let data = []
       for (let i in this.multipleSelection) {
         data.push(this.multipleSelection[i].id)
       }
-      this.Sign('/api/SignIn/setSignOutByClass', data)
+      this.Sign('/SignIn/setSignOutByClass', data)
     },
     // 多选
     handleSelectionChange (val) {
@@ -141,9 +132,9 @@ export default {
       }
       signTime = row.signTime
       // let signTime = "2020-11-9T14:22:00.000+000";
-      let new_date = signOutTime ? new Date(signOutTime.replace('T', ' ').split('.')[0]) : new Date() // 新建一个日期对象，默认现在的时间
-      let old_date = new Date(signTime.replace('T', ' ').split('.')[0]) // 设置过去的一个时间点，"yyyy-MM-dd HH:mm:ss"格式化日期
-      let difftime = (new_date - old_date) / 1000 // 计算时间差,并把毫秒转换成秒
+      let newDate = signOutTime ? new Date(signOutTime.replace('T', ' ').split('.')[0]) : new Date() // 新建一个日期对象，默认现在的时间
+      let oldDate = new Date(signTime.replace('T', ' ').split('.')[0]) // 设置过去的一个时间点，"yyyy-MM-dd HH:mm:ss"格式化日期
+      let difftime = (newDate - oldDate) / 1000 // 计算时间差,并把毫秒转换成秒
       let days = parseInt(difftime / 86400) // 天  24*60*60*1000
       let hours = parseInt(difftime / 3600) - 24 * days // 小时 60*60 总小时数-过去的小时数=现在的小时数
       let minutes = parseInt(difftime % 3600 / 60) // 分钟 -(day*24) 以60秒为一整份 取余 剩下秒数 秒数/60 就是分钟数
@@ -164,9 +155,9 @@ export default {
       return n
     },
     handleData () {
-      let temp_data = this.tableData.filter(data => this.filter(data))
-      this.total = temp_data.length
-      return temp_data.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      let tempData = this.tableData.filter(data => this.filter(data))
+      this.total = tempData.length
+      return tempData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     },
     // 搜索筛选
     filter (val) {
@@ -181,8 +172,8 @@ export default {
     },
 
     requestTableData () {
-      let url = '/api/SignIn/getSignInByClass'
-      this.$api.get(url).then(res => {
+      let url = '/SignIn/getSignInByClass'
+      this.$api.http.get(url).then(res => {
         if (res.code === 0) {
           this.tableData = this.$clone.transObjectToList(res.data)
         } else {
