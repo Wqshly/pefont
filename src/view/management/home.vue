@@ -1,32 +1,22 @@
 <template>
-  <div class="main-nav">
-    <div v-if="!editClass" class="content">
-
-      <template>
-        <div class="crumb" v-for="(crumb,i) in crumbs" @click="crumbsClick(crumb.value)"
-             :class="{ 'active': i+1 === crumb_flag }" :key="i">
-          {{crumb.title}}
-          <div v-if="i!==2" style="display:inline-block;">&gt;</div>
-        </div>
-      </template>
-      <br>
-
-      <el-button
-        style="float:right;"
-        size="middle"
-        type="success"
-        @click="handleNew()"
-        v-if="current_choose[crumb_flag-2]!==0 && crumb_flag!=1">新建一个{{this.crumbs[this.crumb_flag-1].title}}
-      </el-button>
-      <br>
-      <el-button type="text" @click="handleDeleteSome()">删除选中项</el-button>
+  <div class="container">
+    <template v-if="!studentManagePage">
+      <div class="crumb" v-for="(crumb,index) in crumbs" @click="crumbsClick(index + 1)"
+           :class="{'active':crumbFlag === index + 1}" :key="index">
+        {{crumb.name}}
+        <div v-if="index < crumbs.length - 1" style="display:inline-block;">&gt;</div>
+      </div>
+      <br><br>
+      <div style="float: right">
+        <el-button type="text" @click.native="deleteSelectOption()">删除选中项</el-button>
+        <el-button type="text" @click.native="handleCreate()">新建{{this.crumbs[this.crumbFlag - 1].name}}</el-button>
+      </div>
       <div style="display: inline-block;float:right;margin-right: 50px">
         <a href="javascript:" class="upload">批量导入
           <input id="file1" type="file" class="change" @change="insert(this)"
                  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
         </a>
         <el-button type="text" @click="export1()">下载模板表格</el-button>
-
       </div>
 
       <template>
@@ -41,19 +31,19 @@
             width="55">
           </el-table-column>
           <el-table-column
-            :prop=tableProp
+            :prop="tableProp"
             label="名字">
-            <template #header>
-              <label>
-                <input
-                  type="text"
-                  v-model="search"
-                  prefix-icon="el-icon-search"
-                  style="width: 150px;"
-                  placeholder="输入关键字搜索"
-                />
-              </label>
-            </template>
+<!--            <template #header>-->
+<!--              <label>-->
+<!--                <input-->
+<!--                  type="text"-->
+<!--                  v-model="search"-->
+<!--                  prefix-icon="el-icon-search"-->
+<!--                  style="width: 150px;"-->
+<!--                  placeholder="输入关键字搜索"-->
+<!--                />-->
+<!--              </label>-->
+<!--            </template>-->
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
@@ -65,7 +55,7 @@
               <el-button
                 size="mini"
                 type="danger"
-                v-if="crumb_flag!==1"
+                v-if="crumbFlag!==1"
                 @click.stop="handleDelete(scope.$index, scope.row)">删除
               </el-button>
             </template>
@@ -116,10 +106,10 @@
         <el-button type="primary" @click="confirm_edit()">确 定</el-button>
       </el-dialog>
 
-    </div>
+    </template>
     <mana-class :choose="current_choose"
                 :reload="reload"
-                @back="editClass = false"
+                @back="studentManagePage = false"
                 v-else/>
   </div>
 </template>
@@ -135,11 +125,11 @@ export default {
   data () {
     return {
       reload: 0,
-      editClass: false,
+      studentManagePage: false,
       search: '',
       tableProp: '',
       dialogEditVisible: false,
-      multipleSelection: [],
+      selectList: [],
 
       /* 数据预览 */
       dialogTableVisible: false,
@@ -158,7 +148,7 @@ export default {
       currentPage: 1,
       pageSize: 10,
       total: 0,
-      crumb_flag: 1,
+      crumbFlag: 1,
       tableData_Download: [{
         school: '',
         college: '',
@@ -173,19 +163,19 @@ export default {
       crumbs: [
         {
           value: 1,
-          title: '学校',
+          name: '学校',
           tableName: 'data_school',
           prop: 'schoolName'
         },
         {
           value: 2,
-          title: '院系',
+          name: '院系',
           tableName: 'data_college',
           prop: 'collegeName'
         },
         {
           value: 3,
-          title: '班级',
+          name: '班级',
           tableName: 'data_class',
           prop: 'className'
         }
@@ -278,11 +268,11 @@ export default {
       for (let i in this.editDia) {
         this.editUpload[this.editDia[i].key] = this.editDia[i].value
       }
-      if (this.crumb_flag === 1) {
+      if (this.crumbFlag === 1) {
         url = '/school/updateSchool'
-      } else if (this.crumb_flag === 2) {
+      } else if (this.crumbFlag === 2) {
         url = '/college/updateCollege'
-      } else if (this.crumb_flag === 3) {
+      } else if (this.crumbFlag === 3) {
         url = '/classes/updateClasses'
       }
       this.updata(url)
@@ -350,7 +340,7 @@ export default {
     export2Excel () {
       require.ensure([], () => {
         const {export_json_to_excel} = require('../../vendor/Export2Excel')
-        const tHeader = ['学校', '院系', '班级'] // 对应表格输出的title
+        const tHeader = ['学校', '院系', '班级'] // 对应表格输出的name
         const filterVal = ['school', 'college', 'class'] // 对应表格输出的数据
         const list = this.tableData_Download
         const data = this.formatJson(filterVal, list)
@@ -386,11 +376,11 @@ export default {
       })
     },
     reloadTable () {
-      if (this.crumb_flag === 1) {
+      if (this.crumbFlag === 1) {
         this.requestSchoolList()
-      } else if (this.crumb_flag === 2) {
+      } else if (this.crumbFlag === 2) {
         this.requestCollegeList(this.current_choose[0])
-      } else if (this.crumb_flag === 3) {
+      } else if (this.crumbFlag === 3) {
         this.requestClassList(this.current_choose[0], this.current_choose[1])
       }
     },
@@ -445,8 +435,8 @@ export default {
       })
     },
 
-    handleNew () {
-      if (this.crumb_flag === 1) {
+    handleCreate () {
+      if (this.crumbFlag === 1) {
         this.$prompt('请输入学校名称', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消'
@@ -455,7 +445,7 @@ export default {
         }).catch(() => {
 
         })
-      } else if (this.crumb_flag === 2) {
+      } else if (this.crumbFlag === 2) {
         this.$prompt('请输入院系名称', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消'
@@ -477,15 +467,18 @@ export default {
     },
     /* 表格的操作 */
     handleClick (row) {
-      if (this.crumb_flag === 1) {
+      if (this.crumbFlag === 1) {
         this.requestCollegeList(row.id)
+        console.log('选择了学校')
         this.current_choose[0] = row.id
-      } else if (this.crumb_flag === 2) {
+      } else if (this.crumbFlag === 2) {
         this.requestClassList(this.current_choose[0], row.id)
+        console.log('选择了班级')
         this.current_choose[1] = row.id
-      } else if (this.crumb_flag === 3) {
+      } else if (this.crumbFlag === 3) {
+        console.log('选择了班级2')
         this.current_choose[2] = row.id
-        this.editClass = true
+        this.studentManagePage = true
         this.reload++
       }
     },
@@ -544,32 +537,36 @@ export default {
     },
     // 多选
     handleSelectionChange (val) {
-      this.multipleSelection = val
+      this.selectList = val
     },
 
     /* 批量按钮 */
-    handleDeleteSome () {
-      this.$confirm('确定删除？?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        let data = []
-        for (let i in this.multipleSelection) {
-          data.push(this.multipleSelection[i].id)
-        }
-        this.delete(data)
-      }).catch(() => {
-
-      })
+    deleteSelectOption () {
+      if (this.selectList.length === 0) {
+        this.$message.warning('您尚未勾选，请先勾选一条以上记录！')
+      } else {
+        this.$confirm('确认删除所选内容？？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+          .then(() => {
+            let data = []
+            for (let i in this.selectList) {
+              data.push(this.selectList[i].id)
+            }
+            this.delete(data)
+          })
+          .catch(() => {})
+      }
     },
     delete (data) {
       let url = ''
-      if (this.crumb_flag === 1) {
+      if (this.crumbFlag === 1) {
         url = '/school/deleteSchool'
-      } else if (this.crumb_flag === 2) {
+      } else if (this.crumbFlag === 2) {
         url = '/college/deleteCollege'
-      } else if (this.crumb_flag === 3) {
+      } else if (this.crumbFlag === 3) {
         url = '/classes/deleteClasses'
       }
       this.$api.http.postJson(url, data).then(res => {
@@ -592,7 +589,7 @@ export default {
     shift_data (val) {
       /* this.crumb_flag用来监视当前表格数据到底是什么 */
       this.tableProp = this.crumbs[val - 1].prop
-      this.crumb_flag = val
+      this.crumbFlag = val
     },
     crumbsClick (val) {
       this.shift_data(val)
@@ -600,10 +597,10 @@ export default {
 
     // 处理显示数据
     handleData () {
-      let temp_data = this.tableData[this.crumbs[this.crumb_flag - 1].tableName]
-      let temp_data2 = temp_data.filter(data => this.filter(data))
-      this.total = temp_data2.length
-      return temp_data2.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
+      let tempData = this.tableData[this.crumbs[this.crumbFlag - 1].tableName]
+      let tempData2 = tempData.filter(data => this.filter(data))
+      this.total = tempData2.length
+      return tempData2.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)
     },
 
     // 搜索筛选
@@ -617,7 +614,6 @@ export default {
 
     // 当前页数
     handleCurrentChange (val) {
-
     },
 
     requestClassList (sid, cid) {
@@ -707,27 +703,27 @@ export default {
 </script>
 
 <style scoped>
-  .main-nav {
+  .container {
     margin: 0 auto;
     max-width: 1140px;
     width: 100%;
   }
 
-  .main-nav .content {
+  .container .content {
     padding: 0;
     margin: 20px auto;
     overflow: hidden;
 
   }
 
-  .main-nav .crumb {
+  .container .crumb {
     cursor: pointer;
     transition: all 0.3s;
     display: inline-block;
     margin-right: 10px;
   }
 
-  .main-nav .crumb:hover {
+  .container .crumb:hover {
     color: #409EFF !important;
   }
 
@@ -735,7 +731,7 @@ export default {
     color: #409EFF !important;
   }
 
-  .main-nav .upload {
+  .container .upload {
     padding: 4px 10px;
     font-size: 14px;
     height: 100%;
@@ -747,7 +743,7 @@ export default {
 
   }
 
-  .main-nav .change {
+  .container .change {
     position: absolute;
     overflow: hidden;
     right: 0;

@@ -83,7 +83,7 @@ export default {
       currentPage: 1,
       pageSize: 10,
       total: 0,
-      multipleSelection: [],
+      selectList: [],
       statusOp: ['已发起', '进行中', '已结束'],
       filter_label_outlay: '已发起'
     }

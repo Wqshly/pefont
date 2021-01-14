@@ -71,12 +71,16 @@ export default {
           index: 'schoolInfoManage',
           subs: [
             {
-              title: '学生管理',
-              index: '/management/studentManage'
+              title: '学校信息',
+              index: '/management/schoolInfoManage'
             },
             {
-              title: '学校管理',
-              index: '/management/schoolManage'
+              title: '院系管理',
+              index: '/management/collegeManage'
+            },
+            {
+              title: '学生管理',
+              index: '/management/studentManage'
             }
           ]
         },
@@ -160,7 +164,7 @@ export default {
   }
 
   .title-font-style {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .menu {

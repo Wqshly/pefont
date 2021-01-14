@@ -65,7 +65,7 @@ export default {
       currentPage: 1,
       pageSize: 10,
       total: 0,
-      multipleSelection: []
+      selectList: []
     }
   },
   methods: {
@@ -83,8 +83,8 @@ export default {
     },
     handleMultiSignIn () {
       let data = []
-      for (let i in this.multipleSelection) {
-        data.push(this.multipleSelection[i].id)
+      for (let i in this.selectList) {
+        data.push(this.selectList[i].id)
       }
       this.Sign('/SignIn/setSignInByClass', data)
     },
@@ -93,8 +93,8 @@ export default {
     },
     handleMultiSignOut () {
       let data = []
-      for (let i in this.multipleSelection) {
-        data.push(this.multipleSelection[i].id)
+      for (let i in this.selectList) {
+        data.push(this.selectList[i].id)
       }
       this.Sign('/SignIn/setSignOutByClass', data)
     },

@@ -158,7 +158,7 @@ export default {
       tableProp: '',
       dialogEditVisible: false,
       dialogEditVisible2: false,
-      multipleSelection: [],
+      selectList: [],
       /* 数据预览 */
       dialogTableVisible: false,
       arr_temp_filename: '',
@@ -197,15 +197,15 @@ export default {
     },
 
     /* 批量按钮 */
-    handleDeleteSome () {
+    deleteSelectOption () {
       this.$confirm('确定删除？?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         let data = []
-        for (let i in this.multipleSelection) {
-          data.push(this.multipleSelection[i].id)
+        for (let i in this.selectList) {
+          data.push(this.selectList[i].id)
         }
 
         this.delete(data)
@@ -216,7 +216,7 @@ export default {
 
     delete (data) {
       let url = '/api/user/deleteUser'
-      this.$api.post_JSON(url, data).then(res => {
+      this.$api.http.postJson(url, data).then(res => {
         let _this = this
         if (res.code === 0) {
           _this.$message({
@@ -258,7 +258,7 @@ export default {
       data.append('cId', this.$route.query.cid)
       data.append('ccId', this.$route.query.ccid)
       data.append('excelFile', document.getElementById('file').files[0])
-      this.$api.upload('/api/importFile/readExcel', data).then(res => {
+      this.$api.http.upload('/api/importFile/readExcel', data).then(res => {
         let _this = this
         if (res.code === 0) {
           _this.$message({
@@ -301,7 +301,7 @@ export default {
         studentName: this.form_new.studentName,
         studentNumber: this.form_new.studentNumber
       }
-      this.$api.post_JSON(url, data).then(res => {
+      this.$api.http.postJson(url, data).then(res => {
         let _this = this
         if (res.code === 0) {
           _this.$message({
@@ -325,7 +325,7 @@ export default {
         this.editUpload[this.editDia[i].key] = this.editDia[i].value
       }
       let url = '/api/student/updateStudent'
-      this.$api.post_JSON(url, this.editUpload).then(res => {
+      this.$api.http.postJson(url, this.editUpload).then(res => {
         let _this = this
         if (res.code === 0) {
           _this.$message({
@@ -443,7 +443,7 @@ export default {
       this.requestStudentList(this.choose[0], this.choose[1], this.choose[2])
     },
 
-    handleNew () {
+    handleCreate () {
       this.dialogEditVisible2 = true
     },
 
@@ -513,7 +513,7 @@ export default {
 
     requestStudentList (sid, cid, ccid) {
       const url = '/api/student/queryStudentInfoByClass/' + sid + '/' + cid + '/' + ccid
-      this.$api.get(url).then(res => {
+      this.$api.http.get(url).then(res => {
         let _this = this
         if (res.code === 0) {
           this.tableData = []

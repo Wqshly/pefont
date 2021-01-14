@@ -109,7 +109,7 @@ export default {
       valid: true,
       dialogTableVisible: false,
       notifyPromise: Promise.resolve(),
-      multipleSelection: [],
+      selectList: [],
       search: '',
       filter_status: '全部',
       signOp: ['未签到', '已签到', '已签退'],
@@ -270,15 +270,15 @@ export default {
     // 批量
     groupSignIn () {
       let data = []
-      for (var j = 0; j < this.multipleSelection.length; j++) {
-        data.push(this.multipleSelection[j].signId)
+      for (var j = 0; j < this.selectList.length; j++) {
+        data.push(this.selectList[j].signId)
       }
       this.requestSignIn(data)
     },
     groupSignOut () {
       let data = []
-      for (var j = 0; j < this.multipleSelection.length; j++) {
-        data.push(this.multipleSelection[j].signId)
+      for (var j = 0; j < this.selectList.length; j++) {
+        data.push(this.selectList[j].signId)
       }
       this.requestSignOut(data)
     },

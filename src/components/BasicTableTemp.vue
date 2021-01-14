@@ -42,15 +42,9 @@
             </el-button>
           </el-popover>
           <el-popover placement="top-start" content="上传(批量导入数据)" trigger="hover">
-            <el-button v-if="refreshButton" slot="reference" @click.native="openImoprtExcelDialog"
+            <el-button v-if="refreshButton" slot="reference" @click.native="openImportExcelDialog"
                        class="button" style="color: #12ce66">
               <font-awesome-icon :icon="['fas', 'cloud-upload-alt']" class="button-icon"></font-awesome-icon>
-            </el-button>
-          </el-popover>
-          <el-popover placement="top-start" content="下载批量导入模板" trigger="hover">
-            <el-button v-if="refreshButton" slot="reference" @click.native="refreshRecord"
-                       class="button" style="color: #12ce66">
-              <font-awesome-icon :icon="['fas', 'download']" class="button-icon"></font-awesome-icon>
             </el-button>
           </el-popover>
           <!-- 按钮扩展区域1(左侧) -->
@@ -68,7 +62,8 @@
     <el-row>
       <!-- @为v-on的缩写，:为v-bind的缩写 -->
       <el-table :data="tableData" ref="TableTemplate"
-                @row-click="rowClick" @selection-change="selectChange"
+                @row-click="rowClick"
+                @row-dblclick="rowDoubleClick" @selection-change="selectChange"
                 :default-sort="defaultSort" @sort-change="sortChange"
                 v-loading="tableLoading">
         <!-- 选择框 -->
@@ -159,6 +154,17 @@
         <el-button @click.native="closeDetailDialog">关闭</el-button>
       </div>
     </el-dialog>
+    <!-- 上传Excel窗口 -->
+    <el-dialog ref="importExcelFormDialog" title="上传" :visible.sync="importExcelDialogVisible" :close-on-click-modal="false"
+               class="dialog-style">
+      <slot name="excelForm"></slot>
+      <div slot="footer">
+        <div style="float: left;">
+          <el-button @click.native="closeImportExcelFormDialog">取消</el-button>
+        </div>
+        <el-button type="primary" @click.native="uploadExcel">确认上传</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -206,7 +212,8 @@ export default {
       tableLoading: false, // 表格显示loading
       addDialogVisible: false, // 添加窗口
       editDialogVisible: false, // 编辑窗口
-      detailDialogVisible: false // 查看详情窗口
+      detailDialogVisible: false, // 查看详情窗口
+      importExcelDialogVisible: false // 上传Excel窗口
     }
   },
   methods: {
@@ -286,12 +293,21 @@ export default {
     },
     // 刷新记录
     refreshRecord () {
-      this.getRecord(null, null)
+      this.getRecord(null)
     },
     // 打开上传Excel页面
-    openImoprtExcelDialog () {},
+    openImportExcelDialog () {
+      this.importExcelDialogVisible = true
+    },
     // 上传Excel表
-    uploadExcel () {},
+    uploadExcel () {
+      this.$emit('upload-excel')
+      this.importExcelDialogVisible = false
+    },
+    // 关闭上传Excel页面
+    closeImportExcelFormDialog () {
+      this.importExcelDialogVisible = false
+    },
     // 排序
     sortChange (data) {
       // 由于后端排顺序，故在此处将sort排序中的null值排除。
@@ -304,9 +320,10 @@ export default {
       this.refreshRecord()
     },
     // 获取记录
-    getRecord (url, obj) {
+    getRecord (url) {
       this.selectRecord = []
-      if (url === null && obj === null) {
+      let obj = {}
+      if (url === null) {
         url = this.lastUrl
         obj = this.lastObject
       }
@@ -330,11 +347,15 @@ export default {
         })
     },
     // 点击某一行
-    rowClick (row, event, column) {
+    rowClick (row, column, event) {
       // assign 使后者的值赋到前者中。
       this.$emit('click-row', Object.assign({}, row))
       this.selectRow = row
       this.tableDataIndex = this.tableData.indexOf(this.selectRow)
+    },
+    // 双击某行时的事件
+    rowDoubleClick (row, column, event) {
+      this.$emit('click-row-double', Object.assign({}, row))
     },
     // 选中多行数据
     selectChange (selects) {

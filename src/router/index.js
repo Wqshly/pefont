@@ -85,6 +85,7 @@ const manageHomePage = () => Promise.resolve(require('@/view/management/home'))
 
 // 学校信息管理
 const schoolInfoManage = () => Promise.resolve(require('@/view/management/school/schoolInfoManage'))
+const collegeMange = () => Promise.resolve(require('@/view/management/school/collegeManage'))
 const studentManage = () => Promise.resolve(require('@/view/management/school/studentManage'))
 
 // 比赛管理
@@ -332,6 +333,13 @@ const router = new Router({
         {
           path: '/management/schoolInfoManage',
           component: schoolInfoManage,
+          meta: {
+            schoolAdmin: true
+          }
+        },
+        {
+          path: '/management/collegeManage',
+          component: collegeMange,
           meta: {
             schoolAdmin: true
           }
