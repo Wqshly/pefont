@@ -244,7 +244,7 @@ export default {
 
       })
     },
-    updata (url) {
+    update (url) {
       this.$api.http.postJson(url, this.editUpload).then(res => {
         let _this = this
         if (res.code === 0) {
@@ -275,7 +275,7 @@ export default {
       } else if (this.crumbFlag === 3) {
         url = '/classes/updateClasses'
       }
-      this.updata(url)
+      this.update(url)
     },
     // excel导出API
     importf (obj) {
@@ -569,6 +569,7 @@ export default {
       } else if (this.crumbFlag === 3) {
         url = '/classes/deleteClasses'
       }
+      console.log(data)
       this.$api.http.postJson(url, data).then(res => {
         let _this = this
         if (res.code === 0) {

@@ -241,6 +241,7 @@ export default {
     // 具体的新增记录的方法
     createMethod (url, param) {
       let JsonParam = JSON.stringify(param)
+      console.log(url + JsonParam)
       this.$api.http.postJson(url, JsonParam)
         .then(
           this.refreshRecord()
@@ -276,16 +277,18 @@ export default {
     // 删除记录(批量删除)
     async deleteRecord () {
       const selectMultipleId = this.selectRecord.map(item => item[this.tablePK])
+      console.log(this.deleteRecordUrl)
+      console.log(selectMultipleId)
       await this.$confirm('确认删除 "选中的 ' + selectMultipleId.length + ' 条" 记录吗？', '提示', {type: 'warning'})
         .then(() => {
           this.tableLoading = true
-          this.$api.http.post(this.deleteRecordUrl, selectMultipleId)
+          this.$api.http.postJson(this.deleteRecordUrl, selectMultipleId)
             .then(res => {
               this.tableLoading = false
               this.refreshRecord()
             })
             .catch(err => {
-              console.log(err.data)
+              console.log(err)
               this.$message.error('网络请求失败')
             })
         })
@@ -308,6 +311,10 @@ export default {
     closeImportExcelFormDialog () {
       this.importExcelDialogVisible = false
     },
+    // 驼峰转下划线
+    toLine (name) {
+      return name.replace(/([A-Z])/g, '_$1').toLowerCase()
+    },
     // 排序
     sortChange (data) {
       // 由于后端排顺序，故在此处将sort排序中的null值排除。
@@ -329,7 +336,7 @@ export default {
       }
       obj.currentPageNumber = this.currentPageNumber
       obj.pageSize = this.pageSize
-      obj.sort = this.sortField + ' ' + this.sortMethod.replace('descending', ' desc').replace('ascending', ' asc')
+      obj.sort = this.toLine(this.sortField) + ' ' + this.sortMethod.replace('descending', ' desc').replace('ascending', ' asc')
       let objJson = JSON.stringify(obj)
       this.tableLoading = true
       this.$api.http.postJson(url, objJson)

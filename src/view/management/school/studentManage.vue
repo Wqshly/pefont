@@ -8,18 +8,17 @@
                       @add-record="addRecord"
                       @edit-record="editRecord"
                       @upload-excel="uploadExcelMethod">
-      <el-form slot="addForm" :model="addForm" style="overflow: auto" label-width="100px" ref="addForm">
-        <el-form-item label="学院：">
-          <el-select v-model="addForm.college" placeholder="请选择" @click.native="getCollege">
+      <el-form slot="addForm" :model="addForm" style="overflow: auto" label-width="120px" ref="addForm" :rules="addFormRules">
+        <el-form-item label="学院 - 班级：" prop="classesId">
+          <el-select v-model="addForm.collegeId" @change="addForm.classesId = ''" placeholder="选择学院" value="">
             <el-option v-for="(item,index) in collegeList"
                        :key="index"
                        :label="item.collegeName"
                        :value="item.id">
             </el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="班级：">
-          <el-select v-model="addForm.classes" placeholder="请选择" @click.native="getClass">
+          &nbsp;-&nbsp;
+          <el-select v-model="addForm.classesId" placeholder="选择班级" @click.native="getClass('addForm')" value="">
             <el-option v-for="(item,index) in classList"
                        :key="index"
                        :label="item.className"
@@ -27,15 +26,74 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="学号：">
-          <el-input v-model="addForm.number"></el-input>
+        <el-form-item label="学号：" prop="studentNumber">
+          <el-input v-model="addForm.studentNumber"></el-input>
         </el-form-item>
-        <el-form-item label="姓名：">
-          <el-input v-model="addForm.name"></el-input>
+        <el-form-item label="姓名：" prop="studentName">
+          <el-input v-model="addForm.studentName"></el-input>
         </el-form-item>
-        <el-form-item label="性别：">
+        <el-form-item label="当前学期：">
+          <el-input v-model="addForm.gradeNumber"></el-input>
+        </el-form-item>
+        <el-form-item label="性别：" prop="sex">
           <el-radio v-model="addForm.sex" label="男">男</el-radio>
           <el-radio v-model="addForm.sex" label="女">女</el-radio>
+        </el-form-item>
+        <el-form-item label="出生日期：" prop="birthday">
+          <el-date-picker v-model="addForm.birthday" type="date" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="民族：" prop="nationalCode">
+          <el-input v-model="addForm.nationalCode"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证号：" prop="idCard">
+          <el-input v-model="addForm.idCard"></el-input>
+        </el-form-item>
+        <el-form-item label="地址：">
+        </el-form-item>
+      </el-form>
+      <el-form slot="editForm" :model="editForm" style="overflow: auto" label-width="120px" ref="editForm">
+        <el-form-item label="学院 - 班级：" prop="classesId">
+          <el-select v-model="editForm.collegeId" @change="editForm.classesId = ''" placeholder="选择学院" value="">
+            <el-option v-for="(item,index) in collegeList"
+                       :key="index"
+                       :label="item.collegeName"
+                       :value="item.id">
+            </el-option>
+          </el-select>
+          &nbsp;-&nbsp;
+          <el-select v-model="editForm.classesName" placeholder="选择班级" @click.native="getClass('editForm')" value="">
+            <el-option v-for="(item,index) in classList"
+                       :key="index"
+                       :label="item.className"
+                       :value="item.className">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="学号：" prop="studentNumber">
+          <el-input v-model="editForm.studentNumber"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名：" prop="studentName">
+          <el-input v-model="editForm.studentName"></el-input>
+        </el-form-item>
+        <el-form-item label="当前学期：">
+          <el-input v-model="editForm.gradeNumber"></el-input>
+        </el-form-item>
+        <el-form-item label="性别：" prop="sex">
+          <el-radio v-model="editForm.sex" label="男">男</el-radio>
+          <el-radio v-model="editForm.sex" label="女">女</el-radio>
+        </el-form-item>
+        <el-form-item label="出生日期：" prop="birthday">
+          <el-date-picker v-model="editForm.birthday" type="date" value-format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="民族：" prop="nationalCode">
+          <el-input v-model="editForm.nationalCode"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证号：" prop="idCard">
+          <el-input v-model="editForm.idCard"></el-input>
+        </el-form-item>
+        <el-form-item label="地址：">
         </el-form-item>
       </el-form>
       <div slot="excelForm">
@@ -75,9 +133,63 @@
 export default {
   name: 'studentManage',
   data () {
+    // 身份证校验
+    const idCardValidity = (rule, code, callback) => {
+      const city = {
+        11: '北京',
+        12: '天津',
+        13: '河北',
+        14: '山西',
+        15: '内蒙古',
+        21: '辽宁',
+        22: '吉林',
+        23: '黑龙江 ',
+        31: '上海',
+        32: '江苏',
+        33: '浙江',
+        34: '安徽',
+        35: '福建',
+        36: '江西',
+        37: '山东',
+        41: '河南',
+        42: '湖北 ',
+        43: '湖南',
+        44: '广东',
+        45: '广西',
+        46: '海南',
+        50: '重庆',
+        51: '四川',
+        52: '贵州',
+        53: '云南',
+        54: '西藏 ',
+        61: '陕西',
+        62: '甘肃',
+        63: '青海',
+        64: '宁夏',
+        65: '新疆',
+        71: '台湾',
+        81: '香港',
+        82: '澳门',
+        91: '国外 '
+      }
+      let tip = ''
+      let pass = true
+
+      if (!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)) {
+        tip = '身份证号格式错误'
+        pass = false
+      } else if (!city[code.substr(0, 2)]) {
+        tip = '地址编码错误'
+        pass = false
+      }
+      if (!pass) {
+        callback(new Error(tip))
+      } else {
+        callback()
+      }
+    }
     return {
       refName: 'studentForm',
-      refreshObj: {},
       refreshUrl: '/student/queryStudentInfoBySchool',
       addUrl: '/student/addStudent',
       deleteUrl: '/student/deleteStudent',
@@ -94,24 +206,61 @@ export default {
         {value: 'idCard', label: '身份证号', width: '140'},
         {value: 'address', label: '家庭住址', width: '140'}
       ],
-      addForm: {college: '', classes: '', number: '', name: '', sex: ''}, // 新增
+      addForm: {collegeId: '', classesId: '', studentName: '', studentNumber: '', term: '', sex: '', birthday: '', gradeNumber: '', nationalCode: '', idCard: '', address: ''}, // 新增
+      editForm: {collegeId: '', collegeName: '', classesId: '', classesName: '', studentName: '', studentNumber: '', term: '', sex: '', birthday: '', gradeNumber: '', nationalCode: '', idCard: '', address: ''}, // 编辑
+      addFormRules: {
+        classesId: [
+          {required: true, message: '请选择学院和班级', trigger: 'blur'}
+        ],
+        studentNumber: [
+          {required: true, message: '请输入学号', trigger: 'blur'}
+        ],
+        studentName: [
+          {required: true, message: '请输入姓名', trigger: 'blur'}
+        ],
+        sex: [
+          {required: true, message: '请选择性别', trigger: 'blur'}
+        ],
+        birthday: [
+          {required: true, message: '请选择出生日期', trigger: 'blur'}
+        ],
+        nationalCode: [
+          {required: true, message: '请选择民族', trigger: 'blur'}
+        ],
+        idCard: [
+          {required: true, message: '请输入身份证号', trigger: 'blur'},
+          {
+            pattern: /(^\d{8}(0\d|10|11|12)([0-2]\d|30|31)\d{3}$)|(^\d{6}(18|19|20)\d{2}(0\d|10|11|12)([0-2]\d|30|31)\d{3}(\d|X|x)$)/,
+            message: '请输入正确的证件号'
+          },
+          {validator: idCardValidity, trigger: 'blur'}
+        ]
+      },
       collegeList: [],
+      allClassList: [],
       classList: [],
       fileList: []
     }
   },
   methods: {
     async addRecord () {
-      this.addForm.shcoolId = 1
-      console.log(this.addForm)
-      await this.$refs[this.refName].createMethod('/student/addStudent', this.addForm)
+      await this.$refs.addForm.validate((valid) => {
+        if (valid) {
+          this.$refs[this.refName].createMethod('/student/addStudent', this.addForm)
+        }
+      })
     },
     async editRecord () {
-      await this.$refs[this.refName].updateMethod('/questionnaire/editQuestionInfo', this.editQuestionInfoForm)
+      this.allClassList.map(item => {
+        if (this.editForm.classesName === item.className) {
+          this.editForm.classesId = item.id
+        }
+      })
+      await this.$refs[this.refName].updateMethod('/student/updateStudent', this.editForm)
     },
     // 点击将基本信息项的某一行信息付给编辑表
     clickRow (row) {
-      this.editQuestionInfoForm = row
+      this.editForm = row
     },
     // 获取学院列表
     getCollege () {
@@ -124,9 +273,18 @@ export default {
         })
     },
     // 获取班级列表
-    getClass () {
-      if (this.addForm.college !== '') {
-        this.$api.http.get('/classes/queryClassesList/' + this.addForm.college)
+    getClass (formName) {
+      this.classList = []
+      if (formName === '') {
+        this.$api.http.get('/classes/queryClassesList')
+          .then(res => {
+            this.allClassList = res.data
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else if (this[formName].collegeId !== '') {
+        this.$api.http.get('/classes/queryClassesListByCollege/' + this[formName].collegeId)
           .then(res => {
             this.classList = res.data
           })
@@ -176,6 +334,8 @@ export default {
   },
   mounted () {
     this.$refs[this.refName].getRecord(this.refreshUrl)
+    this.getCollege()
+    this.getClass('')
   }
 }
 </script>

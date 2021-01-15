@@ -87,10 +87,11 @@ export default {
           if (!this.loginDisable) {
             this.loginDisable = true
             let url = '/login/login'
+            console.log(this.loginForm)
             this.$api.http.post(url, this.loginForm)
               .then(res => {
-                this.loginDisable = false
                 console.log(res.data)
+                this.loginDisable = false
                 var session = JSON.stringify(res.data)
                 sessionStorage.setItem('userInfo', session)
                 this.$router.push('/home')
