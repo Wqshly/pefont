@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import VueParticles from 'vue-particles'
 import VueLazyload from 'vue-lazyload'
 import VueCropper from 'vue-cropper'
 import AMap from 'vue-amap'
@@ -11,8 +12,6 @@ import {library} from '@fortawesome/fontawesome-svg-core'
 import {fas} from '@fortawesome/free-solid-svg-icons'
 
 import BasicTableTemp from '@/components/BasicTableTemp'
-
-import particles from 'particles.js'
 
 import header from './components/header.vue'
 import footer from './components/footer.vue'
@@ -26,7 +25,7 @@ Vue.use(AMap)
 Vue.use(router)
 Vue.use(VueLazyload)
 Vue.use(VueCropper)
-Vue.use(particles)
+Vue.use(VueParticles)
 
 Vue.component('v-header', header)
 Vue.component('v-footer', footer)

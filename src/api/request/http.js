@@ -28,6 +28,7 @@ service.interceptors.response.use(res => {
     router.push('/login')
     return Promise.reject(res)
   } else if (res.data.code === 0) {
+    console.log(res.data)
     return res.data
   }
   return Promise.reject(res)

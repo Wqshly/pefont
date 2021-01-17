@@ -1,41 +1,65 @@
 <template>
-  <div>
-    <div id="particles"></div>
-    <div id="container">
-      <div class="form-container" v-show="!VRCODE">
-        <div class="form-row title">
-          <p>用&nbsp;&nbsp;户&nbsp;&nbsp;登&nbsp;&nbsp;录</p>
+  <div class="fill-contain">
+    <vue-particles class="login-background"
+                   color="#dedede"
+                   :particleOpacity="0.7"
+                   :particlesNumber="80"
+                   shapeType="circle"
+                   :particleSize="4"
+                   linesColor="#dedede"
+                   :linesWidth="1"
+                   :lineLinked="true"
+                   :lineOpacity="0.4"
+                   :linesDistance="150"
+                   :moveSpeed="3"
+                   :hoverEffect="true"
+                   hoverMode="grab"
+                   :clickEffect="true"
+                   clickMode="push"
+    >
+    </vue-particles>
+    <div class="container">
+      <div class="form-position">
+        <div style="margin: 0 auto;text-align: center;margin-bottom: -15px;">
+          <img class="logo-style" src="../assets/logo-pe.png" />
         </div>
-        <el-form :model="loginForm" :rules="loginFormRules" ref="loginForm">
-          <el-form-item prop="schoolId">
-            <el-select style="width: 100%;" v-model="loginForm.schoolId" filterable placeholder="请选择学校">
-              <el-option v-for="(item,index) in schoolList"
-                         :key="index"
-                         :label="item.schoolName"
-                         :value="item.id">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item prop="usernumber">
-            <el-input v-model="loginForm.usernumber" placeholder="请输入学号" clearable></el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input type="password" v-model="loginForm.password" placeholder="请输入密码" show-password clearable></el-input>
-          </el-form-item>
-        </el-form>
-        <div class="form-row">
-          <el-button style="width: 100px;" @click="login('loginForm')" type="success" :disabled="loginDisable">登录</el-button>
-          <p class="login-for-code" @click="show">扫码登录</p>
+        <div class="form-container">
+          <div class="form-container-border">
+            <div style="margin: 10px auto;text-align: center;">
+              <p style="font-size: 24px;text-align: center">登&nbsp;&nbsp;&nbsp;录</p>
+            </div>
+            <el-form :model="loginForm" :rules="loginFormRules" ref="loginForm"  v-show="!VRCODE">
+              <el-form-item prop="schoolId">
+                <el-select style="width: 100%;" v-model="loginForm.schoolId" filterable placeholder="请选择学校">
+                  <el-option v-for="(item,index) in schoolList"
+                             :key="index"
+                             :label="item.schoolName"
+                             :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item prop="usernumber">
+                <el-input v-model="loginForm.usernumber" placeholder="请输入学号" clearable></el-input>
+              </el-form-item>
+              <el-form-item prop="password">
+                <el-input type="password" v-model="loginForm.password" placeholder="请输入密码" show-password clearable></el-input>
+              </el-form-item>
+              <el-form-item style="margin-bottom: 10px;">
+                <p class="login-text-btn" style="float: left;" @click="show">扫码登录</p>
+                <p class="login-text-btn" style="float: right;" @click="show">忘记密码？</p>
+              </el-form-item>
+              <el-form-item>
+                <el-button style="width: 100%; float: left;" @click="login('loginForm')" :disabled="loginDisable">登录</el-button>
+              </el-form-item>
+            </el-form>
+            <div v-show="VRCODE">
+              <div class="form-row">
+                <img src="../assets/img/login/app_icon.png" alt="">
+              </div>
+              <p class="form-row login-text-btn" @click="show">返回账号登录</p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="form-container" v-show="VRCODE">
-        <div class="form-row title">
-          <p>扫&nbsp;码&nbsp;登&nbsp;录</p>
-        </div>
-        <div class="form-row">
-          <img src="../assets/img/login/app_icon.png" alt="">
-        </div>
-        <p class="form-row login-for-code" @click="show">返回账号登录</p>
       </div>
     </div>
   </div>
@@ -111,8 +135,6 @@ export default {
     }
   },
   created () {
-    // 会造成内存泄漏，需要beforeDestroy中销毁
-    particlesJS.load('particles', '/static/particles.json')
     window.addEventListener('keydown', this.keyDown)
   },
   // // 解决在mounted中创建的动画造成的内存泄露问题。
@@ -131,39 +153,55 @@ export default {
 }
 </script>
 
-<style scoped>
-  #particles {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: #dcdfe6;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50% 50%;
-  }
+<style type="less" scoped>
 
-  #container {
+  .container {
     position: absolute;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    display: flex;
-    display: -webkit-flex;
-    align-items: center;
-    justify-content: center;
+  }
+
+  .form-position {
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%);
   }
 
   .form-container {
+    /*margin: auto;*/
     background-color: white;
     padding: 20px;
     border-radius: 10px;
     height: fit-content;
+    width: 550px;
+    /*-webkit-box-shadow:0 3px 3px #c8c8c8 ;*/
+    /*-moz-box-shadow:0 3px 3px #c8c8c8 ;*/
+    /*box-shadow:0 3px 3px #c8c8c8*/
+  }
+
+  .form-container-border {
+    margin: 0 auto;
     width: 500px;
+  }
+
+  .login-background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: url(../assets/login-pic.jpg) no-repeat;
+    background-size:100% 100%;;
+  }
+
+  .logo-style {
+    width: auto;
+    height: 40px;
   }
 
   .form-row {
     padding: 10px 0;
-    display: flex;
+    /*display: flex;*/
     display: -webkit-flex;
     justify-content: space-around;
     align-items: center;
@@ -176,16 +214,11 @@ export default {
     padding-bottom: 20px;
   }
 
-  .el-form-row__content {
-    display: flex !important;
-    width: 100% !important;
-    justify-content: space-around !important;
-  }
-
-  .login-for-code {
+  .login-text-btn {
     cursor: pointer;
     font-size: 15px;
     color: #409eff;
+    /*float: right;*/
   }
 
   img {
@@ -193,7 +226,7 @@ export default {
     height: 350px
   }
 
-  @media screen and (max-width: 351px) {
+  @media screen and (max-width: 600px) {
     img {
       width: 100%;
       height: 100%;

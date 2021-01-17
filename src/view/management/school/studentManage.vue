@@ -7,7 +7,8 @@
                       @click-row="clickRow"
                       @add-record="addRecord"
                       @edit-record="editRecord"
-                      @upload-excel="uploadExcelMethod">
+                      @upload-excel="uploadExcelMethod"
+                      @record-processing="recordProcessing">
       <el-form slot="addForm" :model="addForm" style="overflow: auto" label-width="120px" ref="addForm" :rules="addFormRules">
         <el-form-item label="学院 - 班级：" prop="classesId">
           <el-select v-model="addForm.collegeId" @change="addForm.classesId = ''" placeholder="选择学院" value="">
@@ -194,13 +195,13 @@ export default {
       addUrl: '/student/addStudent',
       deleteUrl: '/student/deleteStudent',
       tableHeaderList: [
-        {value: 'collegeName', label: '所属学院', width: '160'},
-        {value: 'classesName', label: '所属班级', width: '160'},
-        {value: 'studentName', label: '学生姓名', width: '160'},
-        {value: 'studentNumber', label: '学生学号', width: '220'},
-        {value: 'term', label: '当前学期', width: '120'},
+        {value: 'collegeName', label: '所属学院', width: '120'},
+        {value: 'classesName', label: '所属班级', width: '180'},
+        {value: 'studentName', label: '学生姓名', width: '140'},
+        {value: 'studentNumber', label: '学生学号', width: '180'},
+        {value: 'term', label: '当前学期', width: '100'},
         {value: 'sex', label: '性别', width: '80'},
-        {value: 'birthday', label: '出生日期', width: '120'},
+        {value: 'birthday', label: '出生日期', width: '140'},
         {value: 'gradeNumber', label: '年级编号', width: '120'},
         {value: 'nationalCode', label: '民族编号', width: '140'},
         {value: 'idCard', label: '身份证号', width: '140'},
@@ -243,6 +244,13 @@ export default {
     }
   },
   methods: {
+    // 数据预处理
+    recordProcessing () {
+      this.$refs[this.refName].tableData.forEach((item, index) => {
+        item.birthday = this.$api.formDate.formatDateInDay(item.birthday)
+        item.term = '第' + item.term + '学期'
+      })
+    },
     async addRecord () {
       await this.$refs.addForm.validate((valid) => {
         if (valid) {
@@ -324,7 +332,7 @@ export default {
         const data = new FormData()
         const UploadExcel = this.fileList[0].raw
         data.append('excelFile', UploadExcel)
-        this.$api.http.upload('/importFile/ImportFileClass', data)
+        this.$api.http.upload('/importFile/readExcel', data)
           .then(res => {
             this.$message.success('导入成功！')
             this.$refs[this.refName].refreshRecord()

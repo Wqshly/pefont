@@ -292,6 +292,12 @@ export default {
             const selectMultipleId = this.selectList.map(item => item.id)
             let url = this.crumbFlag === 0 ? '/college/deleteCollege' : '/classes/deleteClasses'
             this.$api.http.postJson(url, selectMultipleId)
+              .then(res => {
+                this.refreshRecord()
+              })
+              .catch((err) => {
+                console.log(err)
+              })
           })
           .catch(() => {})
       }
